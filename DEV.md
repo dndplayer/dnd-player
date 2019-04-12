@@ -32,6 +32,8 @@ Functionality over form - I.E. get something working before making it nice to lo
   - If the images are actually uploaded and stored somewhere then we not only need to provide that storage but also presumably need to somehow prevent mis-use.
   - If images that are used are just stored in local storage and treat the DM's machine as the primary store. The downside of this is the same as the above point, where the DM's machine (which should be considered volative) is now critical and could quite easily loose important data.
 
+![Architecture Plan](docs/diagrams/DNDPlayerArchitecturePlan.jpg)
+
 ### Data
 
 #### Backend Data requirements
