@@ -56,7 +56,13 @@ Functionality over form - I.E. get something working before making it nice to lo
   - Cost?
   - Would this actually provide the functionality we need I.E. would we still need some kind of WebSocket server to handle the real-time bits I.E. Whiteboarding / Chat or does Firebase provide this feature.
   - [Firebase Spark](https://firebase.google.com/pricing/) plan is free, the [RealtimeDatabase](https://firebase.google.com/products/realtime-database/) offering grants 1GB data, and 100 simultaneous connections.
+  - [Cloud Firestore](https://firebase.google.com/products/firestore/?authuser=0) is a newer version of RealtimeDatabase, with more features, but slightly more restrictive limits potentially
   - This seems like it would take a lot of the legwork out of it?
+
+### RealtimeDatabase vs Cloud Firestore
+  Cloud Firestore has a free limit of 20K writes/day. Assuming a party of 6 doing a 5 hour session, that's 11 writes/minute each. I envision a write being any form of moving/rolling/chat activity. It also has a limit of 50K reads/day, which is 27 updates/minute. This is... probably fine? Cloud Firestore is newer as well and might be easier to set up DM/player restrictions on its queries, which RealtimeDatabase doesn't handle.
+  RealtimeDatabase just has a 10GB bandwidth limit per month, which is almost certainly fine.
+  
   - Each 'party' would need to set up their own firebase account; probably not an insurmountable issue
 - If we support image uploading to display on whiteboard / maps how is this policed ?
   - If the images are actually uploaded and stored somewhere then we not only need to provide that storage but also presumably need to somehow prevent mis-use.
