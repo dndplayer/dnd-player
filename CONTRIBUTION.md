@@ -1,0 +1,1 @@
+TODO: Explain plugins in VS-code (ESLint / Prettier) and maintaining a code style.
