@@ -1,5 +1,9 @@
 {
     "prettier.eslintIntegration": true,
     "prettier.useTabs": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "prettier.disableLanguages": [
+        "json",
+        "markdown"
+    ],
 }
