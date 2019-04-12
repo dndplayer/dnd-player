@@ -48,7 +48,7 @@ Functionality over form - I.E. get something working before making it nice to lo
 - Could it run on something like Firebase, so that the effort of synching clients and saving data is offloaded to a third party?
   - Cost?
   - Would this actually provide the functionality we need I.E. would we still need some kind of WebSocket server to handle the real-time bits I.E. Whiteboarding / Chat or does Firebase provide this feature.
-  - ![Firebase Spark](https://firebase.google.com/pricing/) plan is free, the ![RealtimeDatabase](https://firebase.google.com/products/realtime-database/) offering grants 1GB data, and 100 simultaneous connections.
+  - [Firebase Spark](https://firebase.google.com/pricing/) plan is free, the [RealtimeDatabase](https://firebase.google.com/products/realtime-database/) offering grants 1GB data, and 100 simultaneous connections.
   - This seems like it would take a lot of the legwork out of it?
   - Each 'party' would need to set up their own firebase account; probably not an insurmountable issue
 - If we support image uploading to display on whiteboard / maps how is this policed ?
