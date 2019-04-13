@@ -4,6 +4,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import FirebaseConfig from '../../firebase-config.json';
 
+import './Chat.css';
 import ChatMessageItem from './ChatMessageItem';
 
 interface Props {}

@@ -10,7 +10,10 @@ class App extends Component<{}> {
 	render(): ReactNode {
 		return (
 			<div className="App">
-				<Chat />
+				<div className="chatWrapper">
+					<h1 className="chatHeader">Chat</h1>
+					<Chat />
+				</div>
 			</div>
 		);
 	}

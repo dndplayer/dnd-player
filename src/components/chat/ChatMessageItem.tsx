@@ -8,20 +8,19 @@ interface Props {
 export default class ChatMessageItem extends React.Component<Props> {
 	render(): ReactNode {
 		const { message, isOwner } = this.props;
+		const username = message.sender || 'unknown';
 
 		if (isOwner)
 			return (
 				<div className="message" key={message.id}>
-					<span id="me">{message.sender} :</span>
-					<br />
-					{message.msg}
+					<div id="me">{username} :</div>
+					<div>{message.msg}</div>
 				</div>
 			);
 		return (
 			<div className="message" key={message.id}>
-				<span id="sender">{message.sender} :</span>
-				<br />
-				{message.msg}
+				<div id="sender">{username} :</div>
+				<div>{message.msg}</div>
 			</div>
 		);
 	}
