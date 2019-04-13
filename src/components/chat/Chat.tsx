@@ -2,7 +2,7 @@ import React, { ReactNode, ReactElement } from 'react';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import FirebaseConfig from '../firebase-config.json';
+import FirebaseConfig from '../../firebase-config.json';
 
 import ChatMessageItem from './ChatMessageItem';
 
