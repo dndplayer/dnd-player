@@ -3,6 +3,7 @@ import React, { ReactNode, ReactElement } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import FirebaseConfig from '../../firebase-config.json';
+import { DiceRoller, DiceRoll } from 'rpg-dice-roller';
 
 import './Chat.css';
 import ChatMessageItem from './ChatMessageItem';
@@ -65,7 +66,7 @@ export default class Chat extends React.Component<Props, State> {
 							)}
 						</div>
 						<input
-							placeholder="msg"
+							placeholder="msg or d20+4 etc"
 							onChange={this.handleMsgChange}
 							onKeyDown={this.handleKeyDown}
 							value={this.state.msg}
@@ -117,12 +118,21 @@ export default class Chat extends React.Component<Props, State> {
 
 	handleKeyDown(e): void {
 		if (e.key === 'Enter') {
-			this.chatRoom.add({
-				sender: this.state.nickname,
-				msg: this.state.msg,
-				timestamp: firebase.firestore.Timestamp.now()
-			});
+			if (this.state.msg.match(/^\d*?d(\d+|%)/)) {
+				const roll = new DiceRoll(this.state.msg);
+				this.sendMessage(`Rolling ${roll}`);
+			} else {
+				this.sendMessage(this.state.msg);
+			}
 			this.setState({ msg: '' });
 		}
+	}
+
+	sendMessage(msg: string): void {
+		this.chatRoom.add({
+			sender: this.state.nickname,
+			msg: msg,
+			timestamp: firebase.firestore.Timestamp.now()
+		});
 	}
 }

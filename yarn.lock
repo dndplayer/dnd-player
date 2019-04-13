@@ -9106,6 +9106,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
+rpg-dice-roller@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/rpg-dice-roller/-/rpg-dice-roller-3.0.1.tgz#862be0efe974a49403b024f30741a875baa93a95"
+  integrity sha512-qBzBy40J+HH3sNtJ09+JxlMB/3Yl1maUrrymT57wSQQGJ8ZO8euRAaCzQrx8KzsTBFvzywmZYtMPXSqsEZhiGA==
+
 rsvp@^3.3.3:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-3.6.2.tgz#2e96491599a96cde1b515d5674a8f7a91452926a"
