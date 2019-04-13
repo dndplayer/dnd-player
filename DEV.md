@@ -67,6 +67,7 @@ Functionality over form - I.E. get something working before making it nice to lo
 - If we support image uploading to display on whiteboard / maps how is this policed ?
   - If the images are actually uploaded and stored somewhere then we not only need to provide that storage but also presumably need to somehow prevent mis-use.
   - If images that are used are just stored in local storage and treat the DM's machine as the primary store. The downside of this is the same as the above point, where the DM's machine (which should be considered volatile) is now critical and could quite easily loose important data.
+    - Once again it seems that Firebase Storage also solves this as it's designed for "user generated content"
 
 ![Architecture Plan](docs/diagrams/DNDPlayerArchitecturePlan.jpg)
 
@@ -82,3 +83,7 @@ Functionality over form - I.E. get something working before making it nice to lo
 [DONE] Create initial CRA application
 
 ## Links / Notes
+
+- https://firebase.google.com/products/database
+- https://www.pubnub.com/blog/2016-09-01-diy-virtual-white-board-using-google-and-firebase/
+- https://stackoverflow.com/questions/42974365/how-to-store-canvas-in-firebase-usnig-android-for-realtime-collaboration
