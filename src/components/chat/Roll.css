@@ -42,14 +42,16 @@
 .roll-modifier {
 	margin-left: 4px;
 	color: rgba(0, 0, 0, 0.6);
-  text-align: center;
-  font-size: 14px;
+	text-align: center;
+	font-size: 14px;
+	font-family: 'Cabin';
 }
 
 .roll-rolls {
 	width: 100%;
 	display: flex;
 	justify-content: center;
+	font-family: 'Cabin';
 }
 
 .roll-1,
