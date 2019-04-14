@@ -3,22 +3,24 @@ import React, { ReactNode, ReactElement } from 'react';
 // import firebase from 'firebase/app';
 // import 'firebase/firestore';
 // import FirebaseConfig from '../../firebase-config.json';
-import { DiceRoller, DiceRoll } from 'rpg-dice-roller';
+import { DiceRoll } from 'rpg-dice-roller';
 
 import './Chat.css';
+import './Roll.css';
 import ChatMessageItem from './ChatMessageItem';
-import ChatMessage from '../../models/ChatMessage.js';
+import RollMessageItem from './RollMessageItem';
+import { ChatMessage, ChatMessageData, RollData } from '../../models/ChatMessage.js';
 
 interface Props {
 	messages: ChatMessage[];
-	sendMessage: (message: string) => void;
+	sendMessage: (message: string, data?: ChatMessageData) => void;
 	login: (username: string) => void;
 	loggedIn: boolean;
 }
 interface State {
 	nickname: string;
 	msg: string;
-	messages: any[];
+	messages: ChatMessage[];
 }
 export default class Chat extends React.Component<Props, State> {
 	constructor(props: Props) {
@@ -32,6 +34,7 @@ export default class Chat extends React.Component<Props, State> {
 		};
 
 		this.handleClick = this.handleClick.bind(this);
+		this.handleRollClick = this.handleRollClick.bind(this);
 		this.handleKeyDown = this.handleKeyDown.bind(this);
 		this.handleMsgChange = this.handleMsgChange.bind(this);
 		this.handleNameChange = this.handleNameChange.bind(this);
@@ -58,27 +61,35 @@ export default class Chat extends React.Component<Props, State> {
 						<button onClick={this.handleClick}>Join</button>
 					</div>
 				) : (
-					<div className="chat">
-						<div className="messages">
-							{messages.map(
-								(x, idx): ReactElement => (
-									<ChatMessageItem
-										message={x}
-										key={idx}
-										isOwner={x.sender === this.state.nickname}
-									/>
-								)
-							)}
+						<div className="chat">
+							<div className="messages">
+								{messages.map(
+									(x, idx): ReactElement => {
+										switch (x.data && x.data.type) {
+											case 'roll':
+												return <RollMessageItem message={x} key={idx} />;
+											default:
+												return (
+													<ChatMessageItem
+														message={x}
+														key={idx}
+														isOwner={x.sender === this.state.nickname}
+													/>
+												);
+										}
+									}
+								)}
+							</div>
+							<input
+								placeholder="msg or d20+4 etc"
+								onChange={this.handleMsgChange}
+								onKeyDown={this.handleKeyDown}
+								value={this.state.msg}
+							/>
+							<button onClick={this.handleRollClick}>Roll something</button>
+							<br />
 						</div>
-						<input
-							placeholder="msg or d20+4 etc"
-							onChange={this.handleMsgChange}
-							onKeyDown={this.handleKeyDown}
-							value={this.state.msg}
-						/>
-						<br />
-					</div>
-				)}
+					)}
 			</div>
 		);
 	}
@@ -116,6 +127,43 @@ export default class Chat extends React.Component<Props, State> {
 		// 	});
 		// this.setState({ joined: true });
 		this.props.login(this.state.nickname);
+	}
+
+	handleRollClick(e): void {
+		const modifier = Math.round(Math.random() * 10 - 5);
+		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
+		const roll = new DiceRoll('d20' + modifierStr);
+		const skills = [
+			'Athletics',
+			'Acrobatics',
+			'Sleight of Hand',
+			'Stealth',
+			'Arcana',
+			'History',
+			'Investigation',
+			'Nature',
+			'Religion',
+			'Animal Handling',
+			'Insight',
+			'Medicine',
+			'Perception',
+			'Survival',
+			'Deception',
+			'Intimidation',
+			'Performance',
+			'Persuasion'
+		];
+		const skill = skills[Math.floor(Math.random() * skills.length)];
+
+		const data: RollData = {
+			type: 'roll',
+			rollType: 'Skill',
+			rollName: skill,
+			modifier: modifierStr,
+			roll1Total: roll.total,
+			roll1Details: roll.toString().match(/.*?: (.*?) =/)[1]
+		};
+		this.props.sendMessage('', data);
 	}
 
 	handleMsgChange(e): void {

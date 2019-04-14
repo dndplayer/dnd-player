@@ -1,7 +1,7 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import Chat from './Chat';
-import ChatMessage from '../../models/ChatMessage';
+import { ChatMessage, ChatMessageData } from '../../models/ChatMessage';
 
 import { saveNewMessage } from '../../redux/actions/chat';
 import { login } from '../../redux/actions/auth';
@@ -12,13 +12,13 @@ const mapStateToProps = (state): any => ({
 });
 
 const mapDispatchToProps = (dispatch): any => ({
-	sendMessage: message => dispatch(saveNewMessage(message)),
+	sendMessage: (message, data?) => dispatch(saveNewMessage(message, data)),
 	login: username => dispatch(login(username))
 });
 
 interface DispatchFromProps {
 	login: () => void;
-	sendMessage: (message: string) => void;
+	sendMessage: (message: string, data?: ChatMessageData) => void;
 }
 
 interface StateFromProps {

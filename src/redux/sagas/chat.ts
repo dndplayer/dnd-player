@@ -8,12 +8,14 @@ import { firestore } from 'firebase';
 function* saveNewChatMessage(action): any {
 	// const msg = yield select(state => state.chat.newMessage);
 	const currentUser = 'TEST'; // yield select(state => state.auth.username)
-	const msg = action.message;
+	const msg = action.message || '';
+	const data = action.data || {};
 
 	yield call(rsf.firestore.addDocument, 'chatroom', {
 		sender: currentUser,
 		timestamp: firestore.Timestamp.now(),
-		msg
+		msg,
+		data
 	});
 }
 

@@ -18,7 +18,8 @@ export const syncChatMessages = messages => ({
 // 	message
 // });
 
-export const saveNewMessage = message => ({
+export const saveNewMessage = (message, data) => ({
 	type: types.CHAT.NEW.SAVE,
-	message
+	message,
+	data
 });
