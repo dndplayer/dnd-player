@@ -7,8 +7,11 @@ import { DiceRoller, DiceRoll } from 'rpg-dice-roller';
 
 import './Chat.css';
 import ChatMessageItem from './ChatMessageItem';
+import ChatMessage from '../../models/ChatMessage.js';
 
-interface Props {}
+interface Props {
+	messages: ChatMessage[];
+}
 interface State {
 	joined: boolean;
 	nickname: string;

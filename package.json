@@ -12,7 +12,9 @@
     "lint-staged": "^8.1.5",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-redux": "^7.0.2",
     "react-scripts": "2.1.8",
+    "redux": "^4.0.1",
     "rpg-dice-roller": "^3.0.1",
     "typescript": "^3.4.3"
   },
@@ -32,6 +34,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@types/react-redux": "^7.0.6",
     "@typescript-eslint/eslint-plugin": "^1.6.0",
     "@typescript-eslint/parser": "^1.6.0",
     "babel-eslint": "9.x",

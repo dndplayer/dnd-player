@@ -4,7 +4,7 @@ import './App.css';
 import 'firebase/firestore';
 // import FirebaseConfig from './firebase-config.json';
 
-import Chat from './chat/Chat';
+import ChatContainer from './chat/ChatContainer';
 
 class App extends Component<{}> {
 	render(): ReactNode {
@@ -12,7 +12,7 @@ class App extends Component<{}> {
 			<div className="App">
 				<div className="chatWrapper">
 					<h1 className="chatHeader">Chat</h1>
-					<Chat />
+					<ChatContainer />
 				</div>
 			</div>
 		);
