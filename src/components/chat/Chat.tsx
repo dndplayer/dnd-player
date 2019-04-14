@@ -61,35 +61,35 @@ export default class Chat extends React.Component<Props, State> {
 						<button onClick={this.handleClick}>Join</button>
 					</div>
 				) : (
-						<div className="chat">
-							<div className="messages">
-								{messages.map(
-									(x, idx): ReactElement => {
-										switch (x.data && x.data.type) {
-											case 'roll':
-												return <RollMessageItem message={x} key={idx} />;
-											default:
-												return (
-													<ChatMessageItem
-														message={x}
-														key={idx}
-														isOwner={x.sender === this.state.nickname}
-													/>
-												);
-										}
+					<div className="chat">
+						<div className="messages">
+							{messages.map(
+								(x, idx): ReactElement => {
+									switch (x.data && x.data.type) {
+										case 'roll':
+											return <RollMessageItem message={x} key={idx} />;
+										default:
+											return (
+												<ChatMessageItem
+													message={x}
+													key={idx}
+													isOwner={x.sender === this.state.nickname}
+												/>
+											);
 									}
-								)}
-							</div>
-							<input
-								placeholder="msg or d20+4 etc"
-								onChange={this.handleMsgChange}
-								onKeyDown={this.handleKeyDown}
-								value={this.state.msg}
-							/>
-							<button onClick={this.handleRollClick}>Roll something</button>
-							<br />
+								}
+							)}
 						</div>
-					)}
+						<input
+							placeholder="msg or d20+4 etc"
+							onChange={this.handleMsgChange}
+							onKeyDown={this.handleKeyDown}
+							value={this.state.msg}
+						/>
+						<button onClick={this.handleRollClick}>Roll something</button>
+						<br />
+					</div>
+				)}
 			</div>
 		);
 	}
@@ -174,7 +174,15 @@ export default class Chat extends React.Component<Props, State> {
 		if (e.key === 'Enter') {
 			if (this.state.msg.match(/^\d*?d(\d+|%)/)) {
 				const roll = new DiceRoll(this.state.msg);
-				this.sendMessage(`Rolling ${roll}`);
+				const data: RollData = {
+					type: 'roll',
+					rollType: 'Ad-hoc',
+					rollName: roll.notation,
+					modifier: null,
+					roll1Total: roll.total,
+					roll1Details: roll.toString().match(/.*?: (.*?) =/)[1]
+				};
+				this.props.sendMessage('', data);
 			} else {
 				this.sendMessage(this.state.msg);
 			}

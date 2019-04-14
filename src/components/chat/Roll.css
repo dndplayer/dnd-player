@@ -6,12 +6,16 @@
 	box-sizing: border-box;
 	font-size: 14px;
 	color: #222;
+	border-radius: 4px;
 }
 
 .roll-skill {
 	background: #ccf;
 	border: 1px solid #aaf;
-	border-radius: 4px;
+}
+.roll-adhoc {
+	background: #ffc;
+	border: 1px solid #ffa;
 }
 .roll-header {
 	width: 100%;
@@ -79,4 +83,5 @@
 
 .details {
 	color: rgba(0, 0, 0, 0.4);
+	letter-spacing: 1px;
 }

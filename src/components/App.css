@@ -1,7 +1,8 @@
 .chatWrapper {
 	position: absolute;
-	bottom: 0;
+	height: 99vh;
 	right: 0;
+	top: 0;
 	background-color: #444;
 	padding: 0 10px 10px 10px;
 	width: 300px;
