@@ -1,8 +1,5 @@
 import React, { Component, ReactNode } from 'react';
 import './App.css';
-// import firebase from 'firebase/app';
-import 'firebase/firestore';
-// import FirebaseConfig from './firebase-config.json';
 
 import ChatContainer from './chat/ChatContainer';
 

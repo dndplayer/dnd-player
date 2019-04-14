@@ -1,20 +1,17 @@
-import ChatMessage from '../../models/ChatMessage';
-import { ADD_MESSAGE } from '../actions/chat';
-
-// TODO: Convert to use immutable.js
-
-interface ChatState {
-	messages: ChatMessage[];
-}
+import { types } from '../actions/chat';
 
 const initialState = {
-	messages: []
+	messages: [],
+	new: {}
 };
 
-export default function chatReducer(state = initialState, action): ChatState {
+export default function reducer(state = initialState, action: any = {}) {
 	switch (action.type) {
-		case ADD_MESSAGE:
-			return state;
+		case types.CHAT.SYNC:
+			return {
+				...state,
+				messages: action.messages
+			};
 		default:
 			return state;
 	}

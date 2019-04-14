@@ -1,8 +1,8 @@
 import React, { ReactNode, ReactElement } from 'react';
 
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import FirebaseConfig from '../../firebase-config.json';
+// import firebase from 'firebase/app';
+// import 'firebase/firestore';
+// import FirebaseConfig from '../../firebase-config.json';
 import { DiceRoller, DiceRoll } from 'rpg-dice-roller';
 
 import './Chat.css';
@@ -11,6 +11,7 @@ import ChatMessage from '../../models/ChatMessage.js';
 
 interface Props {
 	messages: ChatMessage[];
+	sendMessage: (message: string) => void;
 }
 interface State {
 	joined: boolean;
@@ -23,7 +24,7 @@ export default class Chat extends React.Component<Props, State> {
 		super(props);
 
 		this.state = {
-			joined: false,
+			joined: true,
 			nickname: '',
 			msg: '',
 			messages: []
@@ -33,15 +34,15 @@ export default class Chat extends React.Component<Props, State> {
 		this.handleKeyDown = this.handleKeyDown.bind(this);
 		this.handleMsgChange = this.handleMsgChange.bind(this);
 		this.handleNameChange = this.handleNameChange.bind(this);
-		this.handleNewMessages = this.handleNewMessages.bind(this);
+		this.sendMessage = this.sendMessage.bind(this);
 	}
 
-	private chatRoom: firebase.firestore.CollectionReference;
+	// private chatRoom: firebase.firestore.CollectionReference;
 
-	private cleanup: () => void;
+	// private cleanup: () => void;
 
 	render(): ReactNode {
-		const { messages } = this.state;
+		const { messages } = this.props;
 
 		return (
 			<div className="App">
@@ -81,24 +82,24 @@ export default class Chat extends React.Component<Props, State> {
 		);
 	}
 
-	handleNewMessages(snap: firebase.firestore.QuerySnapshot): void {
-		this.setState({
-			messages: [].concat(this.state.messages, snap.docChanges().map(x => x.doc.data()))
-		});
-	}
+	// handleNewMessages(snap: firebase.firestore.QuerySnapshot): void {
+	// 	this.setState({
+	// 		messages: [].concat(this.state.messages, snap.docChanges().map(x => x.doc.data()))
+	// 	});
+	// }
 
 	componentDidMount(): void {
-		firebase.initializeApp(FirebaseConfig);
-		this.chatRoom = firebase.firestore().collection('chatroom');
-		this.cleanup = firebase
-			.firestore()
-			.collection('chatroom')
-			.orderBy('timestamp', 'asc')
-			.onSnapshot(this.handleNewMessages);
+		// firebase.initializeApp(FirebaseConfig);
+		// this.chatRoom = firebase.firestore().collection('chatroom');
+		// this.cleanup = firebase
+		// 	.firestore()
+		// 	.collection('chatroom')
+		// 	.orderBy('timestamp', 'asc')
+		// 	.onSnapshot(this.handleNewMessages);
 	}
 
 	componentWillUnmount(): void {
-		this.cleanup();
+		// this.cleanup();
 	}
 
 	handleNameChange(e): void {
@@ -106,13 +107,13 @@ export default class Chat extends React.Component<Props, State> {
 	}
 
 	handleClick(e): void {
-		firebase
-			.firestore()
-			.collection('nicknames')
-			.add({
-				nickname: this.state.nickname
-			});
-		this.setState({ joined: true });
+		// firebase
+		// 	.firestore()
+		// 	.collection('nicknames')
+		// 	.add({
+		// 		nickname: this.state.nickname
+		// 	});
+		// this.setState({ joined: true });
 	}
 
 	handleMsgChange(e): void {
@@ -132,10 +133,6 @@ export default class Chat extends React.Component<Props, State> {
 	}
 
 	sendMessage(msg: string): void {
-		this.chatRoom.add({
-			sender: this.state.nickname,
-			msg: msg,
-			timestamp: firebase.firestore.Timestamp.now()
-		});
+		this.props.sendMessage(msg);
 	}
 }
