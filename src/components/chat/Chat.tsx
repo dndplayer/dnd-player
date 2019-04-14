@@ -12,9 +12,10 @@ import ChatMessage from '../../models/ChatMessage.js';
 interface Props {
 	messages: ChatMessage[];
 	sendMessage: (message: string) => void;
+	login: (username: string) => void;
+	loggedIn: boolean;
 }
 interface State {
-	joined: boolean;
 	nickname: string;
 	msg: string;
 	messages: any[];
@@ -24,7 +25,7 @@ export default class Chat extends React.Component<Props, State> {
 		super(props);
 
 		this.state = {
-			joined: true,
+			// joined: false,
 			nickname: '',
 			msg: '',
 			messages: []
@@ -46,7 +47,7 @@ export default class Chat extends React.Component<Props, State> {
 
 		return (
 			<div className="App">
-				{!this.state.joined ? (
+				{!this.props.loggedIn ? (
 					<div className="joinForm">
 						<input
 							placeholder="Nickname"
@@ -114,6 +115,7 @@ export default class Chat extends React.Component<Props, State> {
 		// 		nickname: this.state.nickname
 		// 	});
 		// this.setState({ joined: true });
+		this.props.login(this.state.nickname);
 	}
 
 	handleMsgChange(e): void {
