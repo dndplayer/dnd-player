@@ -4,6 +4,8 @@ import './App.css';
 
 import ChatContainer from './chat/ChatContainer';
 import Map from './map/Map';
+import ImageUploader from './imageUploader/ImageUploader';
+import ImageUploaderContainer from './imageUploader/ImageUploaderContainer';
 
 class App extends Component<{}> {
 	render(): ReactNode {
@@ -11,6 +13,8 @@ class App extends Component<{}> {
 			<div className="App">
 				<Switch>
 					<Route
+						exact
+						path="/"
 						render={() => (
 							<div>
 								<div>
@@ -23,6 +27,7 @@ class App extends Component<{}> {
 							</div>
 						)}
 					/>
+					<Route path="/upload" render={() => <ImageUploaderContainer />} />
 				</Switch>
 			</div>
 		);
