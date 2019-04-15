@@ -44,6 +44,12 @@
 
 Functionality over form - I.E. get something working before making it nice to look at or nice to use.
 
+## Routing
+
+My initial thought was that something like this probably didn't need routing I.E. React-Router or something similar.
+I've since realised it may be useful even though most of the interface is just 1 page because it could allow us to 
+do popout char sheets (potentially) similar to Roll20 as well as other possible interesting use cases.
+
 ## Architecture
 
 - Could it be serverless?
