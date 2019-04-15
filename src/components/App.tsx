@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router';
 import './App.css';
 
 import ChatContainer from './chat/ChatContainer';
+import Map from './map/Map';
 
 class App extends Component<{}> {
 	render(): ReactNode {
@@ -11,9 +12,14 @@ class App extends Component<{}> {
 				<Switch>
 					<Route
 						render={() => (
-							<div className="chatWrapper">
-								<h1 className="chatHeader">Chat</h1>
-								<ChatContainer />
+							<div>
+								<div>
+									<Map updateSpriteLocation={() => {}} />
+								</div>
+								<div className="chatWrapper">
+									<h1 className="chatHeader">Chat</h1>
+									<ChatContainer />
+								</div>
 							</div>
 						)}
 					/>
