@@ -4,6 +4,7 @@ import './App.css';
 
 import ChatContainer from './chat/ChatContainer';
 import Map from './map/Map';
+import CharacterSheetContainer from './characterSheet/CharacterSheetContainer';
 import ImageUploader from './imageUploader/ImageUploader';
 import ImageUploaderContainer from './imageUploader/ImageUploaderContainer';
 
@@ -19,6 +20,9 @@ class App extends Component<{}> {
 							<div>
 								<div>
 									<Map updateSpriteLocation={() => {}} />
+								</div>
+								<div>
+									<CharacterSheetContainer />
 								</div>
 								<div className="chatWrapper">
 									<h1 className="chatHeader">Chat</h1>
