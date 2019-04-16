@@ -83,7 +83,7 @@ export default class Map extends Component<Props, State> {
 					<Text style={style} x={30} y={30} text="DND Player" />
 					<Sprite
 						ref={cmpt => (this.sprite = cmpt)}
-						image={testImg}
+						image="https://firebasestorage.googleapis.com/v0/b/dnd-player-a7776.appspot.com/o/uploads%2Fa240f2d0-622a-4a5a-bb96-b512a08c1317?alt=media&token=bae496e7-8ea7-4a1c-a502-301aeb99f8da"
 						x={this.state.x}
 						y={this.state.y}
 						anchor={0.5}
