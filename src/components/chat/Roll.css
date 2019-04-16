@@ -23,10 +23,12 @@
 .roll-header {
 	width: 100%;
 	display: flex;
+	align-items: center;
 }
 .roll-user {
 	flex: 1;
 	color: #ccc;
+	font-size: 12px;
 }
 .roll-type {
 	flex: 1;
@@ -39,6 +41,7 @@
 	font-size: 16px;
 	width: 100%;
 	text-align: center;
+	margin-top: 4px;
 }
 
 .roll-name {
@@ -52,32 +55,26 @@
 	text-align: center;
 	font-size: 14px;
 	font-family: 'Cabin';
+	letter-spacing: 1px;
 }
 
 .roll-rolls {
 	width: 100%;
 	display: flex;
-	justify-content: center;
+	justify-content: space-evenly;
+	align-items: center;
 	font-family: 'Cabin';
+	position: relative;
 }
 
 .roll-1,
 .roll-2 {
-	flex: 1;
 	display: flex;
 	min-height: 60px;
+	width: 100px;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-}
-
-.roll-2 {
-	border-left: 2px dashed rgba(0, 0, 0, 0.6);
-}
-
-.roll-1.ignore,
-.roll-2.ignore {
-	color: rgba(0, 0, 0, 0.3);
 }
 
 .summary {
@@ -85,7 +82,30 @@
 	color: #ccc;
 }
 
+.ignore .summary,
+.ignore .details {
+	color: #555;
+}
+
 .details {
 	color: #999;
 	letter-spacing: 1px;
+}
+
+.roll-advantage,
+.roll-disadvantage {
+	height: 30px;
+	width: 30px;
+	color: #202020;
+	font-size: 20px;
+	text-align: center;
+	line-height: 30px;
+	font-weight: 600;
+}
+.roll-advantage {
+	background: url(./advantage.svg);
+}
+
+.roll-disadvantage {
+	background: url(./disadvantage.svg);
 }

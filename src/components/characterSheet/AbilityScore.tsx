@@ -30,7 +30,13 @@ export default class CharacterSheet extends React.Component<Props, State> {
 		const modifier = this.getAbilityModifier(score);
 
 		return (
-			<div className="stat" onClick={this.handleClick}>
+			<div className="stat" onClick={e => this.handleClick(e, 0)}>
+				<div className="advantage" onClick={e => this.handleClick(e, 1)}>
+					A
+				</div>
+				<div className="disadvantage" onClick={e => this.handleClick(e, -1)}>
+					D
+				</div>
 				<div className="title">{ability}</div>
 				<div className="modifier">
 					<div className="symbol">{modifier < 0 ? '-' : '+'}</div>
@@ -48,7 +54,7 @@ export default class CharacterSheet extends React.Component<Props, State> {
 		return Math.floor((score - 10) / 2);
 	}
 
-	handleClick(e): void {
+	handleClick(e, advantage: number): void {
 		const modifier = this.getAbilityModifier(this.props.score);
 		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
 		const roll = new DiceRoll('d20' + modifierStr);
@@ -62,6 +68,15 @@ export default class CharacterSheet extends React.Component<Props, State> {
 			roll1Total: roll.total,
 			roll1Details: roll.toString().match(/.*?: (.*?) =/)[1]
 		};
+
+		if (advantage) {
+			const roll2 = new DiceRoll('d20' + modifierStr);
+			data.rollAdvantageType = advantage;
+			data.roll2Total = roll2.total;
+			data.roll2Details = roll2.toString().match(/.*?: (.*?) =/)[1];
+			e.stopPropagation();
+		}
+
 		this.props.sendMessage('', data);
 	}
 }
