@@ -12,6 +12,11 @@ export default function reducer(state = initialState, action: any = {}) {
 				...state,
 				messages: action.messages
 			};
+		case types.CHAT.SYNC_FAILED:
+			return {
+				...state,
+				syncError: action.error
+			};
 		default:
 			return state;
 	}

@@ -1,3 +1,5 @@
+import { AnyAction } from 'redux';
+
 export const types = {
 	STORAGE: {
 		SEND_FILE: 'STORAGE.SEND_FILE'
@@ -16,8 +18,9 @@ export const types = {
 // 	url
 // });
 
-export const sendFile = (file, filePath) => ({
+export const sendFile = (name: string, file: File, filePath: string): AnyAction => ({
 	type: types.STORAGE.SEND_FILE,
+	name,
 	file,
 	filePath
 });

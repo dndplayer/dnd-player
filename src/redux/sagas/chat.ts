@@ -1,47 +1,43 @@
 import { all, call, fork, select, takeEvery } from 'redux-saga/effects';
 
-import { types, syncChatMessages } from '../actions/chat';
+import { types, syncChatMessages, syncChatFailed } from '../actions/chat';
 
 import rsf from '../rsf';
-import { firestore } from 'firebase';
+import { database } from 'firebase';
 
 function* saveNewChatMessage(action): any {
 	// const msg = yield select(state => state.chat.newMessage);
-	const currentUser = 'TEST'; // yield select(state => state.auth.username)
+	const currentUser: firebase.User = yield select(state => state.auth.user);
 	const msg = action.message || '';
 	const data = action.data || {};
 
-	yield call(rsf.firestore.addDocument, 'chatroom', {
-		sender: currentUser,
-		timestamp: firestore.Timestamp.now(),
+	yield call(rsf.database.create, '/chatroom', {
+		sender: currentUser.email,
+		// timestamp: firestore.Timestamp.now(), // Firestore way
+		timestamp: database.ServerValue.TIMESTAMP, // Database way
 		msg,
 		data
 	});
 }
 
-const messageTransformer = messages => {
-	const res = [];
-	messages.forEach(doc =>
-		res.push({
-			id: doc.id,
-			...doc.data()
-		})
-	);
-	return res;
-};
-
-// To need a way to get collection on the firebase object
+const messageTransformer = ({ value }) =>
+	Object.keys(value).map(key => ({
+		...value[key],
+		id: key
+	}));
 
 function* syncMessagesSaga(): any {
 	yield fork(
-		rsf.firestore.syncCollection,
-		firestore(rsf.app)
-			.collection('chatroom')
-			.orderBy('timestamp', 'asc') as any,
+		rsf.database.sync,
+		database(rsf.app)
+			.ref('/chatroom')
+			.orderByChild('timestamp') as any,
 		{
 			successActionCreator: syncChatMessages,
+			failureActionCreator: syncChatFailed,
 			transform: messageTransformer
-		}
+		},
+		'value'
 	);
 }
 

@@ -1,3 +1,5 @@
+import { AnyAction } from 'redux';
+
 export const types = {
 	LOGIN: {
 		REQUEST: 'LOGIN.REQUEST',
@@ -11,9 +13,10 @@ export const types = {
 	}
 };
 
-export const login = username => ({
+export const login = (username: string, password: string): AnyAction => ({
 	type: types.LOGIN.REQUEST,
-	username
+	username,
+	password
 });
 
 export const loginSuccess = user => ({

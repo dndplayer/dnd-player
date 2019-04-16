@@ -3,7 +3,8 @@ import { types } from '../actions/auth';
 const initialState = {
 	loading: false,
 	loggedIn: false,
-	user: null
+	user: null,
+	loginError: null
 };
 
 export default function authReducer(state = initialState, action: any = {}) {
@@ -19,12 +20,14 @@ export default function authReducer(state = initialState, action: any = {}) {
 				...state,
 				loading: false,
 				loggedIn: true,
-				user: action.user
+				user: action.user,
+				loginError: null
 			};
 		case types.LOGIN.FAILURE:
 			return {
 				...state,
-				loading: false
+				loading: false,
+				loginError: action.error
 			};
 		case types.LOGOUT.SUCCESS:
 			return initialState;

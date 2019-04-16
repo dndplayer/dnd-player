@@ -1,12 +1,13 @@
 import React, { Component, ReactNode } from 'react';
 import { Switch, Route } from 'react-router';
-import './App.css';
+import styles from './App.module.css';
 
 import ChatContainer from './chat/ChatContainer';
 import Map from './map/Map';
 import CharacterSheetContainer from './characterSheet/CharacterSheetContainer';
 import ImageUploader from './imageUploader/ImageUploader';
 import ImageUploaderContainer from './imageUploader/ImageUploaderContainer';
+import Authentication from './authentication/Authentication';
 
 class App extends Component<{}> {
 	render(): ReactNode {
@@ -24,14 +25,14 @@ class App extends Component<{}> {
 								<div>
 									<CharacterSheetContainer />
 								</div>
-								<div className="chatWrapper">
-									<h1 className="chatHeader">Chat</h1>
+								<div className={styles.chatWrapper}>
 									<ChatContainer />
 								</div>
 							</div>
 						)}
 					/>
 					<Route path="/upload" render={() => <ImageUploaderContainer />} />
+					<Route path="/login" render={() => <Authentication />} />
 				</Switch>
 			</div>
 		);

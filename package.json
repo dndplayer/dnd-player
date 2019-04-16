@@ -23,7 +23,8 @@
     "redux-saga": "^1.0.2",
     "redux-saga-firebase": "^0.15.0",
     "rpg-dice-roller": "^3.0.1",
-    "typescript": "^3.4.3"
+    "typescript": "^3.4.3",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

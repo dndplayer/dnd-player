@@ -8,22 +8,24 @@ import { login } from '../../redux/actions/auth';
 
 const mapStateToProps = (state): any => ({
 	messages: state.chat.messages,
-	loggedIn: state.auth.loggedIn
+	loggedIn: state.auth.loggedIn,
+	user: state.auth.user
 });
 
 const mapDispatchToProps = (dispatch): any => ({
 	sendMessage: (message, data?) => dispatch(saveNewMessage(message, data)),
-	login: username => dispatch(login(username))
+	login: (username, password) => dispatch(login(username, password))
 });
 
 interface DispatchFromProps {
-	login: () => void;
+	login: (username: string, password: string) => void;
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 }
 
 interface StateFromProps {
 	messages: ChatMessage[];
 	loggedIn: boolean;
+	user: firebase.User;
 }
 
 // interface OwnProps {}
@@ -32,15 +34,7 @@ type Props = DispatchFromProps & StateFromProps;
 
 class ChatContainer extends Component<Props> {
 	render(): ReactNode {
-		return (
-			<Chat
-				// login={this.props.login}
-				// messages={this.props.messages}
-				// sendMessage={this.props.sendMessage}
-				// loggedIn={this.props.loggedIn}
-				{...this.props}
-			/>
-		);
+		return <Chat {...this.props} />;
 	}
 }
 

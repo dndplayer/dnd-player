@@ -1,6 +1,7 @@
 export const types = {
 	CHAT: {
 		SYNC: 'CHAT.SYNC',
+		SYNC_FAILED: 'CHAT.SYNC_FAILED',
 		NEW: {
 			// CHANGE: 'CHAT.NEW.CHANGE',
 			SAVE: 'CHAT.NEW.SAVE'
@@ -22,4 +23,9 @@ export const saveNewMessage = (message, data) => ({
 	type: types.CHAT.NEW.SAVE,
 	message,
 	data
+});
+
+export const syncChatFailed = error => ({
+	type: types.CHAT.SYNC_FAILED,
+	error
 });

@@ -5,20 +5,21 @@ import React, { ReactNode, ReactElement } from 'react';
 // import FirebaseConfig from '../../firebase-config.json';
 import { DiceRoll } from 'rpg-dice-roller';
 
-import './Chat.css';
+import styles from './Chat.module.css';
 import './Roll.css';
 import ChatMessageItem from './ChatMessageItem';
 import RollMessageItem from './RollMessageItem';
 import { ChatMessage, ChatMessageData, RollData } from '../../models/ChatMessage.js';
+import Authentication from '../authentication/Authentication';
 
 interface Props {
 	messages: ChatMessage[];
 	sendMessage: (message: string, data?: ChatMessageData) => void;
-	login: (username: string) => void;
+	login: (username: string, password: string) => void;
 	loggedIn: boolean;
+	user: firebase.User;
 }
 interface State {
-	nickname: string;
 	msg: string;
 	messages: ChatMessage[];
 }
@@ -27,106 +28,85 @@ export default class Chat extends React.Component<Props, State> {
 		super(props);
 
 		this.state = {
-			// joined: false,
-			nickname: '',
 			msg: '',
 			messages: []
 		};
 
-		this.handleClick = this.handleClick.bind(this);
 		this.handleRollClick = this.handleRollClick.bind(this);
 		this.handleKeyDown = this.handleKeyDown.bind(this);
 		this.handleMsgChange = this.handleMsgChange.bind(this);
-		this.handleNameChange = this.handleNameChange.bind(this);
 		this.sendMessage = this.sendMessage.bind(this);
 	}
 
-	// private chatRoom: firebase.firestore.CollectionReference;
+	private scrollDiv: HTMLElement;
 
-	// private cleanup: () => void;
+	componentDidUpdate(): void {
+		if (this.scrollDiv) {
+			// this.scrollDiv.scrollIntoView({ behavior: 'smooth' });
+			this.scrollDiv.scrollTop = this.scrollDiv.scrollHeight;
+		}
+	}
 
 	render(): ReactNode {
 		const { messages } = this.props;
 
 		return (
-			<div className="App">
+			<div>
 				{!this.props.loggedIn ? (
-					<div className="joinForm">
-						<input
-							placeholder="Nickname"
-							value={this.state.nickname}
-							onChange={this.handleNameChange}
-						/>
-						<br />
-						<button onClick={this.handleClick}>Join</button>
-					</div>
+					<Authentication />
 				) : (
-					<div className="chat">
-						<div className="messages">
-							{messages.map(
-								(x, idx): ReactElement => {
-									switch (x.data && x.data.type) {
-										case 'roll':
-											return <RollMessageItem message={x} key={idx} />;
-										default:
-											return (
-												<ChatMessageItem
-													message={x}
-													key={idx}
-													isOwner={x.sender === this.state.nickname}
-												/>
-											);
-									}
-								}
-							)}
+					<div
+						style={
+							{
+								// display: 'flex',
+								// flexDirection: 'column',
+								// justifyContent: 'start-flex'
+							}
+						}
+					>
+						<div style={{ paddingBottom: '15px' }}>
+							<Authentication />
 						</div>
-						<input
-							placeholder="msg or d20+4 etc"
-							onChange={this.handleMsgChange}
-							onKeyDown={this.handleKeyDown}
-							value={this.state.msg}
-						/>
-						<button onClick={this.handleRollClick}>Roll something</button>
-						<br />
+						<h1 className={styles.chatHeader}>Chat</h1>
+						<div className={styles.messageWrapper}>
+							<div className={styles.messages} ref={cmpt => (this.scrollDiv = cmpt)}>
+								{messages.map(
+									(x, idx): ReactElement => {
+										switch (x.data && x.data.type) {
+											case 'roll':
+												return <RollMessageItem message={x} key={idx} />;
+											default:
+												return (
+													<ChatMessageItem
+														message={x}
+														key={idx}
+														isOwner={x.sender === this.props.user.email}
+													/>
+												);
+										}
+									}
+								)}
+							</div>
+							<div className={styles.chatInputWrapper}>
+								<input
+									className={styles.chatinput}
+									placeholder="msg or d20+4 etc"
+									onChange={this.handleMsgChange}
+									onKeyDown={this.handleKeyDown}
+									value={this.state.msg}
+								/>
+								<button
+									className={styles.rollButton}
+									onClick={this.handleRollClick}
+								>
+									Roll something
+								</button>
+							</div>
+						</div>
 					</div>
 				)}
 			</div>
 		);
-	}
-
-	// handleNewMessages(snap: firebase.firestore.QuerySnapshot): void {
-	// 	this.setState({
-	// 		messages: [].concat(this.state.messages, snap.docChanges().map(x => x.doc.data()))
-	// 	});
-	// }
-
-	componentDidMount(): void {
-		// firebase.initializeApp(FirebaseConfig);
-		// this.chatRoom = firebase.firestore().collection('chatroom');
-		// this.cleanup = firebase
-		// 	.firestore()
-		// 	.collection('chatroom')
-		// 	.orderBy('timestamp', 'asc')
-		// 	.onSnapshot(this.handleNewMessages);
-	}
-
-	componentWillUnmount(): void {
-		// this.cleanup();
-	}
-
-	handleNameChange(e): void {
-		this.setState({ nickname: e.target.value });
-	}
-
-	handleClick(e): void {
-		// firebase
-		// 	.firestore()
-		// 	.collection('nicknames')
-		// 	.add({
-		// 		nickname: this.state.nickname
-		// 	});
-		// this.setState({ joined: true });
-		this.props.login(this.state.nickname);
 	}
 
 	handleRollClick(e): void {

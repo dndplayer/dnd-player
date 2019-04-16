@@ -1,0 +1,10 @@
+.chatWrapper {
+	position: fixed;
+	/* height: 99vh; */
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background-color: #444;
+	padding: 0 10px 10px 10px;
+	width: 300px;
+}
