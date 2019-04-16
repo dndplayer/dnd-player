@@ -66,7 +66,9 @@ export default class CharacterSheet extends React.Component<Props, State> {
 			rollName: stat,
 			modifier: modifierStr,
 			roll1Total: roll.total,
-			roll1Details: roll.toString().match(/.*?: (.*?) =/)[1]
+			roll1Details: roll.toString().match(/.*?: (.*?) =/)[1],
+			roll1CritSuccess: roll.rolls[0][0] === 20,
+			roll1CritFail: roll.rolls[0][0] === 1
 		};
 
 		if (advantage) {
@@ -74,6 +76,8 @@ export default class CharacterSheet extends React.Component<Props, State> {
 			data.rollAdvantageType = advantage;
 			data.roll2Total = roll2.total;
 			data.roll2Details = roll2.toString().match(/.*?: (.*?) =/)[1];
+			data.roll2CritSuccess = roll2.rolls[0][0] === 20;
+			data.roll2CritFail = roll2.rolls[0][0] === 1;
 			e.stopPropagation();
 		}
 

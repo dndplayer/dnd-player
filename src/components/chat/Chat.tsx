@@ -141,7 +141,9 @@ export default class Chat extends React.Component<Props, State> {
 			rollName: skill,
 			modifier: modifierStr,
 			roll1Total: roll.total,
-			roll1Details: roll.toString().match(/.*?: (.*?) =/)[1]
+			roll1Details: roll.toString().match(/.*?: (.*?) =/)[1],
+			roll1CritSuccess: false, // XXX
+			roll1CritFail: false // XXX
 		};
 		this.props.sendMessage('', data);
 	}
@@ -160,7 +162,9 @@ export default class Chat extends React.Component<Props, State> {
 					rollName: roll.notation,
 					modifier: null,
 					roll1Total: roll.total,
-					roll1Details: roll.toString().match(/.*?: (.*?) =/)[1]
+					roll1Details: roll.toString().match(/.*?: (.*?) =/)[1],
+					roll1CritSuccess: false, // XXX
+					roll1CritFail: false // XXX
 				};
 				this.props.sendMessage('', data);
 			} else {

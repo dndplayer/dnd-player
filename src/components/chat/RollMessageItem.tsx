@@ -41,7 +41,18 @@ export default class RollMessageItem extends React.Component<Props> {
 				</div>
 				<div className="roll-rolls">
 					<div className={`roll-1 ${ignoreRoll1 ? 'ignore' : ''}`}>
-						<span className="summary">{data.roll1Total}</span>
+						<span
+							className={
+								'summary ' +
+								(data.roll1CritSuccess
+									? 'crit'
+									: data.roll1CritFail
+									? 'critFail'
+									: '')
+							}
+						>
+							{data.roll1Total}
+						</span>
 						<span className="details">{data.roll1Details}</span>
 					</div>
 					{data.roll2Details && data.rollAdvantageType && (
@@ -55,7 +66,18 @@ export default class RollMessageItem extends React.Component<Props> {
 					)}
 					{data.roll2Details && (
 						<div className={`roll-2 ${ignoreRoll2 ? 'ignore' : ''}`}>
-							<span className="summary">{data.roll2Total}</span>
+							<span
+								className={
+									'summary ' +
+									(data.roll2CritSuccess
+										? 'crit'
+										: data.roll2CritFail
+										? 'critFail'
+										: '')
+								}
+							>
+								{data.roll2Total}
+							</span>
 							<span className="details">{data.roll2Details}</span>
 						</div>
 					)}

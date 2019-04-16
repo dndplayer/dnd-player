@@ -15,7 +15,11 @@ export interface RollData extends ChatMessageData {
 	modifier: string;
 	roll1Total: number;
 	roll1Details: string;
+	roll1CritSuccess: boolean;
+	roll1CritFail: boolean;
 	rollAdvantageType?: number; // -1 = disadvantage; 0 = normal; +1 = advantage
 	roll2Total?: number;
 	roll2Details?: string;
+	roll2CritSuccess?: boolean;
+	roll2CritFail?: boolean;
 }

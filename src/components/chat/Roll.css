@@ -37,7 +37,9 @@
 }
 
 .roll-title {
-	display: inline-block;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	font-size: 16px;
 	width: 100%;
 	text-align: center;
@@ -53,7 +55,7 @@
 	margin-left: 4px;
 	color: #999;
 	text-align: center;
-	font-size: 14px;
+	font-size: 17px;
 	font-family: 'Cabin';
 	letter-spacing: 1px;
 }
@@ -82,9 +84,16 @@
 	color: #ccc;
 }
 
-.ignore .summary,
-.ignore .details {
-	color: #555;
+.summary.crit {
+	color: #2c942c;
+}
+
+.summary.critFail {
+	color: #94342c;
+}
+
+.ignore {
+	opacity: 0.3;
 }
 
 .details {
