@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import uuidv4 from 'uuid/v4';
 
+import styles from './ImageUploader.module.css';
+
 interface State {
 	file: File;
 	uploadName: string;
 }
 interface Props {
 	onUpload: (name: string, file: File, filePath: string) => void;
+	progress: number;
+	inProgress: boolean;
 }
 export default class ImageUploader extends Component<Props, State> {
 	constructor(props) {
@@ -42,14 +46,25 @@ export default class ImageUploader extends Component<Props, State> {
 
 	render() {
 		return (
-			<div>
-				<input
-					placeholder="Upload Name"
-					onChange={event => this.setState({ uploadName: event.target.value })}
-					type="text"
-				/>
-				<input onChange={this.onChangeFile} type="file" />
-				<button onClick={this.onUpload}>Upload</button>
+			<div className={styles.wrapper}>
+				<div>
+					<input
+						className={styles.fileInput}
+						placeholder="Upload Name"
+						onChange={event => this.setState({ uploadName: event.target.value })}
+						type="text"
+						disabled={this.props.inProgress}
+					/>
+					<input onChange={this.onChangeFile} type="file" />
+					<button
+						className={styles.button}
+						onClick={this.onUpload}
+						disabled={this.props.inProgress}
+					>
+						Upload
+					</button>
+				</div>
+				<progress className={styles.progressBar} max="100" value={this.props.progress} />
 			</div>
 		);
 	}

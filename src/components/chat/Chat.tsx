@@ -1,4 +1,5 @@
 import React, { ReactNode, ReactElement } from 'react';
+import Button from '@material-ui/core/Button';
 
 // import firebase from 'firebase/app';
 // import 'firebase/firestore';
@@ -95,12 +96,14 @@ export default class Chat extends React.Component<Props, State> {
 									onKeyDown={this.handleKeyDown}
 									value={this.state.msg}
 								/>
-								<button
-									className={styles.rollButton}
+								<Button
+									// className={styles.rollButton}
+									variant="contained"
+									color="primary"
 									onClick={this.handleRollClick}
 								>
 									Roll something
-								</button>
+								</Button>
 							</div>
 						</div>
 					</div>

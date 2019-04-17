@@ -2,7 +2,8 @@ import { types } from '../actions/chat';
 
 const initialState = {
 	messages: [],
-	new: {}
+	new: {},
+	syncError: null
 };
 
 export default function reducer(state = initialState, action: any = {}) {

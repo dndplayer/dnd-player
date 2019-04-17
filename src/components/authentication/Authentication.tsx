@@ -1,5 +1,7 @@
 import React, { PureComponent, ReactNode } from 'react';
 import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 import { login, logout } from '../../redux/actions/auth';
 
@@ -55,35 +57,33 @@ class Authentication extends PureComponent<Props, State> {
 		if (loggedIn) {
 			return (
 				<div className={styles.wrapper}>
-					<button className={styles.logoutButton} onClick={() => logout()}>
+					<Button variant="contained" color="primary" onClick={() => logout()}>
 						Logout
-					</button>
+					</Button>
 				</div>
 			);
 		}
 
 		return (
 			<div className={styles.wrapper}>
-				<input
-					className={styles.username}
-					type="text"
-					onChange={event => this.updateState('username', event.target.value)}
+				<TextField
+					label="Username"
+					onChange={evt => this.updateState('username', evt.target.value)}
 					value={this.state.username}
-					placeholder="Username"
+					margin="normal"
 				/>
-				<input
-					className={styles.password}
-					type="password"
-					onChange={event => this.updateState('password', event.target.value)}
+				<TextField
+					label="Password"
+					onChange={evt => this.updateState('password', evt.target.value)}
 					value={this.state.password}
-					placeholder="Password"
+					margin="normal"
 					onKeyUp={event => {
 						event.keyCode === 13 && this.login(); // Quick login on enter if password is focused.
 					}}
 				/>
-				<button className={styles.loginButton} onClick={() => this.login()}>
+				<Button variant="contained" color="primary" onClick={() => this.login()}>
 					Login
-				</button>
+				</Button>
 			</div>
 		);
 	}
