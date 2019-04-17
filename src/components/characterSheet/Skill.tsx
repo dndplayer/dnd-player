@@ -8,12 +8,13 @@ import { Character } from '../../models/Character';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
+	skill: string;
 	ability: string;
 	character: Character;
 }
 interface State {}
 
-export default class AbilityScore extends React.Component<Props, State> {
+export default class Skill extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
@@ -27,23 +28,34 @@ export default class AbilityScore extends React.Component<Props, State> {
 	// private cleanup: () => void;
 
 	render(): ReactNode {
-		const { ability, character } = this.props;
-		const modifier = this.getAbilityModifier(character[ability]);
+		const { ability, character, skill } = this.props;
+		const modifier = this.getSkillModifier(character, skill, ability);
+		const proficiencyClass =
+			character.proficiencies.skills[skill] === 2
+				? 'expertise'
+				: character.proficiencies.skills[skill] === 1
+				? 'proficient'
+				: character.proficiencies.skills[skill] === 0.5
+				? 'half-proficient'
+				: 'none';
 
 		return (
-			<div className="ability" onClick={e => this.handleClick(e, 0)}>
+			<div className="skill" onClick={e => this.handleClick(e, 0)}>
 				<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
 					A
 				</div>
 				<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
 					D
 				</div>
-				<div className="ability-title">{this.getLongName(ability)}</div>
-				<div className="ability-modifier">
-					<div className="ability-symbol">{modifier < 0 ? '-' : '+'}</div>
-					<div className="ability-number">{Math.abs(modifier)}</div>
+				<div className="skill-wrapper">
+					<div className={`skill-proficiency ${proficiencyClass}`} />
+					<div className="skill-ability">{ability}</div>
+					<div className="skill-title">{skill}</div>
+					<div className="skill-modifier">
+						<div className="skill-symbol">{modifier < 0 ? '-' : '+'}</div>
+						<div className="skill-number">{Math.abs(modifier)}</div>
+					</div>
 				</div>
-				<div className="ability-score">{character[ability]}</div>
 			</div>
 		);
 	}
@@ -51,39 +63,26 @@ export default class AbilityScore extends React.Component<Props, State> {
 	componentDidMount(): void {}
 	componentWillUnmount(): void {}
 
-	getAbilityModifier(score: number): number {
-		return Math.floor((score - 10) / 2);
-	}
-
-	getLongName(ability: string): string {
-		switch (ability) {
-			case 'str':
-				return 'Strength';
-			case 'dex':
-				return 'Dexterity';
-			case 'con':
-				return 'Constitution';
-			case 'int':
-				return 'Intelligence';
-			case 'wis':
-				return 'Wisdom';
-			case 'cha':
-				return 'Charisma';
-			default:
-				return '';
-		}
+	getSkillModifier(character: Character, skill: string, ability: string): number {
+		const baseModifier = Math.floor((character[ability] - 10) / 2);
+		const proficiencyMultiplier = character.proficiencies.skills[skill] || 0;
+		return baseModifier + Math.floor(proficiencyMultiplier * character.proficiencyBonus);
 	}
 
 	handleClick(e, advantage: number): void {
-		const modifier = this.getAbilityModifier(this.props.character[this.props.ability]);
+		const modifier = this.getSkillModifier(
+			this.props.character,
+			this.props.skill,
+			this.props.ability
+		);
 		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
 		const roll = new DiceRoll('d20' + modifierStr);
-		const stat = this.getLongName(this.props.ability);
+		const stat = this.props.ability;
 
 		const data: RollData = {
 			type: 'roll',
-			rollType: 'Ability',
-			rollName: stat,
+			rollType: 'Skill',
+			rollName: `${this.props.skill} (${this.props.ability})`,
 			modifier: modifierStr,
 			roll1Total: roll.total,
 			roll1Details: roll.toString().match(/.*?: (.*?) =/)[1],

@@ -1,11 +1,21 @@
-.stat-container {
+.row {
+	display: flex;
+	flex-direction: row;
+}
+
+.column {
+	display: flex;
+	flex-direction: column;
+}
+
+.ability-container {
 	display: flex;
 	font-family: sans-serif;
 	margin: 8px;
 	color: #ccc;
 }
 
-.stat {
+.ability {
 	width: 80px;
 	height: 75px;
 	position: relative;
@@ -15,9 +25,12 @@
 	border-radius: 8px;
 	margin-bottom: 8px;
 	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-.title {
+.ability-title {
 	position: absolute;
 	top: 12px;
 	left: 0;
@@ -30,32 +43,26 @@
 	letter-spacing: -0.4px;
 }
 
-.modifier {
-	font-size: 18px;
+.ability-modifier {
+	position: relative;
+	margin-top: 7px;
+	line-height: 28px;
 }
 
-.symbol {
+.ability-symbol {
 	position: absolute;
-	top: 31px;
-	left: 19px;
-	width: 10px;
-	text-align: right;
+	right: 100%;
+	margin-right: 1px;
 	font-size: 20px;
 	font-weight: 700;
 	color: #808080;
 }
 
-.number {
-	position: absolute;
-	display: inline-block;
-	top: 26px;
-	left: 0;
-	right: 0;
-	text-align: center;
+.ability-number {
 	font-size: 28px;
 }
 
-.points {
+.ability-score {
 	position: absolute;
 	font-weight: 600;
 	font-size: 17px;
@@ -70,8 +77,8 @@
 	background: #202020;
 }
 
-.advantage,
-.disadvantage {
+.popup-advantage,
+.popup-disadvantage {
 	height: 30px;
 	width: 30px;
 	color: #202020;
@@ -80,31 +87,165 @@
 	line-height: 30px;
 	font-weight: 600;
 	position: absolute;
-	top: 25px;
+	top: 50%;
+	margin-top: -15px;
 	z-index: 1;
 	opacity: 0;
 	transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
 		opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms;
 }
-.advantage {
+.popup-advantage {
 	background: url(../chat/advantage.svg);
 	right: -16px;
 	transform: translate3d(-10px, 0, 0);
 }
-.disadvantage {
+.popup-disadvantage {
 	background: url(../chat/disadvantage.svg);
 	left: -16px;
 	transform: translate3d(10px, 0, 0);
 }
 
-.stat:hover .advantage,
-.stat:hover .disadvantage {
+div:hover > .popup-advantage,
+div:hover > .popup-disadvantage {
 	transform: translate3d(0, 0, 0);
 	opacity: 1;
 }
 
-.stat:hover .advantage:hover,
-.stat:hover .disadvantage:hover {
+div:hover > .popup-advantage:hover,
+div:hover > .popup-disadvantage:hover {
 	color: #ccc;
 	transform: scale(1.25);
+}
+
+.save-container,
+.skill-container {
+	width: 285px;
+	border: 2px solid #000;
+	border-radius: 32px;
+	background: #202020;
+	margin: 16px 0 16px 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	color: #ccc;
+	padding: 8px;
+}
+
+.save-container {
+	flex-wrap: wrap;
+}
+
+.skill-container {
+	flex-direction: column;
+}
+
+.save,
+.skill {
+	position: relative;
+	cursor: pointer;
+	margin: 8px;
+}
+.save-wrapper,
+.skill-wrapper {
+	border: 1px solid #444;
+	border-radius: 80px;
+	display: flex;
+	position: relative;
+	margin-right: 32px;
+	padding: 4px;
+}
+
+.save-wrapper {
+	width: 70px;
+	justify-content: center;
+	align-items: center;
+}
+
+.skill-wrapper {
+	width: 210px;
+	justify-content: start;
+	align-items: center;
+}
+
+.save-title,
+.skill-ability {
+	text-transform: uppercase;
+	font-weight: 600;
+	font-size: 14px;
+	letter-spacing: -0.4px;
+}
+
+.skill-ability {
+	color: #808080;
+	margin: 0 24px;
+	width: 24px;
+}
+.skill-title {
+	font-size: 14px;
+}
+
+.save-modifier,
+.skill-modifier {
+	border: 1px solid #444;
+	background: #202020;
+	width: 45px;
+	height: 35px;
+	position: absolute;
+	right: -30px;
+	border-radius: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.save-symbol,
+.skill-symbol {
+	font-weight: 700;
+	color: #808080;
+	margin-top: -4px;
+	margin-left: -4px;
+}
+
+.save-number,
+.skill-number {
+	font-size: 20px;
+	font-weight: 600;
+	margin-top: -4px;
+}
+
+.save-proficiency,
+.skill-proficiency {
+	position: absolute;
+	border: 1px solid #444;
+	width: 12px;
+	height: 12px;
+	border-radius: 12px;
+	background: #202020;
+	left: -6px;
+}
+.save-proficiency.expertise,
+.skill-proficiency.expertise {
+	background: #4c976e;
+}
+.save-proficiency.proficient,
+.skill-proficiency.proficient {
+	background: #ccc;
+}
+.save-proficiency.half-proficient,
+.skill-proficiency.half-proficient {
+	background: #666;
+}
+
+.section-title {
+	color: #666;
+	font-weight: bold;
+	font-variant: small-caps;
+	font-family: 'Libre Baskerville', serif;
+	text-align: center;
+	width: 100%;
+	margin: 4px 0;
 }

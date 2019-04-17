@@ -13,7 +13,7 @@ interface Props {
 }
 interface State {}
 
-export default class AbilityScore extends React.Component<Props, State> {
+export default class AbilitySave extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
@@ -28,22 +28,32 @@ export default class AbilityScore extends React.Component<Props, State> {
 
 	render(): ReactNode {
 		const { ability, character } = this.props;
-		const modifier = this.getAbilityModifier(character[ability]);
+		const modifier = this.getSaveModifier(character, ability);
+		const proficiencyClass =
+			character.proficiencies.saves[ability] === 2
+				? 'expertise'
+				: character.proficiencies.saves[ability] === 1
+				? 'proficient'
+				: character.proficiencies.saves[ability] === 0.5
+				? 'half-proficient'
+				: 'none';
 
 		return (
-			<div className="ability" onClick={e => this.handleClick(e, 0)}>
+			<div className="save" onClick={e => this.handleClick(e, 0)}>
 				<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
 					A
 				</div>
 				<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
 					D
 				</div>
-				<div className="ability-title">{this.getLongName(ability)}</div>
-				<div className="ability-modifier">
-					<div className="ability-symbol">{modifier < 0 ? '-' : '+'}</div>
-					<div className="ability-number">{Math.abs(modifier)}</div>
+				<div className="save-wrapper">
+					<div className={`save-proficiency ${proficiencyClass}`} />
+					<div className="save-title">{ability}</div>
+					<div className="save-modifier">
+						<span className="save-symbol">{modifier < 0 ? '-' : '+'}</span>
+						<span className="save-number">{Math.abs(modifier)}</span>
+					</div>
 				</div>
-				<div className="ability-score">{character[ability]}</div>
 			</div>
 		);
 	}
@@ -51,38 +61,40 @@ export default class AbilityScore extends React.Component<Props, State> {
 	componentDidMount(): void {}
 	componentWillUnmount(): void {}
 
-	getAbilityModifier(score: number): number {
-		return Math.floor((score - 10) / 2);
+	getSaveModifier(character: Character, ability: string): number {
+		const baseModifier = Math.floor((character[ability] - 10) / 2);
+		const proficiencyMultiplier = character.proficiencies.saves[ability] || 0;
+		return baseModifier + Math.floor(proficiencyMultiplier * character.proficiencyBonus);
 	}
 
 	getLongName(ability: string): string {
 		switch (ability) {
 			case 'str':
-				return 'Strength';
+				return 'Strength Save';
 			case 'dex':
-				return 'Dexterity';
+				return 'Dexterity Save';
 			case 'con':
-				return 'Constitution';
+				return 'Constitution Save';
 			case 'int':
-				return 'Intelligence';
+				return 'Intelligence Save';
 			case 'wis':
-				return 'Wisdom';
+				return 'Wisdom Save';
 			case 'cha':
-				return 'Charisma';
+				return 'Charisma Save';
 			default:
 				return '';
 		}
 	}
 
 	handleClick(e, advantage: number): void {
-		const modifier = this.getAbilityModifier(this.props.character[this.props.ability]);
+		const modifier = this.getSaveModifier(this.props.character, this.props.ability);
 		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
 		const roll = new DiceRoll('d20' + modifierStr);
 		const stat = this.getLongName(this.props.ability);
 
 		const data: RollData = {
 			type: 'roll',
-			rollType: 'Ability',
+			rollType: 'Save',
 			rollName: stat,
 			modifier: modifierStr,
 			roll1Total: roll.total,

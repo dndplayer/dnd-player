@@ -34,7 +34,6 @@ export default class Chat extends React.Component<Props, State> {
 			messages: []
 		};
 
-		this.handleRollClick = this.handleRollClick.bind(this);
 		this.handleKeyDown = this.handleKeyDown.bind(this);
 		this.handleMsgChange = this.handleMsgChange.bind(this);
 		this.sendMessage = this.sendMessage.bind(this);
@@ -99,59 +98,12 @@ export default class Chat extends React.Component<Props, State> {
 									variant="filled"
 									margin="normal"
 								/>
-								<Button
-									// className={styles.rollButton}
-									variant="contained"
-									color="primary"
-									onClick={this.handleRollClick}
-								>
-									Roll something
-								</Button>
 							</div>
 						</div>
 					</div>
 				)}
 			</div>
 		);
-	}
-
-	handleRollClick(e): void {
-		const modifier = Math.round(Math.random() * 10 - 5);
-		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
-		const roll = new DiceRoll('d20' + modifierStr);
-		const skills = [
-			'Athletics',
-			'Acrobatics',
-			'Sleight of Hand',
-			'Stealth',
-			'Arcana',
-			'History',
-			'Investigation',
-			'Nature',
-			'Religion',
-			'Animal Handling',
-			'Insight',
-			'Medicine',
-			'Perception',
-			'Survival',
-			'Deception',
-			'Intimidation',
-			'Performance',
-			'Persuasion'
-		];
-		const skill = skills[Math.floor(Math.random() * skills.length)];
-
-		const data: RollData = {
-			type: 'roll',
-			rollType: 'Skill',
-			rollName: skill,
-			modifier: modifierStr,
-			roll1Total: roll.total,
-			roll1Details: roll.toString().match(/.*?: (.*?) =/)[1],
-			roll1CritSuccess: false, // XXX
-			roll1CritFail: false // XXX
-		};
-		this.props.sendMessage('', data);
 	}
 
 	handleMsgChange(e): void {
