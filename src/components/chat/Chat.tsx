@@ -1,5 +1,6 @@
 import React, { ReactNode, ReactElement } from 'react';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 // import firebase from 'firebase/app';
 // import 'firebase/firestore';
@@ -52,7 +53,7 @@ export default class Chat extends React.Component<Props, State> {
 		const { messages } = this.props;
 
 		return (
-			<div>
+			<div style={{ padding: '0 10px 10px 10px' }}>
 				{!this.props.loggedIn ? (
 					<Authentication />
 				) : (
@@ -89,12 +90,14 @@ export default class Chat extends React.Component<Props, State> {
 								)}
 							</div>
 							<div className={styles.chatInputWrapper}>
-								<input
-									className={styles.chatinput}
+								{/* This could do with some work to not look so aweful */}
+								<TextField
 									placeholder="msg or d20+4 etc"
 									onChange={this.handleMsgChange}
 									onKeyDown={this.handleKeyDown}
 									value={this.state.msg}
+									variant="filled"
+									margin="normal"
 								/>
 								<Button
 									// className={styles.rollButton}

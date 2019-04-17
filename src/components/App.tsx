@@ -8,6 +8,7 @@ import CharacterSheetContainer from './characterSheet/CharacterSheetContainer';
 import ImageUploader from './imageUploader/ImageUploader';
 import ImageUploaderContainer from './imageUploader/ImageUploaderContainer';
 import Authentication from './authentication/Authentication';
+import Sidebar from './sidebar/Sidebar';
 
 class App extends Component<{}> {
 	render(): ReactNode {
@@ -26,7 +27,8 @@ class App extends Component<{}> {
 									<CharacterSheetContainer />
 								</div>
 								<div className={styles.chatWrapper}>
-									<ChatContainer />
+									<Sidebar />
+									{/* <ChatContainer /> */}
 								</div>
 							</div>
 						)}
