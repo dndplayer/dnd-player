@@ -3,6 +3,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import ChatContainer from '../chat/ChatContainer';
+import ImageUploaderContainer from '../imageUploader/ImageUploaderContainer';
 
 export default class Sidebar extends Component {
 	state = {
@@ -23,7 +24,7 @@ export default class Sidebar extends Component {
 					<Tab label="Chat" />
 				</Tabs>
 				{/* </AppBar> */}
-				{value === 0 && <div>Upload</div>}
+				{value === 0 && <ImageUploaderContainer />}
 				{value === 1 && <ChatContainer />}
 			</div>
 		);
