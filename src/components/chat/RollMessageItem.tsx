@@ -16,6 +16,9 @@ export default class RollMessageItem extends React.Component<Props> {
 			case 'Ability':
 				className = 'roll-ability';
 				break;
+			case 'Initiative':
+				className = 'roll-initiative';
+				break;
 			case 'Ad-hoc':
 			default:
 				className = 'roll-adhoc';

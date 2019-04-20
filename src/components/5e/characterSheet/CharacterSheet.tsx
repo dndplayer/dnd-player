@@ -14,6 +14,7 @@ import { Character } from '../Character';
 import Skill from './Skill';
 import ProficiencyBonus from './ProficiencyBonus';
 import Speed from './Speed';
+import Initiative from './Initiative';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -230,6 +231,7 @@ export default class CharacterSheet extends React.Component<Props, State> {
 						/>
 						<div className="section-title">Skills</div>
 					</div>
+					<Initiative character={character} {...this.props} />
 				</div>
 			</div>
 		);

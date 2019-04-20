@@ -17,6 +17,10 @@ export default class Rules {
 		return Math.floor((character[ability] - 10) / 2);
 	}
 
+	public static getInitiativeModifier(character: Character): number {
+		return this.getAbilityModifier(character, 'dexterity');
+	}
+
 	public static getShortAbilityName(ability: string): string {
 		switch (ability) {
 			case 'strength':

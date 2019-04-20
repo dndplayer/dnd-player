@@ -1,25 +1,22 @@
 import React, { ReactNode, ReactElement } from 'react';
 
-import { DiceRoll } from 'rpg-dice-roller';
-import { RollData, ChatMessageData } from '../../../models/ChatMessage';
-
 import './CharacterSheet.css';
 import { Character } from '../Character';
 import Rules from '../5eRules';
+import { RollData, ChatMessageData } from '../../../models/ChatMessage';
+import { DiceRoll } from 'rpg-dice-roller';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
-	ability: string;
 	character: Character;
 }
 interface State {}
 
-export default class AbilityScore extends React.Component<Props, State> {
+export default class Initiative extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
 		this.state = {};
-
 		this.handleClick = this.handleClick.bind(this);
 	}
 
@@ -28,23 +25,22 @@ export default class AbilityScore extends React.Component<Props, State> {
 	// private cleanup: () => void;
 
 	render(): ReactNode {
-		const { ability, character } = this.props;
-		const modifier = Rules.getAbilityModifier(character, ability);
+		const { character } = this.props;
+		const modifier = Rules.getInitiativeModifier(character);
 
 		return (
-			<div className="ability" onClick={e => this.handleClick(e, 0)}>
+			<div className="initiative" onClick={e => this.handleClick(e, 0)}>
 				<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
 					A
 				</div>
 				<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
 					D
 				</div>
-				<div className="ability-title">{this.getLongName(ability)}</div>
-				<div className="ability-modifier">
-					<div className="ability-symbol">{modifier < 0 ? '-' : '+'}</div>
-					<div className="ability-number">{Math.abs(modifier)}</div>
+				<div className="initiative-title">Initiative</div>
+				<div className="initiative-modifier">
+					<div className="initiative-symbol">{modifier < 0 ? '-' : '+'}</div>
+					<div className="initiative-number">{Math.abs(modifier)}</div>
 				</div>
-				<div className="ability-score">{character[ability]}</div>
 			</div>
 		);
 	}
@@ -52,35 +48,15 @@ export default class AbilityScore extends React.Component<Props, State> {
 	componentDidMount(): void {}
 	componentWillUnmount(): void {}
 
-	getLongName(ability: string): string {
-		switch (ability) {
-			case 'strength':
-				return 'Strength';
-			case 'dexterity':
-				return 'Dexterity';
-			case 'constitution':
-				return 'Constitution';
-			case 'intelligence':
-				return 'Intelligence';
-			case 'wisdom':
-				return 'Wisdom';
-			case 'charisma':
-				return 'Charisma';
-			default:
-				return '';
-		}
-	}
-
 	handleClick(e, advantage: number): void {
-		const modifier = Rules.getAbilityModifier(this.props.character, this.props.ability);
+		const modifier = Rules.getInitiativeModifier(this.props.character);
 		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
 		const roll = new DiceRoll('d20' + modifierStr);
-		const stat = this.getLongName(this.props.ability);
 
 		const data: RollData = {
 			type: 'roll',
-			rollType: 'Ability',
-			rollName: stat,
+			rollType: 'Initiative',
+			rollName: 'Initiative',
 			modifier: modifierStr,
 			roll1Total: roll.total,
 			roll1Details: roll.toString().match(/.*?: (.*?) =/)[1],

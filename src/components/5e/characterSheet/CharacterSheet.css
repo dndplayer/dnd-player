@@ -14,14 +14,16 @@
 
 .proficiency,
 .ability-container,
-.speed {
+.speed,
+.initiative {
 	color: #ccc;
 	font-family: sans-serif;
 }
 
 .ability,
 .proficiency,
-.speed {
+.speed,
+.initiative {
 	margin: 8px;
 	height: 75px;
 	position: relative;
@@ -41,13 +43,20 @@
 }
 
 .proficiency,
-.speed {
+.speed,
+.initiative {
 	width: 90px;
+}
+
+.initiative {
+	border-radius: 32px;
+	height: 65px;
 }
 
 .ability-title,
 .proficiency-title,
 .speed-title,
+.initiative-title,
 .speed-type {
 	text-align: center;
 	text-transform: uppercase;
@@ -59,7 +68,8 @@
 
 .ability-title,
 .proficiency-title,
-.speed-title {
+.speed-title,
+.initiative-title {
 	position: absolute;
 	top: 12px;
 	left: 0;
@@ -68,7 +78,8 @@
 
 .ability-modifier,
 .proficiency-modifier,
-.speed-modifier {
+.speed-modifier,
+.initiative-modifier {
 	position: relative;
 	line-height: 28px;
 }
@@ -81,8 +92,13 @@
 	margin-top: 12px;
 }
 
+.initiative-modifier {
+	margin-top: 19px;
+}
+
 .ability-symbol,
-.proficiency-symbol {
+.proficiency-symbol,
+.initiative-symbol {
 	position: absolute;
 	right: 100%;
 	margin-right: 1px;
@@ -93,7 +109,8 @@
 
 .ability-number,
 .proficiency-number,
-.speed-number {
+.speed-number,
+.initiative-number {
 	font-size: 28px;
 }
 
@@ -154,6 +171,14 @@ div:hover > .popup-disadvantage:hover {
 	transform: scale(1.25);
 }
 
+.proficiency-title,
+.speed-title,
+.initiative-title {
+	font-family: 'Libre Baskerville', serif;
+	font-variant: small-caps;
+	font-size: 11px;
+	top: 9px;
+}
 .speed-container {
 	margin-top: 12px;
 	position: relative;
