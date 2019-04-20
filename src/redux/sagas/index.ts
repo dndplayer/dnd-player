@@ -4,7 +4,8 @@ import chat from './chat';
 import auth from './auth';
 import storage from './storage';
 import images from './images';
+import assets from './assets';
 
 export default function* rootSaga(): any {
-	yield all([fork(chat), fork(auth), fork(storage), fork(images)]);
+	yield all([fork(chat), fork(auth), fork(storage), fork(images), fork(assets)]);
 }

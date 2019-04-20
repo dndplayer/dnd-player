@@ -5,6 +5,7 @@ import ChatReducer from './chat';
 import AuthReducer from './auth';
 import StorageReducer from './storage';
 import ImageReducer from './images';
+import AssetReducer from './assets';
 
 export default history =>
 	combineReducers({
@@ -12,5 +13,6 @@ export default history =>
 		chat: ChatReducer,
 		auth: AuthReducer,
 		storage: StorageReducer,
-		images: ImageReducer
+		images: ImageReducer,
+		assets: AssetReducer
 	});
