@@ -1,19 +1,21 @@
 import React, { ReactNode, ReactElement } from 'react';
 
 import { DiceRoll } from 'rpg-dice-roller';
-import { RollData, ChatMessageData } from '../../models/ChatMessage';
+import { RollData, ChatMessageData } from '../../../models/ChatMessage';
 
 import './CharacterSheet.css';
-import { Character } from '../../models/Character';
+import { Character } from '../Character';
+import Rules from '../5eRules';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
+	skill: string;
 	ability: string;
 	character: Character;
 }
 interface State {}
 
-export default class AbilitySave extends React.Component<Props, State> {
+export default class Skill extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
@@ -27,31 +29,32 @@ export default class AbilitySave extends React.Component<Props, State> {
 	// private cleanup: () => void;
 
 	render(): ReactNode {
-		const { ability, character } = this.props;
-		const modifier = this.getSaveModifier(character, ability);
+		const { ability, character, skill } = this.props;
+		const modifier = this.getSkillModifier(character, skill, ability);
 		const proficiencyClass =
-			character.proficiencies.saves[ability] === 2
+			character.proficiencies.skills[skill] === 2
 				? 'expertise'
-				: character.proficiencies.saves[ability] === 1
+				: character.proficiencies.skills[skill] === 1
 				? 'proficient'
-				: character.proficiencies.saves[ability] === 0.5
+				: character.proficiencies.skills[skill] === 0.5
 				? 'half-proficient'
 				: 'none';
 
 		return (
-			<div className="save" onClick={e => this.handleClick(e, 0)}>
+			<div className="skill" onClick={e => this.handleClick(e, 0)}>
 				<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
 					A
 				</div>
 				<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
 					D
 				</div>
-				<div className="save-wrapper">
-					<div className={`save-proficiency ${proficiencyClass}`} />
-					<div className="save-title">{ability}</div>
-					<div className="save-modifier">
-						<span className="save-symbol">{modifier < 0 ? '-' : '+'}</span>
-						<span className="save-number">{Math.abs(modifier)}</span>
+				<div className="skill-wrapper">
+					<div className={`skill-proficiency ${proficiencyClass}`} />
+					<div className="skill-ability">{Rules.getShortAbilityName(ability)}</div>
+					<div className="skill-title">{Rules.getLongSkillName(skill)}</div>
+					<div className="skill-modifier">
+						<div className="skill-symbol">{modifier < 0 ? '-' : '+'}</div>
+						<div className="skill-number">{Math.abs(modifier)}</div>
 					</div>
 				</div>
 			</div>
@@ -61,41 +64,27 @@ export default class AbilitySave extends React.Component<Props, State> {
 	componentDidMount(): void {}
 	componentWillUnmount(): void {}
 
-	getSaveModifier(character: Character, ability: string): number {
+	getSkillModifier(character: Character, skill: string, ability: string): number {
 		const baseModifier = Math.floor((character[ability] - 10) / 2);
-		const proficiencyMultiplier = character.proficiencies.saves[ability] || 0;
-		return baseModifier + Math.floor(proficiencyMultiplier * character.proficiencyBonus);
-	}
-
-	getLongName(ability: string): string {
-		switch (ability) {
-			case 'str':
-				return 'Strength Save';
-			case 'dex':
-				return 'Dexterity Save';
-			case 'con':
-				return 'Constitution Save';
-			case 'int':
-				return 'Intelligence Save';
-			case 'wis':
-				return 'Wisdom Save';
-			case 'cha':
-				return 'Charisma Save';
-			default:
-				return '';
-		}
+		const proficiencyMultiplier = character.proficiencies.skills[skill] || 0;
+		const proficiencyBonus = Rules.getProficiencyBonus(character);
+		return baseModifier + Math.floor(proficiencyMultiplier * proficiencyBonus);
 	}
 
 	handleClick(e, advantage: number): void {
-		const modifier = this.getSaveModifier(this.props.character, this.props.ability);
+		const modifier = this.getSkillModifier(
+			this.props.character,
+			this.props.skill,
+			this.props.ability
+		);
 		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
 		const roll = new DiceRoll('d20' + modifierStr);
-		const stat = this.getLongName(this.props.ability);
+		const stat = this.props.ability;
 
 		const data: RollData = {
 			type: 'roll',
-			rollType: 'Save',
-			rollName: stat,
+			rollType: 'Skill',
+			rollName: `${this.props.skill} (${this.props.ability})`,
 			modifier: modifierStr,
 			roll1Total: roll.total,
 			roll1Details: roll.toString().match(/.*?: (.*?) =/)[1],

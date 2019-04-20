@@ -4,7 +4,7 @@ import styles from './App.module.css';
 
 import ChatContainer from './chat/ChatContainer';
 import Map from './map/Map';
-import CharacterSheetContainer from './characterSheet/CharacterSheetContainer';
+import CharacterSheetContainer from './5e/characterSheet/CharacterSheetContainer';
 import ImageUploader from './imageUploader/ImageUploader';
 import ImageUploaderContainer from './imageUploader/ImageUploaderContainer';
 import Authentication from './authentication/Authentication';

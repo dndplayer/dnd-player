@@ -1,10 +1,10 @@
 import React, { ReactNode, ReactElement } from 'react';
 
 import { DiceRoll } from 'rpg-dice-roller';
-import { RollData, ChatMessageData } from '../../models/ChatMessage';
+import { RollData, ChatMessageData } from '../../../models/ChatMessage';
 
 import './CharacterSheet.css';
-import { Character } from '../../models/Character';
+import { Character } from '../Character';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -57,17 +57,17 @@ export default class AbilityScore extends React.Component<Props, State> {
 
 	getLongName(ability: string): string {
 		switch (ability) {
-			case 'str':
+			case 'strength':
 				return 'Strength';
-			case 'dex':
+			case 'dexterity':
 				return 'Dexterity';
-			case 'con':
+			case 'constitution':
 				return 'Constitution';
-			case 'int':
+			case 'intelligence':
 				return 'Intelligence';
-			case 'wis':
+			case 'wisdom':
 				return 'Wisdom';
-			case 'cha':
+			case 'charisma':
 				return 'Charisma';
 			default:
 				return '';

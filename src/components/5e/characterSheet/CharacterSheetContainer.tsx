@@ -1,9 +1,9 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import CharacterSheet from './CharacterSheet';
-import { ChatMessage, ChatMessageData } from '../../models/ChatMessage';
+import { ChatMessage, ChatMessageData } from '../../../models/ChatMessage';
 
-import { saveNewMessage } from '../../redux/actions/chat';
+import { saveNewMessage } from '../../../redux/actions/chat';
 
 const mapStateToProps = (state): any => ({});
 

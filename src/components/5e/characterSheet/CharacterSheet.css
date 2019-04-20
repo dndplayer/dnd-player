@@ -10,13 +10,19 @@
 
 .ability-container {
 	display: flex;
-	font-family: sans-serif;
-	margin: 8px;
-	color: #ccc;
 }
 
-.ability {
-	width: 80px;
+.proficiency,
+.ability-container,
+.speed {
+	color: #ccc;
+	font-family: sans-serif;
+}
+
+.ability,
+.proficiency,
+.speed {
+	margin: 8px;
 	height: 75px;
 	position: relative;
 	margin: 8px;
@@ -30,11 +36,19 @@
 	align-items: center;
 }
 
-.ability-title {
-	position: absolute;
-	top: 12px;
-	left: 0;
-	right: 0;
+.ability {
+	width: 80px;
+}
+
+.proficiency,
+.speed {
+	width: 90px;
+}
+
+.ability-title,
+.proficiency-title,
+.speed-title,
+.speed-type {
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 9px;
@@ -43,13 +57,32 @@
 	letter-spacing: -0.4px;
 }
 
-.ability-modifier {
+.ability-title,
+.proficiency-title,
+.speed-title {
+	position: absolute;
+	top: 12px;
+	left: 0;
+	right: 0;
+}
+
+.ability-modifier,
+.proficiency-modifier,
+.speed-modifier {
 	position: relative;
-	margin-top: 7px;
 	line-height: 28px;
 }
 
-.ability-symbol {
+.ability-modifier {
+	margin-top: 7px;
+}
+
+.proficiency-modifier {
+	margin-top: 12px;
+}
+
+.ability-symbol,
+.proficiency-symbol {
 	position: absolute;
 	right: 100%;
 	margin-right: 1px;
@@ -58,7 +91,9 @@
 	color: #808080;
 }
 
-.ability-number {
+.ability-number,
+.proficiency-number,
+.speed-number {
 	font-size: 28px;
 }
 
@@ -91,16 +126,17 @@
 	margin-top: -15px;
 	z-index: 1;
 	opacity: 0;
+	visibility: collapse;
 	transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
-		opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms;
+		opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms, visibility 300ms;
 }
 .popup-advantage {
-	background: url(../chat/advantage.svg);
+	background: url(../../chat/advantage.svg);
 	right: -16px;
 	transform: translate3d(-10px, 0, 0);
 }
 .popup-disadvantage {
-	background: url(../chat/disadvantage.svg);
+	background: url(../../chat/disadvantage.svg);
 	left: -16px;
 	transform: translate3d(10px, 0, 0);
 }
@@ -109,12 +145,51 @@ div:hover > .popup-advantage,
 div:hover > .popup-disadvantage {
 	transform: translate3d(0, 0, 0);
 	opacity: 1;
+	visibility: visible;
 }
 
 div:hover > .popup-advantage:hover,
 div:hover > .popup-disadvantage:hover {
 	color: #ccc;
 	transform: scale(1.25);
+}
+
+.speed-container {
+	margin-top: 12px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.speed-unit {
+	color: #808080;
+	position: absolute;
+	left: 100%;
+	margin-left: 4px;
+	bottom: 3px;
+}
+.speed-popup {
+	position: absolute;
+	top: -2px;
+	left: -2px;
+	right: -2px;
+	border: 2px solid #000;
+	background: #202020;
+	border-radius: 8px;
+	opacity: 0;
+	transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), visibility 300ms;
+	visibility: collapse;
+	padding-bottom: 12px;
+	padding-top: 16px;
+}
+.speed-popup-wrap {
+	position: relative;
+}
+
+.speed:hover .speed-popup {
+	opacity: 1;
+	visibility: visible;
 }
 
 .save-container,
@@ -144,8 +219,14 @@ div:hover > .popup-disadvantage:hover {
 .skill {
 	position: relative;
 	cursor: pointer;
+}
+.save {
 	margin: 8px;
 }
+.skill {
+	margin: 4px 8px;
+}
+
 .save-wrapper,
 .skill-wrapper {
 	border: 1px solid #444;
@@ -190,7 +271,6 @@ div:hover > .popup-disadvantage:hover {
 	border: 1px solid #444;
 	background: #202020;
 	width: 45px;
-	height: 35px;
 	position: absolute;
 	right: -30px;
 	border-radius: 35px;
@@ -200,6 +280,13 @@ div:hover > .popup-disadvantage:hover {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.save-modifier {
+	height: 35px;
+}
+.skill-modifier {
+	height: 30px;
 }
 
 .save-symbol,
