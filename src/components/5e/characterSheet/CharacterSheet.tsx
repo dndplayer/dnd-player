@@ -15,6 +15,8 @@ import Skill from './Skill';
 import ProficiencyBonus from './ProficiencyBonus';
 import Speed from './Speed';
 import Initiative from './Initiative';
+import AC from './AC';
+import HitPoints from './HitPoints';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -36,45 +38,50 @@ export default class CharacterSheet extends React.Component<Props, State> {
 		const {} = this.props;
 
 		const character: Character = {
-			name: 'Aaron Duckbill',
+			name: 'Garrick Crownguard',
 			size: 'M',
 			strength: 25,
-			dexterity: 13,
-			constitution: 16,
-			intelligence: 8,
+			dexterity: 12,
+			constitution: 18,
+			intelligence: 9,
 			wisdom: 12,
-			charisma: 10,
+			charisma: 12,
+			ac: 19,
+			hp: 41,
+			maxHp: 87,
+			hitDice: 8,
 			speed: {
-				walk: 35,
-				climb: 20,
-				fly: 60
+				walk: 30,
+				climb: 0,
+				fly: 0
 			},
 			proficiencies: {
 				saves: {
 					strength: 1,
-					constitution: 2,
-					dexterity: 0.5
+					constitution: 1
 				},
 				skills: {
-					athletics: 1,
+					athletics: 2,
+					insight: 1,
 					intimidation: 1,
-					nature: 2,
-					perception: 0.5
+					perception: 1
 				}
 			},
 			levels: [
 				{
-					className: 'Barbarian',
-					level: 3
+					className: 'Fighter',
+					level: 8
 				}
 			]
 		};
 
 		return (
-			<div className="column">
-				<div className="row">
-					<div>{character.name}</div>
-					<div>{character.levels.map(x => `${x.className} ${x.level}`).join(' ')}</div>
+			<div className="column character-sheet">
+				<div className="row character-details">
+					<div className="character-name">{character.name}</div>
+					<div className="character-classes">
+						{character.levels.map(x => `${x.className} ${x.level}`).join(', ')}
+					</div>
 				</div>
 				<div className="row">
 					<div className="ability-container">
@@ -95,6 +102,7 @@ export default class CharacterSheet extends React.Component<Props, State> {
 					</div>
 					<ProficiencyBonus character={character} {...this.props} />
 					<Speed character={character} {...this.props} />
+					<HitPoints character={character} {...this.props} />
 				</div>
 				<div className="row">
 					<div className="column">
@@ -232,6 +240,7 @@ export default class CharacterSheet extends React.Component<Props, State> {
 						<div className="section-title">Skills</div>
 					</div>
 					<Initiative character={character} {...this.props} />
+					<AC character={character} {...this.props} />
 				</div>
 			</div>
 		);

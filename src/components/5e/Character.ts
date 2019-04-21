@@ -7,6 +7,10 @@ export interface Character {
 	intelligence: number;
 	wisdom: number;
 	charisma: number;
+	ac: number;
+	hp: number;
+	maxHp: number;
+	hitDice: number;
 	speed: CharacterSpeeds;
 	proficiencies: CharacterProficiencies;
 	levels: CharacterLevel[];

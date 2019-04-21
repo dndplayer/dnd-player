@@ -8,6 +8,33 @@
 	flex-direction: column;
 }
 
+.character-sheet {
+	width: 1000px;
+}
+.character-details {
+	display: flex;
+	flex-direction: row;
+	align-items: space-between;
+	justify-content: center;
+	width: 100%;
+}
+.character-name,
+.character-classes {
+	flex: 1;
+	color: #ccc;
+	font-family: 'Libre Baskerville', serif;
+	font-variant: small-caps;
+	font-size: 24px;
+	border: 2px solid #000;
+	background: #202020;
+	margin: 8px;
+	padding: 8px 24px;
+}
+
+.character-classes {
+	font-size: 16px;
+}
+
 .ability-container {
 	display: flex;
 }
@@ -57,7 +84,10 @@
 .proficiency-title,
 .speed-title,
 .initiative-title,
-.speed-type {
+.speed-type,
+.ac-title,
+.hp-title,
+.hp-header {
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 9px;
@@ -69,7 +99,9 @@
 .ability-title,
 .proficiency-title,
 .speed-title,
-.initiative-title {
+.initiative-title,
+.ac-title,
+.hp-title {
 	position: absolute;
 	top: 12px;
 	left: 0;
@@ -173,7 +205,9 @@ div:hover > .popup-disadvantage:hover {
 
 .proficiency-title,
 .speed-title,
-.initiative-title {
+.initiative-title,
+.ac-title,
+.hp-title {
 	font-family: 'Libre Baskerville', serif;
 	font-variant: small-caps;
 	font-size: 11px;
@@ -207,6 +241,7 @@ div:hover > .popup-disadvantage:hover {
 	visibility: collapse;
 	padding-bottom: 12px;
 	padding-top: 16px;
+	z-index: 1;
 }
 .speed-popup-wrap {
 	position: relative;
@@ -350,6 +385,59 @@ div:hover > .popup-disadvantage:hover {
 .save-proficiency.half-proficient,
 .skill-proficiency.half-proficient {
 	background: #666;
+}
+
+.ac {
+	background: url('./ac.svg');
+	width: 96px;
+	height: 110px;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+.ac-title {
+	top: 20px;
+}
+
+.ac-number {
+	color: #ccc;
+	font-size: 28px;
+}
+
+.hp {
+	border: 2px solid #000;
+	background: #202020;
+	width: 160px;
+	margin: 8px;
+	height: 75px;
+	border-radius: 16px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+.hp-divider {
+	color: #444;
+	font-size: 32px;
+}
+
+.hp-current,
+.hp-max {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-top: 16px;
+	color: #ccc;
+	font-size: 28px;
+}
+
+.hp-header {
+	color: #666;
 }
 
 .section-title {
