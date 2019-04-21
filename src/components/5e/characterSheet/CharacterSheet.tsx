@@ -17,6 +17,7 @@ import Speed from './Speed';
 import Initiative from './Initiative';
 import AC from './AC';
 import HitPoints from './HitPoints';
+import Attacks from './Attacks';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -239,8 +240,15 @@ export default class CharacterSheet extends React.Component<Props, State> {
 						/>
 						<div className="section-title">Skills</div>
 					</div>
-					<Initiative character={character} {...this.props} />
-					<AC character={character} {...this.props} />
+					<div className="column" style={{ flex: 1 }}>
+						<div className="row">
+							<Initiative character={character} {...this.props} />
+							<AC character={character} {...this.props} />
+						</div>
+						<div className="row">
+							<Attacks character={character} {...this.props} />
+						</div>
+					</div>
 				</div>
 			</div>
 		);

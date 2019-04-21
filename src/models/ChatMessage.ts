@@ -12,6 +12,7 @@ export interface ChatMessageData {
 export interface RollData extends ChatMessageData {
 	rollType: string;
 	rollName: string;
+	rollSuffix?: string;
 	modifier: string;
 	roll1Total: number;
 	roll1Details: string;
@@ -22,4 +23,7 @@ export interface RollData extends ChatMessageData {
 	roll2Details?: string;
 	roll2CritSuccess?: boolean;
 	roll2CritFail?: boolean;
+	damageRollTotal?: number;
+	damageRollDetails?: number;
+	damageRollSuffix?: string;
 }

@@ -19,6 +19,9 @@ export default class RollMessageItem extends React.Component<Props> {
 			case 'Initiative':
 				className = 'roll-initiative';
 				break;
+			case 'Attack':
+				className = 'roll-attack';
+				break;
 			case 'Ad-hoc':
 			default:
 				className = 'roll-adhoc';
@@ -54,7 +57,8 @@ export default class RollMessageItem extends React.Component<Props> {
 									: '')
 							}
 						>
-							{data.roll1Total}
+							<span className="roll-total">{data.roll1Total}</span>
+							<span className="roll-suffix">{data.rollSuffix}</span>
 						</span>
 						<span className="details">{data.roll1Details}</span>
 					</div>
@@ -79,12 +83,22 @@ export default class RollMessageItem extends React.Component<Props> {
 										: '')
 								}
 							>
-								{data.roll2Total}
+								<span className="roll-total">{data.roll2Total}</span>
+								<span className="roll-suffix">{data.rollSuffix}</span>
 							</span>
 							<span className="details">{data.roll2Details}</span>
 						</div>
 					)}
 				</div>
+				{data.damageRollDetails && (
+					<div className="roll-damage">
+						<span className="summary">
+							<span className="roll-total">{data.damageRollTotal}</span>
+							<span className="roll-suffix">{data.damageRollSuffix}</span>
+						</span>
+						<span className="details">{data.damageRollDetails}</span>
+					</div>
+				)}
 			</div>
 		);
 	}

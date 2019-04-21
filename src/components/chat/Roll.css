@@ -22,6 +22,9 @@
 .roll-initiative {
 	color: #b67a57;
 }
+.roll-attack {
+	color: #b65757;
+}
 
 .roll-header {
 	width: 100%;
@@ -63,13 +66,24 @@
 	letter-spacing: 1px;
 }
 
-.roll-rolls {
+.roll-rolls,
+.roll-damage {
 	width: 100%;
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
 	font-family: 'Cabin';
 	position: relative;
+}
+
+.roll-damage {
+	margin-left: auto;
+	margin-right: auto;
+	width: 75%;
+	margin-top: 8px;
+	padding-top: 4px;
+	border-top: 1px solid #444;
+	flex-direction: column;
 }
 
 .roll-1,
@@ -82,9 +96,20 @@
 	justify-content: center;
 }
 
+.ignore .roll-suffix {
+	display: none;
+}
+.roll-suffix {
+	margin-left: 3px;
+	font-size: 14px;
+}
+
 .summary {
-	font-size: 32px;
 	color: #ccc;
+}
+
+.summary .roll-total {
+	font-size: 32px;
 }
 
 .summary.crit {

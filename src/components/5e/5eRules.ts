@@ -1,5 +1,29 @@
 import { Character } from './Character';
 
+export interface Attack {
+	name: string;
+	toHit: number;
+	type?: string;
+	ranged?: boolean;
+	diceCount?: number;
+	diceType?: number;
+	damageBonus?: number;
+	damageType?: string;
+	saveType?: string;
+	fixedSaveDC?: number;
+	range?: number;
+	longRange?: number;
+	AoEType?: string;
+	AoESize?: number;
+	activationType?: string;
+	activationTime?: number;
+	affectedByMartialArts?: boolean;
+	proficient?: boolean;
+	dualWield?: boolean;
+	silvered?: boolean;
+	critRange?: number;
+}
+
 export default class Rules {
 	public static getProficiencyBonus(character: Character): number {
 		const totalLevel = character.levels.map(x => x.level).reduce((x, y) => x + y);
@@ -19,6 +43,37 @@ export default class Rules {
 
 	public static getInitiativeModifier(character: Character): number {
 		return this.getAbilityModifier(character, 'dexterity');
+	}
+
+	public static getAttacks(character: Character): Attack[] {
+		const attacks = [];
+		attacks.push({
+			name: 'Longsword',
+			range: 5,
+			diceCount: 1,
+			diceType: 8,
+			damageBonus: this.getAbilityModifier(character, 'strength'),
+			damageType: 'slashing',
+			critRange: 20,
+			proficient: true,
+			toHit:
+				this.getAbilityModifier(character, 'strength') + this.getProficiencyBonus(character)
+		});
+		attacks.push({
+			name: 'Light Crossbow',
+			range: 80,
+			longRange: 320,
+			damageBonus: this.getAbilityModifier(character, 'dexterity'),
+			diceCount: 1,
+			diceType: 8,
+			damageType: 'piercing',
+			critRange: 20,
+			proficient: true,
+			toHit:
+				this.getAbilityModifier(character, 'dexterity') +
+				this.getProficiencyBonus(character)
+		});
+		return attacks;
 	}
 
 	public static getShortAbilityName(ability: string): string {

@@ -1,0 +1,54 @@
+.attacks {
+	flex: 1;
+	width: 100%;
+	border: 2px solid #000;
+	background: #202020;
+	margin: 8px;
+	min-height: 100px;
+}
+
+.attacks-title {
+	color: #666;
+	font-weight: bold;
+	font-variant: small-caps;
+	font-family: 'Libre Baskerville', serif;
+	text-align: center;
+	width: 100%;
+	margin: 4px 0;
+}
+
+.attack-header span {
+	color: #444;
+	display: inline-block;
+	text-transform: uppercase;
+	font-size: 9px;
+	font-weight: 700;
+	color: #999;
+}
+
+.attack {
+	color: #ccc;
+	position: relative;
+	cursor: pointer;
+}
+
+.attack-name {
+	width: 100px;
+}
+.attack-range {
+	width: 50px;
+}
+.attack-toHit {
+	width: 50px;
+}
+.attack-damage {
+	width: 80px;
+}
+.attack-notes {
+	width: 100px;
+}
+
+.attack {
+	display: flex;
+	flex-direction: row;
+}
