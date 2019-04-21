@@ -2,7 +2,8 @@ import { Character } from './Character';
 
 export interface Attack {
 	name: string;
-	toHit: number;
+	toHit?: number;
+	effect?: string;
 	type?: string;
 	ranged?: boolean;
 	diceCount?: number;
@@ -10,7 +11,7 @@ export interface Attack {
 	damageBonus?: number;
 	damageType?: string;
 	saveType?: string;
-	fixedSaveDC?: number;
+	saveDC?: number;
 	range?: number;
 	longRange?: number;
 	AoEType?: string;
@@ -72,6 +73,16 @@ export default class Rules {
 			toHit:
 				this.getAbilityModifier(character, 'dexterity') +
 				this.getProficiencyBonus(character)
+		});
+		attacks.push({
+			name: 'Goading Attack',
+			diceCount: 1,
+			diceType: 8,
+			damageType: 'additional',
+			saveType: 'wisdom',
+			saveDC: 10 + this.getAbilityModifier(character, 'strength'),
+			effect:
+				'On a failed save, the target has a disadvantage on all attack rolls against targets other than you until the end of your next turn.'
 		});
 		return attacks;
 	}

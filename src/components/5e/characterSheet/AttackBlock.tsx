@@ -29,19 +29,34 @@ export default class AttackBlock extends React.Component<Props, State> {
 
 		return (
 			<div className="attack" onClick={e => this.handleClick(e, 0)}>
-				<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
-					A
-				</div>
-				<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
-					D
-				</div>
+				{attack.toHit !== undefined && (
+					<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
+						A
+					</div>
+				)}
+				{attack.toHit !== undefined && (
+					<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
+						D
+					</div>
+				)}
 				<div className="attack-name">
 					<span>{attack.name}</span>
 				</div>
 				<div className="attack-range">{attack.range} ft.</div>
 				<div className="attack-toHit">
-					<div className="attack-toHit-symbol">{attack.toHit < 0 ? '-' : '+'}</div>
-					<div className="attack-toHit-number">{Math.abs(attack.toHit)}</div>
+					{attack.toHit !== undefined && (
+						<div>
+							<div className="attack-toHit-symbol">
+								{attack.toHit < 0 ? '-' : '+'}
+							</div>
+							<div className="attack-toHit-number">{Math.abs(attack.toHit)}</div>
+						</div>
+					)}
+					{attack.saveDC !== undefined && (
+						<div className="attack-toHit-number">
+							DC {attack.saveDC} {Rules.getShortAbilityName(attack.saveType)}
+						</div>
+					)}
 				</div>
 				<div className="attack-damage">
 					{attack.diceCount}d{attack.diceType}+{attack.damageBonus || 0}{' '}
@@ -57,6 +72,32 @@ export default class AttackBlock extends React.Component<Props, State> {
 
 	handleClick(e, advantage: number): void {
 		const attack = this.props.attack;
+		if (attack.toHit === undefined) {
+			const damageRoll = new DiceRoll(
+				`${attack.diceCount}d${attack.diceType}+${attack.damageBonus}`
+			);
+
+			const data: RollData = {
+				type: 'roll',
+				rollType: 'Attack',
+				rollName: attack.name,
+				roll1Total: attack.saveDC,
+				roll1Details: '',
+				rollSuffix: `DC ${Rules.getLongAbilityName(attack.saveType)} save`,
+				roll1CritFail: false,
+				roll1CritSuccess: false,
+				modifier: '0',
+
+				effect: attack.effect
+			};
+			data.damageRollTotal = damageRoll.total;
+			data.damageRollDetails = damageRoll.toString().match(/.*?: (.*?) =/)[1];
+			data.damageRollSuffix = attack.damageType;
+
+			this.props.sendMessage('', data);
+			return;
+		}
+
 		const modifier = attack.toHit;
 		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
 		const roll = new DiceRoll('d20' + modifierStr);
@@ -64,7 +105,7 @@ export default class AttackBlock extends React.Component<Props, State> {
 		const data: RollData = {
 			type: 'roll',
 			rollType: 'Attack',
-			rollName: `${attack.diceCount}d${attack.diceType} ${this.props.attack.name}`,
+			rollName: `${attack.diceCount}d${attack.diceType} ${attack.name}`,
 			rollSuffix: 'to hit',
 			modifier: modifierStr,
 			roll1Total: roll.total,
@@ -94,6 +135,7 @@ export default class AttackBlock extends React.Component<Props, State> {
 		data.damageRollTotal = damageRoll.total;
 		data.damageRollDetails = damageRoll.toString().match(/.*?: (.*?) =/)[1];
 		data.damageRollSuffix = attack.damageType;
+		data.effect = attack.effect;
 
 		this.props.sendMessage('', data);
 	}

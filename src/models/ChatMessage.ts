@@ -26,4 +26,5 @@ export interface RollData extends ChatMessageData {
 	damageRollTotal?: number;
 	damageRollDetails?: number;
 	damageRollSuffix?: string;
+	effect?: string;
 }
