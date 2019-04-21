@@ -1,19 +1,25 @@
 import * as PIXI from 'pixi.js';
 
-export interface Asset {
+export interface MapObject {
 	name: string;
 	imageUrl: string;
 	localTransform: PIXI.Matrix;
+	assetId?: string; // For linking to a global asset <optional>
+	svg?: string;
 }
 
-export interface Layer {
-	assets: object; // Key (Id) -> Asset
+export interface MapLayer {
+	mapObjects: object; // Key (Id) -> MapObject
 }
 
 export interface MapLayers {
-	dm: Layer;
-	background: Layer;
-	all: Layer;
+	background: MapLayer;
+	tokens: MapLayer;
+	foreground: MapLayer;
+	dm: MapLayer;
+	lighting: MapLayer;
+	Fx: MapLayer;
+	all: MapLayer;
 }
 
 export interface MapData {
@@ -21,5 +27,7 @@ export interface MapData {
 	name: string;
 	creator: string;
 	timestamp: string;
+	scale: number;
+	ordinal: number;
 	layers: MapLayers;
 }

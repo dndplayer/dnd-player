@@ -1,8 +1,7 @@
 import React, { Component, ReactNode } from 'react';
-import { Stage, Sprite, Text } from '@inlet/react-pixi';
+import { Stage, Sprite } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 
-import testImg from './test.png';
 import { MapData } from '../../models/Map';
 import DraggableSprite from './DraggableSprite';
 
@@ -23,13 +22,7 @@ interface Props {
 	mapData?: MapData;
 }
 
-interface State {
-	x: number;
-	y: number;
-	alpha: number;
-	dragging: boolean;
-	data: any;
-}
+interface State {}
 export default class Map extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
@@ -41,40 +34,10 @@ export default class Map extends Component<Props, State> {
 			dragging: false,
 			data: null
 		};
-
-		this.onDragStart = this.onDragStart.bind(this);
-		this.onDragEnd = this.onDragEnd.bind(this);
-		this.onDragMove = this.onDragMove.bind(this);
 	}
 
 	private sprite: any;
-	private stage: any;
-
-	onDragStart(e): void {
-		this.setState({
-			alpha: 0.5,
-			dragging: true,
-			data: e.data
-		});
-	}
-
-	onDragEnd(): void {
-		this.setState({
-			alpha: 1.0,
-			dragging: false,
-			data: null
-		});
-	}
-
-	onDragMove(): void {
-		if (this.state.dragging) {
-			const newPos = this.state.data.getLocalPosition(this.sprite.parent);
-			this.setState({
-				x: newPos.x,
-				y: newPos.y
-			});
-		}
-	}
+	private stage: PIXI.Container;
 
 	render(): ReactNode {
 		const style = new PIXI.TextStyle({
@@ -83,22 +46,13 @@ export default class Map extends Component<Props, State> {
 		return (
 			<div>
 				<Stage
-					ref={cmpt => (this.stage = cmpt)}
+					ref={cmpt => (this.stage = cmpt as any)}
 					width={window.innerWidth}
 					height={window.innerHeight}
 				>
 					<DraggableSprite
 						ref={cmpt => (this.sprite = cmpt)}
 						image="https://firebasestorage.googleapis.com/v0/b/dnd-player-a7776.appspot.com/o/uploads%2Fa240f2d0-622a-4a5a-bb96-b512a08c1317?alt=media&token=bae496e7-8ea7-4a1c-a502-301aeb99f8da"
-						x={this.state.x}
-						y={this.state.y}
-						// anchor={0.5}
-						// interactive={true}
-						// buttonMode={true}
-						// mousedown={this.onDragStart}
-						// mouseup={this.onDragEnd}
-						// mouseupoutside={this.onDragEnd}
-						// mousemove={this.onDragMove}
 					/>
 				</Stage>
 			</div>

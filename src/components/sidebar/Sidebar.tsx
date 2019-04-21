@@ -3,9 +3,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import ChatContainer from '../chat/ChatContainer';
-import ImageUploaderContainer from '../imageUploader/ImageUploaderContainer';
+import ImageUploaderContainer from './panels/imageUploader/ImageUploaderContainer';
 import AssetListContainer from '../assets/AssetListContainer';
 import CreateAssetContainer from '../assets/CreateAssetContainer';
+import SettingsContainer from '../settings/SettingsContainer';
 
 export default class Sidebar extends Component {
 	state = {
@@ -21,21 +22,22 @@ export default class Sidebar extends Component {
 		return (
 			<div>
 				<AppBar position="static">
-					<Tabs value={value} onChange={this.handleChange}>
+					<Tabs variant="scrollable" value={value} onChange={this.handleChange}>
+						<Tab label="Chat" />
 						<Tab label="Upload" />
 						<Tab label="Assets" />
-						<Tab label="Chat" />
+						<Tab label="Settings" />
 					</Tabs>
 				</AppBar>
-				{value === 0 && (
+				{value === 0 && <ChatContainer />}
+				{value === 1 && <ImageUploaderContainer />}
+				{value === 2 && (
 					<div>
-						<ImageUploaderContainer />
-						{/* <AssetListContainer /> */}
 						<CreateAssetContainer />
+						<AssetListContainer />
 					</div>
 				)}
-				{value === 1 && <AssetListContainer />}
-				{value === 2 && <ChatContainer />}
+				{value === 3 && <SettingsContainer />}
 			</div>
 		);
 	}

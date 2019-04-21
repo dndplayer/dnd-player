@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { sendFile } from '../../redux/actions/storage';
+import { sendFile } from '../../../../redux/actions/storage';
 import ImageUploader from './ImageUploader';
 
 interface StateProps {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ReactNode } from 'react';
 import uuidv4 from 'uuid/v4';
 
 import styles from './ImageUploader.module.css';
@@ -44,7 +44,7 @@ export default class ImageUploader extends Component<Props, State> {
 		this.props.onUpload(this.state.uploadName, this.state.file, filePath);
 	}
 
-	render() {
+	render(): ReactNode {
 		return (
 			<div className={styles.wrapper}>
 				<div>

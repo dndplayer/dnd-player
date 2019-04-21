@@ -2,9 +2,6 @@ import React, { ReactNode, ReactElement } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-// import firebase from 'firebase/app';
-// import 'firebase/firestore';
-// import FirebaseConfig from '../../firebase-config.json';
 import { DiceRoll } from 'rpg-dice-roller';
 
 import styles from './Chat.module.css';
@@ -26,27 +23,26 @@ interface State {
 	messages: ChatMessage[];
 }
 export default class Chat extends React.Component<Props, State> {
-	constructor(props: Props) {
-		super(props);
-
-		this.state = {
-			msg: '',
-			messages: []
-		};
-
-		this.handleKeyDown = this.handleKeyDown.bind(this);
-		this.handleMsgChange = this.handleMsgChange.bind(this);
-		this.sendMessage = this.sendMessage.bind(this);
-	}
+	state = {
+		msg: '',
+		messages: []
+	};
 
 	private scrollDiv: HTMLElement;
 
 	componentDidUpdate(): void {
+		this.scrollToBottomOfChat();
+	}
+
+	componentDidMount(): void {
+		this.scrollToBottomOfChat();
+	}
+
+	scrollToBottomOfChat = (): void => {
 		if (this.scrollDiv) {
-			// this.scrollDiv.scrollIntoView({ behavior: 'smooth' });
 			this.scrollDiv.scrollTop = this.scrollDiv.scrollHeight;
 		}
-	}
+	};
 
 	render(): ReactNode {
 		const { messages } = this.props;
@@ -106,11 +102,11 @@ export default class Chat extends React.Component<Props, State> {
 		);
 	}
 
-	handleMsgChange(e): void {
+	handleMsgChange = (e): void => {
 		this.setState({ msg: e.target.value });
-	}
+	};
 
-	handleKeyDown(e): void {
+	handleKeyDown = (e): void => {
 		if (e.key === 'Enter') {
 			if (this.state.msg.match(/^\d*?d(\d+|%)/)) {
 				const roll = new DiceRoll(this.state.msg);
@@ -130,9 +126,9 @@ export default class Chat extends React.Component<Props, State> {
 			}
 			this.setState({ msg: '' });
 		}
-	}
+	};
 
-	sendMessage(msg: string): void {
+	sendMessage = (msg: string): void => {
 		this.props.sendMessage(msg);
-	}
+	};
 }

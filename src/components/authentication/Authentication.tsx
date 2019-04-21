@@ -55,13 +55,7 @@ class Authentication extends PureComponent<Props, State> {
 		const { loggedIn, logout } = this.props;
 
 		if (loggedIn) {
-			return (
-				<div className={styles.wrapper}>
-					<Button variant="contained" color="primary" onClick={() => logout()}>
-						Logout
-					</Button>
-				</div>
-			);
+			return <div />;
 		}
 
 		return (
