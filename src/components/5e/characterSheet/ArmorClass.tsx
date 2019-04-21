@@ -8,7 +8,7 @@ interface Props {
 }
 interface State {}
 
-export default class AC extends React.Component<Props, State> {
+export default class ArmorClass extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
