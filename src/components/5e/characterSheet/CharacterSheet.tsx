@@ -21,6 +21,8 @@ import Attacks from './Attacks';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
+	closeCharacterSheet: (characterid: string) => void;
+	character: Character;
 }
 interface State {}
 
@@ -36,48 +38,13 @@ export default class CharacterSheet extends React.Component<Props, State> {
 	// private cleanup: () => void;
 
 	render(): ReactNode {
-		const {} = this.props;
-
-		const character: Character = {
-			name: 'Garrick Crownguard',
-			size: 'M',
-			strength: 25,
-			dexterity: 12,
-			constitution: 18,
-			intelligence: 9,
-			wisdom: 12,
-			charisma: 12,
-			ac: 19,
-			hp: 41,
-			maxHp: 87,
-			hitDice: 8,
-			speed: {
-				walk: 30,
-				climb: 0,
-				fly: 0
-			},
-			proficiencies: {
-				saves: {
-					strength: 1,
-					constitution: 1
-				},
-				skills: {
-					athletics: 2,
-					insight: 1,
-					intimidation: 1,
-					perception: 1
-				}
-			},
-			levels: [
-				{
-					className: 'Fighter',
-					level: 8
-				}
-			]
-		};
+		const { character } = this.props;
 
 		return (
 			<div className="column character-sheet">
+				<div className="character-close" onClick={e => this.closeSheet()}>
+					X
+				</div>
 				<div className="row character-details">
 					<div className="character-name">{character.name}</div>
 					<div className="character-classes">
@@ -256,4 +223,8 @@ export default class CharacterSheet extends React.Component<Props, State> {
 
 	componentDidMount(): void {}
 	componentWillUnmount(): void {}
+
+	closeSheet(): void {
+		this.props.closeCharacterSheet(this.props.character.id);
+	}
 }

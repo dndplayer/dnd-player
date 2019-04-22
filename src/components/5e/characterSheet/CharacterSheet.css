@@ -9,7 +9,23 @@
 }
 
 .character-sheet {
+	background: #202020;
 	width: 1000px;
+	position: absolute;
+	top: 10vh;
+	left: 10vh;
+}
+.character-close {
+	background: red;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 30px;
+	height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
 }
 .character-details {
 	display: flex;
