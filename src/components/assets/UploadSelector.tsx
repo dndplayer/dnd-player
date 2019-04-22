@@ -20,6 +20,7 @@ const styles = (theme): any => ({
 interface Props {
 	classes: any;
 	options: Upload[];
+	onChange: (uploadId: string) => void;
 }
 
 interface State {
@@ -32,6 +33,9 @@ class UploadSelector extends Component<Props, State> {
 	};
 	handleChange = (event): void => {
 		this.setState({ current: event.target.value });
+		if (this.props.onChange) {
+			this.props.onChange(event.target.value);
+		}
 	};
 	render(): ReactNode {
 		const { classes, options } = this.props;

@@ -9,6 +9,7 @@ import ImageUploader from './sidebar/panels/imageUploader/ImageUploader';
 import ImageUploaderContainer from './sidebar/panels/imageUploader/ImageUploaderContainer';
 import Authentication from './authentication/Authentication';
 import Sidebar from './sidebar/Sidebar';
+import ToolbarContainer from './toolbar/ToolbarContainer';
 
 class App extends Component<{}> {
 	render(): ReactNode {
@@ -20,15 +21,20 @@ class App extends Component<{}> {
 						path="/"
 						render={() => (
 							<div>
-								<div>
-									<Map updateSpriteLocation={() => {}} />
-								</div>
+								<Map updateSpriteLocation={() => {}} />
+								<ToolbarContainer
+									style={{
+										position: 'fixed',
+										bottom: '0',
+										left: '35%',
+										transform: 'translate(-50%, 0%)'
+									}}
+								/>
 								<div>
 									<CharacterSheetContainer />
 								</div>
 								<div className={styles.chatWrapper}>
 									<Sidebar />
-									{/* <ChatContainer /> */}
 								</div>
 							</div>
 						)}

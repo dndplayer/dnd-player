@@ -1,7 +1,8 @@
 enum AssetType {
 	Unknown = 0,
 	Character,
-	Npc
+	Npc,
+	Misc
 }
 
 /**
@@ -12,7 +13,7 @@ enum AssetType {
  * no global state e.g. foliage / terrain on the map.
  */
 export interface Asset {
-	id: string;
+	id?: string;
 	imageUrl: string;
 	type: AssetType;
 }
