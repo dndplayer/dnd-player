@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from 'react';
+import React, { Component, ReactNode, ReactElement } from 'react';
 import { Switch, Route } from 'react-router';
 import styles from './App.module.css';
 
@@ -20,7 +20,7 @@ class App extends Component<{}> {
 					<Route
 						exact
 						path="/"
-						render={() => (
+						render={(): ReactElement => (
 							<div>
 								<MapContainer />
 								<ToolbarContainer
@@ -43,8 +43,8 @@ class App extends Component<{}> {
 							</div>
 						)}
 					/>
-					<Route path="/upload" render={() => <ImageUploaderContainer />} />
-					<Route path="/login" render={() => <Authentication />} />
+					<Route path="/upload" render={(): ReactElement => <ImageUploaderContainer />} />
+					<Route path="/login" render={(): ReactElement => <Authentication />} />
 				</Switch>
 			</div>
 		);
