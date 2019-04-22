@@ -4149,7 +4149,7 @@ eventemitter3@^2.0.0:
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-2.0.3.tgz#b5e1079b59fb5e1ba2771c0a993be060a58c99ba"
   integrity sha1-teEHm1n7XhuidxwKmTvgYKWMmbo=
 
-eventemitter3@^3.0.0:
+eventemitter3@^3.0.0, eventemitter3@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.0.tgz#090b4d6cdbd645ed10bf750d4b5407942d7ba163"
   integrity sha512-ivIvhpq/Y0uSjcHDcOIccjmYjGLcP09MFGE7ysAwkAvkXfpZlC985pH2/ui64DKazbTW/4kN3yqozUxlXzI6cA==
@@ -8000,6 +8000,11 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+penner@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/penner/-/penner-0.1.3.tgz#0b8b482d4e9b39af2f3d7c37592229b8acc29705"
+  integrity sha1-C4tILU6bOa8vPXw3WSIpuKzClwU=
+
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
@@ -8036,6 +8041,14 @@ pixi-gl-core@^1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/pixi-gl-core/-/pixi-gl-core-1.1.4.tgz#8b4b5c433b31e419bc379dc565ce1b835a91b372"
   integrity sha1-i0tcQzsx5Bm8N53FZc4bg1qRs3I=
+
+pixi-viewport@^3.23.0:
+  version "3.23.0"
+  resolved "https://registry.yarnpkg.com/pixi-viewport/-/pixi-viewport-3.23.0.tgz#cc529406037cc20394164b9ebf7c8e49c9460b65"
+  integrity sha512-LuVt6zPgI5OmqCuM1AWL0R90oahhmoXoyQMvZp7DkEUcmn/gZF8Otvk8DICveSgTge4QPpFRSP+2C+kiK+3/mQ==
+  dependencies:
+    eventemitter3 "^3.1.0"
+    penner "^0.1.3"
 
 pixi.js@^4.8.7:
   version "4.8.7"

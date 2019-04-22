@@ -1,6 +1,7 @@
 import React, { Component, ReactNode } from 'react';
 import { Stage, Sprite, Container } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
+import Viewport from 'pixi-viewport';
 
 import { MapData } from '../../models/Map';
 import DraggableSprite from './DraggableSprite';
@@ -34,7 +35,31 @@ export default class Map extends Component<Props, State> {
 	};
 
 	private sprite: any;
+	private app: any;
 	private root: PIXI.Container;
+
+	onMapMount = (app: PIXI.Application): void => {
+		const viewport = new Viewport({
+			screenWidth: window.innerWidth,
+			screenHeight: window.innerHeight,
+			worldWidth: 1000,
+			worldHeight: 1000,
+			interaction: app.renderer.plugins.interaction
+		});
+
+		app.stage.addChild(viewport);
+
+		viewport
+			.drag()
+			.pinch()
+			.wheel()
+			.decelerate();
+
+		var sprite = viewport.addChild(new PIXI.Sprite(PIXI.Texture.WHITE));
+		sprite.tint = 0xff0000;
+		sprite.width = sprite.height = 100;
+		sprite.position.set(100, 100);
+	};
 
 	render(): ReactNode {
 		const style = new PIXI.TextStyle({
@@ -42,13 +67,17 @@ export default class Map extends Component<Props, State> {
 		});
 		return (
 			<div>
-				<Stage width={window.innerWidth} height={window.innerHeight}>
-					<Container ref={cmpt => (this.root = cmpt as any)} scale={this.props.zoom || 1}>
+				<Stage
+					onMount={this.onMapMount}
+					width={window.innerWidth}
+					height={window.innerHeight}
+				>
+					{/* <Container ref={cmpt => (this.root = cmpt as any)} scale={this.props.zoom || 1}>
 						<DraggableSprite
 							ref={cmpt => (this.sprite = cmpt)}
 							image="https://firebasestorage.googleapis.com/v0/b/dnd-player-a7776.appspot.com/o/uploads%2Fa240f2d0-622a-4a5a-bb96-b512a08c1317?alt=media&token=bae496e7-8ea7-4a1c-a502-301aeb99f8da"
 						/>
-					</Container>
+					</Container> */}
 				</Stage>
 			</div>
 		);
