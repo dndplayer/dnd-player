@@ -3,13 +3,14 @@ import { Switch, Route } from 'react-router';
 import styles from './App.module.css';
 
 import ChatContainer from './chat/ChatContainer';
-import Map from './map/Map';
 import CharacterSheetContainer from './5e/characterSheet/CharacterSheetContainer';
 import ImageUploader from './sidebar/panels/imageUploader/ImageUploader';
 import ImageUploaderContainer from './sidebar/panels/imageUploader/ImageUploaderContainer';
 import Authentication from './authentication/Authentication';
 import Sidebar from './sidebar/Sidebar';
 import ToolbarContainer from './toolbar/ToolbarContainer';
+import ViewControlsContainer from './toolbar/ViewControlsContainer';
+import MapContainer from './map/MapContainer';
 
 class App extends Component<{}> {
 	render(): ReactNode {
@@ -21,7 +22,7 @@ class App extends Component<{}> {
 						path="/"
 						render={() => (
 							<div>
-								<Map updateSpriteLocation={() => {}} />
+								<MapContainer />
 								<ToolbarContainer
 									style={{
 										position: 'fixed',
@@ -29,6 +30,9 @@ class App extends Component<{}> {
 										left: '35%',
 										transform: 'translate(-50%, 0%)'
 									}}
+								/>
+								<ViewControlsContainer
+									style={{ position: 'fixed', right: '25vw', top: '10vh' }}
 								/>
 								<div>
 									<CharacterSheetContainer />

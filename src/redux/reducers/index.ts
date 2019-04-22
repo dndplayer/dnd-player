@@ -6,6 +6,7 @@ import AuthReducer from './auth';
 import StorageReducer from './storage';
 import ImageReducer from './images';
 import AssetReducer from './assets';
+import MapReducer from './map';
 
 export default history =>
 	combineReducers({
@@ -14,5 +15,6 @@ export default history =>
 		auth: AuthReducer,
 		storage: StorageReducer,
 		images: ImageReducer,
-		assets: AssetReducer
+		assets: AssetReducer,
+		map: MapReducer
 	});
