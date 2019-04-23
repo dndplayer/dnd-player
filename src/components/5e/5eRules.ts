@@ -2,27 +2,43 @@ import { Character } from './Character';
 
 export interface Attack {
 	name: string;
-	toHit?: number;
-	effect?: string;
-	type?: string;
-	ranged?: boolean;
-	diceCount?: number;
-	diceType?: number;
-	damageBonus?: number;
-	damageType?: string;
-	saveType?: string;
-	saveDC?: number;
-	range?: number;
+	range: number;
 	longRange?: number;
-	AoEType?: string;
-	AoESize?: number;
-	activationType?: string;
-	activationTime?: number;
-	affectedByMartialArts?: boolean;
-	proficient?: boolean;
-	dualWield?: boolean;
-	silvered?: boolean;
+	effects: AttackEffect[];
+}
+
+export interface AttackEffect {
+	type: AttackEffectType;
+}
+
+export enum AttackEffectType {
+	ToHit,
+	Damage,
+	SavingThrow,
+	Text
+}
+
+export interface ToHitAttackEffect extends AttackEffect {
+	modifier: number;
 	critRange?: number;
+}
+
+export interface DamageAttackEffect extends AttackEffect {
+	damageType: string;
+	diceCount: number;
+	diceType: number;
+	bonus?: number;
+}
+
+export interface SavingThrowAttackEffect extends AttackEffect {
+	saveType: string;
+	saveDC: number;
+	onPassSave: AttackEffect;
+	onFailSave: AttackEffect;
+}
+
+export interface TextAttackEffect extends AttackEffect {
+	text: string;
 }
 
 export default class Rules {
@@ -47,20 +63,28 @@ export default class Rules {
 	}
 
 	public static getAttacks(character: Character): Attack[] {
-		const attacks = [];
+		const attacks: Attack[] = [];
 		attacks.push({
 			name: 'Longsword',
 			range: 5,
-			diceCount: 1,
-			diceType: 8,
-			damageBonus: this.getAbilityModifier(character, 'strength'),
-			damageType: 'slashing',
-			critRange: 20,
-			proficient: true,
-			toHit:
-				this.getAbilityModifier(character, 'strength') + this.getProficiencyBonus(character)
+			effects: [
+				{
+					type: AttackEffectType.ToHit,
+					modifier:
+						this.getAbilityModifier(character, 'strength') +
+						this.getProficiencyBonus(character),
+					critRange: 20
+				} as ToHitAttackEffect,
+				{
+					type: AttackEffectType.Damage,
+					damageType: 'slashing',
+					diceCount: 1,
+					diceType: 8,
+					bonus: this.getAbilityModifier(character, 'strength')
+				} as DamageAttackEffect
+			]
 		});
-		attacks.push({
+		/*attacks.push({
 			name: 'Light Crossbow',
 			range: 80,
 			longRange: 320,
@@ -83,7 +107,7 @@ export default class Rules {
 			saveDC: 10 + this.getAbilityModifier(character, 'strength'),
 			effect:
 				'On a failed save, the target has a disadvantage on all attack rolls against targets other than you until the end of your next turn.'
-		});
+		});*/
 		return attacks;
 	}
 

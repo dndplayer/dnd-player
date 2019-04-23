@@ -10,6 +10,7 @@ import ChatMessageItem from './ChatMessageItem';
 import RollMessageItem from './RollMessageItem';
 import { ChatMessage, ChatMessageData, RollData } from '../../models/ChatMessage.js';
 import Authentication from '../authentication/Authentication';
+import CharacterAction from './characterActions/CharacterAction';
 
 interface Props {
 	messages: ChatMessage[];
@@ -72,6 +73,8 @@ export default class Chat extends React.Component<Props, State> {
 										switch (x.data && x.data.type) {
 											case 'roll':
 												return <RollMessageItem message={x} key={idx} />;
+											case 'action':
+												return <CharacterAction message={x} key={idx} />;
 											default:
 												return (
 													<ChatMessageItem

@@ -1,9 +1,14 @@
 import React, { ReactNode, ReactElement } from 'react';
 
 import './CharacterSheet.css';
-import { Attack } from '../5eRules';
-import Rules from '../5eRules';
-import { RollData, ChatMessageData } from '../../../models/ChatMessage';
+import { Attack, AttackEffectType, ToHitAttackEffect, DamageAttackEffect } from '../5eRules';
+import {
+	ChatMessageData,
+	CharacterActionData,
+	CharacterActionResultType,
+	CharacterActionDiceRollResult,
+	AdvantageType
+} from '../../../models/ChatMessage';
 import { DiceRoll } from 'rpg-dice-roller';
 
 interface Props {
@@ -26,15 +31,21 @@ export default class AttackBlock extends React.Component<Props, State> {
 
 	render(): ReactNode {
 		const { attack } = this.props;
+		const toHitEffect: ToHitAttackEffect = attack.effects.filter(
+			x => x.type === AttackEffectType.ToHit
+		)[0] as ToHitAttackEffect;
+		const damageEffect: DamageAttackEffect = attack.effects.filter(
+			x => x.type === AttackEffectType.Damage
+		)[0] as DamageAttackEffect;
 
 		return (
 			<div className="attack" onClick={e => this.handleClick(e, 0)}>
-				{attack.toHit !== undefined && (
+				{toHitEffect && (
 					<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
 						A
 					</div>
 				)}
-				{attack.toHit !== undefined && (
+				{toHitEffect !== undefined && (
 					<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
 						D
 					</div>
@@ -44,23 +55,25 @@ export default class AttackBlock extends React.Component<Props, State> {
 				</div>
 				<div className="attack-range">{attack.range} ft.</div>
 				<div className="attack-toHit">
-					{attack.toHit !== undefined && (
+					{toHitEffect && (
 						<div>
 							<div className="attack-toHit-symbol">
-								{attack.toHit < 0 ? '-' : '+'}
+								{toHitEffect.modifier < 0 ? '-' : '+'}
 							</div>
-							<div className="attack-toHit-number">{Math.abs(attack.toHit)}</div>
+							<div className="attack-toHit-number">
+								{Math.abs(toHitEffect.modifier)}
+							</div>
 						</div>
 					)}
-					{attack.saveDC !== undefined && (
+					{/*attack.saveDC !== undefined && (
 						<div className="attack-toHit-number">
 							DC {attack.saveDC} {Rules.getShortAbilityName(attack.saveType)}
 						</div>
-					)}
+					)*/}
 				</div>
 				<div className="attack-damage">
-					{attack.diceCount}d{attack.diceType}+{attack.damageBonus || 0}{' '}
-					{attack.damageType}
+					{damageEffect.diceCount}d{damageEffect.diceType}+{damageEffect.bonus || 0}{' '}
+					{damageEffect.damageType}
 				</div>
 				<div className="attack-notes">Notes</div>
 			</div>
@@ -72,70 +85,99 @@ export default class AttackBlock extends React.Component<Props, State> {
 
 	handleClick(e, advantage: number): void {
 		const attack = this.props.attack;
-		if (attack.toHit === undefined) {
-			const damageRoll = new DiceRoll(
-				`${attack.diceCount}d${attack.diceType}+${attack.damageBonus}`
-			);
+		let crit = false;
 
-			const data: RollData = {
-				type: 'roll',
-				rollType: 'Attack',
-				rollName: attack.name,
-				roll1Total: attack.saveDC,
-				roll1Details: '',
-				rollSuffix: `DC ${Rules.getLongAbilityName(attack.saveType)} save`,
-				roll1CritFail: false,
-				roll1CritSuccess: false,
-				modifier: '0',
-
-				effect: attack.effect
-			};
-			data.damageRollTotal = damageRoll.total;
-			data.damageRollDetails = damageRoll.toString().match(/.*?: (.*?) =/)[1];
-			data.damageRollSuffix = attack.damageType;
-
-			this.props.sendMessage('', data);
-			return;
-		}
-
-		const modifier = attack.toHit;
-		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
-		const roll = new DiceRoll('d20' + modifierStr);
-
-		const data: RollData = {
-			type: 'roll',
-			rollType: 'Attack',
-			rollName: `${attack.diceCount}d${attack.diceType} ${attack.name}`,
-			rollSuffix: 'to hit',
-			modifier: modifierStr,
-			roll1Total: roll.total,
-			roll1Details: roll.toString().match(/.*?: (.*?) =/)[1],
-			roll1CritSuccess: roll.rolls[0][0] === (attack.critRange || 20),
-			roll1CritFail: roll.rolls[0][0] === 1
+		const data: CharacterActionData = {
+			type: 'action',
+			title: attack.name,
+			results: []
 		};
 
-		if (advantage) {
-			const roll2 = new DiceRoll('d20' + modifierStr);
-			data.rollAdvantageType = advantage;
-			data.roll2Total = roll2.total;
-			data.roll2Details = roll2.toString().match(/.*?: (.*?) =/)[1];
-			data.roll2CritSuccess = roll2.rolls[0][0] === (attack.critRange || 20);
-			data.roll2CritFail = roll2.rolls[0][0] === 1;
-			e.stopPropagation();
+		for (const effect of attack.effects) {
+			switch (effect.type) {
+				case AttackEffectType.ToHit:
+					const toHitEffect = effect as ToHitAttackEffect;
+					const modifierStr =
+						(toHitEffect.modifier < 0 ? '' : '+') + toHitEffect.modifier;
+					const result: CharacterActionDiceRollResult = {
+						advantage: advantage,
+						modifier: toHitEffect.modifier,
+						type: CharacterActionResultType.DiceRoll,
+						rolls: []
+					};
+
+					const roll1 = new DiceRoll('d20' + modifierStr);
+					const roll1Details = roll1.toString().match(/.*?: (.*?) =/)[1];
+					const roll1CritSuccess = roll1.rolls[0][0] === (toHitEffect.critRange || 20);
+					const roll1CritFail = roll1.rolls[0][0] === 1;
+
+					let roll2: DiceRoll;
+					let roll2Details: string;
+					let roll2CritSuccess: boolean;
+					let roll2CritFail: boolean;
+					if (advantage) {
+						roll2 = new DiceRoll('d20' + modifierStr);
+						roll2Details = roll2.toString().match(/.*?: (.*?) =/)[1];
+						roll2CritSuccess = roll2.rolls[0][0] === (toHitEffect.critRange || 20);
+						roll2CritFail = roll2.rolls[0][0] === 1;
+					}
+
+					crit =
+						advantage >= 0
+							? roll1CritSuccess || roll2CritSuccess
+							: roll1CritSuccess && roll2CritSuccess;
+
+					result.rolls.push({
+						total: roll1.total,
+						critFail: roll1CritFail,
+						critSuccess: roll1CritSuccess,
+						details: roll1Details,
+						ignore:
+							(roll2 || false) &&
+							((advantage > 0 && roll1.total < roll2.total) ||
+								roll1.total > roll2.total)
+					});
+					if (roll2) {
+						result.rolls.push({
+							total: roll2.total,
+							critFail: roll2CritFail,
+							critSuccess: roll2CritSuccess,
+							details: roll2Details,
+							ignore:
+								(advantage > 0 && roll1.total >= roll2.total) ||
+								roll1.total <= roll2.total
+						});
+					}
+					data.results.push(result);
+					break;
+				case AttackEffectType.Damage:
+					const damageEffect = effect as DamageAttackEffect;
+					const damageRoll = new DiceRoll(
+						`${damageEffect.diceCount * (crit ? 2 : 1)}d${
+							damageEffect.diceType
+						}+${damageEffect.bonus || 0}`
+					);
+					const result2: CharacterActionDiceRollResult = {
+						advantage: AdvantageType.None,
+						modifier: damageEffect.bonus,
+						type: CharacterActionResultType.DiceRoll,
+						rolls: []
+					};
+
+					const damageRollDetails = damageRoll.toString().match(/.*?: (.*?) =/)[1];
+					result2.rolls.push({
+						critFail: false,
+						critSuccess: false,
+						details: damageRollDetails,
+						ignore: false,
+						total: damageRoll.total
+					});
+					data.results.push(result2);
+					break;
+				default:
+					throw new Error(`Unexpected attack effect ${effect.type}.`);
+			}
 		}
-
-		const crit =
-			advantage >= 0
-				? data.roll1CritSuccess || data.roll2CritSuccess
-				: data.roll1CritSuccess && data.roll2CritSuccess;
-
-		const damageRoll = new DiceRoll(
-			`${attack.diceCount * (crit ? 2 : 1)}d${attack.diceType}+${attack.damageBonus}`
-		);
-		data.damageRollTotal = damageRoll.total;
-		data.damageRollDetails = damageRoll.toString().match(/.*?: (.*?) =/)[1];
-		data.damageRollSuffix = attack.damageType;
-		data.effect = attack.effect;
 
 		this.props.sendMessage('', data);
 	}

@@ -90,22 +90,6 @@ export default class RollMessageItem extends React.Component<Props> {
 						</div>
 					)}
 				</div>
-				{data.damageRollDetails && (
-					<div className="roll-damage">
-						<span className="summary">
-							<span className="roll-total">{data.damageRollTotal}</span>
-							<span className="roll-suffix">{data.damageRollSuffix}</span>
-						</span>
-						<span className="details">{data.damageRollDetails}</span>
-					</div>
-				)}
-				{data.effect && (
-					<div className="roll-effect">
-						<span className="summary">
-							<span>{data.effect}</span>
-						</span>
-					</div>
-				)}
 			</div>
 		);
 	}

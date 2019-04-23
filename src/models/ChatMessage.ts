@@ -9,6 +9,44 @@ export interface ChatMessageData {
 	type: string;
 }
 
+export interface CharacterActionData extends ChatMessageData {
+	title: string;
+	results: CharacterActionResult[];
+}
+
+export enum CharacterActionResultType {
+	Text,
+	DiceRoll
+}
+
+export interface CharacterActionResult {
+	type: CharacterActionResultType;
+}
+
+export interface CharacterActionTextResult extends CharacterActionResult {
+	text: string;
+}
+
+export interface CharacterActionDiceRollResult extends CharacterActionResult {
+	rolls: CharacterActionDiceRollResultRoll[];
+	advantage: AdvantageType;
+	modifier: number;
+}
+
+export enum AdvantageType {
+	Disadvantage = -1,
+	None = 0,
+	Advantage = 1
+}
+
+export interface CharacterActionDiceRollResultRoll {
+	total: number;
+	details: string;
+	critSuccess: boolean;
+	critFail: boolean;
+	ignore: boolean;
+}
+
 export interface RollData extends ChatMessageData {
 	rollType: string;
 	rollName: string;
@@ -23,8 +61,4 @@ export interface RollData extends ChatMessageData {
 	roll2Details?: string;
 	roll2CritSuccess?: boolean;
 	roll2CritFail?: boolean;
-	damageRollTotal?: number;
-	damageRollDetails?: number;
-	damageRollSuffix?: string;
-	effect?: string;
 }
