@@ -40,17 +40,24 @@ export default class Map extends Component<Props, State> {
 
 	onMapMount = (app: PIXI.Application): void => {
 		const viewport = new Viewport({
-			screenWidth: window.innerWidth,
+			screenWidth: window.innerWidth * 0.75,
 			screenHeight: window.innerHeight,
 			worldWidth: 1000,
 			worldHeight: 1000,
 			interaction: app.renderer.plugins.interaction
 		});
 
+		app.renderer.autoResize = true;
+		app.renderer.view.style.position = 'absolute';
+		app.renderer.view.style.display = 'block';
+		app.renderer.resize(window.innerWidth * 0.75, window.innerHeight);
+
 		app.stage.addChild(viewport);
 
 		viewport
-			.drag()
+			.drag({
+				mouseButtons: 'right'
+			})
 			.pinch()
 			.wheel()
 			.decelerate();
@@ -63,7 +70,32 @@ export default class Map extends Component<Props, State> {
 		);
 		// sprite.tint = 0xff0000;
 		sprite.width = sprite.height = 100;
+		sprite.anchor.set(0.5, 0.5);
 		sprite.position.set(100, 100);
+		sprite.interactive = true;
+		sprite.cursor = 'pointer';
+		sprite.on('mousedown', this.onDragStart);
+		sprite.on('mousemove', this.onDragMove);
+		sprite.on('mouseup', this.onDragEnd);
+		sprite.on('mouseupoutside', this.onDragEnd);
+		sprite.on(
+			'mouseover',
+			(event: PIXI.interaction.InteractionEvent): void => {
+				const x = event.currentTarget as PIXI.Sprite;
+				if (x) {
+					x.tint = 0xff0000;
+				}
+			}
+		);
+		sprite.on(
+			'mouseout',
+			(event: PIXI.interaction.InteractionEvent): void => {
+				const x = event.currentTarget as PIXI.Sprite;
+				if (x) {
+					x.tint = 0xffffff;
+				}
+			}
+		);
 
 		var s2 = viewport.addChild(
 			PIXI.Sprite.fromImage(
@@ -72,25 +104,43 @@ export default class Map extends Component<Props, State> {
 		);
 		s2.width = s2.height = 150;
 		s2.position.set(350, 400);
+		s2.anchor.set(0.5, 0.5);
+		s2.interactive = true;
+		s2.cursor = 'pointer';
+	};
+
+	onDragStart = (e: PIXI.interaction.InteractionEvent): void => {
+		const inst = e.currentTarget;
+		inst.alpha = 0.5;
+		(inst as any).dragging = true;
+		(inst as any).data = e.data;
+	};
+
+	onDragEnd = (e: PIXI.interaction.InteractionEvent): void => {
+		const inst = e.currentTarget;
+		inst.alpha = 1.0;
+		(inst as any).dragging = false;
+		(inst as any).data = null;
+	};
+
+	onDragMove = (e: PIXI.interaction.InteractionEvent): void => {
+		const inst = e.currentTarget;
+		if ((inst as any).dragging) {
+			const newPos = (inst as any).data.getLocalPosition(e.currentTarget.parent);
+			inst.x = newPos.x;
+			inst.y = newPos.y;
+		}
 	};
 
 	render(): ReactNode {
-		const style = new PIXI.TextStyle({
-			fill: '#fff'
-		});
 		return (
 			<div>
 				<Stage
 					onMount={this.onMapMount}
-					width={window.innerWidth}
+					width={window.innerWidth * 0.75}
 					height={window.innerHeight}
 				>
-					{/* <Container ref={cmpt => (this.root = cmpt as any)} scale={this.props.zoom || 1}>
-						<DraggableSprite
-							ref={cmpt => (this.sprite = cmpt)}
-							image="https://firebasestorage.googleapis.com/v0/b/dnd-player-a7776.appspot.com/o/uploads%2Fa240f2d0-622a-4a5a-bb96-b512a08c1317?alt=media&token=bae496e7-8ea7-4a1c-a502-301aeb99f8da"
-						/>
-					</Container> */}
+					{/* <DraggableSprite image="https://firebasestorage.googleapis.com/v0/b/dnd-player-a7776.appspot.com/o/uploads%2Fa240f2d0-622a-4a5a-bb96-b512a08c1317?alt=media&token=bae496e7-8ea7-4a1c-a502-301aeb99f8da" /> */}
 				</Stage>
 			</div>
 		);
