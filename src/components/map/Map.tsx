@@ -55,10 +55,23 @@ export default class Map extends Component<Props, State> {
 			.wheel()
 			.decelerate();
 
-		var sprite = viewport.addChild(new PIXI.Sprite(PIXI.Texture.WHITE));
-		sprite.tint = 0xff0000;
+		// var sprite = viewport.addChild(new PIXI.Sprite(PIXI.Texture.WHITE));
+		var sprite = viewport.addChild(
+			PIXI.Sprite.fromImage(
+				'https://firebasestorage.googleapis.com/v0/b/dnd-player-a7776.appspot.com/o/uploads%2F5e9a7b59-678a-477c-a18b-4739c9cb197a?alt=media&token=73ec57e9-87e2-44ca-9b08-4243d584cd91'
+			)
+		);
+		// sprite.tint = 0xff0000;
 		sprite.width = sprite.height = 100;
 		sprite.position.set(100, 100);
+
+		var s2 = viewport.addChild(
+			PIXI.Sprite.fromImage(
+				'https://firebasestorage.googleapis.com/v0/b/dnd-player-a7776.appspot.com/o/uploads%2F8b58cc32-ae8f-4ed9-ba32-21a23087050c?alt=media&token=cf5989aa-73c7-4c96-9aaa-95ab11649fa5'
+			)
+		);
+		s2.width = s2.height = 150;
+		s2.position.set(350, 400);
 	};
 
 	render(): ReactNode {
