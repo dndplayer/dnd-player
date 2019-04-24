@@ -23,10 +23,9 @@ Firstly ensure you have the .vscode/launch.json file, that should contain a conf
     "name": "Debug in Chrome",
     "url": "http://localhost:3000",
     "webRoot": "${workspaceFolder}",
-    "trace": true,
     "sourceMaps": true,
 }
 ```
 
-Now to debug just press F5 - a new Chrome window will open and you'll be able to debug, place breakpoints, step
+Now to debug just press F5 (Make sure the packaging server is already running somewhere with ```yarn start```) - a new Chrome window will open and you'll be able to debug, place breakpoints, step
 through code all natively within VS Code!
