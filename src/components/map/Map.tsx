@@ -4,19 +4,12 @@ import * as PIXI from 'pixi.js';
 import Viewport from 'pixi-viewport';
 
 import { MapData } from '../../models/Map';
-import DraggableSprite from './DraggableSprite';
 
-/**
- * TODO:
- *      This class is really just a proof of concept at the moment
- * as a-lot is hard-coded.
- *
- * [ ] - Change to load sprites from the redux store
- * [ ] - On Drag Move update the local redux store only
- * [ ] - On Drag End update the Firestore with the new position
- * [ ] - Load Sprite images from FireStorage (but first need a way to upload to it)
- * [ ] - Create a custom Pixi component that can represent imported images
- */
+import { parseMap } from './parseMap';
+import mapData from './testMap.json';
+
+const xx = parseMap(mapData);
+console.log(xx);
 
 interface Props {
 	updateSpriteLocation: (sprite: Sprite) => void;
@@ -139,9 +132,7 @@ export default class Map extends Component<Props, State> {
 					onMount={this.onMapMount}
 					width={window.innerWidth * 0.75}
 					height={window.innerHeight}
-				>
-					{/* <DraggableSprite image="https://firebasestorage.googleapis.com/v0/b/dnd-player-a7776.appspot.com/o/uploads%2Fa240f2d0-622a-4a5a-bb96-b512a08c1317?alt=media&token=bae496e7-8ea7-4a1c-a502-301aeb99f8da" /> */}
-				</Stage>
+				/>
 			</div>
 		);
 	}
