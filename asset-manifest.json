@@ -1,0 +1,15 @@
+{
+  "main.css": "/dnd-player/static/css/main.0a360331.chunk.css",
+  "main.js": "/dnd-player/static/js/main.15d85b89.chunk.js",
+  "main.js.map": "/dnd-player/static/js/main.15d85b89.chunk.js.map",
+  "runtime~main.js": "/dnd-player/static/js/runtime~main.f58116c1.js",
+  "runtime~main.js.map": "/dnd-player/static/js/runtime~main.f58116c1.js.map",
+  "static/js/2.fba44a76.chunk.js": "/dnd-player/static/js/2.fba44a76.chunk.js",
+  "static/js/2.fba44a76.chunk.js.map": "/dnd-player/static/js/2.fba44a76.chunk.js.map",
+  "index.html": "/dnd-player/index.html",
+  "precache-manifest.3377a6ea733a2c6188ecf90835f85f18.js": "/dnd-player/precache-manifest.3377a6ea733a2c6188ecf90835f85f18.js",
+  "service-worker.js": "/dnd-player/service-worker.js",
+  "static/css/main.0a360331.chunk.css.map": "/dnd-player/static/css/main.0a360331.chunk.css.map",
+  "static/media/CharacterSheet.css": "/dnd-player/static/media/ac.0ddd8802.svg",
+  "static/media/Roll.css": "/dnd-player/static/media/disadvantage.301ac636.svg"
+}
