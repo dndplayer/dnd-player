@@ -10,9 +10,10 @@ export default class DiceRoll extends React.Component<Props> {
 		const { result } = this.props;
 
 		const rolls = [];
+		let i = 0;
 		for (const roll of result.rolls) {
 			rolls.push(
-				<div className={`roll ${roll.ignore ? 'ignore' : ''}`}>
+				<div key={i++} className={`roll ${roll.ignore ? 'ignore' : ''}`}>
 					<span
 						className={
 							'summary ' +
@@ -28,6 +29,7 @@ export default class DiceRoll extends React.Component<Props> {
 			if (result.advantage) {
 				rolls.push(
 					<div
+						key={i++}
 						className={
 							result.advantage === AdvantageType.Advantage
 								? 'roll-advantage'
