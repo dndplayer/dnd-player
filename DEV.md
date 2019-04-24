@@ -93,3 +93,5 @@ do popout char sheets (potentially) similar to Roll20 as well as other possible 
 - https://firebase.google.com/products/database
 - https://www.pubnub.com/blog/2016-09-01-diy-virtual-white-board-using-google-and-firebase/
 - https://stackoverflow.com/questions/42974365/how-to-store-canvas-in-firebase-usnig-android-for-realtime-collaboration
+- Someone discussing serializing the PIXI stage for a similar sounding situation as ours
+  - https://github.com/pixijs/pixi.js/issues/3798#issuecomment-287484347
