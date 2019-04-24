@@ -12,3 +12,16 @@ body {
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+.projectInputs {
+	display: flex;
+	margin-top: 25vh;
+	width: 100%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.projectInputs input {
+	width: 30vw;
+}
