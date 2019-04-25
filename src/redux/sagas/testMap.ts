@@ -26,6 +26,21 @@ function* syncTestMapSaga(): any {
 	);
 }
 
+function* testMapUpdatePosition(action): any {
+	const { layerName, mapObjectId, newPosition } = action;
+	yield call(
+		// TODO: Swap to use patch instead of update and then make the
+		// input data an object with any number of props to update, making
+		// this more generic than just updatePosition.
+		rsf.database.update,
+		`/testMap/layers/${layerName}/children/${mapObjectId}/position`,
+		newPosition
+	);
+}
+
 export default function* rootSaga() {
-	yield all([fork(syncTestMapSaga)]);
+	yield all([
+		fork(syncTestMapSaga),
+		takeEvery(types.TESTMAP.UPDATE.POSITION, testMapUpdatePosition)
+	]);
 }

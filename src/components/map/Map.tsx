@@ -36,6 +36,7 @@ interface Props {
 	mapData?: MapData;
 	zoom?: number;
 	testMap: any;
+	onUpdatePosition: (data) => void;
 }
 
 interface State {}
@@ -51,29 +52,6 @@ export default class Map extends Component<Props, State> {
 	private sprite: any;
 	private app: any;
 	private root: PIXI.Container;
-
-	onDragStart = (e: PIXI.interaction.InteractionEvent): void => {
-		const inst = e.currentTarget;
-		inst.alpha = 0.5;
-		(inst as any).dragging = true;
-		(inst as any).data = e.data;
-	};
-
-	onDragEnd = (e: PIXI.interaction.InteractionEvent): void => {
-		const inst = e.currentTarget;
-		inst.alpha = 1.0;
-		(inst as any).dragging = false;
-		(inst as any).data = null;
-	};
-
-	onDragMove = (e: PIXI.interaction.InteractionEvent): void => {
-		const inst = e.currentTarget;
-		if ((inst as any).dragging) {
-			const newPos = (inst as any).data.getLocalPosition(e.currentTarget.parent);
-			inst.x = newPos.x;
-			inst.y = newPos.y;
-		}
-	};
 
 	render(): ReactNode {
 		// const { background, tokens } = TESTDATA.layers;
@@ -104,7 +82,9 @@ export default class Map extends Component<Props, State> {
 											pivot={o.pivot}
 											anchor={o.anchor}
 											image={o.imageUrl}
-											// onUpdatePosition={}
+											onUpdatePosition={this.props.onUpdatePosition}
+											mapObjectId={mapObjId}
+											layerName="background"
 											// onUpdateScale={}
 											// onUpdateRotation={}
 											// onUpdateAnchor={}
@@ -127,6 +107,9 @@ export default class Map extends Component<Props, State> {
 											pivot={o.pivot}
 											anchor={o.anchor}
 											image={o.imageUrl}
+											onUpdatePosition={this.props.onUpdatePosition}
+											mapObjectId={mapObjId}
+											layerName="tokens"
 											// onUpdatePosition={}
 											// onUpdateScale={}
 											// onUpdateRotation={}

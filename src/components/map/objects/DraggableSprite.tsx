@@ -1,7 +1,10 @@
 import { Sprite, PixiComponent } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 
-interface DraggableSpriteProps {}
+interface DraggableSpriteProps {
+	position: any;
+	onUpdatePosition: (data) => void;
+}
 
 type Props = DraggableSpriteProps;
 
@@ -35,13 +38,23 @@ export default PixiComponent<any, PIXI.Sprite>('DraggableSprite', {
 		s.interactive = true;
 		s.buttonMode = true;
 
+		// TODO: Attach callbacks to the actual sprite ?
+
+		(s as any).onUpdatePosition = props.onUpdatePosition;
+		(s as any).layerName = props.layerName;
+		(s as any).mapObjectId = props.mapObjectId;
+
 		return s;
 	},
 	applyProps: (ins: PIXI.Sprite, oldProps: Props, newProps: Props): void => {
-		// ins.clear();
-		// ins.beginFill(newProps.color);
-		// ins.drawRect(newProps.x, newProps.y, 100, 100);
-		// ins.endFill();
+		if (
+			oldProps.position &&
+			newProps.position &&
+			(oldProps.position.x !== newProps.position.x ||
+				oldProps.position.y !== newProps.position.y)
+		) {
+			ins.position.set(newProps.position.x, newProps.position.y);
+		}
 	},
 	didMount: (instance: PIXI.DisplayObject, parent: any): void => {
 		const onDragStart = (e: PIXI.interaction.InteractionEvent): void => {
@@ -52,8 +65,17 @@ export default PixiComponent<any, PIXI.Sprite>('DraggableSprite', {
 
 		const onDragEnd = (e: PIXI.interaction.InteractionEvent): void => {
 			instance.alpha = 1.0;
+			const lastPos = (instance as any).data.getLocalPosition(e.currentTarget.parent);
 			(instance as any).dragging = false;
 			(instance as any).data = null;
+
+			if ((instance as any).onUpdatePosition) {
+				(instance as any).onUpdatePosition({
+					layerName: (instance as any).layerName,
+					mapObjectId: (instance as any).mapObjectId,
+					newPosition: lastPos
+				});
+			}
 		};
 
 		const onDragMove = (e: PIXI.interaction.InteractionEvent): void => {
