@@ -3,16 +3,53 @@
 		"background": {
 			"children": {
 				"1": {
-					"type": "Token",
+					"type": "Image",
 					"name": "test",
 					"__assetId": "1111",
-					"localTransform": {
-						"a": 0,
-						"b": 0,
-						"c": 0,
-						"d": 0,
-						"tx": 0,
-						"ty": 0
+					"imageUrl": "https://firebasestorage.googleapis.com/v0/b/dnd-player-a7776.appspot.com/o/uploads%2F8b58cc32-ae8f-4ed9-ba32-21a23087050c?alt=media&token=cf5989aa-73c7-4c96-9aaa-95ab11649fa5",
+					"position": {
+						"x": 100,
+						"y": 250
+					},
+					"scale": {
+						"x": 0.25,
+						"y": 0.25
+					},
+					"rotation": 1.5,
+					"pivot": {
+						"x": 0.5,
+						"y": 0.5
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				}
+			}
+		},
+		"tokens": {
+			"children": {
+				"2": {
+					"type": "Token",
+					"name": "Another test",
+					"__assetId": "1111",
+					"imageUrl": "https://firebasestorage.googleapis.com/v0/b/dnd-player-a7776.appspot.com/o/uploads%2F5e9a7b59-678a-477c-a18b-4739c9cb197a?alt=media&token=73ec57e9-87e2-44ca-9b08-4243d584cd91",
+					"position": {
+						"x": 175,
+						"y": 75
+					},
+					"scale": {
+						"x": 1,
+						"y": 1
+					},
+					"rotation": 0,
+					"pivot": {
+						"x": 0.5,
+						"y": 0.5
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
 					}
 				}
 			}

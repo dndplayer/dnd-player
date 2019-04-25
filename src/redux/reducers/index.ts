@@ -8,6 +8,7 @@ import StorageReducer from './storage';
 import ImageReducer from './images';
 import AssetReducer from './assets';
 import MapReducer from './map';
+import TestMapReducer from './testMap';
 
 export default history =>
 	combineReducers({
@@ -18,5 +19,6 @@ export default history =>
 		images: ImageReducer,
 		assets: AssetReducer,
 		map: MapReducer,
-		characters: CharactersReducer
+		characters: CharactersReducer,
+		testMap: TestMapReducer
 	});
