@@ -1,15 +1,15 @@
 {
-  "main.css": "/dnd-player/static/css/main.800b541f.chunk.css",
-  "main.js": "/dnd-player/static/js/main.73e8ecda.chunk.js",
-  "main.js.map": "/dnd-player/static/js/main.73e8ecda.chunk.js.map",
-  "runtime~main.js": "/dnd-player/static/js/runtime~main.f58116c1.js",
-  "runtime~main.js.map": "/dnd-player/static/js/runtime~main.f58116c1.js.map",
-  "static/js/2.d5851456.chunk.js": "/dnd-player/static/js/2.d5851456.chunk.js",
-  "static/js/2.d5851456.chunk.js.map": "/dnd-player/static/js/2.d5851456.chunk.js.map",
-  "index.html": "/dnd-player/index.html",
-  "precache-manifest.d3508c9e1b793badf5269d7911508875.js": "/dnd-player/precache-manifest.d3508c9e1b793badf5269d7911508875.js",
-  "service-worker.js": "/dnd-player/service-worker.js",
-  "static/css/main.800b541f.chunk.css.map": "/dnd-player/static/css/main.800b541f.chunk.css.map",
-  "static/media/CharacterSheet.css": "/dnd-player/static/media/ac.b36135ab.svg",
-  "static/media/Roll.css": "/dnd-player/static/media/disadvantage.301ac636.svg"
+  "main.css": "/static/css/main.eca81ded.chunk.css",
+  "main.js": "/static/js/main.37d30431.chunk.js",
+  "main.js.map": "/static/js/main.37d30431.chunk.js.map",
+  "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+  "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+  "static/js/2.62bd8b98.chunk.js": "/static/js/2.62bd8b98.chunk.js",
+  "static/js/2.62bd8b98.chunk.js.map": "/static/js/2.62bd8b98.chunk.js.map",
+  "index.html": "/index.html",
+  "precache-manifest.c212df4b55b7118c108fde9e9ffaf233.js": "/precache-manifest.c212df4b55b7118c108fde9e9ffaf233.js",
+  "service-worker.js": "/service-worker.js",
+  "static/css/main.eca81ded.chunk.css.map": "/static/css/main.eca81ded.chunk.css.map",
+  "static/media/CharacterSheet.css": "/static/media/ac.0ddd8802.svg",
+  "static/media/Roll.css": "/static/media/disadvantage.4855b2f4.svg"
 }
