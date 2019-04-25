@@ -1,5 +1,7 @@
 # DND Player
 
+[![Build Status](https://travis-ci.org/dndplayer/dnd-player.svg?branch=master)](https://travis-ci.org/dndplayer/dnd-player)
+
 Open-source DND shared experience play space ... or something.
 
 ## Demo
