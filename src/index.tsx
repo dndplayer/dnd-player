@@ -5,7 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import { MuiThemeProvider, TextField, Button, createMuiTheme } from '@material-ui/core';
 
 const state = {
-	projectName: '',
+	projectId: '',
 	apiKey: ''
 };
 
@@ -14,19 +14,19 @@ const saveConfig = (): void => {
 		'firebaseConfig',
 		JSON.stringify({
 			apiKey: state.apiKey,
-			authDomain: `${state.projectName}.firebaseapp.com`,
-			databaseURL: `https://${state.projectName}.firebaseio.com`,
-			projectId: state.projectName,
-			storageBucket: `${state.projectName}.appspot.com`
+			authDomain: `${state.projectId}.firebaseapp.com`,
+			databaseURL: `https://${state.projectId}.firebaseio.com`,
+			projectId: state.projectId,
+			storageBucket: `${state.projectId}.appspot.com`
 		})
 	);
 
 	window.location.replace(window.location.origin);
 };
 
-const match = window.location.pathname.match(/room\/(.*?);(.*)$/);
+const match = window.location.search.match(/\?projectId=(.*?)&apiKey=(.*)$/);
 if (match) {
-	state.projectName = match[1];
+	state.projectId = match[1];
 	state.apiKey = match[2];
 	saveConfig();
 } else if (localStorage.getItem('firebaseConfig') == null) {
@@ -43,7 +43,7 @@ if (match) {
 					<TextField
 						label="Project Name"
 						placeholder="dnd-player-b8372"
-						onChange={evt => (state.projectName = evt.target.value)}
+						onChange={evt => (state.projectId = evt.target.value)}
 						margin="normal"
 					/>
 					<TextField

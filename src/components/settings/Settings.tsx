@@ -9,7 +9,7 @@ export default class Settings extends Component<Props> {
 	copyRoomUrl(): void {
 		const el = document.createElement('textarea');
 		const settings = JSON.parse(localStorage.getItem('firebaseConfig'));
-		el.value = document.location + `room/${settings.projectId};${settings.apiKey}`;
+		el.value = document.location + `?projectId=${settings.projectId}&apiKey=${settings.apiKey}`;
 		document.body.appendChild(el);
 		el.select();
 		document.execCommand('copy');
