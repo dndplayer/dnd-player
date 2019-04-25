@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/dndplayer/dnd-player.svg?branch=master)](https://travis-ci.org/dndplayer/dnd-player)
 
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+[![OGL license](https://img.shields.io/badge/License-OGL-blue.svg)](http://media.wizards.com/2016/downloads/DND/SRD-OGL_V5.1.pdf)
 
 [![Website dnd-player.com](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://dnd-player.com/)
 
