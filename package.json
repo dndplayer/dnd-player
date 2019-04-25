@@ -2,7 +2,7 @@
   "name": "dnd-player",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://chrisella.github.io/dnd-player",
+  "homepage": "https://dnd-player.com",
   "dependencies": {
     "@inlet/react-pixi": "^0.5.7",
     "@material-ui/core": "^3.9.3",
