@@ -2,7 +2,6 @@ import React, { ReactNode, ReactElement } from 'react';
 
 // import firebase from 'firebase/app';
 // import 'firebase/firestore';
-// import FirebaseConfig from '../../firebase-config.json';
 
 import { DiceRoll } from 'rpg-dice-roller';
 import { RollData, ChatMessageData } from '../../../models/ChatMessage';

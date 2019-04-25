@@ -21,10 +21,15 @@ const saveConfig = (): void => {
 		})
 	);
 
-	window.location.reload();
+	window.location.replace(window.location.origin);
 };
 
-if (localStorage.getItem('firebaseConfig') == null) {
+const match = window.location.pathname.match(/room\/(.*?);(.*)$/);
+if (match) {
+	state.projectName = match[1];
+	state.apiKey = match[2];
+	saveConfig();
+} else if (localStorage.getItem('firebaseConfig') == null) {
 	const theme = createMuiTheme({
 		palette: {
 			type: 'dark'
