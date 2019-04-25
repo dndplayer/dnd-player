@@ -19,3 +19,14 @@ https://dnd-player.com
 **CONTRIBUTION.md** contains details about contributing, code building and IDE niceties.
 
 **DEBUGGING.md** details on the ideal setup for debugging the site.
+
+dnd-player is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards.
+Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.
+
+dnd-player uses material and mechanics from the System Reference Document 5.1 published under the Open Gaming License 1.0a.
+Please see LICENSE for more information.
+
+Dungeons & Dragons, D&D, their respective logos, and all Wizards titles and characters are property
+of Wizards of the Coast LLC in the U.S.A. and other countries. ©2019 Wizards. dnd-player is not
+affiliated with, endorsed, sponsored, or specifically approved by Wizards of the Coast LLC.
+
