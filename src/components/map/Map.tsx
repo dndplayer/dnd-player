@@ -4,7 +4,7 @@ import * as PIXI from 'pixi.js';
 import Viewport from 'pixi-viewport';
 
 import { MapData } from '../../models/Map';
-import DraggableSprite from './DraggableSprite';
+import DraggableSprite from './objects/DraggableSprite';
 
 /**
  * TODO:

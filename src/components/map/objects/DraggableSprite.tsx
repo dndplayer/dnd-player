@@ -9,66 +9,31 @@ export default PixiComponent<any, PIXI.Sprite>('DraggableSprite', {
 	create: (props: any): any => {
 		const s = PIXI.Sprite.fromImage(props.image);
 
+		if (props.anchor) {
+			s.anchor.set(props.anchor.x, props.anchor.y);
+		}
+
+		if (props.pivot) {
+			s.pivot.set(props.pivot.x, props.pivot.y);
+		}
+
 		if (props.scale) {
-			s.scale.set(props.scale, props.scale);
+			s.scale.set(props.scale.x, props.scale.y);
 		}
 
-		if (props.x) {
-			s.x = props.x;
+		if (props.position) {
+			s.position.set(props.position.x, props.position.y);
 		}
 
-		if (props.y) {
-			s.y = props.y;
+		if (props.rotation) {
+			s.rotation = props.rotation;
 		}
 
-		// TODO: Investigate using the React-Pixi applyDefaultProps
-
-		// const onDragStart = (e: PIXI.interaction.InteractionEvent): void => {
-		// 	const inst = e.currentTarget;
-		// 	inst.alpha = 0.5;
-		// 	(inst as any).dragging = true;
-		// 	(inst as any).data = e.data;
-		// };
-
-		// const onDragEnd = (e: PIXI.interaction.InteractionEvent): void => {
-		// 	const inst = e.currentTarget;
-		// 	inst.alpha = 1.0;
-		// 	(inst as any).dragging = false;
-		// 	(inst as any).data = null;
-		// };
-
-		// const onDragMove = (e: PIXI.interaction.InteractionEvent): void => {
-		// 	const inst = e.currentTarget;
-		// 	if ((inst as any).dragging) {
-		// 		const newPos = (inst as any).data.getLocalPosition(e.currentTarget.parent);
-		// 		inst.x = newPos.x;
-		// 		inst.y = newPos.y;
-		// 	}
-		// };
-
-		// const onMouseOver = (e: PIXI.interaction.InteractionEvent): void => {
-		// 	const inst = e.currentTarget as PIXI.Sprite;
-		// 	if (inst) {
-		// 		inst.tint = 0xff0000;
-		// 	}
-		// };
-
-		// const onMouseOut = (e: PIXI.interaction.InteractionEvent): void => {
-		// 	const inst = e.currentTarget as PIXI.Sprite;
-		// 	if (inst) {
-		// 		inst.tint = 0xffffff;
-		// 	}
-		// };
+		// TODO: Investigate using the React-Pixi applyDefaultProps?
+		//       or at-least something nicer than doing each props as above.
 
 		s.interactive = true;
 		s.buttonMode = true;
-		s.anchor = new PIXI.ObservablePoint(() => {}, null, 0.5, 0.5);
-		// s.on('mousedown', onDragStart);
-		// s.on('mouseup', onDragEnd);
-		// s.on('mouseupoutside', onDragEnd);
-		// s.on('mousemove', onDragMove);
-		// s.on('mouseover', onMouseOver);
-		// s.on('mouseout', onMouseOut);
 
 		return s;
 	},
