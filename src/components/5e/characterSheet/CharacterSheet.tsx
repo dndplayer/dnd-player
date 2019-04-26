@@ -3,7 +3,6 @@ import React, { ReactNode, ReactElement } from 'react';
 // import firebase from 'firebase/app';
 // import 'firebase/firestore';
 
-import { DiceRoll } from 'rpg-dice-roller';
 import { RollData, ChatMessageData } from '../../../models/ChatMessage';
 import AbilityScore from './AbilityScore';
 import AbilitySave from './AbilitySave';
@@ -20,16 +19,23 @@ import Attacks from './Attacks';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
-	closeCharacterSheet: (characterid: string) => void;
+	closeCharacterSheet: (characterId: string) => void;
+	updatePlayerCharacter: (characterId: string, character: Character) => void;
 	character: Character;
 }
-interface State {}
+interface State {
+	editing: boolean;
+	newCharacter: string;
+}
 
 export default class CharacterSheet extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
-		this.state = {};
+		this.state = {
+			editing: false,
+			newCharacter: JSON.stringify(this.props.character, undefined, ' ')
+		};
 	}
 
 	// private chatRoom: firebase.firestore.CollectionReference;
@@ -39,10 +45,33 @@ export default class CharacterSheet extends React.Component<Props, State> {
 	render(): ReactNode {
 		const { character } = this.props;
 
+		if (this.state.editing) {
+			return (
+				<div className="column character-sheet">
+					<div className="character-close" onClick={e => this.abortEditSheet()}>
+						CANCEL
+					</div>
+					<div className="character-edit" onClick={e => this.saveSheet()}>
+						SAVE
+					</div>
+					<textarea
+						rows={40}
+						value={this.state.newCharacter}
+						onChange={e =>
+							this.setState({ ...this.state, newCharacter: e.target.value })
+						}
+					/>
+				</div>
+			);
+		}
+
 		return (
 			<div className="column character-sheet">
 				<div className="character-close" onClick={e => this.closeSheet()}>
 					X
+				</div>
+				<div className="character-edit" onClick={e => this.editSheet()}>
+					EDIT
 				</div>
 				<div className="row character-details">
 					<div className="character-name">{character.name}</div>
@@ -225,5 +254,28 @@ export default class CharacterSheet extends React.Component<Props, State> {
 
 	closeSheet(): void {
 		this.props.closeCharacterSheet(this.props.character.id);
+	}
+
+	editSheet(): void {
+		this.setState({
+			...this.state,
+			editing: true
+		});
+	}
+
+	abortEditSheet(): void {
+		this.setState({
+			...this.state,
+			editing: false
+		});
+	}
+
+	saveSheet(): void {
+		const newCharacter = JSON.parse(this.state.newCharacter);
+		this.props.updatePlayerCharacter(newCharacter.id, newCharacter);
+		this.setState({
+			...this.state,
+			editing: false
+		});
 	}
 }

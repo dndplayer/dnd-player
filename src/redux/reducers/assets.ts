@@ -44,6 +44,19 @@ export default function assetsReducer(state = initialState, action: any = {}): A
 				...state,
 				playerCharacters: action.playerCharacters
 			};
+		case types.ASSETS.PLAYERCHARACTER.UPDATE:
+			return {
+				...state,
+				playerCharacters: state.playerCharacters.map(item => {
+					if (item.id !== action.characterId) {
+						// This isn't the item we care about - keep it as-is
+						return item;
+					}
+
+					// Otherwise, this is the one we want - return an updated value
+					return action.character;
+				})
+			};
 		case types.ASSETS.NONPLAYERCHARACTER.SYNC:
 			return {
 				...state,

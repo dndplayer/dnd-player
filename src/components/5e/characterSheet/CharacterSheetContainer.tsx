@@ -6,25 +6,29 @@ import { ChatMessageData } from '../../../models/ChatMessage';
 import { saveNewMessage } from '../../../redux/actions/chat';
 import { Character } from '../Character';
 import { closeCharacterSheet } from '../../../redux/actions/characters';
+import { updatePlayerCharacter } from '../../../redux/actions/assets';
 
 const mapStateToProps = (state): any => ({
 	openCharacterSheets: state.characters.openCharacterSheets,
-	characters: state.characters.characters
+	playerCharacters: state.assets.playerCharacters
 });
 
 const mapDispatchToProps = (dispatch): any => ({
 	sendMessage: (message, data?) => dispatch(saveNewMessage(message, data)),
-	closeCharacterSheet: characterId => dispatch(closeCharacterSheet(characterId))
+	closeCharacterSheet: characterId => dispatch(closeCharacterSheet(characterId)),
+	updatePlayerCharacter: (characterId, character) =>
+		dispatch(updatePlayerCharacter(characterId, character))
 });
 
 interface DispatchFromProps {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	closeCharacterSheet: (characterId: string) => void;
+	updatePlayerCharacter: (characterId: string, character: Character) => void;
 }
 
 interface StateFromProps {
 	openCharacterSheets: string[];
-	characters: Character[];
+	playerCharacters: Character[];
 }
 
 // interface OwnProps {}
@@ -38,7 +42,7 @@ class CharacterSheetContainer extends Component<Props> {
 			characterSheets.push(
 				<CharacterSheet
 					key={characterId}
-					character={this.props.characters.filter(x => x.id === characterId)[0]}
+					character={this.props.playerCharacters.filter(x => x.id === characterId)[0]}
 					{...this.props}
 				/>
 			);

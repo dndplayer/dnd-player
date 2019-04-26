@@ -5,8 +5,7 @@ import {
 	syncNonPlayerCharacters,
 	syncNonPlayerCharactersFailed,
 	syncPlayerCharacters,
-	syncPlayerCharactersFailed,
-	saveNewPlayerCharacter
+	syncPlayerCharactersFailed
 } from '../actions/assets';
 
 import rsf from '../rsf';
@@ -35,6 +34,18 @@ function* saveNewNonPlayerCharacterSaga(action: AnyAction): any {
 	};
 
 	yield call(rsf.database.create, '/nonPlayerCharacters', payload);
+}
+
+function* updatePlayerCharacterSaga(action: AnyAction): any {
+	// TODO: Sort the payload
+	const currentUser: firebase.User = yield select(state => state.auth.user);
+	const payload = {
+		...action.character,
+		timestamp: database.ServerValue.TIMESTAMP,
+		creator: currentUser.uid
+	};
+
+	yield call(rsf.database.update, '/playerCharacters/' + action.character.id, payload);
 }
 
 function* saveNewPlayerCharacterSaga(action: AnyAction): any {
@@ -80,6 +91,7 @@ export default function* rootSaga(): any {
 		// fork(syncAssetsSaga),
 		fork(syncPlayerCharactersSaga),
 		fork(syncNonPlayerCharactersSaga),
+		takeEvery(types.ASSETS.PLAYERCHARACTER.UPDATE, updatePlayerCharacterSaga),
 		takeEvery(types.ASSETS.PLAYERCHARACTER.NEW.SAVE, saveNewPlayerCharacterSaga),
 		takeEvery(types.ASSETS.NONPLAYERCHARACTER.NEW.SAVE, saveNewNonPlayerCharacterSaga)
 	]);

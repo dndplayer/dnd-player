@@ -10,10 +10,9 @@ import { AttackEffectType } from '../../components/5e/5eRules';
 
 const initialState: {
 	openCharacterSheets: string[];
-	characters: Character[];
 } = {
-	openCharacterSheets: [],
-	characters: [
+	openCharacterSheets: []
+	/*characters: [
 		{
 			id: '1',
 			name: 'Garrick Crownguard',
@@ -68,12 +67,12 @@ const initialState: {
 							DCAbility: 'strength',
 							onSave: {
 								type: AttackEffectType.Text,
-								text:
-									'The target has a disadvantage on all attack rolls against targets other than you until the end of your next turn.'
+								text: 'No effect'
 							} as TextCharacterAttackEffect,
 							onFail: {
 								type: AttackEffectType.Text,
-								text: 'No effect'
+								text:
+									'The target has a disadvantage on all attack rolls against targets other than you until the end of your next turn.'
 							} as TextCharacterAttackEffect
 						} as SavingThrowCharacterAttackEffect
 					]
@@ -146,7 +145,7 @@ const initialState: {
 				}
 			]
 		}
-	]
+	]*/
 };
 
 export default function reducer(state = initialState, action: any = {}) {

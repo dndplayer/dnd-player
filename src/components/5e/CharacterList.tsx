@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { openCharacterSheet } from '../../redux/actions/characters';
 
 const mapStateToProps = (state): any => ({
-	characters: state.characters.characters
+	characters: state.assets.playerCharacters
 });
 
 const mapDispatchToProps = (dispatch): any => ({
