@@ -5,6 +5,8 @@
 [![MIT license](https://img.shields.io/badge/license-MIT-green.svg)](https://lbesson.mit-license.org/)
 [![OGL license](https://img.shields.io/badge/license-OGL-yellow.svg)](http://media.wizards.com/2016/downloads/DND/SRD-OGL_V5.1.pdf)
 
+[![Discord](https://img.shields.io/discord/569979191186030607.svg)](https://discord.gg/PBhkjVA)
+
 [![Website dnd-player.com](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://dnd-player.com/)
 
 Open-source DND shared experience play space ... or something.
