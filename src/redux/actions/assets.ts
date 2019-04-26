@@ -1,26 +1,52 @@
-import { Asset } from '../../models/Asset';
-
 export const types = {
 	ASSETS: {
-		SYNC: 'ASSETS.SYNC',
-		SYNC_FAILED: 'ASSETS.SYNC_FAILED',
-		NEW: {
-			SAVE: 'ASSETS.NEW.SAVE'
+		PLAYERCHARACTER: {
+			SYNC: 'ASSETS.PLAYERCHARACTER.SYNC',
+			SYNC_FAILED: 'ASSETS.PLAYERCHARACTER.SYNC_FAILED',
+			NEW: {
+				SAVE: 'ASSETS.PLAYERCHARACTER.NEW.SAVE'
+			}
+		},
+		NONPLAYERCHARACTER: {
+			SYNC: 'ASSETS.NONPLAYERCHARACTER.SYNC',
+			SYNC_FAILED: 'ASSETS.NONPLAYERCHARACTER.SYNC_FAILED',
+			NEW: {
+				SAVE: 'ASSETS.NONPLAYERCHARACTER.NEW.SAVE'
+			}
 		}
 	}
 };
 
-export const saveNewAsset = (asset: Asset) => ({
-	type: types.ASSETS.NEW.SAVE,
-	asset
+// Player Characters
+
+export const syncPlayerCharacters = playerCharacters => ({
+	type: types.ASSETS.PLAYERCHARACTER.SYNC,
+	playerCharacters
 });
 
-export const syncAssets = assets => ({
-	type: types.ASSETS.SYNC,
-	assets
-});
-
-export const syncAssetsFailed = error => ({
-	type: types.ASSETS.SYNC_FAILED,
+export const syncPlayerCharactersFailed = error => ({
+	type: types.ASSETS.PLAYERCHARACTER.SYNC_FAILED,
 	error
+});
+
+export const saveNewPlayerCharacter = playerCharacterData => ({
+	type: types.ASSETS.PLAYERCHARACTER.NEW.SAVE,
+	playerCharacterData
+});
+
+// Non-Player Characters
+
+export const syncNonPlayerCharacters = nonPlayerCharacters => ({
+	type: types.ASSETS.NONPLAYERCHARACTER.SYNC,
+	nonPlayerCharacters
+});
+
+export const syncNonPlayerCharactersFailed = error => ({
+	type: types.ASSETS.NONPLAYERCHARACTER.SYNC_FAILED,
+	error
+});
+
+export const saveNewNonPlayerCharacter = nonPlayerCharacterData => ({
+	type: types.ASSETS.NONPLAYERCHARACTER.NEW.SAVE,
+	nonPlayerCharacterData
 });

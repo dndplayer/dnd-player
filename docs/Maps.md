@@ -51,3 +51,36 @@
     }
 }
 ```
+
+## Points from recent discussion
+
+- PlayerChar and NonPlayerChar data should be kept in 2 distinct collections
+- Concept of Assets isn't needed, PC and NPC is enough for global data tracking, the rest is contained within the Map
+- "Items" which need to move across maps e.g. a caravan would just become NPCs
+- Drag PC or NPC onto map should create a MapObject that links to that asset
+- Drag Uploaded image onto map should create a MapObject that is local only and references the uploaded imageUrl
+
+``` json
+"playerCharacters": {
+
+},
+"nonPlayerCharacters": {
+
+},
+"maps": {
+    "somemap": {
+        "layers": {
+            "tokens": {
+                "children": {
+                    "mapObj1": {
+                        "pcId": null,   // Only one of pcId or npcId should be populated, or neither
+                        "npcId": null,
+                        ... Override Props from pc or npc asset
+                        ... 
+                    }
+                }
+            }
+        }
+    }
+}
+```

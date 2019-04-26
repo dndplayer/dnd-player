@@ -1,43 +1,86 @@
 import { all, call, select, fork, takeEvery } from 'redux-saga/effects';
 
-import { types, syncAssets, syncAssetsFailed } from '../actions/assets';
+import {
+	types,
+	syncNonPlayerCharacters,
+	syncNonPlayerCharactersFailed,
+	syncPlayerCharacters,
+	syncPlayerCharactersFailed,
+	saveNewPlayerCharacter
+} from '../actions/assets';
 
 import rsf from '../rsf';
 import { database } from 'firebase';
 import { AnyAction } from 'redux';
 
-const assetTransformer = ({ value }) =>
+const playerCharacterTransformer = ({ value }) =>
 	Object.keys(value).map(key => ({
 		...value[key],
 		id: key
 	}));
 
-function* saveNewAsset(action: AnyAction): any {
-	const currentUser: firebase.User = yield select(state => state.auth.user);
-	const asset = action.asset;
+const nonPlayerCharacterTransformer = ({ value }) =>
+	Object.keys(value).map(key => ({
+		...value[key],
+		id: key
+	}));
 
-	yield call(rsf.database.create, '/assets', {
-		...asset,
-		creator: currentUser.uid,
-		timestamp: database.ServerValue.TIMESTAMP
-	});
+function* saveNewNonPlayerCharacterSaga(action: AnyAction): any {
+	// TODO: Sort the payload
+	const currentUser: firebase.User = yield select(state => state.auth.user);
+	const payload = {
+		...action.nonPlayerCharacterData,
+		timestamp: database.ServerValue.TIMESTAMP,
+		creator: currentUser.uid
+	};
+
+	yield call(rsf.database.create, '/nonPlayerCharacters', payload);
 }
 
-function* syncAssetsSaga(): any {
+function* saveNewPlayerCharacterSaga(action: AnyAction): any {
+	// TODO: Sort the payload
+	const currentUser: firebase.User = yield select(state => state.auth.user);
+	const payload = {
+		...action.playerCharacterData,
+		timestamp: database.ServerValue.TIMESTAMP,
+		creator: currentUser.uid
+	};
+
+	yield call(rsf.database.create, '/playerCharacters', payload);
+}
+
+function* syncPlayerCharactersSaga(): any {
 	yield fork(
 		rsf.database.sync,
-		database(rsf.app)
-			.ref('/assets')
-			.orderByChild('name') as any,
+		database(rsf.app).ref('/playerCharacters'),
 		{
-			successActionCreator: syncAssets,
-			failureActionCreator: syncAssetsFailed,
-			transform: assetTransformer
+			successActionCreator: syncPlayerCharacters,
+			failureActionCreator: syncPlayerCharactersFailed,
+			transform: playerCharacterTransformer
 		},
 		'value'
 	);
 }
 
-export default function* rootSaga() {
-	yield all([fork(syncAssetsSaga), takeEvery(types.ASSETS.NEW.SAVE, saveNewAsset)]);
+function* syncNonPlayerCharactersSaga(): any {
+	yield fork(
+		rsf.database.sync,
+		database(rsf.app).ref('/nonPlayerCharacters'),
+		{
+			successActionCreator: syncNonPlayerCharacters,
+			failureActionCreator: syncNonPlayerCharactersFailed,
+			transform: nonPlayerCharacterTransformer
+		},
+		'value'
+	);
+}
+
+export default function* rootSaga(): any {
+	yield all([
+		// fork(syncAssetsSaga),
+		fork(syncPlayerCharactersSaga),
+		fork(syncNonPlayerCharactersSaga),
+		takeEvery(types.ASSETS.PLAYERCHARACTER.NEW.SAVE, saveNewPlayerCharacterSaga),
+		takeEvery(types.ASSETS.NONPLAYERCHARACTER.NEW.SAVE, saveNewNonPlayerCharacterSaga)
+	]);
 }

@@ -1,21 +1,57 @@
 import { types } from '../actions/assets';
 
-const initialState = {
-	assets: [],
-	syncError: null
+interface PlayerCharacterData {
+	id: string;
+	name: string;
+}
+
+interface NonPlayerCharacterData {
+	id: string;
+	name: string;
+}
+
+interface AssetState {
+	// TODO: Perhaps these pc and npc collections should be object with
+	//       key id mapping to value data, for faster lookup times. We don't
+	//       really need these to be an array as we don't often iterate it and
+	//       Object.keys() is good enough to handle when we do want to iterate.
+
+	playerCharacters: PlayerCharacterData[];
+	nonPlayerCharacters: NonPlayerCharacterData[];
+
+	pcSyncError?: string;
+	npcSyncError?: string;
+}
+
+const initialState: AssetState = {
+	playerCharacters: [],
+	nonPlayerCharacters: [],
+
+	pcSyncError: null,
+	npcSyncError: null
 };
 
-export default function assetsReducer(state = initialState, action: any = {}) {
+export default function assetsReducer(state = initialState, action: any = {}): AssetState {
 	switch (action.type) {
-		case types.ASSETS.SYNC:
+		case types.ASSETS.PLAYERCHARACTER.SYNC:
 			return {
 				...state,
-				assets: action.assets
+				playerCharacters: action.playerCharacters
 			};
-		case types.ASSETS.SYNC_FAILED:
+		case types.ASSETS.NONPLAYERCHARACTER.SYNC:
 			return {
 				...state,
-				syncError: action.error
+				nonPlayerCharacters: action.nonPlayerCharacters
+			};
+		case types.ASSETS.PLAYERCHARACTER.SYNC_FAILED:
+			return {
+				...state,
+				pcSyncError: action.error
+			};
+		case types.ASSETS.NONPLAYERCHARACTER.SYNC_FAILED:
+			return {
+				...state,
+				npcSyncError: action.error
 			};
 		default:
 			return state;
