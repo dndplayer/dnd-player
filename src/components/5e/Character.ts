@@ -1,3 +1,5 @@
+import { AttackEffectType } from './5eRules';
+
 export interface Character {
 	id: string;
 	name: string;
@@ -15,6 +17,8 @@ export interface Character {
 	speed: CharacterSpeeds;
 	proficiencies: CharacterProficiencies;
 	levels: CharacterLevel[];
+	equipment: CharacterEquipment[];
+	attacks: CharacterAttack[];
 }
 
 export interface CharacterSpeeds {
@@ -62,4 +66,43 @@ export interface CharacterProficiencySkills {
 export interface CharacterLevel {
 	className: string;
 	level: number;
+}
+
+export interface CharacterEquipment {
+	name: string;
+	type: string;
+	attacks?: CharacterAttack[];
+}
+
+export interface CharacterAttack {
+	title: string;
+	range: number;
+	longRange?: number;
+	effects: CharacterAttackEffect[];
+}
+
+export interface CharacterAttackEffect {
+	type: AttackEffectType;
+}
+
+export interface ToHitCharacterAttackEffect extends CharacterAttackEffect {
+	ability: string;
+}
+
+export interface DamageCharacterAttackEffect extends CharacterAttackEffect {
+	ability?: string;
+	diceCount: number;
+	diceSize: number;
+	damageType: string;
+}
+
+export interface SavingThrowCharacterAttackEffect extends CharacterAttackEffect {
+	saveType: string;
+	DCAbility: string;
+	onSave: CharacterAttackEffect;
+	onFail: CharacterAttackEffect;
+}
+
+export interface TextCharacterAttackEffect extends CharacterAttackEffect {
+	text: string;
 }

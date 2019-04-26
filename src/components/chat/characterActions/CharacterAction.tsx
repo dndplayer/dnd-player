@@ -1,13 +1,6 @@
 import React, { ReactNode } from 'react';
-import {
-	ChatMessage,
-	CharacterActionData,
-	CharacterActionResultType,
-	CharacterActionDiceRollResult,
-	CharacterActionTextResult
-} from '../../../models/ChatMessage';
-import DiceRoll from './DiceRoll';
-import TextBlock from './TextBlock';
+import { ChatMessage, CharacterActionData } from '../../../models/ChatMessage';
+import Result from './Result';
 
 interface Props {
 	message: ChatMessage;
@@ -18,23 +11,10 @@ export default class CharacterAction extends React.Component<Props> {
 		const { message } = this.props;
 		const data = message.data as CharacterActionData;
 
-		const details = [];
+		const results = [];
 		for (const idx in data.results) {
 			const result = data.results[idx];
-			switch (result.type) {
-				case CharacterActionResultType.Text:
-					details.push(
-						<TextBlock key={idx} result={result as CharacterActionTextResult} />
-					);
-					break;
-				case CharacterActionResultType.DiceRoll:
-					details.push(
-						<DiceRoll key={idx} result={result as CharacterActionDiceRollResult} />
-					);
-					break;
-				default:
-					throw new Error(`Unknown result type ${result.type}.`);
-			}
+			results.push(<Result key={idx} action={result} />);
 		}
 
 		return (
@@ -45,7 +25,9 @@ export default class CharacterAction extends React.Component<Props> {
 				<div className="action-title">
 					<span className="action-name">{data.title}</span>
 				</div>
-				{details}
+				{data.results.map((x, i) => (
+					<Result key={i} action={x} />
+				))}
 			</div>
 		);
 	}

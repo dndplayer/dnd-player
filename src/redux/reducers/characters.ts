@@ -1,6 +1,17 @@
 import { types } from '../actions/characters';
+import {
+	Character,
+	ToHitCharacterAttackEffect,
+	DamageCharacterAttackEffect,
+	TextCharacterAttackEffect,
+	SavingThrowCharacterAttackEffect
+} from '../../components/5e/Character';
+import { AttackEffectType } from '../../components/5e/5eRules';
 
-const initialState = {
+const initialState: {
+	openCharacterSheets: string[];
+	characters: Character[];
+} = {
 	openCharacterSheets: [],
 	characters: [
 		{
@@ -38,6 +49,100 @@ const initialState = {
 				{
 					className: 'Fighter',
 					level: 8
+				}
+			],
+			attacks: [
+				{
+					title: 'Goading Strike',
+					range: 5,
+					effects: [
+						{
+							type: AttackEffectType.Damage,
+							diceCount: 1,
+							diceSize: 8,
+							damageType: 'additional'
+						} as DamageCharacterAttackEffect,
+						{
+							type: AttackEffectType.SavingThrow,
+							saveType: 'wisdom',
+							DCAbility: 'strength',
+							onSave: {
+								type: AttackEffectType.Text,
+								text:
+									'The target has a disadvantage on all attack rolls against targets other than you until the end of your next turn.'
+							} as TextCharacterAttackEffect,
+							onFail: {
+								type: AttackEffectType.Text,
+								text: 'No effect'
+							} as TextCharacterAttackEffect
+						} as SavingThrowCharacterAttackEffect
+					]
+				}
+			],
+			equipment: [
+				{
+					name: 'Longsword',
+					type: 'martialWeapon',
+					attacks: [
+						{
+							title: 'One-handed Swing',
+							range: 5,
+							effects: [
+								{
+									type: AttackEffectType.ToHit,
+									ability: 'strength'
+								} as ToHitCharacterAttackEffect,
+								{
+									type: AttackEffectType.Damage,
+									diceCount: 1,
+									diceSize: 8,
+									ability: 'strength',
+									damageType: 'slashing'
+								} as DamageCharacterAttackEffect
+							]
+						},
+						{
+							title: 'Two-handed Swing',
+							range: 5,
+							effects: [
+								{
+									type: AttackEffectType.ToHit,
+									ability: 'strength'
+								} as ToHitCharacterAttackEffect,
+								{
+									type: AttackEffectType.Damage,
+									diceCount: 1,
+									diceSize: 10,
+									ability: 'strength',
+									damageType: 'slashing'
+								} as DamageCharacterAttackEffect
+							]
+						}
+					]
+				},
+				{
+					name: 'Light Crossbow',
+					type: 'martialWeapon',
+					attacks: [
+						{
+							title: 'Shoot Bolt',
+							range: 80,
+							longRange: 320,
+							effects: [
+								{
+									type: AttackEffectType.ToHit,
+									ability: 'dexterity'
+								} as ToHitCharacterAttackEffect,
+								{
+									type: AttackEffectType.Damage,
+									diceCount: 1,
+									diceSize: 8,
+									ability: 'dexterity',
+									damageType: 'piercing'
+								} as DamageCharacterAttackEffect
+							]
+						}
+					]
 				}
 			]
 		}

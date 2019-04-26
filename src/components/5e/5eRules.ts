@@ -1,4 +1,11 @@
-import { Character } from './Character';
+import {
+	Character,
+	DamageCharacterAttackEffect,
+	ToHitCharacterAttackEffect,
+	CharacterAttackEffect,
+	SavingThrowCharacterAttackEffect,
+	TextCharacterAttackEffect
+} from './Character';
 
 export interface Attack {
 	name: string;
@@ -26,15 +33,15 @@ export interface ToHitAttackEffect extends AttackEffect {
 export interface DamageAttackEffect extends AttackEffect {
 	damageType: string;
 	diceCount: number;
-	diceType: number;
+	diceSize: number;
 	bonus?: number;
 }
 
 export interface SavingThrowAttackEffect extends AttackEffect {
 	saveType: string;
 	saveDC: number;
-	onPassSave: AttackEffect;
-	onFailSave: AttackEffect;
+	onSave: AttackEffect;
+	onFail: AttackEffect;
 }
 
 export interface TextAttackEffect extends AttackEffect {
@@ -62,52 +69,69 @@ export default class Rules {
 		return this.getAbilityModifier(character, 'dexterity');
 	}
 
-	public static getAttacks(character: Character): Attack[] {
-		const attacks: Attack[] = [];
-		attacks.push({
-			name: 'Longsword',
-			range: 5,
-			effects: [
-				{
+	public static mapCharacterAttackEffect(
+		effect: CharacterAttackEffect,
+		character: Character
+	): AttackEffect {
+		switch (effect.type) {
+			case AttackEffectType.ToHit: {
+				const toHitEffect = effect as ToHitCharacterAttackEffect;
+				return {
 					type: AttackEffectType.ToHit,
 					modifier:
-						this.getAbilityModifier(character, 'strength') +
+						this.getAbilityModifier(character, toHitEffect.ability) +
 						this.getProficiencyBonus(character),
 					critRange: 20
-				} as ToHitAttackEffect,
-				{
+				} as ToHitAttackEffect;
+			}
+			case AttackEffectType.Damage: {
+				const damageEffect = effect as DamageCharacterAttackEffect;
+				return {
 					type: AttackEffectType.Damage,
-					damageType: 'slashing',
-					diceCount: 1,
-					diceType: 8,
-					bonus: this.getAbilityModifier(character, 'strength')
-				} as DamageAttackEffect
-			]
-		});
-		/*attacks.push({
-			name: 'Light Crossbow',
-			range: 80,
-			longRange: 320,
-			damageBonus: this.getAbilityModifier(character, 'dexterity'),
-			diceCount: 1,
-			diceType: 8,
-			damageType: 'piercing',
-			critRange: 20,
-			proficient: true,
-			toHit:
-				this.getAbilityModifier(character, 'dexterity') +
-				this.getProficiencyBonus(character)
-		});
-		attacks.push({
-			name: 'Goading Attack',
-			diceCount: 1,
-			diceType: 8,
-			damageType: 'additional',
-			saveType: 'wisdom',
-			saveDC: 10 + this.getAbilityModifier(character, 'strength'),
-			effect:
-				'On a failed save, the target has a disadvantage on all attack rolls against targets other than you until the end of your next turn.'
-		});*/
+					damageType: damageEffect.damageType,
+					diceCount: damageEffect.diceCount,
+					diceSize: damageEffect.diceSize,
+					bonus: damageEffect.ability
+						? this.getAbilityModifier(character, damageEffect.ability)
+						: 0
+				} as DamageAttackEffect;
+			}
+			case AttackEffectType.SavingThrow: {
+				const saveEffect = effect as SavingThrowCharacterAttackEffect;
+				return {
+					type: AttackEffectType.SavingThrow,
+					saveType: saveEffect.saveType,
+					saveDC: 10 + this.getAbilityModifier(character, saveEffect.DCAbility),
+					onSave: this.mapCharacterAttackEffect(saveEffect.onSave, character),
+					onFail: this.mapCharacterAttackEffect(saveEffect.onFail, character)
+				} as SavingThrowAttackEffect;
+			}
+			case AttackEffectType.Text: {
+				const textEffect = effect as TextCharacterAttackEffect;
+				return {
+					type: AttackEffectType.Text,
+					text: textEffect.text
+				} as TextAttackEffect;
+			}
+			default:
+				throw new Error(`Unhandled attack effect type ${effect.type}.`);
+		}
+	}
+
+	public static getAttacks(character: Character): Attack[] {
+		const attacks = []
+			.concat(character.equipment.map(x => x.attacks || []))
+			.concat(character.attacks)
+			.flat()
+			.map(attack => {
+				return {
+					name: attack.title,
+					range: attack.range,
+					effects: attack.effects.map(effect =>
+						this.mapCharacterAttackEffect(effect, character)
+					)
+				};
+			});
 		return attacks;
 	}
 

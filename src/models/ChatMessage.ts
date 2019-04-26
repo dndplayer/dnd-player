@@ -16,7 +16,8 @@ export interface CharacterActionData extends ChatMessageData {
 
 export enum CharacterActionResultType {
 	Text,
-	DiceRoll
+	DiceRoll,
+	Condition
 }
 
 export interface CharacterActionResult {
@@ -31,6 +32,12 @@ export interface CharacterActionDiceRollResult extends CharacterActionResult {
 	rolls: CharacterActionDiceRollResultRoll[];
 	advantage: AdvantageType;
 	modifier: number;
+}
+
+export interface CharacterActionConditionResult extends CharacterActionResult {
+	condition: string;
+	onSuccess: CharacterActionResult;
+	onFailure: CharacterActionResult;
 }
 
 export enum AdvantageType {
