@@ -5,6 +5,10 @@ export const types = {
 			SYNC_FAILED: 'ASSETS.PLAYERCHARACTER.SYNC_FAILED',
 			NEW: {
 				SAVE: 'ASSETS.PLAYERCHARACTER.NEW.SAVE'
+			},
+			DRAG: {
+				START: 'ASSETS.PLAYERCHARACTER.DRAG.START',
+				END: 'ASSETS.PLAYERCHARACTER.DRAG.END'
 			}
 		},
 		NONPLAYERCHARACTER: {
@@ -12,6 +16,10 @@ export const types = {
 			SYNC_FAILED: 'ASSETS.NONPLAYERCHARACTER.SYNC_FAILED',
 			NEW: {
 				SAVE: 'ASSETS.NONPLAYERCHARACTER.NEW.SAVE'
+			},
+			DRAG: {
+				START: 'ASSETS.NONPLAYERCHARACTER.DRAG.START',
+				END: 'ASSETS.NONPLAYERCHARACTER.DRAG.END'
 			}
 		}
 	}
@@ -34,6 +42,16 @@ export const saveNewPlayerCharacter = playerCharacterData => ({
 	playerCharacterData
 });
 
+export const playerCharacterDragStart = dragData => ({
+	type: types.ASSETS.PLAYERCHARACTER.DRAG.START,
+	dragData
+});
+
+export const playerCharacterDragEnd = dragData => ({
+	type: types.ASSETS.PLAYERCHARACTER.DRAG.END,
+	dragData
+});
+
 // Non-Player Characters
 
 export const syncNonPlayerCharacters = nonPlayerCharacters => ({
@@ -49,4 +67,14 @@ export const syncNonPlayerCharactersFailed = error => ({
 export const saveNewNonPlayerCharacter = nonPlayerCharacterData => ({
 	type: types.ASSETS.NONPLAYERCHARACTER.NEW.SAVE,
 	nonPlayerCharacterData
+});
+
+export const nonPlayerCharacterDragStart = dragData => ({
+	type: types.ASSETS.NONPLAYERCHARACTER.DRAG.START,
+	dragData
+});
+
+export const nonPlayerCharacterDragEnd = dragData => ({
+	type: types.ASSETS.NONPLAYERCHARACTER.DRAG.END,
+	dragData
 });
