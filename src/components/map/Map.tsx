@@ -6,6 +6,9 @@ import Viewport from 'pixi-viewport';
 import { MapData } from '../../models/Map';
 import DraggableSprite from './objects/DraggableSprite';
 
+import { DropTarget } from 'react-dnd';
+import types from '../../constants/dragdroptypes';
+
 import TESTDATA from './testMap.json';
 
 const ViewportComponent = PixiComponent('Viewport', {
@@ -31,16 +34,23 @@ const ViewportComponent = PixiComponent('Viewport', {
 	}
 });
 
-interface Props {
+interface CollectProps {
+	connectDropTarget: any;
+}
+
+interface OwnProps {
 	updateSpriteLocation: (sprite: Sprite) => void;
 	mapData?: MapData;
 	zoom?: number;
 	testMap: any;
 	onUpdateObject: (data) => void;
+	onAddAssetToMap: (data) => void;
 }
 
+type Props = CollectProps & OwnProps;
+
 interface State {}
-export default class Map extends Component<Props, State> {
+class Map extends Component<Props, State> {
 	state = {
 		x: 300,
 		y: 300,
@@ -61,7 +71,9 @@ export default class Map extends Component<Props, State> {
 		}
 		const { background, tokens } = this.props.testMap.layers;
 
-		return (
+		const { connectDropTarget } = this.props;
+
+		return connectDropTarget(
 			<div>
 				<Stage
 					// onMount={this.onMapMount}
@@ -117,3 +129,28 @@ export default class Map extends Component<Props, State> {
 		);
 	}
 }
+
+const mapTargetSpec = {
+	canDrop(props, monitor) {
+		return true;
+	},
+	hover(props, monitor, component) {},
+	drop(props, monitor, component) {
+		const item = monitor.getItem();
+		console.log(`dropped [DROPPER]:`);
+		console.log(item);
+		// TODO: Send Action
+
+		if (props.onAddAssetToMap) {
+			props.onAddAssetToMap({ assetType: item.assetType, assetId: item.id });
+		}
+	}
+};
+
+function collect(connect, monitor): CollectProps {
+	return {
+		connectDropTarget: connect.dropTarget()
+	};
+}
+
+export default DropTarget(types.PLAYER_CHARACTER_ASSET, mapTargetSpec, collect)(Map);

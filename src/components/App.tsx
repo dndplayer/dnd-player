@@ -15,6 +15,9 @@ import { Provider } from 'react-redux';
 import store, { history } from '../redux/store';
 import { ConnectedRouter } from 'connected-react-router';
 
+import { DragDropContextProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+
 interface State {
 	projectName: string;
 	apiKey: string;
@@ -43,50 +46,52 @@ class App extends Component<{}, State> {
 		return (
 			<Provider store={store}>
 				<ConnectedRouter history={history}>
-					<div className="App">
-						<MuiThemeProvider theme={theme}>
-							<Switch>
-								<Route
-									exact
-									path="/"
-									render={(): ReactElement => (
-										<div>
-											<MapContainer />
-											<ToolbarContainer
-												style={{
-													position: 'fixed',
-													bottom: '0',
-													left: '35%',
-													transform: 'translate(-50%, 0%)'
-												}}
-											/>
-											<ViewControlsContainer
-												style={{
-													position: 'fixed',
-													right: '25vw',
-													top: '10vh'
-												}}
-											/>
+					<DragDropContextProvider backend={HTML5Backend}>
+						<div className="App">
+							<MuiThemeProvider theme={theme}>
+								<Switch>
+									<Route
+										exact
+										path="/"
+										render={(): ReactElement => (
 											<div>
-												<CharacterSheetContainer />
+												<MapContainer />
+												<ToolbarContainer
+													style={{
+														position: 'fixed',
+														bottom: '0',
+														left: '35%',
+														transform: 'translate(-50%, 0%)'
+													}}
+												/>
+												<ViewControlsContainer
+													style={{
+														position: 'fixed',
+														right: '25vw',
+														top: '10vh'
+													}}
+												/>
+												<div>
+													<CharacterSheetContainer />
+												</div>
+												<div className={styles.chatWrapper}>
+													<Sidebar />
+												</div>
 											</div>
-											<div className={styles.chatWrapper}>
-												<Sidebar />
-											</div>
-										</div>
-									)}
-								/>
-								<Route
-									path="/upload"
-									render={(): ReactElement => <ImageUploaderContainer />}
-								/>
-								<Route
-									path="/login"
-									render={(): ReactElement => <Authentication />}
-								/>
-							</Switch>
-						</MuiThemeProvider>
-					</div>
+										)}
+									/>
+									<Route
+										path="/upload"
+										render={(): ReactElement => <ImageUploaderContainer />}
+									/>
+									<Route
+										path="/login"
+										render={(): ReactElement => <Authentication />}
+									/>
+								</Switch>
+							</MuiThemeProvider>
+						</div>
+					</DragDropContextProvider>
 				</ConnectedRouter>
 			</Provider>
 		);

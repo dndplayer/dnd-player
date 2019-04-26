@@ -1,22 +1,63 @@
 import React, { Component } from 'react';
+import { DragSource } from 'react-dnd';
+import types from '../../constants/dragdroptypes';
+import { AssetType } from '../../models/AssetType';
 
-interface Props {
+interface OwnProps {
 	asset: any;
-	onDragStart: (data: any) => void;
-	onDragEnd: (data: any) => void;
+	assetType: AssetType;
 }
-export default class AssetListItem extends Component<Props> {
+
+interface CollectProps {
+	connectDragSource: any;
+	isDragging: boolean;
+}
+
+type Props = OwnProps & CollectProps;
+
+class AssetListItem extends Component<Props> {
 	render() {
-		const { asset, onDragStart, onDragEnd } = this.props;
-		return (
+		const { asset, assetType } = this.props;
+		// These two props are injected by React DnD,
+		// as defined by your `collect` function below:
+		const { isDragging, connectDragSource } = this.props;
+		return connectDragSource(
 			<div
-				draggable={true}
-				onDragStart={evt => onDragStart({ x: evt.clientX, y: evt.clientY })}
-				onDragEnd={evt => onDragEnd({ x: evt.clientX, y: evt.clientY })}
-				style={{ cursor: 'pointer', padding: '5px 10px' }}
+				style={{
+					cursor: 'pointer',
+					padding: '5px 10px',
+					backgroundColor: isDragging ? 'red' : 'transparent'
+				}}
 			>
 				{asset.name || 'unknown'}
 			</div>
 		);
 	}
 }
+
+const pcAssetSource = {
+	beginDrag(props) {
+		return {
+			id: props.asset.id,
+			assetType: props.assetType
+		};
+	},
+	endDrag(props, monitor, component) {
+		if (!monitor.didDrop()) {
+			return;
+		}
+
+		const item = monitor.getItem();
+		const dropResult = monitor.getDropResult();
+		// TODO: Fire redux action
+	}
+};
+
+function collect(connect, monitor): CollectProps {
+	return {
+		connectDragSource: connect.dragSource(),
+		isDragging: monitor.isDragging()
+	};
+}
+
+export default DragSource(types.PLAYER_CHARACTER_ASSET, pcAssetSource, collect)(AssetListItem);

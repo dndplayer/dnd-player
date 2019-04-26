@@ -21,9 +21,6 @@ interface AssetState {
 
 	pcSyncError?: string;
 	npcSyncError?: string;
-
-	playerCharacterDragData?: any;
-	nonPlayerCharacterDragData?: any;
 }
 
 const initialState: AssetState = {
@@ -31,10 +28,7 @@ const initialState: AssetState = {
 	nonPlayerCharacters: [],
 
 	pcSyncError: null,
-	npcSyncError: null,
-
-	playerCharacterDragData: null,
-	nonPlayerCharacterDragData: null
+	npcSyncError: null
 };
 
 export default function assetsReducer(state = initialState, action: any = {}): AssetState {
@@ -71,26 +65,6 @@ export default function assetsReducer(state = initialState, action: any = {}): A
 			return {
 				...state,
 				npcSyncError: action.error
-			};
-		case types.ASSETS.PLAYERCHARACTER.DRAG.START:
-			return {
-				...state,
-				playerCharacterDragData: action.dragData
-			};
-		case types.ASSETS.PLAYERCHARACTER.DRAG.END:
-			return {
-				...state,
-				playerCharacterDragData: action.dragData
-			};
-		case types.ASSETS.NONPLAYERCHARACTER.DRAG.START:
-			return {
-				...state,
-				nonPlayerCharacterDragData: action.dragData
-			};
-		case types.ASSETS.NONPLAYERCHARACTER.DRAG.END:
-			return {
-				...state,
-				nonPlayerCharacterDragData: action.dragData
 			};
 		default:
 			return state;
