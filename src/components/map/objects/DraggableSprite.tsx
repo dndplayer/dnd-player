@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js';
 
 interface DraggableSpriteProps {
 	position: any;
-	onUpdatePosition: (data) => void;
+	onUpdateObject: (data) => void;
 }
 
 type Props = DraggableSpriteProps;
@@ -40,7 +40,7 @@ export default PixiComponent<any, PIXI.Sprite>('DraggableSprite', {
 
 		// TODO: Attach callbacks to the actual sprite ?
 
-		(s as any).onUpdatePosition = props.onUpdatePosition;
+		(s as any).onUpdateObject = props.onUpdateObject;
 		(s as any).layerName = props.layerName;
 		(s as any).mapObjectId = props.mapObjectId;
 
@@ -69,11 +69,13 @@ export default PixiComponent<any, PIXI.Sprite>('DraggableSprite', {
 			(instance as any).dragging = false;
 			(instance as any).data = null;
 
-			if ((instance as any).onUpdatePosition) {
-				(instance as any).onUpdatePosition({
+			if ((instance as any).onUpdateObject) {
+				(instance as any).onUpdateObject({
 					layerName: (instance as any).layerName,
 					mapObjectId: (instance as any).mapObjectId,
-					newPosition: lastPos
+					newData: {
+						position: lastPos
+					}
 				});
 			}
 		};

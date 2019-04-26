@@ -36,7 +36,7 @@ interface Props {
 	mapData?: MapData;
 	zoom?: number;
 	testMap: any;
-	onUpdatePosition: (data) => void;
+	onUpdateObject: (data) => void;
 }
 
 interface State {}
@@ -82,13 +82,9 @@ export default class Map extends Component<Props, State> {
 											pivot={o.pivot}
 											anchor={o.anchor}
 											image={o.imageUrl}
-											onUpdatePosition={this.props.onUpdatePosition}
+											onUpdateObject={this.props.onUpdateObject}
 											mapObjectId={mapObjId}
 											layerName="background"
-											// onUpdateScale={}
-											// onUpdateRotation={}
-											// onUpdateAnchor={}
-											// onUpdatePivot={}
 										/>
 									);
 								}
@@ -107,14 +103,9 @@ export default class Map extends Component<Props, State> {
 											pivot={o.pivot}
 											anchor={o.anchor}
 											image={o.imageUrl}
-											onUpdatePosition={this.props.onUpdatePosition}
+											onUpdateObject={this.props.onUpdateObject}
 											mapObjectId={mapObjId}
 											layerName="tokens"
-											// onUpdatePosition={}
-											// onUpdateScale={}
-											// onUpdateRotation={}
-											// onUpdateAnchor={}
-											// onUpdatePivot={}
 										/>
 									);
 								}

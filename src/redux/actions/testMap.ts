@@ -3,7 +3,7 @@ export const types = {
 		SYNC: 'TESTMAP.SYNC',
 		SYNC_FAILED: 'TESTMAP.SYNC_FAILED',
 		UPDATE: {
-			POSITION: 'TESTMAP.UPDATE.POSITION'
+			OBJECT: 'TESTMAP.UPDATE.OBJECT'
 		}
 	}
 };
@@ -18,9 +18,9 @@ export const syncTestMapFailed = error => ({
 	error
 });
 
-export const testMapUpdatePosition = ({ layerName, mapObjectId, newPosition }) => ({
-	type: types.TESTMAP.UPDATE.POSITION,
+export const testMapUpdateObject = ({ layerName, mapObjectId, newData }) => ({
+	type: types.TESTMAP.UPDATE.OBJECT,
 	layerName,
 	mapObjectId,
-	newPosition
+	newData
 });
