@@ -54,6 +54,9 @@ export default class Rules {
 			return 0;
 		}
 		const totalLevel = character.levels.map(x => x.level).reduce((x, y) => x + y);
+		if (totalLevel > 20) {
+			return 0;
+		}
 		return 1 + Math.ceil(totalLevel / 4);
 	}
 
