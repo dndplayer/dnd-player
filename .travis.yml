@@ -1,30 +1,30 @@
-
 language: node_js
 node_js:
-  - "11"
+    - '11'
 cache:
-  directories:
-  - node_modules
+    directories:
+        - node_modules
 
 branches:
-  only:
-    - master
+    only:
+        - master
 
 install:
-  - npm install -g yarn
+    - npm install -g yarn
 
 script:
-  # - npm test
-  # - npm run build
-  - yarn install
-  - yarn build
+    # - npm test
+    # - npm run build
+    - yarn install
+    - yarn build
+    - yarn test
 
 deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  keep_history: true
-  local_dir: build
-  fqdn: dnd-player.com
-  on:
-    branch: master
+    provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN
+    keep_history: true
+    local_dir: build
+    fqdn: dnd-player.com
+    on:
+        branch: master

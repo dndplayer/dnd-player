@@ -50,6 +50,9 @@ export interface TextAttackEffect extends AttackEffect {
 
 export default class Rules {
 	public static getProficiencyBonus(character: Character): number {
+		if (!character || !character.levels) {
+			return 0;
+		}
 		const totalLevel = character.levels.map(x => x.level).reduce((x, y) => x + y);
 		return 1 + Math.ceil(totalLevel / 4);
 	}

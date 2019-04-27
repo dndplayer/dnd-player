@@ -23,7 +23,7 @@ interface State {
 	apiKey: string;
 }
 
-class App extends Component<{}, State> {
+export class App extends Component<{}, State> {
 	constructor(props) {
 		super(props);
 		this.configLoaded = !!localStorage.getItem('firebaseConfig');
