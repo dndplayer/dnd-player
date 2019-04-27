@@ -36,7 +36,6 @@ export default class Attacks extends React.Component<Props, State> {
 						<span className="attack-range">Range</span>
 						<span className="attack-toHit">To Hit</span>
 						<span className="attack-damage">Damage</span>
-						<span className="attack-notes">Notes</span>
 					</div>
 					{attacks}
 				</div>

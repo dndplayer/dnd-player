@@ -186,6 +186,7 @@ function getMockCharacter(): Character {
 					}
 				]
 			}
-		]
+		],
+		spells: []
 	};
 }

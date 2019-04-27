@@ -19,6 +19,7 @@ export interface Character {
 	levels: CharacterLevel[];
 	equipment: CharacterEquipment[];
 	attacks: CharacterAttack[];
+	spells: CharacterSpell[];
 }
 
 export interface CharacterSpeeds {
@@ -94,6 +95,7 @@ export interface DamageCharacterAttackEffect extends CharacterAttackEffect {
 	diceCount: number;
 	diceSize: number;
 	damageType: string;
+	bonus?: number;
 }
 
 export interface SavingThrowCharacterAttackEffect extends CharacterAttackEffect {
@@ -105,4 +107,19 @@ export interface SavingThrowCharacterAttackEffect extends CharacterAttackEffect 
 
 export interface TextCharacterAttackEffect extends CharacterAttackEffect {
 	text: string;
+}
+
+export interface CharacterSpell {
+	name: string;
+	level: number;
+	school: string;
+	time: string;
+	range: number;
+	verbal?: boolean;
+	somatic?: boolean;
+	material?: string;
+	duration: string;
+	description: string;
+	higherLevels?: string;
+	effects: CharacterAttackEffect[];
 }

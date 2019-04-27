@@ -86,7 +86,6 @@ export default class AttackBlock extends React.Component<Props, State> {
 					{damageEffect.diceCount}d{damageEffect.diceSize}+{damageEffect.bonus || 0}{' '}
 					{damageEffect.damageType}
 				</div>
-				<div className="attack-notes">Notes</div>
 			</div>
 		);
 	}
@@ -194,7 +193,11 @@ export default class AttackBlock extends React.Component<Props, State> {
 				};
 				return { result: result4, crit };
 			default:
-				throw new Error(`Unexpected attack effect ${effect.type}.`);
+				const result5: CharacterActionTextResult = {
+					type: CharacterActionResultType.Text,
+					text: `Unexpected attack effect ${effect.type}!`
+				};
+				return { result: result5, crit };
 		}
 	}
 

@@ -33,7 +33,7 @@
 }
 
 .attack-name {
-	width: 100px;
+	width: 120px;
 }
 .attack-range {
 	width: 50px;
@@ -42,9 +42,6 @@
 	width: 50px;
 }
 .attack-damage {
-	width: 80px;
-}
-.attack-notes {
 	width: 100px;
 }
 

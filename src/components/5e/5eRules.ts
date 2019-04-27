@@ -97,9 +97,11 @@ export default class Rules {
 					damageType: damageEffect.damageType,
 					diceCount: damageEffect.diceCount,
 					diceSize: damageEffect.diceSize,
-					bonus: damageEffect.ability
-						? this.getAbilityModifier(character, damageEffect.ability)
-						: 0
+					bonus:
+						(damageEffect.bonus || 0) +
+						(damageEffect.ability
+							? this.getAbilityModifier(character, damageEffect.ability)
+							: 0)
 				} as DamageAttackEffect;
 			}
 			case AttackEffectType.SavingThrow: {
@@ -120,7 +122,10 @@ export default class Rules {
 				} as TextAttackEffect;
 			}
 			default:
-				throw new Error(`Unhandled attack effect type ${effect.type}.`);
+				return {
+					type: AttackEffectType.Text,
+					text: `Unknown attack type ${effect.type}!`
+				} as TextAttackEffect;
 		}
 	}
 
@@ -128,6 +133,14 @@ export default class Rules {
 		const attacks = []
 			.concat(character.equipment.map(x => x.attacks || []))
 			.concat(character.attacks)
+			.concat(
+				character.spells.map(x => {
+					return {
+						...x,
+						title: x.name
+					};
+				})
+			)
 			.flat()
 			.map(attack => {
 				return {

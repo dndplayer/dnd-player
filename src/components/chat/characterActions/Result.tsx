@@ -25,7 +25,7 @@ export default class Result extends React.Component<Props> {
 			case CharacterActionResultType.Condition:
 				return <Condition result={action as CharacterActionConditionResult} />;
 			default:
-				throw new Error(`Unknown action type ${action.type}.`);
+				return <div>Unknown action type {action.type}!</div>;
 		}
 	}
 }
