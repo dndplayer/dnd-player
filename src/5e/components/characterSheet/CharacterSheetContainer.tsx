@@ -4,7 +4,7 @@ import CharacterSheet from './CharacterSheet';
 import { ChatMessageData } from '../../../models/ChatMessage';
 
 import { saveNewMessage } from '../../../redux/actions/chat';
-import { Character } from '../Character';
+import { Character } from '../../models/Character';
 import { closeCharacterSheet } from '../../../redux/actions/characters';
 import { updatePlayerCharacter } from '../../../redux/actions/assets';
 

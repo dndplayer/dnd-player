@@ -2,7 +2,7 @@ import React, { Component, ReactNode, ReactElement } from 'react';
 import { Switch, Route } from 'react-router';
 import styles from './App.module.css';
 
-import CharacterSheetContainer from './5e/characterSheet/CharacterSheetContainer';
+import CharacterSheetContainer from '../5e/components/characterSheet/CharacterSheetContainer';
 import ImageUploaderContainer from './sidebar/panels/imageUploader/ImageUploaderContainer';
 import Authentication from './authentication/Authentication';
 import Sidebar from './sidebar/Sidebar';

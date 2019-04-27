@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { saveNewMessage } from '../../../../redux/actions/chat';
 import { ChatMessageData } from '../../../../models/ChatMessage';
-import CharacterList from '../../../5e/CharacterList';
+import CharacterList from '../../../../5e/components/CharacterList';
 
 const mapStateToProps = (state): any => ({
 	messages: state.chat.messages,

@@ -5,7 +5,7 @@ import {
 	CharacterAttackEffect,
 	SavingThrowCharacterAttackEffect,
 	TextCharacterAttackEffect
-} from './Character';
+} from './models/Character';
 
 export interface Attack {
 	name: string;

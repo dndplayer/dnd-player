@@ -1,20 +1,19 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactNode } from 'react';
 
 import { DiceRoll } from 'rpg-dice-roller';
 import { RollData, ChatMessageData } from '../../../models/ChatMessage';
 
 import './CharacterSheet.css';
-import { Character } from '../Character';
-import Rules from '../5eRules';
+import { Character } from '../../models/Character';
+import Rules from '../../5eRules';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	ability: string;
 	character: Character;
 }
-interface State {}
 
-export default class AbilitySave extends React.Component<Props, State> {
+export default class AbilityScore extends React.Component<Props, {}> {
 	constructor(props: Props) {
 		super(props);
 
@@ -29,32 +28,22 @@ export default class AbilitySave extends React.Component<Props, State> {
 
 	render(): ReactNode {
 		const { ability, character } = this.props;
-		const modifier = Rules.getSaveModifier(character, ability);
-		const proficiencyClass =
-			character.proficiencies.saves[ability] === 2
-				? 'expertise'
-				: character.proficiencies.saves[ability] === 1
-				? 'proficient'
-				: character.proficiencies.saves[ability] === 0.5
-				? 'half-proficient'
-				: 'none';
+		const modifier = Rules.getAbilityModifier(character, ability);
 
 		return (
-			<div className="save" onClick={e => this.handleClick(e, 0)}>
+			<div className="ability" onClick={e => this.handleClick(e, 0)}>
 				<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
 					A
 				</div>
 				<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
 					D
 				</div>
-				<div className="save-wrapper">
-					<div className={`save-proficiency ${proficiencyClass}`} />
-					<div className="save-title">{Rules.getShortAbilityName(ability)}</div>
-					<div className="save-modifier">
-						<span className="save-symbol">{modifier < 0 ? '-' : '+'}</span>
-						<span className="save-number">{Math.abs(modifier)}</span>
-					</div>
+				<div className="ability-title">{this.getLongName(ability)}</div>
+				<div className="ability-modifier">
+					<div className="ability-symbol">{modifier < 0 ? '-' : '+'}</div>
+					<div className="ability-number">{Math.abs(modifier)}</div>
 				</div>
+				<div className="ability-score">{character[ability]}</div>
 			</div>
 		);
 	}
@@ -65,31 +54,31 @@ export default class AbilitySave extends React.Component<Props, State> {
 	getLongName(ability: string): string {
 		switch (ability) {
 			case 'strength':
-				return 'Strength Save';
+				return 'Strength';
 			case 'dexterity':
-				return 'Dexterity Save';
+				return 'Dexterity';
 			case 'constitution':
-				return 'Constitution Save';
+				return 'Constitution';
 			case 'intelligence':
-				return 'Intelligence Save';
+				return 'Intelligence';
 			case 'wisdom':
-				return 'Wisdom Save';
+				return 'Wisdom';
 			case 'charisma':
-				return 'Charisma Save';
+				return 'Charisma';
 			default:
 				return '';
 		}
 	}
 
 	handleClick(e, advantage: number): void {
-		const modifier = Rules.getSaveModifier(this.props.character, this.props.ability);
+		const modifier = Rules.getAbilityModifier(this.props.character, this.props.ability);
 		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
 		const roll = new DiceRoll('d20' + modifierStr);
 		const stat = this.getLongName(this.props.ability);
 
 		const data: RollData = {
 			type: 'roll',
-			rollType: 'Save',
+			rollType: 'Ability',
 			rollName: stat,
 			modifier: modifierStr,
 			roll1Total: roll.total,

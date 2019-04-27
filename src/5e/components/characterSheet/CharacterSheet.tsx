@@ -8,7 +8,7 @@ import AbilityScore from './AbilityScore';
 import AbilitySave from './AbilitySave';
 
 import './CharacterSheet.css';
-import { Character } from '../Character';
+import { Character } from '../../models/Character';
 import Skill from './Skill';
 import ProficiencyBonus from './ProficiencyBonus';
 import Speed from './Speed';

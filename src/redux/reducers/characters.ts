@@ -1,19 +1,9 @@
 import { types } from '../actions/characters';
-import {
-	Character,
-	ToHitCharacterAttackEffect,
-	DamageCharacterAttackEffect,
-	TextCharacterAttackEffect,
-	SavingThrowCharacterAttackEffect
-} from '../../components/5e/Character';
-import { AttackEffectType } from '../../components/5e/5eRules';
 
 const initialState: {
 	openCharacterSheets: string[];
 } = {
 	openCharacterSheets: []
-	/*characters: [
-	]*/
 };
 
 export default function reducer(state = initialState, action: any = {}) {

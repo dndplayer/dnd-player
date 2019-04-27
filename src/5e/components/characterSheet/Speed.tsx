@@ -1,14 +1,13 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactNode } from 'react';
 
 import './CharacterSheet.css';
-import { Character } from '../Character';
+import { Character } from '../../models/Character';
 
 interface Props {
 	character: Character;
 }
-interface State {}
 
-export default class Speed extends React.Component<Props, State> {
+export default class Speed extends React.Component<Props, {}> {
 	constructor(props: Props) {
 		super(props);
 

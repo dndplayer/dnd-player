@@ -1,4 +1,4 @@
-import { AttackEffectType } from './5eRules';
+import { AttackEffectType } from '../5eRules';
 
 export interface Character {
 	id: string;

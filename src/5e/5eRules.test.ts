@@ -8,7 +8,7 @@ import {
 	TextCharacterAttackEffect,
 	SavingThrowCharacterAttackEffect,
 	ToHitCharacterAttackEffect
-} from './Character';
+} from './models/Character';
 import each from 'jest-each';
 
 describe('Rules', () => {

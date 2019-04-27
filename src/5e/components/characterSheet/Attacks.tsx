@@ -1,8 +1,8 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactNode } from 'react';
 
 import './Attacks.css';
-import { Character } from '../Character';
-import Rules from '../5eRules';
+import { Character } from '../../models/Character';
+import Rules from '../../5eRules';
 import AttackBlock from './AttackBlock';
 import { ChatMessageData } from '../../../models/ChatMessage';
 
@@ -10,9 +10,8 @@ interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	character: Character;
 }
-interface State {}
 
-export default class Attacks extends React.Component<Props, State> {
+export default class Attacks extends React.Component<Props, {}> {
 	constructor(props: Props) {
 		super(props);
 

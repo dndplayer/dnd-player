@@ -1,11 +1,11 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactNode } from 'react';
 
 import { DiceRoll } from 'rpg-dice-roller';
 import { RollData, ChatMessageData } from '../../../models/ChatMessage';
 
 import './CharacterSheet.css';
-import { Character } from '../Character';
-import Rules from '../5eRules';
+import { Character } from '../../models/Character';
+import Rules from '../../5eRules';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -13,9 +13,8 @@ interface Props {
 	ability: string;
 	character: Character;
 }
-interface State {}
 
-export default class Skill extends React.Component<Props, State> {
+export default class Skill extends React.Component<Props, {}> {
 	constructor(props: Props) {
 		super(props);
 
@@ -79,7 +78,6 @@ export default class Skill extends React.Component<Props, State> {
 		);
 		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
 		const roll = new DiceRoll('d20' + modifierStr);
-		const stat = this.props.ability;
 
 		const data: RollData = {
 			type: 'roll',

@@ -9,7 +9,7 @@ import Rules, {
 	SavingThrowAttackEffect,
 	AttackEffect,
 	TextAttackEffect
-} from '../5eRules';
+} from '../../5eRules';
 import {
 	ChatMessageData,
 	CharacterActionData,
@@ -26,9 +26,8 @@ interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	attack: Attack;
 }
-interface State {}
 
-export default class AttackBlock extends React.Component<Props, State> {
+export default class AttackBlock extends React.Component<Props, {}> {
 	constructor(props: Props) {
 		super(props);
 

@@ -1,15 +1,14 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactNode } from 'react';
 
 import './CharacterSheet.css';
-import { Character } from '../Character';
-import Rules from '../5eRules';
+import { Character } from '../../models/Character';
+import Rules from '../../5eRules';
 
 interface Props {
 	character: Character;
 }
-interface State {}
 
-export default class ProficiencyBonus extends React.Component<Props, State> {
+export default class ProficiencyBonus extends React.Component<Props, {}> {
 	constructor(props: Props) {
 		super(props);
 

@@ -1,6 +1,6 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactNode } from 'react';
 
-import { Character } from './Character';
+import { Character } from '../models/Character';
 import { connect } from 'react-redux';
 import { openCharacterSheet } from '../../redux/actions/characters';
 
