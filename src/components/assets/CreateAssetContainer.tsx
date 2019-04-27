@@ -1,22 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CreateAsset from './CreateAsset';
-import { Asset } from '../../models/Asset';
 import { Upload } from '../../models/Upload';
+import { AssetType } from '../../models/AssetType';
+import { saveNewPlayerCharacter, saveNewNonPlayerCharacter } from '../../redux/actions/assets';
 // import { saveNewAsset } from '../../redux/actions/assets';
 
 interface StateProps {
-	assets: Asset[];
+	assets: any[];
 	uploads: Upload[];
 }
-interface DispatchProps {}
+interface DispatchProps {
+	saveNewPlayerCharacter: (data: any) => void;
+	saveNewNonPlayerCharacter: (data: any) => void;
+}
 interface OwnProps {}
 
 type Props = StateProps & DispatchProps & OwnProps;
 
 class CreateAssetContainer extends Component<Props> {
+	saveNewAsset = (assetType: AssetType, data: any): void => {
+		if (assetType === AssetType.PlayerCharacter) {
+			this.props.saveNewPlayerCharacter(data);
+		} else if (assetType === AssetType.NonPlayerCharacter) {
+			this.props.saveNewNonPlayerCharacter(data);
+		}
+	};
+
 	render() {
-		return <CreateAsset uploads={this.props.uploads} saveNewAsset={() => {}} />;
+		return <CreateAsset uploads={this.props.uploads} saveNewAsset={this.saveNewAsset} />;
 	}
 }
 
@@ -24,7 +36,10 @@ const mapStateToProps = (state): StateProps => ({
 	assets: state.assets.assets,
 	uploads: state.images.images
 });
-const mapDispatchToProps = (dispatch): DispatchProps => ({});
+const mapDispatchToProps = (dispatch): DispatchProps => ({
+	saveNewPlayerCharacter: data => dispatch(saveNewPlayerCharacter(data)),
+	saveNewNonPlayerCharacter: data => dispatch(saveNewNonPlayerCharacter(data))
+});
 
 export default connect<StateProps, DispatchProps, OwnProps>(
 	mapStateToProps,

@@ -40,10 +40,10 @@ function* addAssetToTestMap(action): any {
 		name: 'New Asset',
 		position: { x: 0, y: 0 },
 		rotation: 0,
-		scale: { x: 1, y: 1 },
+		scale: { x: 1, y: 1 }
 		// TODO: TEMPORARILY REQUIRED UNTIL IT USES THE ASSET IMAGE!
-		imageUrl:
-			'https://firebasestorage.googleapis.com/v0/b/dnd-player-a7776.appspot.com/o/uploads%2F5e9a7b59-678a-477c-a18b-4739c9cb197a?alt=media&token=73ec57e9-87e2-44ca-9b08-4243d584cd91'
+		// imageUrl:
+		// 	'https://firebasestorage.googleapis.com/v0/b/dnd-player-a7776.appspot.com/o/uploads%2F5e9a7b59-678a-477c-a18b-4739c9cb197a?alt=media&token=73ec57e9-87e2-44ca-9b08-4243d584cd91'
 	};
 	if (assetType === AssetType.PlayerCharacter) {
 		payload['pcId'] = assetId;

@@ -65,6 +65,9 @@ export default PixiComponent<any, PIXI.Sprite>('DraggableSprite', {
 
 		const onDragEnd = (e: PIXI.interaction.InteractionEvent): void => {
 			instance.alpha = 1.0;
+			if (!(instance as any).data || !(instance as any).dragging) {
+				return;
+			}
 			const lastPos = (instance as any).data.getLocalPosition(e.currentTarget.parent);
 			(instance as any).dragging = false;
 			(instance as any).data = null;

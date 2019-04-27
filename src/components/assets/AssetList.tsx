@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Asset } from '../../models/Asset';
 import AssetListItem from './AssetListItem';
 import { AssetType } from '../../models/AssetType';
+import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 
 interface Props {
-	playerCharacters: any[];
-	nonPlayerCharacters: any[];
+	playerCharacters: PlayerCharacterData[];
+	nonPlayerCharacters: NonPlayerCharacterData[];
 }
 
 export default class AssetList extends Component<Props> {

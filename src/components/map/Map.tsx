@@ -10,6 +10,7 @@ import { DropTarget } from 'react-dnd';
 import types from '../../constants/dragdroptypes';
 
 import TESTDATA from './testMap.json';
+import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 
 const ViewportComponent = PixiComponent('Viewport', {
 	create: props => {
@@ -43,6 +44,8 @@ interface OwnProps {
 	mapData?: MapData;
 	zoom?: number;
 	testMap: any;
+	playerCharacters: PlayerCharacterData[];
+	nonPlayerCharacters: NonPlayerCharacterData[];
 	onUpdateObject: (data) => void;
 	onAddAssetToMap: (data) => void;
 }
@@ -64,7 +67,7 @@ class Map extends Component<Props, State> {
 	private root: PIXI.Container;
 
 	render(): ReactNode {
-		// const { background, tokens } = TESTDATA.layers;
+		const { playerCharacters, nonPlayerCharacters } = this.props;
 
 		if (!this.props.testMap) {
 			return <div>No Map</div>;
@@ -72,6 +75,10 @@ class Map extends Component<Props, State> {
 		const { background, tokens } = this.props.testMap.layers;
 
 		const { connectDropTarget } = this.props;
+
+		// TODO: A-lot of the code below repeats for each layer, it's not very DRY.
+		//       Creating a custom LayerContainer element would help encapsulate that
+		//       logic.
 
 		return connectDropTarget(
 			<div>
@@ -85,6 +92,18 @@ class Map extends Component<Props, State> {
 							{Object.keys(background.children).map(
 								(mapObjId): ReactElement => {
 									const o = background.children[mapObjId];
+									const pcAsset = o.pcId
+										? playerCharacters.find(x => x.id === o.pcId)
+										: null;
+									const npcAsset = o.npcId
+										? nonPlayerCharacters.find(x => x.id === o.npcId)
+										: null;
+									const imageUrl =
+										pcAsset && pcAsset.imageUrl
+											? pcAsset.imageUrl
+											: npcAsset && npcAsset.imageUrl
+											? npcAsset.imageUrl
+											: o.imageUrl || 'http://placekitten.com/128/128';
 									return (
 										<DraggableSprite
 											key={mapObjId}
@@ -93,7 +112,7 @@ class Map extends Component<Props, State> {
 											rotation={o.rotation}
 											pivot={o.pivot}
 											anchor={o.anchor}
-											image={o.imageUrl}
+											image={imageUrl}
 											onUpdateObject={this.props.onUpdateObject}
 											mapObjectId={mapObjId}
 											layerName="background"
@@ -106,6 +125,18 @@ class Map extends Component<Props, State> {
 							{Object.keys(tokens.children).map(
 								(mapObjId): ReactElement => {
 									const o = tokens.children[mapObjId];
+									const pcAsset = o.pcId
+										? playerCharacters.find(x => x.id === o.pcId)
+										: null;
+									const npcAsset = o.npcId
+										? nonPlayerCharacters.find(x => x.id === o.npcId)
+										: null;
+									const imageUrl =
+										pcAsset && pcAsset.imageUrl
+											? pcAsset.imageUrl
+											: npcAsset && npcAsset.imageUrl
+											? npcAsset.imageUrl
+											: o.imageUrl || 'http://placekitten.com/128/128';
 									return (
 										<DraggableSprite
 											key={mapObjId}
@@ -114,7 +145,7 @@ class Map extends Component<Props, State> {
 											rotation={o.rotation}
 											pivot={o.pivot}
 											anchor={o.anchor}
-											image={o.imageUrl}
+											image={imageUrl}
 											onUpdateObject={this.props.onUpdateObject}
 											mapObjectId={mapObjId}
 											layerName="tokens"

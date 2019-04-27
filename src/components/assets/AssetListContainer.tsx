@@ -1,11 +1,11 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
-import { Asset } from '../../models/Asset';
 import AssetList from './AssetList';
+import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 
 interface StateProps {
-	playerCharacters: any[];
-	nonPlayerCharacters: any[];
+	playerCharacters: PlayerCharacterData[];
+	nonPlayerCharacters: NonPlayerCharacterData[];
 }
 interface DispatchProps {}
 interface OwnProps {}

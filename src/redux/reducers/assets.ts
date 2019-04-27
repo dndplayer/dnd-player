@@ -1,14 +1,5 @@
 import { types } from '../actions/assets';
-
-interface PlayerCharacterData {
-	id: string;
-	name: string;
-}
-
-interface NonPlayerCharacterData {
-	id: string;
-	name: string;
-}
+import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 
 interface AssetState {
 	// TODO: Perhaps these pc and npc collections should be object with
