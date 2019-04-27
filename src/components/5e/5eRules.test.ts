@@ -50,7 +50,7 @@ describe('Rules', () => {
 		it('should return 0 if level is greater than 20', () => {
 			const character = getMockCharacter();
 			character.levels = [{ className: 'fighter', level: 21 }];
-			expect(Rules.getProficiencyBonus({})).toBe(0);
+			expect(Rules.getProficiencyBonus(character)).toBe(0);
 		});
 	});
 });
