@@ -1,8 +1,8 @@
 # DND Player
 
 [![Build Status](https://travis-ci.org/dndplayer/dnd-player.svg?branch=master)](https://travis-ci.org/dndplayer/dnd-player)
-![Coveralls github](https://img.shields.io/coveralls/github/dndplayer/dnd-player.svg)
-![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability-percentage/dndplayer/dnd-player.svg)
+[![Coveralls github](https://img.shields.io/coveralls/github/dndplayer/dnd-player.svg)](https://coveralls.io/github/dndplayer/dnd-player)
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability-percentage/dndplayer/dnd-player.svg)](https://codeclimate.com/github/dndplayer/dnd-player)
 
 [![MIT license](https://img.shields.io/badge/license-MIT-green.svg)](https://lbesson.mit-license.org/)
 [![OGL license](https://img.shields.io/badge/license-OGL-yellow.svg)](http://media.wizards.com/2016/downloads/DND/SRD-OGL_V5.1.pdf)
