@@ -1,15 +1,15 @@
 {
-  "main.css": "/static/css/main.d0ebd203.chunk.css",
-  "main.js": "/static/js/main.c55826bd.chunk.js",
-  "main.js.map": "/static/js/main.c55826bd.chunk.js.map",
+  "main.css": "/static/css/main.4946ef32.chunk.css",
+  "main.js": "/static/js/main.5b5c89b3.chunk.js",
+  "main.js.map": "/static/js/main.5b5c89b3.chunk.js.map",
   "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
   "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
   "static/js/2.1f3d01cd.chunk.js": "/static/js/2.1f3d01cd.chunk.js",
   "static/js/2.1f3d01cd.chunk.js.map": "/static/js/2.1f3d01cd.chunk.js.map",
   "index.html": "/index.html",
-  "precache-manifest.a90d2b0340df9fd0dfd987c1b52955ce.js": "/precache-manifest.a90d2b0340df9fd0dfd987c1b52955ce.js",
+  "precache-manifest.7246869380fa756a69b051036a9dfddc.js": "/precache-manifest.7246869380fa756a69b051036a9dfddc.js",
   "service-worker.js": "/service-worker.js",
-  "static/css/main.d0ebd203.chunk.css.map": "/static/css/main.d0ebd203.chunk.css.map",
+  "static/css/main.4946ef32.chunk.css.map": "/static/css/main.4946ef32.chunk.css.map",
   "static/media/CharacterSheet.css": "/static/media/ac.b36135ab.svg",
   "static/media/Roll.css": "/static/media/disadvantage.301ac636.svg"
 }
