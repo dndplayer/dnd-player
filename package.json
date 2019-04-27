@@ -7,6 +7,7 @@
     "@inlet/react-pixi": "^0.5.7",
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
+    "@sentry/browser": "5.1.1",
     "@types/jest": "^24.0.11",
     "@types/node": "^11.13.4",
     "@types/react": "^16.8.13",
@@ -39,7 +40,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "react-scripts build && cp CNAME ./build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "enableSentry": "sed -i '/^\\/\\/ SENTRYINITHERE/i Sentry.init({dsn: \"https://1cc1d39b264843a98f5dae0cb8da14ce@sentry.io/1448000\"});' src/index.tsx"
   },
   "eslintConfig": {
     "extends": "react-app"

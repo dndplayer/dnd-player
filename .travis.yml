@@ -18,9 +18,8 @@ before_script:
     - ./cc-test-reporter before-build
 
 script:
-    # - npm test
-    # - npm run build
     - yarn install
+    - yarn enableSentry
     - yarn build
     - yarn test --coverage && cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js
 

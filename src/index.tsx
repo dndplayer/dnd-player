@@ -4,6 +4,11 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { MuiThemeProvider, TextField, Button, createMuiTheme } from '@material-ui/core';
 
+// Error reporting
+import * as Sentry from '@sentry/browser';
+
+// SENTRYINITHERE
+
 const state = {
 	projectId: '',
 	apiKey: ''
