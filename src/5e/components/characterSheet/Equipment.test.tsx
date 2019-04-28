@@ -1,17 +1,27 @@
 import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { CharacterList } from './CharacterList';
+import Equipment from './Equipment';
 
 Enzyme.configure({ adapter: new Adapter() });
 
 function setup() {
 	const props = {
-		characters: [{ id: 1, name: 'Test' }, { id: 2, name: 'Test2' }],
-		openCharacterSheet: jest.fn()
+		character: {
+			id: 1,
+			name: 'Test',
+			equipment: [
+				{
+					name: 'Item1'
+				},
+				{
+					name: 'Item2'
+				}
+			]
+		}
 	};
 
-	const enzymeWrapper = shallow(<CharacterList {...props} />);
+	const enzymeWrapper = shallow(<Equipment {...props} />);
 
 	return {
 		props,
@@ -19,17 +29,11 @@ function setup() {
 	};
 }
 
-describe('CharacterList', () => {
+describe('Equipment', () => {
 	it('should render self and subcomponents', () => {
 		const { enzymeWrapper } = setup();
 
-		expect(
-			enzymeWrapper
-				.find('div.character')
-				.first()
-				.text()
-		).toBe('Test');
-		expect(enzymeWrapper.find('div.character')).toHaveLength(2);
+		expect(enzymeWrapper.find('EquipmentItem')).toHaveLength(2);
 	});
 
 	/*it('should call addTodo if length of text is greater than 0', () => {

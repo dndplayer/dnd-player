@@ -16,6 +16,7 @@ import Initiative from './Initiative';
 import ArmorClass from './ArmorClass';
 import HitPoints from './HitPoints';
 import Attacks from './Attacks';
+import Equipment from './Equipment';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -242,6 +243,9 @@ export default class CharacterSheet extends React.Component<Props, State> {
 						</div>
 						<div className="row">
 							<Attacks character={character} {...this.props} />
+						</div>
+						<div className="row">
+							<Equipment character={character} {...this.props} />
 						</div>
 					</div>
 				</div>

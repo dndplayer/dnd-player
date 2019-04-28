@@ -80,8 +80,8 @@ export default class CharacterEffects {
 			type: AttackEffectType.SavingThrow,
 			saveType: savingEffect.saveType,
 			saveDC: 10 + Rules.getAbilityModifier(character, savingEffect.DCAbility),
-			onSave: this.mapCharacterAttackEffect(savingEffect.onSave, character),
-			onFail: this.mapCharacterAttackEffect(savingEffect.onFail, character)
+			onSave: CharacterEffects.mapCharacterAttackEffect(savingEffect.onSave, character),
+			onFail: CharacterEffects.mapCharacterAttackEffect(savingEffect.onFail, character)
 		};
 	}
 

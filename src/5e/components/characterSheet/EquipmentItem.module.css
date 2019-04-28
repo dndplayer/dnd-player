@@ -1,0 +1,20 @@
+.wrapper {
+	color: #ccc;
+	position: relative;
+}
+
+.wrapper span {
+	display: inline-block;
+}
+.name {
+	width: 120px;
+}
+.quantity {
+	width: 50px;
+}
+.weight {
+	width: 50px;
+}
+.notes {
+	width: 100px;
+}

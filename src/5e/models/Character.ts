@@ -72,7 +72,10 @@ export interface CharacterLevel {
 export interface CharacterEquipment {
 	name: string;
 	type: string;
+	weight?: number;
+	quantity?: number;
 	attacks?: CharacterAttack[];
+	notes?: string;
 }
 
 export interface CharacterAttack {
