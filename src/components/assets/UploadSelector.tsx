@@ -57,7 +57,7 @@ class UploadSelector extends Component<Props, State> {
 			current: value
 		});
 		if (this.props.onChange) {
-			this.props.onChange(value);
+			this.props.onChange(value.value);
 		}
 	};
 	render(): ReactNode {
