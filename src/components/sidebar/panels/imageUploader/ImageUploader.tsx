@@ -1,18 +1,23 @@
 import React, { Component, ReactNode } from 'react';
 import uuidv4 from 'uuid/v4';
+import { withStyles, WithStyles } from '@material-ui/core';
 
-import styles from './ImageUploader.module.css';
+const styles = (theme): any => ({
+	wrapper: {
+		backgroundColor: 'white'
+	}
+});
 
 interface State {
 	file: File;
 	uploadName: string;
 }
-interface Props {
+interface Props extends WithStyles<typeof styles> {
 	onUpload: (name: string, file: File, filePath: string) => void;
 	progress: number;
 	inProgress: boolean;
 }
-export default class ImageUploader extends Component<Props, State> {
+class ImageUploader extends Component<Props, State> {
 	constructor(props) {
 		super(props);
 
@@ -45,11 +50,12 @@ export default class ImageUploader extends Component<Props, State> {
 	}
 
 	render(): ReactNode {
+		const { classes } = this.props;
 		return (
-			<div className={styles.wrapper}>
+			<div className={classes.wrapper}>
 				<div>
 					<input
-						className={styles.fileInput}
+						// className={styles.fileInput}
 						placeholder="Upload Name"
 						onChange={event => this.setState({ uploadName: event.target.value })}
 						type="text"
@@ -57,15 +63,21 @@ export default class ImageUploader extends Component<Props, State> {
 					/>
 					<input onChange={this.onChangeFile} type="file" />
 					<button
-						className={styles.button}
+						// className={styles.button}
 						onClick={this.onUpload}
 						disabled={this.props.inProgress}
 					>
 						Upload
 					</button>
 				</div>
-				<progress className={styles.progressBar} max="100" value={this.props.progress} />
+				<progress
+					// className={styles.progressBar}
+					max="100"
+					value={this.props.progress}
+				/>
 			</div>
 		);
 	}
 }
+
+export default withStyles(styles)(ImageUploader);
