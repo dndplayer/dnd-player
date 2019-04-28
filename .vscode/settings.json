@@ -6,6 +6,9 @@
         "json",
         "markdown"
     ],
+    "editor.rulers": [
+        100
+    ]
     "eslint.enable": true,
     "eslint.validate": [
         "javascript",

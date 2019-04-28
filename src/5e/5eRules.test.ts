@@ -155,6 +155,18 @@ describe('Rules', () => {
 			expect(Rules.getLongAbilityName(ability)).toStrictEqual(expected);
 		});
 	});
+	describe('getLongSkillName', () => {
+		each`
+			ability             | expected
+			${'sleightOfHand'}  | ${'Sleight of Hand'}
+			${'athletics'}      | ${'Athletics'}
+			${'nature'}         | ${'Nature'}
+			${'animalHandling'} | ${'Animal Handling'}
+			${'anything else'}  | ${undefined}
+		`.it('should be $expected when passed $ability', ({ ability, expected }) => {
+			expect(Rules.getLongSkillName(ability)).toStrictEqual(expected);
+		});
+	});
 });
 
 function getMockCharacter(): Character {

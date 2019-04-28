@@ -22,12 +22,12 @@ interface StateFromProps {
 
 type Props = DispatchFromProps & StateFromProps;
 
-class CharacterList extends React.Component<Props> {
+export class CharacterList extends React.Component<Props> {
 	render(): ReactNode {
 		return (
 			<div>
 				{this.props.characters.map(x => (
-					<div key={x.id} onClick={e => this.openCharacterSheet(x)}>
+					<div className="character" key={x.id} onClick={e => this.openCharacterSheet(x)}>
 						{x.name}
 					</div>
 				))}
