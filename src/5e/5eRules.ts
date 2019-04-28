@@ -1,11 +1,5 @@
-import {
-	Character,
-	DamageCharacterAttackEffect,
-	ToHitCharacterAttackEffect,
-	CharacterAttackEffect,
-	SavingThrowCharacterAttackEffect,
-	TextCharacterAttackEffect
-} from './models/Character';
+import { Character } from './models/Character';
+import CharacterEffects from './CharacterEffects';
 
 export interface Attack {
 	name: string;
@@ -75,60 +69,6 @@ export default class Rules {
 		return this.getAbilityModifier(character, 'dexterity');
 	}
 
-	public static mapCharacterAttackEffect(
-		effect: CharacterAttackEffect,
-		character: Character
-	): AttackEffect {
-		switch (effect.type) {
-			case AttackEffectType.ToHit: {
-				const toHitEffect = effect as ToHitCharacterAttackEffect;
-				return {
-					type: AttackEffectType.ToHit,
-					modifier:
-						this.getAbilityModifier(character, toHitEffect.ability) +
-						this.getProficiencyBonus(character),
-					critRange: 20
-				} as ToHitAttackEffect;
-			}
-			case AttackEffectType.Damage: {
-				const damageEffect = effect as DamageCharacterAttackEffect;
-				return {
-					type: AttackEffectType.Damage,
-					damageType: damageEffect.damageType,
-					diceCount: damageEffect.diceCount,
-					diceSize: damageEffect.diceSize,
-					bonus:
-						(damageEffect.bonus || 0) +
-						(damageEffect.ability
-							? this.getAbilityModifier(character, damageEffect.ability)
-							: 0)
-				} as DamageAttackEffect;
-			}
-			case AttackEffectType.SavingThrow: {
-				const saveEffect = effect as SavingThrowCharacterAttackEffect;
-				return {
-					type: AttackEffectType.SavingThrow,
-					saveType: saveEffect.saveType,
-					saveDC: 10 + this.getAbilityModifier(character, saveEffect.DCAbility),
-					onSave: this.mapCharacterAttackEffect(saveEffect.onSave, character),
-					onFail: this.mapCharacterAttackEffect(saveEffect.onFail, character)
-				} as SavingThrowAttackEffect;
-			}
-			case AttackEffectType.Text: {
-				const textEffect = effect as TextCharacterAttackEffect;
-				return {
-					type: AttackEffectType.Text,
-					text: textEffect.text
-				} as TextAttackEffect;
-			}
-			default:
-				return {
-					type: AttackEffectType.Text,
-					text: `Unknown attack type ${effect.type}!`
-				} as TextAttackEffect;
-		}
-	}
-
 	public static getAttacks(character: Character): Attack[] {
 		const attacks = []
 			.concat(character.equipment.map(x => x.attacks || []))
@@ -147,7 +87,7 @@ export default class Rules {
 					name: attack.title,
 					range: attack.range,
 					effects: attack.effects.map(effect =>
-						this.mapCharacterAttackEffect(effect, character)
+						CharacterEffects.mapCharacterAttackEffect(effect, character)
 					)
 				};
 			});
