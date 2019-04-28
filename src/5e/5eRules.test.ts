@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/no-object-literal-type-assertion */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -51,6 +52,107 @@ describe('Rules', () => {
 			const character = getMockCharacter();
 			character.levels = [{ className: 'fighter', level: 21 }];
 			expect(Rules.getProficiencyBonus(character)).toBe(0);
+		});
+	});
+
+	describe('getSaveModifier', () => {
+		it("should be the ability score if the character isn't proficient", () => {
+			const char = getMockCharacter();
+			char.strength = 12;
+			char.levels = [{ className: 'fighter', level: 5 }, { className: 'wizard', level: 4 }];
+			char.proficiencies.saves = {};
+			expect(Rules.getSaveModifier(char, 'strength')).toBe(1);
+		});
+		it('should be the ability score plus proficiency bonus if the character is proficient', () => {
+			const char = getMockCharacter();
+			char.strength = 12;
+			char.levels = [{ className: 'fighter', level: 5 }, { className: 'wizard', level: 4 }];
+			char.proficiencies.saves = { strength: 1 };
+			expect(Rules.getSaveModifier(char, 'strength')).toBe(5);
+		});
+		it('should be the ability score plus double proficiency bonus if the character has expertise', () => {
+			const char = getMockCharacter();
+			char.strength = 12;
+			char.levels = [{ className: 'fighter', level: 5 }, { className: 'wizard', level: 4 }];
+			char.proficiencies.saves = { strength: 2 };
+			expect(Rules.getSaveModifier(char, 'strength')).toBe(9);
+		});
+	});
+
+	describe('getAbilityModifier', () => {
+		each`
+			score | expected
+			${6}  | ${-2}
+			${7}  | ${-2}
+			${8}  | ${-1}
+			${10} | ${0}
+			${20} | ${5}
+			${25} | ${7}
+		`.it('should return $expected for an ability score of $score', ({ score, expected }) => {
+			const char = getMockCharacter();
+			char.strength = score;
+			expect(Rules.getAbilityModifier(char, 'strength')).toBe(expected);
+		});
+
+		it('should return the matching ability score', () => {
+			const char = getMockCharacter();
+			char.strength = 8;
+			char.dexterity = 9;
+			char.constitution = 10;
+			char.intelligence = 11;
+			char.wisdom = 12;
+			char.charisma = 13;
+			expect(Rules.getAbilityModifier(char, 'strength')).toBe(-1);
+			expect(Rules.getAbilityModifier(char, 'dexterity')).toBe(-1);
+			expect(Rules.getAbilityModifier(char, 'constitution')).toBe(0);
+			expect(Rules.getAbilityModifier(char, 'intelligence')).toBe(0);
+			expect(Rules.getAbilityModifier(char, 'wisdom')).toBe(1);
+			expect(Rules.getAbilityModifier(char, 'charisma')).toBe(1);
+		});
+	});
+
+	describe('getInitiativeModifier', () => {
+		each`
+			dex   | expected
+			${8}  | ${-1}
+			${10} | ${0}
+			${11} | ${0}
+			${12} | ${1}
+			${20} | ${5}
+		`.it('should be $expected when a character has a dex score of $dex', ({ dex, expected }) => {
+			const char = getMockCharacter();
+			char.dexterity = dex;
+			expect(Rules.getInitiativeModifier(char)).toBe(expected);
+		});
+	});
+
+	describe('getShortAbilityName', () => {
+		each`
+			ability            | expected
+			${'strength'}      | ${'STR'}
+			${'dexterity'}     | ${'DEX'}
+			${'constitution'}  | ${'CON'}
+			${'intelligence'}  | ${'INT'}
+			${'wisdom'}        | ${'WIS'}
+			${'charisma'}      | ${'CHA'}
+			${'anything else'} | ${undefined}
+		`.it('should be $expected when passed $ability', ({ ability, expected }) => {
+			expect(Rules.getShortAbilityName(ability)).toStrictEqual(expected);
+		});
+	});
+
+	describe('getLongAbilityName', () => {
+		each`
+			ability            | expected
+			${'strength'}      | ${'Strength'}
+			${'dexterity'}     | ${'Dexterity'}
+			${'constitution'}  | ${'Constitution'}
+			${'intelligence'}  | ${'Intelligence'}
+			${'wisdom'}        | ${'Wisdom'}
+			${'charisma'}      | ${'Charisma'}
+			${'anything else'} | ${undefined}
+		`.it('should be $expected when passed $ability', ({ ability, expected }) => {
+			expect(Rules.getLongAbilityName(ability)).toStrictEqual(expected);
 		});
 	});
 });

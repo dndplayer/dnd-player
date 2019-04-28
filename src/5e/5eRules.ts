@@ -154,84 +154,47 @@ export default class Rules {
 		return attacks;
 	}
 
+	static abilityNameMap = {
+		strength: { short: 'STR', long: 'Strength' },
+		dexterity: { short: 'DEX', long: 'Dexterity' },
+		constitution: { short: 'CON', long: 'Constitution' },
+		intelligence: { short: 'INT', long: 'Intelligence' },
+		wisdom: { short: 'WIS', long: 'Wisdom' },
+		charisma: { short: 'CHA', long: 'Charisma' }
+	};
+
+	static skillNameMap = {
+		acrobatics: 'Acrobatics',
+		animalHandling: 'Animal Handling',
+		arcana: 'Arcana',
+		athletics: 'Athletics',
+		deception: 'Deception',
+		history: 'History',
+		insight: 'Insight',
+		intimidation: 'Intimidation',
+		investigation: 'Investigation',
+		medicine: 'Medicine',
+		nature: 'Nature',
+		perception: 'Perception',
+		performance: 'Performance',
+		persuasion: 'Persuasion',
+		religion: 'Religion',
+		sleightOfHand: 'Sleight of Hand',
+		stealth: 'Stealth',
+		survival: 'Survival'
+	};
+
 	public static getShortAbilityName(ability: string): string {
-		switch (ability) {
-			case 'strength':
-				return 'STR';
-			case 'dexterity':
-				return 'DEX';
-			case 'constitution':
-				return 'CON';
-			case 'intelligence':
-				return 'INT';
-			case 'wisdom':
-				return 'WIS';
-			case 'charisma':
-				return 'CHA';
-			default:
-				return '';
-		}
+		const result = Rules.abilityNameMap[ability];
+		return result && result.short;
 	}
 
 	public static getLongAbilityName(ability: string): string {
-		switch (ability) {
-			case 'strength':
-				return 'Strength';
-			case 'dexterity':
-				return 'Dexterity';
-			case 'constitution':
-				return 'Consititution';
-			case 'intelligence':
-				return 'Intelligence';
-			case 'wisdom':
-				return 'Wisdom';
-			case 'charisma':
-				return 'Charisma';
-			default:
-				return '';
-		}
+		const result = Rules.abilityNameMap[ability];
+		return result && result.long;
 	}
 
 	public static getLongSkillName(ability: string): string {
-		switch (ability) {
-			case 'acrobatics':
-				return 'Acrobatics';
-			case 'animalHandling':
-				return 'Animal Handling';
-			case 'arcana':
-				return 'Arcana';
-			case 'athletics':
-				return 'Athletics';
-			case 'deception':
-				return 'Deception';
-			case 'history':
-				return 'History';
-			case 'insight':
-				return 'Insight';
-			case 'intimidation':
-				return 'Intimidation';
-			case 'investigation':
-				return 'Investigation';
-			case 'medicine':
-				return 'Medicine';
-			case 'nature':
-				return 'Nature';
-			case 'perception':
-				return 'Perception';
-			case 'performance':
-				return 'Performance';
-			case 'persuasion':
-				return 'Persuasion';
-			case 'religion':
-				return 'Religion';
-			case 'sleightOfHand':
-				return 'Sleight of Hand';
-			case 'stealth':
-				return 'Stealth';
-			case 'survival':
-				return 'Survival';
-			default:
-				return '';
-		}
+		return Rules.skillNameMap[ability];
 	}
 }
