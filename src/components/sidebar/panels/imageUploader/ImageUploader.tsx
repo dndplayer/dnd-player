@@ -1,10 +1,24 @@
 import React, { Component, ReactNode } from 'react';
 import uuidv4 from 'uuid/v4';
-import { withStyles, WithStyles } from '@material-ui/core';
+import {
+	withStyles,
+	WithStyles,
+	TextField,
+	Button,
+	Input,
+	LinearProgress
+} from '@material-ui/core';
 
 const styles = (theme): any => ({
 	wrapper: {
-		backgroundColor: 'white'
+		// backgroundColor: 'white',
+		display: 'flex',
+		flexDirection: 'column',
+		padding: '5px'
+	},
+	button: {
+		marginTop: '10px',
+		marginBottom: '10px'
 	}
 });
 
@@ -53,27 +67,26 @@ class ImageUploader extends Component<Props, State> {
 		const { classes } = this.props;
 		return (
 			<div className={classes.wrapper}>
-				<div>
-					<input
-						// className={styles.fileInput}
-						placeholder="Upload Name"
-						onChange={event => this.setState({ uploadName: event.target.value })}
-						type="text"
-						disabled={this.props.inProgress}
-					/>
-					<input onChange={this.onChangeFile} type="file" />
-					<button
-						// className={styles.button}
-						onClick={this.onUpload}
-						disabled={this.props.inProgress}
-					>
-						Upload
-					</button>
-				</div>
-				<progress
-					// className={styles.progressBar}
-					max="100"
+				<TextField
+					label="Upload Name"
+					onChange={event => this.setState({ uploadName: event.target.value })}
+					disabled={this.props.inProgress}
+					margin="normal"
+				/>
+				<Input onChange={this.onChangeFile} type="file" margin="dense" />
+				<Button
+					className={classes.button}
+					variant="contained"
+					onClick={this.onUpload}
+					disabled={this.props.inProgress}
+					color="primary"
+				>
+					Upload
+				</Button>
+				<LinearProgress
 					value={this.props.progress}
+					variant="determinate"
+					color="secondary"
 				/>
 			</div>
 		);
