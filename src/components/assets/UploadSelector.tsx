@@ -1,5 +1,6 @@
 import React, { Component, ReactNode, ReactElement } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, StyledComponentProps } from '@material-ui/core';
+import { FormControl, InputLabel, MenuItem, StyledComponentProps } from '@material-ui/core';
+import Select from 'react-select';
 import { withStyles } from '@material-ui/core';
 import { Upload } from '../../models/Upload';
 
@@ -51,36 +52,53 @@ class UploadSelector extends Component<Props, State> {
 		return [...opts].sort((a, b) => a.name.localeCompare(b.name));
 	};
 
-	handleChange = (event): void => {
-		this.setState({ current: event.target.value });
+	handleChange = (value): void => {
+		this.setState({
+			current: value
+		});
 		if (this.props.onChange) {
-			this.props.onChange(event.target.value);
+			this.props.onChange(value);
 		}
 	};
 	render(): ReactNode {
 		const { classes, options } = this.props;
 		const { sortedOptions } = this.state;
+		const mappedOptions = sortedOptions.map(x => ({
+			value: x.id,
+			label: x.name
+		}));
 		return (
-			<FormControl className={classes.formControl}>
-				<InputLabel htmlFor="upload-input">Images</InputLabel>
-				<Select
-					value={this.state.current}
-					onChange={this.handleChange}
-					inputProps={{
-						name: 'upload',
-						id: 'upload-input'
-					}}
-				>
-					{sortedOptions.map(
-						(x: Upload): ReactElement => (
-							<MenuItem key={x.id} value={x.id}>
-								{x.name}
-							</MenuItem>
-						)
-					)}
-				</Select>
-			</FormControl>
+			<Select
+				value={this.state.current}
+				onChange={this.handleChange}
+				options={mappedOptions}
+				placeholder="Image..."
+				styles={{
+					container: provided => ({ ...provided, color: 'black' })
+				}}
+			/>
 		);
+		// return (
+		// 	<FormControl className={classes.formControl}>
+		// 		<InputLabel htmlFor="upload-input">Images</InputLabel>
+		// 		<Select
+		// 			value={this.state.current}
+		// 			onChange={this.handleChange}
+		// 			inputProps={{
+		// 				name: 'upload',
+		// 				id: 'upload-input'
+		// 			}}
+		// 		>
+		// 			{sortedOptions.map(
+		// 				(x: Upload): ReactElement => (
+		// 					<MenuItem key={x.id} value={x.id}>
+		// 						{x.name}
+		// 					</MenuItem>
+		// 				)
+		// 			)}
+		// 		</Select>
+		// 	</FormControl>
+		// );
 	}
 }
 
