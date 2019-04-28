@@ -2,8 +2,6 @@ import React, { Component, ReactNode, ReactElement } from 'react';
 import { Switch, Route } from 'react-router';
 import styles from './App.module.css';
 
-import { hot } from 'react-hot-loader/root';
-
 import CharacterSheetContainer from '../5e/components/characterSheet/CharacterSheetContainer';
 import ImageUploaderContainer from './sidebar/panels/imageUploader/ImageUploaderContainer';
 import Authentication from './authentication/Authentication';
@@ -100,4 +98,4 @@ export class App extends Component<{}, State> {
 	}
 }
 
-export default hot(App);
+export default App;
