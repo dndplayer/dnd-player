@@ -17,6 +17,11 @@ import { ConnectedRouter } from 'connected-react-router';
 
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import CharacterSheet from '../5e/components/characterSheet/CharacterSheet';
+import { Character } from '../5e/models/Character';
+import { updatePlayerCharacter } from '../redux/actions/assets';
+import { closeCharacterSheet } from '../redux/actions/characters';
+import { saveNewMessage } from '../redux/actions/chat';
 
 interface State {
 	projectName: string;
@@ -87,6 +92,15 @@ export class App extends Component<{}, State> {
 									<Route
 										path="/login"
 										render={(): ReactElement => <Authentication />}
+									/>
+									<Route
+										path="/characterSheet/:id"
+										render={(props): ReactElement => (
+											<CharacterSheetContainer
+												popout={props.match.params.id}
+												{...props}
+											/>
+										)}
 									/>
 								</Switch>
 							</MuiThemeProvider>

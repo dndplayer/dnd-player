@@ -35,13 +35,4 @@ describe('Equipment', () => {
 
 		expect(enzymeWrapper.find('EquipmentItem')).toHaveLength(2);
 	});
-
-	/*it('should call addTodo if length of text is greater than 0', () => {
-		const { enzymeWrapper, props } = setup();
-		const input = enzymeWrapper.find('TodoTextInput');
-		input.props().onSave('');
-		expect(props.addTodo.mock.calls.length).toBe(0);
-		input.props().onSave('Use Redux');
-		expect(props.addTodo.mock.calls.length).toBe(1);
-	});*/
 });

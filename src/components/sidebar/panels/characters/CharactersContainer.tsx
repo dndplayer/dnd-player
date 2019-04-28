@@ -29,7 +29,7 @@ interface StateFromProps {
 
 type Props = DispatchFromProps & StateFromProps;
 
-class ChatContainer extends Component<Props> {
+class CharactersContainer extends Component<Props> {
 	render(): ReactNode {
 		return <CharacterList {...this.props} />;
 	}
@@ -38,4 +38,4 @@ class ChatContainer extends Component<Props> {
 export default connect<StateFromProps, DispatchFromProps, void>(
 	mapStateToProps,
 	mapDispatchToProps
-)(ChatContainer);
+)(CharactersContainer);

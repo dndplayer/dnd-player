@@ -15,7 +15,20 @@
 	top: 10vh;
 	left: 10vh;
 }
-.character-close {
+
+.character-sheet.popout {
+	position: static;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden auto;
+}
+.popout .character-close,
+.popout .character-popout {
+	display: none;
+}
+
+.character-close,
+.character-cancel {
 	background: red;
 	position: absolute;
 	right: 0;

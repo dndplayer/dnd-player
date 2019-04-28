@@ -1,9 +1,6 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactNode, ReactPropTypes } from 'react';
 
-// import firebase from 'firebase/app';
-// import 'firebase/firestore';
-
-import { RollData, ChatMessageData } from '../../../models/ChatMessage';
+import { ChatMessageData } from '../../../models/ChatMessage';
 import AbilityScore from './AbilityScore';
 import AbilitySave from './AbilitySave';
 
@@ -23,6 +20,7 @@ interface Props {
 	closeCharacterSheet: (characterId: string) => void;
 	updatePlayerCharacter: (characterId: string, character: Character) => void;
 	character: Character;
+	popout?: string;
 }
 interface State {
 	editing: boolean;
@@ -39,17 +37,13 @@ export default class CharacterSheet extends React.Component<Props, State> {
 		};
 	}
 
-	// private chatRoom: firebase.firestore.CollectionReference;
-
-	// private cleanup: () => void;
-
 	render(): ReactNode {
 		const { character } = this.props;
 
 		if (this.state.editing) {
 			return (
-				<div className="column character-sheet">
-					<div className="character-close" onClick={e => this.abortEditSheet()}>
+				<div className={`column character-sheet ${this.props.popout ? 'popout' : ''}`}>
+					<div className="character-cancel" onClick={e => this.abortEditSheet()}>
 						CANCEL
 					</div>
 					<div className="character-edit" onClick={e => this.saveSheet()}>
@@ -67,17 +61,20 @@ export default class CharacterSheet extends React.Component<Props, State> {
 		}
 
 		return (
-			<div className="column character-sheet">
+			<div className={`column character-sheet ${this.props.popout ? 'popout' : ''}`}>
 				<div className="character-close" onClick={e => this.closeSheet()}>
 					X
 				</div>
 				<div className="character-edit" onClick={e => this.editSheet()}>
 					EDIT
 				</div>
+				<div className="character-popout" onClick={e => this.popoutSheet()}>
+					POPOUT
+				</div>
 				<div className="row character-details">
 					<div className="character-name">{character.name}</div>
 					<div className="character-classes">
-						{character.levels.map(x => `${x.className} ${x.level}`).join(', ')}
+						{(character.levels || []).map(x => `${x.className} ${x.level}`).join(', ')}
 					</div>
 				</div>
 				<div className="row">
@@ -253,9 +250,6 @@ export default class CharacterSheet extends React.Component<Props, State> {
 		);
 	}
 
-	componentDidMount(): void {}
-	componentWillUnmount(): void {}
-
 	closeSheet(): void {
 		this.props.closeCharacterSheet(this.props.character.id);
 	}
@@ -281,5 +275,15 @@ export default class CharacterSheet extends React.Component<Props, State> {
 			...this.state,
 			editing: false
 		});
+	}
+
+	popoutSheet(): void {
+		window.open(
+			`/characterSheet/${this.props.character.id}`,
+			'popupWindow',
+			'height=768,width=1024,toolbar=no,location=no,statusbar=no,titlebar=no,directories=no',
+			false
+		);
+		this.closeSheet();
 	}
 }
