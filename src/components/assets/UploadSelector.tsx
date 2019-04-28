@@ -25,12 +25,32 @@ interface Props {
 
 interface State {
 	current: string;
+	sortedOptions: Upload[];
 }
 
 class UploadSelector extends Component<Props, State> {
-	state = {
-		current: ''
+	constructor(props: Props) {
+		super(props);
+
+		this.state = {
+			current: '',
+			sortedOptions: this.sortOptions(this.props.options)
+		};
+	}
+
+	componentDidUpdate(prevProps, prevState): void {
+		if (prevProps.options != this.props.options) {
+			this.setState({
+				sortedOptions: this.sortOptions(this.props.options)
+			});
+		}
+	}
+
+	sortOptions = (opts): Upload[] => {
+		// Spread the array before sorting so we don't mutate the props
+		return [...opts].sort((a, b) => a.name.localeCompare(b.name));
 	};
+
 	handleChange = (event): void => {
 		this.setState({ current: event.target.value });
 		if (this.props.onChange) {
@@ -39,6 +59,7 @@ class UploadSelector extends Component<Props, State> {
 	};
 	render(): ReactNode {
 		const { classes, options } = this.props;
+		const { sortedOptions } = this.state;
 		return (
 			<FormControl className={classes.formControl}>
 				<InputLabel htmlFor="upload-input">Images</InputLabel>
@@ -50,7 +71,7 @@ class UploadSelector extends Component<Props, State> {
 						id: 'upload-input'
 					}}
 				>
-					{options.map(
+					{sortedOptions.map(
 						(x: Upload): ReactElement => (
 							<MenuItem key={x.id} value={x.id}>
 								{x.name}
