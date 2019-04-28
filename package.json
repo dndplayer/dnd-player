@@ -69,7 +69,8 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "7.x",
     "jest-each": "^24.7.1",
-    "prettier": "^1.17.0"
+    "prettier": "^1.17.0",
+    "react-hot-loader": "^4.8.4"
   },
   "husky": {
     "hooks": {
