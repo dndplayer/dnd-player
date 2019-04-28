@@ -41,7 +41,7 @@
     "eject": "react-scripts eject",
     "predeploy": "react-scripts build && cp CNAME ./build",
     "deploy": "gh-pages -d build",
-    "enableSentry": "sed -i '/^\\/\\/ SENTRYINITHERE/i Sentry.init({dsn: \"https://1cc1d39b264843a98f5dae0cb8da14ce@sentry.io/1448000\"});' src/index.tsx"
+    "enableSentry": "sed -i '/^\\/\\/ SENTRYINITHERE/i Sentry.init({dsn: \"https://04f41a05077c4badbe2fb7c804604233@sentry.dnd-player.com/2\"});' src/index.tsx"
   },
   "eslintConfig": {
     "extends": "react-app"
