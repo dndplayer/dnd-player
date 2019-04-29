@@ -147,6 +147,9 @@ export default PixiComponent<Props, PIXI.Container>('Token', {
 		};
 
 		const onDragMove = (e: PIXI.interaction.InteractionEvent): void => {
+			// TODO: Include the offset of the mouse from the sprite/container center, so dragging
+			//       doesn't jump. I.E. if mouse down is 50,50 from sprite center, then on all new
+			//       pos assignments below, also increase the pos by that offset.
 			if ((instance as any).dragging) {
 				const newPos = (instance as any).data.getLocalPosition(e.currentTarget.parent);
 				instance.x = newPos.x;
