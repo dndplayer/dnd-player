@@ -7,6 +7,7 @@ import { OutlineFilter } from '@pixi/filter-outline';
 interface DraggableSpriteProps {
 	position: any;
 	onUpdateObject: (data) => void;
+	onSelect: () => void;
 }
 
 type Props = DraggableSpriteProps;
@@ -46,6 +47,8 @@ export default PixiComponent<any, PIXI.Sprite>('DraggableSprite', {
 		(s as any).onUpdateObject = props.onUpdateObject;
 		(s as any).layerName = props.layerName;
 		(s as any).mapObjectId = props.mapObjectId;
+
+		(s as any).onSelect = props.onSelect;
 
 		// Filters to apply when hovering
 		(s as any).hoverFilters = [new OutlineFilter(4, 0xff0000)];
@@ -94,9 +97,11 @@ export default PixiComponent<any, PIXI.Sprite>('DraggableSprite', {
 			(instance as any).data = null;
 
 			// Remove the drag filters
-			(instance as any).filters = (instance as any).filters.filter(
-				x => !((instance as any).dragFilters.indexOf(x) >= 0)
-			);
+			if ((instance as any).filters) {
+				(instance as any).filters = (instance as any).filters.filter(
+					x => !((instance as any).dragFilters.indexOf(x) >= 0)
+				);
+			}
 
 			if ((instance as any).onUpdateObject) {
 				(instance as any).onUpdateObject({
@@ -132,12 +137,19 @@ export default PixiComponent<any, PIXI.Sprite>('DraggableSprite', {
 				inst.filters = null;
 			}
 		};
+		const onClick = (e: PIXI.interaction.InteractionEvent): void => {
+			const inst = instance as PIXI.Sprite;
+			if (inst && (inst as any).onSelect) {
+				(inst as any).onSelect(inst);
+			}
+		};
 		instance.on('mousedown', onDragStart);
 		instance.on('mouseup', onDragEnd);
 		instance.on('mouseupoutside', onDragEnd);
 		instance.on('mousemove', onDragMove);
 		instance.on('mouseover', onMouseOver);
 		instance.on('mouseout', onMouseOut);
+		instance.on('click', onClick);
 	},
 	willUnmount: (instance: PIXI.DisplayObject, parent: any): void => {
 		instance.off('mousedown');
@@ -146,5 +158,6 @@ export default PixiComponent<any, PIXI.Sprite>('DraggableSprite', {
 		instance.off('mousemove');
 		instance.off('mouseover');
 		instance.off('mouseout');
+		instance.off('click');
 	}
 });

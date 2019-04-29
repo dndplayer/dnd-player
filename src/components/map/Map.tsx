@@ -116,6 +116,7 @@ class Map extends Component<Props, State> {
 											onUpdateObject={this.props.onUpdateObject}
 											mapObjectId={mapObjId}
 											layerName="background"
+											onSelect={x => console.log(`Selected`)}
 										/>
 									);
 								}
@@ -149,6 +150,7 @@ class Map extends Component<Props, State> {
 											onUpdateObject={this.props.onUpdateObject}
 											mapObjectId={mapObjId}
 											layerName="tokens"
+											onSelect={x => console.log(`Selected`)}
 										/>
 									);
 								}
