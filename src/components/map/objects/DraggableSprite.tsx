@@ -1,6 +1,9 @@
 import { Sprite, PixiComponent } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 
+// import { DotFilter } from '@pixi/filter-dot';
+import { OutlineFilter } from '@pixi/filter-outline';
+
 interface DraggableSpriteProps {
 	position: any;
 	onUpdateObject: (data) => void;
@@ -44,6 +47,14 @@ export default PixiComponent<any, PIXI.Sprite>('DraggableSprite', {
 		(s as any).layerName = props.layerName;
 		(s as any).mapObjectId = props.mapObjectId;
 
+		// Filters to apply when hovering
+		(s as any).hoverFilters = [new OutlineFilter(4, 0xff0000)];
+
+		// Filters to apply when dragging, if any
+		(s as any).dragFilters = [
+			/*new DotFilter()*/
+		];
+
 		return s;
 	},
 	applyProps: (ins: PIXI.Sprite, oldProps: Props, newProps: Props): void => {
@@ -61,6 +72,16 @@ export default PixiComponent<any, PIXI.Sprite>('DraggableSprite', {
 			instance.alpha = 0.5;
 			(instance as any).dragging = true;
 			(instance as any).data = e.data;
+
+			(instance as any).filters = [
+				...(instance as any).filters,
+				...(instance as any).dragFilters
+			];
+
+			// TODO: Move this sprite to a DragLayer that has the highest Z index
+			//       when dragging starts to keep it on-top, then when it ends
+			//       put it back on it's proper layer.
+			// http://scottmcdonnell.github.io/pixi-examples/index.html?s=display&f=zorder.js&title=Z-order&plugins=pixi-display
 		};
 
 		const onDragEnd = (e: PIXI.interaction.InteractionEvent): void => {
@@ -71,6 +92,11 @@ export default PixiComponent<any, PIXI.Sprite>('DraggableSprite', {
 			const lastPos = (instance as any).data.getLocalPosition(e.currentTarget.parent);
 			(instance as any).dragging = false;
 			(instance as any).data = null;
+
+			// Remove the drag filters
+			(instance as any).filters = (instance as any).filters.filter(
+				x => !((instance as any).dragFilters.indexOf(x) >= 0)
+			);
 
 			if ((instance as any).onUpdateObject) {
 				(instance as any).onUpdateObject({
@@ -94,14 +120,16 @@ export default PixiComponent<any, PIXI.Sprite>('DraggableSprite', {
 		const onMouseOver = (e: PIXI.interaction.InteractionEvent): void => {
 			const inst = instance as PIXI.Sprite;
 			if (inst) {
-				inst.tint = 0xff0000;
+				// inst.tint = 0x4ef125;
+				inst.filters = (instance as any).hoverFilters;
 			}
 		};
 
 		const onMouseOut = (e: PIXI.interaction.InteractionEvent): void => {
 			const inst = instance as PIXI.Sprite;
 			if (inst) {
-				inst.tint = 0xffffff;
+				// inst.tint = 0xffffff;
+				inst.filters = null;
 			}
 		};
 		instance.on('mousedown', onDragStart);
