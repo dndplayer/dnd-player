@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import Map from './Map';
 import { testMapUpdateObject, addAssetToMap } from '../../redux/actions/testMap';
 import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
+import { Upload } from '../../models/Upload';
 
 interface StateProps {
 	zoom: number;
 	testMap: any;
 	playerCharacters: PlayerCharacterData[];
 	nonPlayerCharacters: NonPlayerCharacterData[];
+	images: Upload[];
 }
 interface DispatchProps {
 	onUpdateObject: (data) => void;
@@ -26,7 +28,8 @@ class MapContainer extends Component<Props> {
 			onUpdateObject,
 			onAddAssetToMap,
 			playerCharacters,
-			nonPlayerCharacters
+			nonPlayerCharacters,
+			images
 		} = this.props;
 		return (
 			<Map
@@ -37,6 +40,7 @@ class MapContainer extends Component<Props> {
 				nonPlayerCharacters={nonPlayerCharacters}
 				onUpdateObject={onUpdateObject}
 				onAddAssetToMap={onAddAssetToMap}
+				images={images}
 			/>
 		);
 	}
@@ -45,6 +49,7 @@ class MapContainer extends Component<Props> {
 const mapStateToProps = (state): StateProps => ({
 	zoom: state.map.zoom,
 	testMap: state.testMap.map,
+	images: state.images.images,
 	playerCharacters: state.assets.playerCharacters,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters
 });

@@ -11,6 +11,8 @@ import types from '../../constants/dragdroptypes';
 
 import TESTDATA from './testMap.json';
 import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
+import Token from './objects/Token';
+import { Upload } from '../../models/Upload';
 
 const ViewportComponent = PixiComponent('Viewport', {
 	create: props => {
@@ -48,26 +50,47 @@ interface OwnProps {
 	nonPlayerCharacters: NonPlayerCharacterData[];
 	onUpdateObject: (data) => void;
 	onAddAssetToMap: (data) => void;
+	images: Upload[];
 }
 
 type Props = CollectProps & OwnProps;
 
-interface State {}
+interface State {
+	loadingAssets: boolean;
+}
 class Map extends Component<Props, State> {
 	state = {
-		x: 300,
-		y: 300,
-		alpha: 1.0,
-		dragging: false,
-		data: null
+		loadingAssets: true
 	};
 
 	private sprite: any;
 	private app: any;
 	private root: PIXI.Container;
 
+	componentDidUpdate(prevProps, prevState) {
+		if (this.props.images != prevProps.images) {
+			// TODO: Instead of loading ALL images, only load those in use on this map?
+			const loader = PIXI.loader;
+			loader.add('__missing__', 'http://placekitten.com/128/128');
+			this.setState({ loadingAssets: true });
+			const assetsToLoad = this.props.images.map(x => ({
+				name: x.downloadUrl,
+				url: x.downloadUrl,
+				loadType: 2 //PIXI.loaders.LOAD_TYPE.IMAGE
+			}));
+			loader.add(assetsToLoad);
+			loader.load(() => {
+				this.setState({ loadingAssets: false });
+			});
+		}
+	}
+
 	render(): ReactNode {
 		const { playerCharacters, nonPlayerCharacters } = this.props;
+
+		if (this.state.loadingAssets) {
+			return <div>LOADING...</div>;
+		}
 
 		if (!this.props.testMap) {
 			return <div>No Map</div>;
@@ -123,38 +146,58 @@ class Map extends Component<Props, State> {
 							)}
 						</Container>
 						<Container name="layer-tokens">
-							{Object.keys(tokens.children).map(
-								(mapObjId): ReactElement => {
-									const o = tokens.children[mapObjId];
-									const pcAsset = o.pcId
-										? playerCharacters.find(x => x.id === o.pcId)
-										: null;
-									const npcAsset = o.npcId
-										? nonPlayerCharacters.find(x => x.id === o.npcId)
-										: null;
-									const imageUrl =
-										pcAsset && pcAsset.imageUrl
-											? pcAsset.imageUrl
-											: npcAsset && npcAsset.imageUrl
-											? npcAsset.imageUrl
-											: o.imageUrl || 'http://placekitten.com/128/128';
-									return (
-										<DraggableSprite
-											key={mapObjId}
-											position={o.position}
-											scale={o.scale}
-											rotation={o.rotation}
-											pivot={o.pivot}
-											anchor={o.anchor}
-											image={imageUrl}
-											onUpdateObject={this.props.onUpdateObject}
-											mapObjectId={mapObjId}
-											layerName="tokens"
-											onSelect={x => console.log(`Selected`)}
-										/>
-									);
-								}
-							)}
+							{tokens &&
+								tokens.children &&
+								Object.keys(tokens.children).map(
+									(mapObjId): ReactElement => {
+										const o = tokens.children[mapObjId];
+										const isPc = !!o.pcId;
+										const isNpc = !!o.npcId;
+										const pcAsset = isPc
+											? playerCharacters.find(x => x.id === o.pcId)
+											: null;
+										const npcAsset = isNpc
+											? nonPlayerCharacters.find(x => x.id === o.npcId)
+											: null;
+										const imageUrl =
+											pcAsset && pcAsset.imageUrl
+												? pcAsset.imageUrl
+												: npcAsset && npcAsset.imageUrl
+												? npcAsset.imageUrl
+												: o.imageUrl || '__missing__';
+										const res = PIXI.loader.resources[imageUrl].texture;
+										return (
+											<Token
+												key={mapObjId}
+												resource={res}
+												hp={{ value: 30, max: 60 }}
+												position={o.position}
+												scale={o.scale}
+												rotation={o.rotation}
+												pivot={o.pivot}
+												anchor={o.anchor}
+												onUpdateObject={this.props.onUpdateObject}
+												mapObjectId={mapObjId}
+												layerName="tokens"
+											/>
+										);
+										// return (
+										// 	<DraggableSprite
+										// 		key={mapObjId}
+										// 		position={o.position}
+										// 		scale={o.scale}
+										// 		rotation={o.rotation}
+										// 		pivot={o.pivot}
+										// 		anchor={o.anchor}
+										// 		image={imageUrl}
+										// 		onUpdateObject={this.props.onUpdateObject}
+										// 		mapObjectId={mapObjId}
+										// 		layerName="tokens"
+										// 		onSelect={x => console.log(`Selected`)}
+										// 	/>
+										// );
+									}
+								)}
 						</Container>
 					</ViewportComponent>
 				</Stage>
