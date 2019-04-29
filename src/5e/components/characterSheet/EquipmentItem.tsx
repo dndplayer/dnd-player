@@ -15,8 +15,6 @@ export default class EquipmentItem extends React.Component<Props, {}> {
 		this.state = {};
 	}
 
-	// private cleanup: () => void;
-
 	render(): ReactNode {
 		const { character, item } = this.props;
 

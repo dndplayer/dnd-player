@@ -14,10 +14,6 @@ export default class HitPoints extends React.Component<Props, {}> {
 		this.state = {};
 	}
 
-	// private chatRoom: firebase.firestore.CollectionReference;
-
-	// private cleanup: () => void;
-
 	render(): ReactNode {
 		const { character } = this.props;
 
@@ -36,7 +32,4 @@ export default class HitPoints extends React.Component<Props, {}> {
 			</div>
 		);
 	}
-
-	componentDidMount(): void {}
-	componentWillUnmount(): void {}
 }

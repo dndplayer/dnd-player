@@ -22,19 +22,16 @@ export default class AbilitySave extends React.Component<Props, {}> {
 		this.handleClick = this.handleClick.bind(this);
 	}
 
-	// private chatRoom: firebase.firestore.CollectionReference;
-
-	// private cleanup: () => void;
-
 	render(): ReactNode {
 		const { ability, character } = this.props;
+		const saves = (character.proficiencies || { saves: {} }).saves || {};
 		const modifier = Rules.getSaveModifier(character, ability);
 		const proficiencyClass =
-			character.proficiencies.saves[ability] === 2
+			saves[ability] === 2
 				? 'expertise'
-				: character.proficiencies.saves[ability] === 1
+				: saves[ability] === 1
 				? 'proficient'
-				: character.proficiencies.saves[ability] === 0.5
+				: saves[ability] === 0.5
 				? 'half-proficient'
 				: 'none';
 
@@ -57,9 +54,6 @@ export default class AbilitySave extends React.Component<Props, {}> {
 			</div>
 		);
 	}
-
-	componentDidMount(): void {}
-	componentWillUnmount(): void {}
 
 	getLongName(ability: string): string {
 		switch (ability) {

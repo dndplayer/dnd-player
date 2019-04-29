@@ -18,7 +18,7 @@ export default class Equipment extends React.Component<Props, {}> {
 	render(): ReactNode {
 		const { character } = this.props;
 
-		const equipment = character.equipment.map((item, idx) => (
+		const equipment = (character.equipment || []).map((item, idx) => (
 			<EquipmentItem key={idx} item={item} {...this.props} />
 		));
 

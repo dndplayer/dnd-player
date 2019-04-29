@@ -42,20 +42,28 @@ describe('Rules', () => {
 			expect(Rules.getProficiencyBonus(character)).toBe(4);
 		});
 
-		it('should return 0 for invalid characters', () => {
-			expect(Rules.getProficiencyBonus({})).toBe(0);
+		it('should return null for invalid characters', () => {
+			expect(Rules.getProficiencyBonus({})).toBe(null);
 		});
-		it('should return 0 if character is null', () => {
-			expect(Rules.getProficiencyBonus(null)).toBe(0);
+		it('should return null if character is null', () => {
+			expect(Rules.getProficiencyBonus(null)).toBe(null);
 		});
-		it('should return 0 if level is greater than 20', () => {
+		it('should return null if level is greater than 20', () => {
 			const character = getMockCharacter();
 			character.levels = [{ className: 'fighter', level: 21 }];
-			expect(Rules.getProficiencyBonus(character)).toBe(0);
+			expect(Rules.getProficiencyBonus(character)).toBe(null);
 		});
 	});
 
 	describe('getSaveModifier', () => {
+		it('should return null if the character is invalid', () => {
+			expect(Rules.getSaveModifier({}, 'strength')).toBe(null);
+			expect(Rules.getSaveModifier({ proficiencies: {} }, 'strength')).toBe(null);
+		});
+		it('should return null if the attribute is invalid', () => {
+			const char = getMockCharacter();
+			expect(Rules.getSaveModifier(char, 'invalid')).toBe(null);
+		});
 		it("should be the ability score if the character isn't proficient", () => {
 			const char = getMockCharacter();
 			char.strength = 12;
@@ -123,6 +131,21 @@ describe('Rules', () => {
 			const char = getMockCharacter();
 			char.dexterity = dex;
 			expect(Rules.getInitiativeModifier(char)).toBe(expected);
+		});
+	});
+
+	describe('getSkillModifier', () => {
+		it('should be the base ability modifier if not proficient', () => {
+			const char = getMockCharacter();
+			expect(Rules.getSkillModifier(char, 'deception', 'charisma')).toBe(1);
+		});
+		it('should be the base ability modifier plus proficiency bonus if proficient', () => {
+			const char = getMockCharacter();
+			expect(Rules.getSkillModifier(char, 'intimidation', 'charisma')).toBe(4);
+		});
+		it('should be the base ability modifier plus proficiency bonus if has expertise', () => {
+			const char = getMockCharacter();
+			expect(Rules.getSkillModifier(char, 'athletics', 'strength')).toBe(13);
 		});
 	});
 

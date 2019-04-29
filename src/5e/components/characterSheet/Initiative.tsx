@@ -19,10 +19,6 @@ export default class Initiative extends React.Component<Props, {}> {
 		this.handleClick = this.handleClick.bind(this);
 	}
 
-	// private chatRoom: firebase.firestore.CollectionReference;
-
-	// private cleanup: () => void;
-
 	render(): ReactNode {
 		const { character } = this.props;
 		const modifier = Rules.getInitiativeModifier(character);
@@ -43,9 +39,6 @@ export default class Initiative extends React.Component<Props, {}> {
 			</div>
 		);
 	}
-
-	componentDidMount(): void {}
-	componentWillUnmount(): void {}
 
 	handleClick(e, advantage: number): void {
 		const modifier = Rules.getInitiativeModifier(this.props.character);

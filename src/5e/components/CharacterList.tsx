@@ -38,9 +38,6 @@ export class CharacterList extends React.Component<Props> {
 	openCharacterSheet(character: Character): void {
 		this.props.openCharacterSheet(character.id);
 	}
-
-	componentDidMount(): void {}
-	componentWillUnmount(): void {}
 }
 
 export default connect<StateFromProps, DispatchFromProps, void>(

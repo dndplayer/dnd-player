@@ -5,8 +5,8 @@ import Equipment from './Equipment';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-function setup() {
-	const props = {
+function setup(props) {
+	props = props || {
 		character: {
 			id: 1,
 			name: 'Test',
@@ -34,5 +34,10 @@ describe('Equipment', () => {
 		const { enzymeWrapper } = setup();
 
 		expect(enzymeWrapper.find('EquipmentItem')).toHaveLength(2);
+	});
+	it('should not break if character has no equipment array', () => {
+		const { enzymeWrapper } = setup({ character: {} });
+
+		expect(enzymeWrapper.find('EquipmentItem')).toHaveLength(0);
 	});
 });

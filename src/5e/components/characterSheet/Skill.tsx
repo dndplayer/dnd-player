@@ -23,19 +23,16 @@ export default class Skill extends React.Component<Props, {}> {
 		this.handleClick = this.handleClick.bind(this);
 	}
 
-	// private chatRoom: firebase.firestore.CollectionReference;
-
-	// private cleanup: () => void;
-
 	render(): ReactNode {
 		const { ability, character, skill } = this.props;
-		const modifier = this.getSkillModifier(character, skill, ability);
+		const skills = character.proficiencies || { skills: {} } || {};
+		const modifier = Rules.getSkillModifier(character, skill, ability);
 		const proficiencyClass =
-			character.proficiencies.skills[skill] === 2
+			skills[skill] === 2
 				? 'expertise'
-				: character.proficiencies.skills[skill] === 1
+				: skills[skill] === 1
 				? 'proficient'
-				: character.proficiencies.skills[skill] === 0.5
+				: skills[skill] === 0.5
 				? 'half-proficient'
 				: 'none';
 
@@ -60,18 +57,8 @@ export default class Skill extends React.Component<Props, {}> {
 		);
 	}
 
-	componentDidMount(): void {}
-	componentWillUnmount(): void {}
-
-	getSkillModifier(character: Character, skill: string, ability: string): number {
-		const baseModifier = Math.floor((character[ability] - 10) / 2);
-		const proficiencyMultiplier = character.proficiencies.skills[skill] || 0;
-		const proficiencyBonus = Rules.getProficiencyBonus(character);
-		return baseModifier + Math.floor(proficiencyMultiplier * proficiencyBonus);
-	}
-
 	handleClick(e, advantage: number): void {
-		const modifier = this.getSkillModifier(
+		const modifier = Rules.getSkillModifier(
 			this.props.character,
 			this.props.skill,
 			this.props.ability

@@ -35,10 +35,6 @@ export default class AttackBlock extends React.Component<Props, {}> {
 		this.handleClick = this.handleClick.bind(this);
 	}
 
-	// private chatRoom: firebase.firestore.CollectionReference;
-
-	// private cleanup: () => void;
-
 	render(): ReactNode {
 		const { attack } = this.props;
 		const toHitEffect: ToHitAttackEffect = attack.effects.filter(
@@ -88,9 +84,6 @@ export default class AttackBlock extends React.Component<Props, {}> {
 			</div>
 		);
 	}
-
-	componentDidMount(): void {}
-	componentWillUnmount(): void {}
 
 	applyEffect(
 		effect: AttackEffect,

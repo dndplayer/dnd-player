@@ -15,10 +15,6 @@ export default class ProficiencyBonus extends React.Component<Props, {}> {
 		this.state = {};
 	}
 
-	// private chatRoom: firebase.firestore.CollectionReference;
-
-	// private cleanup: () => void;
-
 	render(): ReactNode {
 		const { character } = this.props;
 		const modifier = Rules.getProficiencyBonus(character);
@@ -33,7 +29,4 @@ export default class ProficiencyBonus extends React.Component<Props, {}> {
 			</div>
 		);
 	}
-
-	componentDidMount(): void {}
-	componentWillUnmount(): void {}
 }

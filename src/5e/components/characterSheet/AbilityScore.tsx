@@ -22,10 +22,6 @@ export default class AbilityScore extends React.Component<Props, {}> {
 		this.handleClick = this.handleClick.bind(this);
 	}
 
-	// private chatRoom: firebase.firestore.CollectionReference;
-
-	// private cleanup: () => void;
-
 	render(): ReactNode {
 		const { ability, character } = this.props;
 		const modifier = Rules.getAbilityModifier(character, ability);
@@ -47,9 +43,6 @@ export default class AbilityScore extends React.Component<Props, {}> {
 			</div>
 		);
 	}
-
-	componentDidMount(): void {}
-	componentWillUnmount(): void {}
 
 	getLongName(ability: string): string {
 		switch (ability) {

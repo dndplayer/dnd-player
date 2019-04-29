@@ -45,23 +45,32 @@ export interface TextAttackEffect extends AttackEffect {
 export default class Rules {
 	public static getProficiencyBonus(character: Character): number {
 		if (!character || !character.levels) {
-			return 0;
+			return null;
 		}
 		const totalLevel = character.levels.map(x => x.level).reduce((x, y) => x + y);
 		if (totalLevel > 20) {
-			return 0;
+			return null;
 		}
 		return 1 + Math.ceil(totalLevel / 4);
 	}
 
 	public static getSaveModifier(character: Character, ability: string): number {
+		if (!character || !character.proficiencies || !character.proficiencies.saves) {
+			return null;
+		}
 		const baseModifier = this.getAbilityModifier(character, ability);
+		if (baseModifier === null) {
+			return null;
+		}
 		const proficiencyMultiplier = character.proficiencies.saves[ability] || 0;
 		const proficiencyBonus = Rules.getProficiencyBonus(character);
 		return baseModifier + Math.floor(proficiencyMultiplier * proficiencyBonus);
 	}
 
 	public static getAbilityModifier(character: Character, ability: string): number {
+		if (!character || character[ability] === undefined) {
+			return null;
+		}
 		return Math.floor((character[ability] - 10) / 2);
 	}
 
@@ -69,12 +78,22 @@ export default class Rules {
 		return this.getAbilityModifier(character, 'dexterity');
 	}
 
+	public static getSkillModifier(character: Character, skill: string, ability: string): number {
+		if (!character || character[ability] === undefined) {
+			return null;
+		}
+		const baseModifier = Math.floor((character[ability] - 10) / 2);
+		const proficiencyMultiplier = character.proficiencies.skills[skill] || 0;
+		const proficiencyBonus = Rules.getProficiencyBonus(character);
+		return baseModifier + Math.floor(proficiencyMultiplier * proficiencyBonus);
+	}
+
 	public static getAttacks(character: Character): Attack[] {
 		const attacks = []
-			.concat(character.equipment.map(x => x.attacks || []))
-			.concat(character.attacks)
+			.concat((character.equipment || []).map(x => x.attacks || []))
+			.concat(character.attacks || [])
 			.concat(
-				character.spells.map(x => {
+				(character.spells || []).map(x => {
 					return {
 						...x,
 						title: x.name
