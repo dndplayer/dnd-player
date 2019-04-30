@@ -170,7 +170,7 @@ class Map extends Component<Props, State> {
 											<Token
 												key={mapObjId}
 												resource={res}
-												hp={{ value: 30, max: 60 }}
+												hp={o.hp || { value: 30, max: 60 }}
 												position={o.position}
 												scale={o.scale}
 												rotation={o.rotation}
