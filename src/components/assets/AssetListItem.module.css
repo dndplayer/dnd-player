@@ -1,0 +1,19 @@
+.item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.image {
+	width: 48px;
+	height: 48px;
+}
+
+.title {
+	color: #ccc;
+	font-weight: bold;
+	font-variant: small-caps;
+	font-family: 'Libre Baskerville', serif;
+	cursor: pointer;
+}

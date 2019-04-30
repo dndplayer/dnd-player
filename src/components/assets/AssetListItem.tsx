@@ -1,79 +1,31 @@
-import React, { Component } from 'react';
-import { DragSource } from 'react-dnd';
-import types from '../../constants/dragdroptypes';
+import React, { Component, ReactNode } from 'react';
 import { AssetType } from '../../models/AssetType';
-import { withStyles, WithStyles } from '@material-ui/core';
 
-const styles = (theme): any => ({
-	assetItem: {
-		backgroundColor: 'transparent',
-		'&:hover': {
-			backgroundColor: 'green'
-		}
-	},
-	dragging: {
-		backgroundColor: 'red'
-	}
-});
+import css from './AssetListItem.module.css';
+import AssetListImage from './AssetListImage';
+import { Upload } from '../../models/Upload';
 
-interface OwnProps extends WithStyles<typeof styles> {
+interface Props {
 	asset: any;
 	assetType: AssetType;
+	images: Upload[];
+	openCharacterSheet: (characterId: string) => void;
 }
 
-interface CollectProps {
-	connectDragSource: any;
-	isDragging: boolean;
-}
-
-type Props = OwnProps & CollectProps;
-
-class AssetListItem extends Component<Props> {
-	render() {
-		const { classes, asset, assetType } = this.props;
-		// These two props are injected by React DnD,
-		// as defined by your `collect` function below:
-		const { isDragging, connectDragSource } = this.props;
-		const s = {
-			cursor: 'pointer',
-			padding: '5px 10px'
-		};
-		if (isDragging) {
-			s['backgroundColor'] = 'red';
-		}
-		return connectDragSource(
-			<div className={classes.assetItem} style={s}>
-				{asset.name || 'unknown'}
+export default class AssetListItem extends Component<Props, {}> {
+	render(): ReactNode {
+		const { asset, assetType } = this.props;
+		return (
+			<div className={css.item}>
+				<AssetListImage {...this.props} />
+				<div className={css.title} onClick={() => this.onClick(asset)}>
+					{asset.name || 'unknown'}
+				</div>
 			</div>
 		);
 	}
-}
 
-const pcAssetSource = {
-	beginDrag(props) {
-		return {
-			id: props.asset.id,
-			assetType: props.assetType
-		};
-	},
-	endDrag(props, monitor, component) {
-		if (!monitor.didDrop()) {
-			return;
-		}
-
-		const item = monitor.getItem();
-		const dropResult = monitor.getDropResult();
-		// TODO: Fire redux action
+	onClick(asset): void {
+		this.props.openCharacterSheet(asset.id);
 	}
-};
-
-function collect(connect, monitor): CollectProps {
-	return {
-		connectDragSource: connect.dragSource(),
-		isDragging: monitor.isDragging()
-	};
 }
-
-export default DragSource(types.PLAYER_CHARACTER_ASSET, pcAssetSource, collect)(
-	withStyles(styles)(AssetListItem)
-);

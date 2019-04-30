@@ -7,7 +7,6 @@ import ImageUploaderContainer from './panels/imageUploader/ImageUploaderContaine
 import AssetListContainer from '../assets/AssetListContainer';
 import CreateAssetContainer from '../assets/CreateAssetContainer';
 import SettingsContainer from '../settings/SettingsContainer';
-import CharactersContainer from './panels/characters/CharactersContainer';
 
 export default class Sidebar extends Component {
 	state = {
@@ -25,22 +24,20 @@ export default class Sidebar extends Component {
 				<AppBar position="static">
 					<Tabs variant="scrollable" value={value} onChange={this.handleChange}>
 						<Tab label="Chat" />
-						<Tab label="Characters" />
 						<Tab label="Upload" />
 						<Tab label="Assets" />
 						<Tab label="Settings" />
 					</Tabs>
 				</AppBar>
 				{value === 0 && <ChatContainer />}
-				{value === 1 && <CharactersContainer />}
-				{value === 2 && <ImageUploaderContainer />}
-				{value === 3 && (
+				{value === 1 && <ImageUploaderContainer />}
+				{value === 2 && (
 					<div>
 						<CreateAssetContainer />
 						<AssetListContainer />
 					</div>
 				)}
-				{value === 4 && <SettingsContainer />}
+				{value === 3 && <SettingsContainer />}
 			</div>
 		);
 	}

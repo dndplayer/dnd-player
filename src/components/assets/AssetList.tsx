@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import AssetListItem from './AssetListItem';
 import { AssetType } from '../../models/AssetType';
 import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
+import { Upload } from '../../models/Upload';
 
 interface Props {
 	playerCharacters: PlayerCharacterData[];
 	nonPlayerCharacters: NonPlayerCharacterData[];
+	openCharacterSheet: (characterId: string) => void;
+	images: Upload[];
 }
 
 export default class AssetList extends Component<Props> {
@@ -15,7 +18,12 @@ export default class AssetList extends Component<Props> {
 			<div>
 				<ul>
 					{playerCharacters.map(x => (
-						<AssetListItem asset={x} assetType={AssetType.PlayerCharacter} key={x.id} />
+						<AssetListItem
+							asset={x}
+							assetType={AssetType.PlayerCharacter}
+							key={x.id}
+							{...this.props}
+						/>
 					))}
 				</ul>
 				<hr />
@@ -25,6 +33,7 @@ export default class AssetList extends Component<Props> {
 							asset={x}
 							assetType={AssetType.NonPlayerCharacter}
 							key={x.id}
+							{...this.props}
 						/>
 					))}
 				</ul>
