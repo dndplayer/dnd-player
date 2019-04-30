@@ -7,10 +7,12 @@ import { saveNewMessage } from '../../../redux/actions/chat';
 import { Character } from '../../models/Character';
 import { closeCharacterSheet } from '../../../redux/actions/characters';
 import { updatePlayerCharacter } from '../../../redux/actions/assets';
+import { Upload } from '../../../models/Upload';
 
 const mapStateToProps = (state): any => ({
 	playerCharacters: state.assets.playerCharacters,
-	openCharacterSheets: state.characters.openCharacterSheets
+	openCharacterSheets: state.characters.openCharacterSheets,
+	images: state.images.images
 });
 
 const mapDispatchToProps = (dispatch): any => ({
@@ -29,6 +31,7 @@ interface DispatchFromProps {
 interface StateFromProps {
 	openCharacterSheets: string[];
 	playerCharacters: Character[];
+	images: Upload[];
 	popout?: string;
 }
 
@@ -38,26 +41,36 @@ type Props = DispatchFromProps & StateFromProps;
 
 class CharacterSheetContainer extends Component<Props> {
 	render(): ReactNode {
+		const { popout, images, playerCharacters, openCharacterSheets } = this.props;
+
 		const characterSheets = [];
-		if (this.props.popout) {
-			const character = this.props.playerCharacters.find(x => x.id === this.props.popout);
+		if (popout) {
+			const character = playerCharacters.find(x => x.id === popout);
 			if (character) {
+				const image = images.find(x => x.filePath === (character as any).imageRef);
 				return (
 					<CharacterSheet
-						key={this.props.popout}
+						key={popout}
 						character={character}
 						popout="popout"
+						image={image}
 						{...this.props}
 					/>
 				);
 			}
 		}
 
-		for (const characterId of this.props.openCharacterSheets) {
-			const character = this.props.playerCharacters.find(x => x.id === characterId);
+		for (const characterId of openCharacterSheets) {
+			const character = playerCharacters.find(x => x.id === characterId);
 			if (character) {
+				const image = images.find(x => x.filePath === (character as any).imageRef);
 				characterSheets.push(
-					<CharacterSheet key={characterId} character={character} {...this.props} />
+					<CharacterSheet
+						key={characterId}
+						character={character}
+						image={image}
+						{...this.props}
+					/>
 				);
 			}
 		}

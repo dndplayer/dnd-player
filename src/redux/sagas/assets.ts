@@ -45,7 +45,7 @@ function* updatePlayerCharacterSaga(action: AnyAction): any {
 		creator: currentUser.uid
 	};
 
-	yield call(rsf.database.update, '/playerCharacters/' + action.character.id, payload);
+	yield call(rsf.database.patch, '/playerCharacters/' + action.characterId, payload);
 }
 
 function* saveNewPlayerCharacterSaga(action: AnyAction): any {

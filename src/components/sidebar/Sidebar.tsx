@@ -7,6 +7,7 @@ import ImageUploaderContainer from './panels/imageUploader/ImageUploaderContaine
 import AssetListContainer from '../assets/AssetListContainer';
 import CreateAssetContainer from '../assets/CreateAssetContainer';
 import SettingsContainer from '../settings/SettingsContainer';
+import UploadListContainer from './panels/uploadList/UploadListContainer';
 
 export default class Sidebar extends Component {
 	state = {
@@ -30,7 +31,12 @@ export default class Sidebar extends Component {
 					</Tabs>
 				</AppBar>
 				{value === 0 && <ChatContainer />}
-				{value === 1 && <ImageUploaderContainer />}
+				{value === 1 && (
+					<div>
+						<ImageUploaderContainer />
+						<UploadListContainer />
+					</div>
+				)}
 				{value === 2 && (
 					<div>
 						<CreateAssetContainer />

@@ -22,6 +22,7 @@
 	height: 100vh;
 	overflow: hidden auto;
 }
+
 .popout .character-close,
 .popout .character-popout {
 	display: none;
@@ -40,6 +41,7 @@
 	justify-content: center;
 	cursor: pointer;
 }
+
 .character-details {
 	display: flex;
 	flex-direction: row;
@@ -47,6 +49,7 @@
 	justify-content: center;
 	width: 100%;
 }
+
 .character-name,
 .character-classes {
 	flex: 1;
@@ -58,6 +61,12 @@
 	background: #202020;
 	margin: 8px;
 	padding: 8px 24px;
+}
+
+.character-image img {
+	border-radius: 50%;
+	width: 128px;
+	height: 128px;
 }
 
 .character-classes {
@@ -208,11 +217,13 @@
 	transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
 		opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms, visibility 300ms;
 }
+
 .popup-advantage {
 	background: url(../../../components/chat/advantage.svg);
 	right: -16px;
 	transform: translate3d(-10px, 0, 0);
 }
+
 .popup-disadvantage {
 	background: url(../../../components/chat/disadvantage.svg);
 	left: -16px;
@@ -242,6 +253,7 @@ div:hover > .popup-disadvantage:hover {
 	font-size: 11px;
 	top: 9px;
 }
+
 .speed-container {
 	margin-top: 12px;
 	position: relative;
@@ -250,6 +262,7 @@ div:hover > .popup-disadvantage:hover {
 	align-items: center;
 	justify-content: center;
 }
+
 .speed-unit {
 	color: #808080;
 	position: absolute;
@@ -257,6 +270,7 @@ div:hover > .popup-disadvantage:hover {
 	margin-left: 4px;
 	bottom: 3px;
 }
+
 .speed-popup {
 	position: absolute;
 	top: -2px;
@@ -272,6 +286,7 @@ div:hover > .popup-disadvantage:hover {
 	padding-top: 16px;
 	z-index: 1;
 }
+
 .speed-popup-wrap {
 	position: relative;
 }
@@ -309,9 +324,11 @@ div:hover > .popup-disadvantage:hover {
 	position: relative;
 	cursor: pointer;
 }
+
 .save {
 	margin: 8px;
 }
+
 .skill {
 	margin: 4px 8px;
 }
@@ -351,6 +368,7 @@ div:hover > .popup-disadvantage:hover {
 	margin: 0 24px;
 	width: 24px;
 }
+
 .skill-title {
 	font-size: 14px;
 }
@@ -374,6 +392,7 @@ div:hover > .popup-disadvantage:hover {
 .save-modifier {
 	height: 35px;
 }
+
 .skill-modifier {
 	height: 30px;
 }
@@ -403,14 +422,17 @@ div:hover > .popup-disadvantage:hover {
 	background: #202020;
 	left: -6px;
 }
+
 .save-proficiency.expertise,
 .skill-proficiency.expertise {
 	background: #4c976e;
 }
+
 .save-proficiency.proficient,
 .skill-proficiency.proficient {
 	background: #ccc;
 }
+
 .save-proficiency.half-proficient,
 .skill-proficiency.half-proficient {
 	background: #666;

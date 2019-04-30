@@ -14,6 +14,8 @@ import ArmorClass from './ArmorClass';
 import HitPoints from './HitPoints';
 import Attacks from './Attacks';
 import Equipment from './Equipment';
+import CharacterImage from './CharacterImage';
+import { Upload } from '../../../models/Upload';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -21,6 +23,7 @@ interface Props {
 	updatePlayerCharacter: (characterId: string, character: Character) => void;
 	character: Character;
 	popout?: string;
+	image: Upload;
 }
 interface State {
 	editing: boolean;
@@ -80,6 +83,13 @@ export default class CharacterSheet extends React.Component<Props, State> {
 				</div>
 				<div className="row character-details">
 					<div className="character-name">{character.name}</div>
+					<div className="character-image">
+						<CharacterImage
+							imageUrl={this.props.image ? this.props.image.downloadUrl : null}
+							character={character}
+							updatePlayerCharacter={this.props.updatePlayerCharacter}
+						/>
+					</div>
 					<div className="character-classes">
 						{(character.levels || []).map(x => `${x.className} ${x.level}`).join(', ')}
 					</div>

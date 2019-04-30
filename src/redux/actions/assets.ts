@@ -1,3 +1,5 @@
+import { PlayerCharacterData } from '../../models/Asset';
+
 export const types = {
 	ASSETS: {
 		PLAYERCHARACTER: {
@@ -30,7 +32,7 @@ export const syncPlayerCharactersFailed = error => ({
 	error
 });
 
-export const updatePlayerCharacter = (characterId, character) => ({
+export const updatePlayerCharacter = (characterId: string, character: PlayerCharacterData) => ({
 	type: types.ASSETS.PLAYERCHARACTER.UPDATE,
 	characterId,
 	character
