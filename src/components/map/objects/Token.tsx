@@ -78,6 +78,12 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 		const g = instance.getChildByName('healthbar') as PIXI.Graphics;
 		const s = instance.getChildByName('sprite') as PIXI.Sprite;
 
+		if (newProps.resource !== oldProps.resource) {
+			if (s) {
+				s.texture = newProps.resource;
+			}
+		}
+
 		if (newProps.anchor !== oldProps.anchor) {
 			if (s) {
 				s.anchor.set(
