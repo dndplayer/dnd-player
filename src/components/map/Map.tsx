@@ -13,6 +13,7 @@ import TESTDATA from './testMap.json';
 import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 import Token from './objects/Token';
 import { Upload } from '../../models/Upload';
+import { withStyles, WithStyles } from '@material-ui/core';
 
 const ViewportComponent = PixiComponent('Viewport', {
 	create: props => {
@@ -37,11 +38,23 @@ const ViewportComponent = PixiComponent('Viewport', {
 	}
 });
 
+const styles = theme => ({
+	loadingWrapper: {
+		position: 'absolute' as 'absolute', // Avoid type widening
+		top: '50%',
+		left: '50%',
+		transform: 'translate(-50%, 0)'
+	},
+	loadingText: {
+		fontSize: '200%'
+	}
+});
+
 interface CollectProps {
 	connectDropTarget: any;
 }
 
-interface OwnProps {
+interface OwnProps extends WithStyles<typeof styles> {
 	updateSpriteLocation: (sprite: Sprite) => void;
 	mapData?: MapData;
 	zoom?: number;
@@ -117,10 +130,14 @@ class Map extends Component<Props, State> {
 	}
 
 	render(): ReactNode {
-		const { playerCharacters, nonPlayerCharacters } = this.props;
+		const { classes, playerCharacters, nonPlayerCharacters } = this.props;
 
 		if (this.state.loadingAssets) {
-			return <div>LOADING...</div>;
+			return (
+				<div className={classes.loadingWrapper}>
+					<div className={classes.loadingText}>LOADING...</div>
+				</div>
+			);
 		}
 
 		if (!this.props.mapData) {
@@ -260,4 +277,6 @@ function collect(connect, monitor): CollectProps {
 	};
 }
 
-export default DropTarget(types.PLAYER_CHARACTER_ASSET, mapTargetSpec, collect)(Map);
+export default DropTarget(types.PLAYER_CHARACTER_ASSET, mapTargetSpec, collect)(
+	withStyles(styles)(Map)
+);

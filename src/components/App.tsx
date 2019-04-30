@@ -60,27 +60,14 @@ export class App extends Component<{}, State> {
 										path="/"
 										render={(): ReactElement => (
 											<div>
-												<MapContainer />
-												<ToolbarContainer
-													style={{
-														position: 'fixed',
-														bottom: '0',
-														left: '35%',
-														transform: 'translate(-50%, 0%)'
-													}}
-												/>
-												<ViewControlsContainer
-													style={{
-														position: 'fixed',
-														right: '25vw',
-														top: '10vh'
-													}}
-												/>
-												<div>
-													<CharacterSheetContainer />
+												<div className={styles.mapWrapper}>
+													<MapContainer />
 												</div>
 												<div className={styles.chatWrapper}>
 													<Sidebar />
+												</div>
+												<div>
+													<CharacterSheetContainer />
 												</div>
 											</div>
 										)}
