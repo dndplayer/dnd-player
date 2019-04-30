@@ -10,6 +10,14 @@ interface Props {
 	rotation?: number;
 }
 
+/**
+ * A Custom map object for displaying static objects that have no level of interactivity.
+ * The only way to modify the position of objects like these is via their property panel.
+ * The use of these objects is that they won't clutter the map with draggable objects
+ * that could accidentaly be moved.
+ * In reality this is probably only useful for the main background image of a map as you
+ * probably want the ease of dragging other scenery objects.
+ **/
 export default PixiComponent<Props, PIXI.Sprite>('Scenery', {
 	create: (props: Props): any => {
 		const s = PIXI.Sprite.fromImage(props.imageUrl);

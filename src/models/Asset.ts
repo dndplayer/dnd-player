@@ -1,11 +1,11 @@
 export interface PlayerCharacterData {
 	id: string;
 	name: string;
-	imageUrl: string;
+	imageRef: string;
 }
 
 export interface NonPlayerCharacterData {
 	id: string;
 	name: string;
-	imageUrl: string;
+	imageRef: string;
 }

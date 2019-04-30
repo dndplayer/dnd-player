@@ -1,6 +1,7 @@
 export interface Upload {
-	id: string;
+	id?: string;
 	name: string;
-	refPath: string;
+	filePath: string;
 	downloadUrl: string;
+	uploadTime: object;
 }

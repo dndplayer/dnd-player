@@ -18,18 +18,28 @@ interface Props {
 
 class TokenContainer extends PIXI.Container {
 	// Filters
-	hoverFilters: any[];
-	dragFilters: any[];
+	hoverFilters: any[]; // Filters to be applied when hovering over this token
+	dragFilters: any[]; // Filters to be applied when dragging this token
 
-	onUpdateObject: (data) => void;
-	layerName: string;
-	mapObjectId: string;
+	onUpdateObject: (data) => void; // An update callback to be used to update
+	layerName: string; // The layer this token is on to be included in update events back up.
+	mapObjectId: string; // The Map Object ID to be included in update events back up.
 
 	// Dragging
-	dragGrabOffset?: PIXI.PointLike;
-	dragging: boolean;
-	dragData?: any;
+	dragGrabOffset?: PIXI.PointLike; // The offset a drag was started at to be applied to the sprite during the drag
+	dragging: boolean; // Is this token currently being dragged
+	dragData?: any; // Keep track of dragging event data during drag
+	dragLocked: boolean; // Lock the token so it can't be dragged
+
+	// General
 }
+
+/**
+ * TODO:
+ * * Add a delete button to token
+ * * Make click to select work (so it doesn't trigger dragging until actual movement)
+ * * Make a popout properties panel (see Blender) on the left that is linked to the selected Token
+ **/
 
 export default PixiComponent<Props, TokenContainer>('Token', {
 	create: (props: Props): any => {
@@ -49,6 +59,8 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 		cont.onUpdateObject = props.onUpdateObject;
 		cont.layerName = props.layerName;
 		cont.mapObjectId = props.mapObjectId;
+
+		cont.dragLocked = false;
 
 		// const s = PIXI.Sprite.fromImage(props.imageUrl);
 		const s = new PIXI.Sprite(props.resource);
@@ -98,6 +110,7 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 
 		if (newProps.hp !== oldProps.hp) {
 			const healthbarHeight = 64;
+			const healthbarMargin = 10;
 			const healthbarPercent = newProps.hp.value / newProps.hp.max;
 
 			g.clear();
@@ -108,11 +121,10 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 			g.endFill();
 
 			g.beginFill(0xff0000);
-			// g.beginFill(Math.random() * 0xffffff);
 			g.drawRect(0, 0, s.width * healthbarPercent, healthbarHeight);
 			g.endFill();
 
-			g.position.set(-(s.width / 2), -(s.height / 2) - healthbarHeight);
+			g.position.set(-(s.width / 2), -(s.height / 2) - healthbarHeight - healthbarMargin);
 		}
 	},
 
@@ -168,12 +180,6 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 		};
 
 		const onDragMove = (e: PIXI.interaction.InteractionEvent): void => {
-			// TODO: Include the offset of the mouse from the sprite/container center, so dragging
-			//       doesn't jump. I.E. if mouse down is 50,50 from sprite center, then on all new
-			//       pos assignments below, also increase the pos by that offset.
-
-			// data.global (Point that is the client pos of the mouse @ event)
-
 			if (instance.dragging) {
 				const newPos = instance.dragData.getLocalPosition(e.currentTarget.parent);
 				instance.x = newPos.x - (instance.dragGrabOffset ? instance.dragGrabOffset.x : 0);

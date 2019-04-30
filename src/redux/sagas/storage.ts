@@ -1,17 +1,20 @@
 import { channel } from 'redux-saga';
 import { all, call, put, take, select, fork, takeEvery } from 'redux-saga/effects';
 import { database } from 'firebase';
+import uuidv4 from 'uuid/v4';
 
 import { types, uploadProgress } from '../actions/storage';
 
 import { uploadCompleted, uploadFailed } from '../actions/storage';
 
 import rsf from '../rsf';
+import { Upload } from '../../models/Upload';
 
 const uploadFileChannel = channel();
 
 function* sendFileSaga(action): any {
-	const task = rsf.storage.uploadFile(action.filePath, action.file);
+	const filePath = `uploads/${action.name}/${uuidv4()}`;
+	const task = rsf.storage.uploadFile(filePath, action.file);
 
 	task.on('state_changed', snapshot => {
 		const pct = (snapshot.bytesTransferred * 100) / snapshot.totalBytes;
@@ -23,15 +26,15 @@ function* sendFileSaga(action): any {
 	yield task;
 
 	try {
-		const url = yield call(rsf.storage.getDownloadURL, action.filePath);
+		const url = yield call(rsf.storage.getDownloadURL, filePath);
 
-		// Add an entry in the Realtime DB for this upload
-		yield call(rsf.database.create, '/uploads', {
-			filePath: action.filePath,
-			name: action.name,
+		const payload: Upload = {
 			downloadUrl: url,
+			name: action.name,
+			filePath: filePath,
 			uploadTime: database.ServerValue.TIMESTAMP
-		});
+		};
+		yield call(rsf.database.create, '/uploads', payload);
 
 		yield put(uploadCompleted());
 	} catch (error) {

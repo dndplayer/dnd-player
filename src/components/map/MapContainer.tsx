@@ -35,7 +35,8 @@ class MapContainer extends Component<Props> {
 			<Map
 				updateSpriteLocation={() => {}}
 				zoom={zoom}
-				testMap={testMap}
+				mapData={testMap}
+				// testMap={testMap}
 				playerCharacters={playerCharacters}
 				nonPlayerCharacters={nonPlayerCharacters}
 				onUpdateObject={onUpdateObject}

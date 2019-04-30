@@ -9,11 +9,10 @@ export const types = {
 	}
 };
 
-export const sendFile = (name: string, file: File, filePath: string): AnyAction => ({
+export const sendFile = (name: string, file: File): AnyAction => ({
 	type: types.STORAGE.SEND_FILE,
 	name,
-	file,
-	filePath
+	file
 });
 
 export const uploadProgress = progress => ({

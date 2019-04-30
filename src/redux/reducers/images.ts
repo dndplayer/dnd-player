@@ -1,11 +1,17 @@
 import { types } from '../actions/images';
+import { Upload } from '../../models/Upload';
 
-const initialState = {
+interface State {
+	images: Upload[];
+	syncError?: object;
+}
+
+const initialState: State = {
 	images: [],
 	syncError: null
 };
 
-export default function imagesReducer(state = initialState, action: any = {}) {
+export default function imagesReducer(state: State = initialState, action: any = {}): State {
 	switch (action.type) {
 		case types.IMAGES.SYNC:
 			return {

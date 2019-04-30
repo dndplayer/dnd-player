@@ -1,5 +1,4 @@
 import React, { Component, ReactNode } from 'react';
-import uuidv4 from 'uuid/v4';
 import {
 	withStyles,
 	WithStyles,
@@ -27,7 +26,7 @@ interface State {
 	uploadName: string;
 }
 interface Props extends WithStyles<typeof styles> {
-	onUpload: (name: string, file: File, filePath: string) => void;
+	onUpload: (name: string, file: File) => void;
 	progress: number;
 	inProgress: boolean;
 }
@@ -51,7 +50,7 @@ class ImageUploader extends Component<Props, State> {
 		});
 	}
 
-	onUpload(event): void {
+	onUpload(event: React.MouseEvent): void {
 		if (!this.state.file) {
 			return;
 		}
@@ -59,8 +58,9 @@ class ImageUploader extends Component<Props, State> {
 			return;
 		}
 
-		const filePath = `uploads/${uuidv4()}`;
-		this.props.onUpload(this.state.uploadName, this.state.file, filePath);
+		// TODO: Validate input I.E. valid name (alphanumeric + dash/underscore)
+
+		this.props.onUpload(this.state.uploadName, this.state.file);
 	}
 
 	render(): ReactNode {

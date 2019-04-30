@@ -48,7 +48,7 @@ class CreateAsset extends Component<Props, State> {
 	onSave = (): void => {
 		const upload = this.props.uploads.find(x => x.id === this.state.uploadId);
 		const data: any = {
-			imageUrl: upload ? upload.downloadUrl : '',
+			imageRef: upload ? upload.filePath : '',
 			name: this.state.name
 		};
 		this.props.saveNewAsset(this.state.assetType, data);

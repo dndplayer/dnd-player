@@ -29,7 +29,11 @@ function* syncTestMapSaga(): any {
 
 function* testMapUpdateObject(action): any {
 	const { layerName, mapObjectId, newData } = action;
-	yield call(rsf.database.patch, `/testMap/layers/${layerName}/children/${mapObjectId}`, newData);
+	yield call(
+		rsf.database.patch,
+		`/testMap/layers/${layerName}/mapObjects/${mapObjectId}`,
+		newData
+	);
 }
 
 function* addAssetToTestMap(action): any {
@@ -50,7 +54,7 @@ function* addAssetToTestMap(action): any {
 	} else if (assetType === AssetType.NonPlayerCharacter) {
 		payload['npcId'] = assetId;
 	}
-	yield call(rsf.database.create, '/testMap/layers/tokens/children', payload);
+	yield call(rsf.database.create, '/testMap/layers/tokens/mapObjects', payload);
 }
 
 export default function* rootSaga() {

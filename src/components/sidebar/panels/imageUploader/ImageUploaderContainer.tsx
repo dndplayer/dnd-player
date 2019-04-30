@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { sendFile } from '../../../../redux/actions/storage';
 import ImageUploader from './ImageUploader';
@@ -14,7 +14,7 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 class ImageUploaderContainer extends Component<Props> {
-	render() {
+	render(): ReactNode {
 		return (
 			<ImageUploader
 				onUpload={this.props.sendFile}
@@ -30,7 +30,7 @@ const mapStateToProps = (state): StateProps => ({
 	uploading: state.storage.uploading
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
-	sendFile: (name, file, filePath) => dispatch(sendFile(name, file, filePath))
+	sendFile: (name, file): void => dispatch(sendFile(name, file))
 });
 
 export default connect<StateProps, DispatchProps>(

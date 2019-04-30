@@ -45,7 +45,7 @@ interface OwnProps {
 	updateSpriteLocation: (sprite: Sprite) => void;
 	mapData?: MapData;
 	zoom?: number;
-	testMap: any;
+	// testMap: any;
 	playerCharacters: PlayerCharacterData[];
 	nonPlayerCharacters: NonPlayerCharacterData[];
 	onUpdateObject: (data) => void;
@@ -63,25 +63,56 @@ class Map extends Component<Props, State> {
 		loadingAssets: true
 	};
 
-	private sprite: any;
 	private app: any;
 	private root: PIXI.Container;
 
-	componentDidUpdate(prevProps, prevState) {
+	private loader: PIXI.loaders.Loader = PIXI.loader;
+
+	/**
+	 * Loader:
+	 *  * [ ] At map first load, load all the images used in the map
+	 *  * [ ] When new assets are added to the map they need to be loaded too
+	 *  * [-] Load resources with name->downloadUrl mapping
+	 *    * [-] This then means we need to use name refs in asset / mapObjects, then
+	 *      the loader would look these up in the images database and add them to
+	 *      the loader.add array.
+	 *  * [-] Change Assets image ref to use name or filePath? (Name may not be unique)
+	 * 	  * [-] Perhaps make the file path upload/{name}/{guid} so refs are still somewhat readable
+	 **/
+
+	componentDidUpdate(prevProps, prevState): void {
+		// This errors currently as it's run multiple times and tries to load the
+		// same asset multiple times.
+
 		if (this.props.images != prevProps.images) {
-			// TODO: Instead of loading ALL images, only load those in use on this map?
-			const loader = PIXI.loader;
-			loader.add('__missing__', 'http://placekitten.com/128/128');
+			// TODO: Instead of loading ALL images EVERY time the props.images changes,
+			//       only load those in use on this map
+			// const loader = PIXI.loader;
+			if (!this.loader.resources['__missing__']) {
+				this.loader.add('__missing__', 'http://placekitten.com/128/128');
+			}
+
 			this.setState({ loadingAssets: true });
-			const assetsToLoad = this.props.images.map(x => ({
-				name: x.downloadUrl,
-				url: x.downloadUrl,
-				loadType: 2 //PIXI.loaders.LOAD_TYPE.IMAGE
-			}));
-			loader.add(assetsToLoad);
-			loader.load(() => {
-				this.setState({ loadingAssets: false });
-			});
+
+			const assetsToLoad = this.props.images
+				.map(
+					(x): any => {
+						const alreadyExists = !!this.loader.resources[x.filePath];
+						if (alreadyExists) return null;
+						return {
+							name: x.filePath,
+							url: x.downloadUrl,
+							loadType: 2 //PIXI.loaders.LOAD_TYPE.IMAGE
+						};
+					}
+				)
+				.filter((x): any => x); // Remove Nulls I.E. already loaded
+			this.loader.add(assetsToLoad);
+			this.loader.load(
+				(): void => {
+					this.setState({ loadingAssets: false });
+				}
+			);
 		}
 	}
 
@@ -92,10 +123,10 @@ class Map extends Component<Props, State> {
 			return <div>LOADING...</div>;
 		}
 
-		if (!this.props.testMap) {
+		if (!this.props.mapData) {
 			return <div>No Map</div>;
 		}
-		const { background, tokens } = this.props.testMap.layers;
+		const { background, tokens } = this.props.mapData.layers;
 
 		const { connectDropTarget } = this.props;
 
@@ -112,9 +143,9 @@ class Map extends Component<Props, State> {
 				>
 					<ViewportComponent>
 						<Container name="layer-background">
-							{Object.keys(background.children).map(
+							{Object.keys(background.mapObjects).map(
 								(mapObjId): ReactElement => {
-									const o = background.children[mapObjId];
+									const o = background.mapObjects[mapObjId];
 									const pcAsset = o.pcId
 										? playerCharacters.find(x => x.id === o.pcId)
 										: null;
@@ -122,11 +153,11 @@ class Map extends Component<Props, State> {
 										? nonPlayerCharacters.find(x => x.id === o.npcId)
 										: null;
 									const imageUrl =
-										pcAsset && pcAsset.imageUrl
-											? pcAsset.imageUrl
-											: npcAsset && npcAsset.imageUrl
-											? npcAsset.imageUrl
-											: o.imageUrl || 'http://placekitten.com/128/128';
+										pcAsset && pcAsset.imageRef
+											? pcAsset.imageRef
+											: npcAsset && npcAsset.imageRef
+											? npcAsset.imageRef
+											: o.imageRef || '__missing__';
 									return (
 										<DraggableSprite
 											key={mapObjId}
@@ -147,10 +178,10 @@ class Map extends Component<Props, State> {
 						</Container>
 						<Container name="layer-tokens">
 							{tokens &&
-								tokens.children &&
-								Object.keys(tokens.children).map(
+								tokens.mapObjects &&
+								Object.keys(tokens.mapObjects).map(
 									(mapObjId): ReactElement => {
-										const o = tokens.children[mapObjId];
+										const o = tokens.mapObjects[mapObjId];
 										const isPc = !!o.pcId;
 										const isNpc = !!o.npcId;
 										const pcAsset = isPc
@@ -160,11 +191,11 @@ class Map extends Component<Props, State> {
 											? nonPlayerCharacters.find(x => x.id === o.npcId)
 											: null;
 										const imageUrl =
-											pcAsset && pcAsset.imageUrl
-												? pcAsset.imageUrl
-												: npcAsset && npcAsset.imageUrl
-												? npcAsset.imageUrl
-												: o.imageUrl || '__missing__';
+											pcAsset && pcAsset.imageRef
+												? pcAsset.imageRef
+												: npcAsset && npcAsset.imageRef
+												? npcAsset.imageRef
+												: o.imageRef || '__missing__';
 										const res = PIXI.loader.resources[imageUrl].texture;
 										return (
 											<Token
