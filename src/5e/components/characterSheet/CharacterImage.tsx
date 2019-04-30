@@ -4,6 +4,8 @@ import { DropTargetMonitor, DropTarget } from 'react-dnd';
 import types from '../../../constants/dragdroptypes';
 import { Character } from '../../models/Character';
 
+import css from './CharacterImage.module.css';
+
 interface CollectProps {
 	connectDropTarget: any;
 }
@@ -21,7 +23,7 @@ class CharacterImage extends Component<Props> {
 		const { connectDropTarget, imageUrl } = this.props;
 
 		return connectDropTarget(
-			<div>
+			<div className={css.wrapper}>
 				<img src={imageUrl || 'http://placekitten.com/128/128'} />
 			</div>
 		);

@@ -37,7 +37,7 @@ export const ProficiencyClassMap = {
 	2: 'expertise'
 };
 
-export default class CharacterSheet extends React.Component<Props, State> {
+export default class PlayerCharacterSheet extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 

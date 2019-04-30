@@ -45,13 +45,19 @@ interface StateFromProps {
 
 type Props = DispatchFromProps & StateFromProps;
 
-class CharacterSheetContainer extends Component<Props> {
+export class CharacterSheetContainer extends Component<Props> {
 	render(): ReactNode {
-		const { popout, images, playerCharacters, openCharacterSheets } = this.props;
+		const {
+			popout,
+			images,
+			playerCharacters,
+			nonPlayerCharacters,
+			openCharacterSheets
+		} = this.props;
 
 		const characterSheets = [];
 		if (popout) {
-			const pc = this.props.playerCharacters.find(x => x.id === this.props.popout);
+			const pc = playerCharacters.find(x => x.id === this.props.popout);
 			if (pc) {
 				const image = images.find(x => x.filePath === pc.imageRef);
 				return (
@@ -64,7 +70,7 @@ class CharacterSheetContainer extends Component<Props> {
 					/>
 				);
 			}
-			const npc = this.props.nonPlayerCharacters.find(x => x.id === this.props.popout);
+			const npc = nonPlayerCharacters.find(x => x.id === this.props.popout);
 			if (npc) {
 				const image = images.find(x => x.filePath === npc.imageRef);
 				return (
@@ -79,8 +85,8 @@ class CharacterSheetContainer extends Component<Props> {
 			}
 		}
 
-		for (const characterId of this.props.openCharacterSheets) {
-			const pc = this.props.playerCharacters.find(x => x.id === characterId);
+		for (const characterId of openCharacterSheets) {
+			const pc = playerCharacters.find(x => x.id === characterId);
 			if (pc) {
 				const image = images.find(x => x.filePath === pc.imageRef);
 				characterSheets.push(
@@ -91,8 +97,9 @@ class CharacterSheetContainer extends Component<Props> {
 						{...this.props}
 					/>
 				);
+				continue;
 			}
-			const npc = this.props.nonPlayerCharacters.find(x => x.id === characterId);
+			const npc = nonPlayerCharacters.find(x => x.id === characterId);
 			if (npc) {
 				const image = images.find(x => x.filePath === npc.imageRef);
 				characterSheets.push(
