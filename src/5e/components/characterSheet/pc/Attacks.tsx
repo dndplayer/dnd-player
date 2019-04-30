@@ -1,14 +1,14 @@
 import React, { ReactNode } from 'react';
 
 import './Attacks.css';
-import { Character } from '../../models/Character';
-import Rules from '../../5eRules';
+import { PlayerCharacter } from '../../../models/Character';
+import Rules from '../../../5eRules';
 import AttackBlock from './AttackBlock';
-import { ChatMessageData } from '../../../models/ChatMessage';
+import { ChatMessageData } from '../../../../models/ChatMessage';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
-	character: Character;
+	character: PlayerCharacter;
 }
 
 export default class Attacks extends React.Component<Props, {}> {

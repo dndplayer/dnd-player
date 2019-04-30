@@ -13,6 +13,7 @@ export const types = {
 		NONPLAYERCHARACTER: {
 			SYNC: 'ASSETS.NONPLAYERCHARACTER.SYNC',
 			SYNC_FAILED: 'ASSETS.NONPLAYERCHARACTER.SYNC_FAILED',
+			UPDATE: 'ASSETS.NONPLAYERCHARACTER.UPDATE',
 			NEW: {
 				SAVE: 'ASSETS.NONPLAYERCHARACTER.NEW.SAVE'
 			}
@@ -53,6 +54,12 @@ export const syncNonPlayerCharacters = nonPlayerCharacters => ({
 export const syncNonPlayerCharactersFailed = error => ({
 	type: types.ASSETS.NONPLAYERCHARACTER.SYNC_FAILED,
 	error
+});
+
+export const updateNonPlayerCharacter = (characterId, character) => ({
+	type: types.ASSETS.NONPLAYERCHARACTER.UPDATE,
+	characterId,
+	character
 });
 
 export const saveNewNonPlayerCharacter = nonPlayerCharacterData => ({

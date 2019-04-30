@@ -1,6 +1,6 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactNode } from 'react';
 
-import './CharacterSheet.css';
+import './PlayerCharacterSheet.css';
 import Rules, {
 	Attack,
 	AttackEffectType,
@@ -9,7 +9,7 @@ import Rules, {
 	SavingThrowAttackEffect,
 	AttackEffect,
 	TextAttackEffect
-} from '../../5eRules';
+} from '../../../5eRules';
 import {
 	ChatMessageData,
 	CharacterActionData,
@@ -19,7 +19,7 @@ import {
 	CharacterActionResult,
 	CharacterActionTextResult,
 	CharacterActionConditionResult
-} from '../../../models/ChatMessage';
+} from '../../../../models/ChatMessage';
 import { DiceRoll } from 'rpg-dice-roller';
 
 interface Props {

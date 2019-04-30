@@ -11,7 +11,7 @@ interface CollectProps {
 interface OwnProps {
 	character: Character;
 	imageUrl?: string;
-	updatePlayerCharacter: (characterId: string, character: Character) => void;
+	updateCharacter: (characterId: string, character: Character) => void;
 }
 
 type Props = CollectProps & OwnProps;
@@ -36,10 +36,11 @@ const charImageTargetSpec = {
 	drop(props: Props, monitor: DropTargetMonitor, component: Component): void {
 		const item = monitor.getItem();
 
-		if (props.updatePlayerCharacter) {
-			props.updatePlayerCharacter(props.character.id, {
+		if (props.updateCharacter) {
+			props.updateCharacter(props.character.id, {
+				...props.character,
 				imageRef: item.imageRef
-			} as any); // Fudging types
+			});
 		}
 	}
 };

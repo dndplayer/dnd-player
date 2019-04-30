@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import styles from './EquipmentItem.module.css';
-import { Character, CharacterEquipment } from '../../models/Character';
+import { Character, CharacterEquipment } from '../../../models/Character';
 
 interface Props {
 	character: Character;

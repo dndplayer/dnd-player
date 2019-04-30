@@ -1,54 +1,59 @@
 import React, { ReactNode } from 'react';
 
-import './CharacterSheet.css';
-import { Character } from '../../models/Character';
-import Rules from '../../5eRules';
-import { RollData, ChatMessageData } from '../../../models/ChatMessage';
 import { DiceRoll } from 'rpg-dice-roller';
+import { RollData, ChatMessageData } from '../../../../models/ChatMessage';
+
+import css from './NonPlayerCharacterSheet.module.css';
+import { Character } from '../../../models/Character';
+import Rules from '../../../5eRules';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
+	ability: string;
 	character: Character;
 }
 
-export default class Initiative extends React.Component<Props, {}> {
+export default class AbilityScore extends React.Component<Props, {}> {
 	constructor(props: Props) {
 		super(props);
 
 		this.state = {};
+
 		this.handleClick = this.handleClick.bind(this);
 	}
 
 	render(): ReactNode {
-		const { character } = this.props;
-		const modifier = Rules.getInitiativeModifier(character);
+		const { ability, character } = this.props;
+		const modifier = Rules.getAbilityModifier(character, ability);
 
 		return (
-			<div className="initiative" onClick={e => this.handleClick(e, 0)}>
+			<div className="ability" onClick={e => this.handleClick(e, 0)}>
 				<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
 					A
 				</div>
 				<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
 					D
 				</div>
-				<div className="initiative-title">Initiative</div>
-				<div className="initiative-modifier">
-					<div className="initiative-symbol">{modifier < 0 ? '-' : '+'}</div>
-					<div className="initiative-number">{Math.abs(modifier)}</div>
+				<div className="ability-title">{Rules.getLongAbilityName(ability)}</div>
+				<div className="ability-modifier">
+					<div className="ability-symbol">{modifier < 0 ? '-' : '+'}</div>
+					<div className="ability-number">{Math.abs(modifier)}</div>
 				</div>
+				<div className="ability-score">{character[ability]}</div>
 			</div>
 		);
 	}
 
 	handleClick(e, advantage: number): void {
-		const modifier = Rules.getInitiativeModifier(this.props.character);
+		const modifier = Rules.getAbilityModifier(this.props.character, this.props.ability);
 		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
 		const roll = new DiceRoll('d20' + modifierStr);
+		const stat = Rules.getLongAbilityName(this.props.ability);
 
 		const data: RollData = {
 			type: 'roll',
-			rollType: 'Initiative',
-			rollName: 'Initiative',
+			rollType: 'Ability',
+			rollName: stat,
 			modifier: modifierStr,
 			roll1Total: roll.total,
 			roll1Details: roll.toString().match(/.*?: (.*?) =/)[1],

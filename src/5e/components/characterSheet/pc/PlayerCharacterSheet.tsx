@@ -1,11 +1,11 @@
-import React, { ReactNode, ReactPropTypes } from 'react';
+import React, { ReactNode } from 'react';
 
-import { ChatMessageData } from '../../../models/ChatMessage';
+import { ChatMessageData } from '../../../../models/ChatMessage';
 import AbilityScore from './AbilityScore';
 import AbilitySave from './AbilitySave';
 
-import './CharacterSheet.css';
-import { Character } from '../../models/Character';
+import './PlayerCharacterSheet.css';
+import { Character, PlayerCharacter } from '../../../models/Character';
 import Skill from './Skill';
 import ProficiencyBonus from './ProficiencyBonus';
 import Speed from './Speed';
@@ -14,14 +14,14 @@ import ArmorClass from './ArmorClass';
 import HitPoints from './HitPoints';
 import Attacks from './Attacks';
 import Equipment from './Equipment';
-import CharacterImage from './CharacterImage';
-import { Upload } from '../../../models/Upload';
+import CharacterImage from './../CharacterImage';
+import { Upload } from '../../../../models/Upload';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	closeCharacterSheet: (characterId: string) => void;
 	updatePlayerCharacter: (characterId: string, character: Character) => void;
-	character: Character;
+	character: PlayerCharacter;
 	popout?: string;
 	image: Upload;
 }
@@ -87,7 +87,7 @@ export default class CharacterSheet extends React.Component<Props, State> {
 						<CharacterImage
 							imageUrl={this.props.image ? this.props.image.downloadUrl : null}
 							character={character}
-							updatePlayerCharacter={this.props.updatePlayerCharacter}
+							updateCharacter={this.props.updatePlayerCharacter}
 						/>
 					</div>
 					<div className="character-classes">

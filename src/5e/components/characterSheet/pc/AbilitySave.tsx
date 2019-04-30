@@ -1,50 +1,46 @@
 import React, { ReactNode } from 'react';
 
 import { DiceRoll } from 'rpg-dice-roller';
-import { RollData, ChatMessageData } from '../../../models/ChatMessage';
+import { RollData, ChatMessageData } from '../../../../models/ChatMessage';
 
-import './CharacterSheet.css';
-import { Character } from '../../models/Character';
-import Rules from '../../5eRules';
-import { ProficiencyClassMap } from './CharacterSheet';
+import './PlayerCharacterSheet.css';
+import { PlayerCharacter } from '../../../models/Character';
+import Rules from '../../../5eRules';
+import { ProficiencyClassMap } from './PlayerCharacterSheet';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
-	skill: string;
 	ability: string;
-	character: Character;
+	character: PlayerCharacter;
 }
 
-export default class Skill extends React.Component<Props, {}> {
+export default class AbilitySave extends React.Component<Props, {}> {
 	constructor(props: Props) {
 		super(props);
-
-		this.state = {};
 
 		this.handleClick = this.handleClick.bind(this);
 	}
 
 	render(): ReactNode {
-		const { ability, character, skill } = this.props;
-		const skills = (character.proficiencies || { skills: {} }).skills || {};
-		const modifier = Rules.getSkillModifier(character, skill, ability);
-		const proficiencyClass = ProficiencyClassMap[skills[skill] || 0];
+		const { ability, character } = this.props;
+		const saves = (character.proficiencies || { saves: {} }).saves || {};
+		const modifier = Rules.getSaveModifier(character, ability);
+		const proficiencyClass = ProficiencyClassMap[saves[ability] || 0];
 
 		return (
-			<div className="skill" onClick={e => this.handleClick(e, 0)}>
+			<div className="save" onClick={e => this.handleClick(e, 0)}>
 				<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
 					A
 				</div>
 				<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
 					D
 				</div>
-				<div className="skill-wrapper">
-					<div className={`skill-proficiency ${proficiencyClass}`} />
-					<div className="skill-ability">{Rules.getShortAbilityName(ability)}</div>
-					<div className="skill-title">{Rules.getLongSkillName(skill)}</div>
-					<div className="skill-modifier">
-						<div className="skill-symbol">{modifier < 0 ? '-' : '+'}</div>
-						<div className="skill-number">{Math.abs(modifier)}</div>
+				<div className="save-wrapper">
+					<div className={`save-proficiency ${proficiencyClass}`} />
+					<div className="save-title">{Rules.getShortAbilityName(ability)}</div>
+					<div className="save-modifier">
+						<span className="save-symbol">{modifier < 0 ? '-' : '+'}</span>
+						<span className="save-number">{Math.abs(modifier)}</span>
 					</div>
 				</div>
 			</div>
@@ -52,18 +48,15 @@ export default class Skill extends React.Component<Props, {}> {
 	}
 
 	handleClick(e, advantage: number): void {
-		const modifier = Rules.getSkillModifier(
-			this.props.character,
-			this.props.skill,
-			this.props.ability
-		);
+		const modifier = Rules.getSaveModifier(this.props.character, this.props.ability);
 		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
 		const roll = new DiceRoll('d20' + modifierStr);
+		const stat = Rules.getSaveName(this.props.ability);
 
 		const data: RollData = {
 			type: 'roll',
-			rollType: 'Skill',
-			rollName: `${this.props.skill} (${this.props.ability})`,
+			rollType: 'Save',
+			rollName: stat,
 			modifier: modifierStr,
 			roll1Total: roll.total,
 			roll1Details: roll.toString().match(/.*?: (.*?) =/)[1],

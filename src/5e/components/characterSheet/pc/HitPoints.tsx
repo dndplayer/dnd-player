@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react';
 
-import './CharacterSheet.css';
-import { Character } from '../../models/Character';
+import './PlayerCharacterSheet.css';
+import { PlayerCharacter } from '../../../models/Character';
 
 interface Props {
-	character: Character;
+	character: PlayerCharacter;
 }
 
 export default class HitPoints extends React.Component<Props, {}> {

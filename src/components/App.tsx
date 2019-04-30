@@ -6,10 +6,8 @@ import CharacterSheetContainer from '../5e/components/characterSheet/CharacterSh
 import ImageUploaderContainer from './sidebar/panels/imageUploader/ImageUploaderContainer';
 import Authentication from './authentication/Authentication';
 import Sidebar from './sidebar/Sidebar';
-import ToolbarContainer from './toolbar/ToolbarContainer';
-import ViewControlsContainer from './toolbar/ViewControlsContainer';
 import MapContainer from './map/MapContainer';
-import { TextField, Button, MuiThemeProvider, createMuiTheme } from '@material-ui/core';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
 
 import { Provider } from 'react-redux';
 import store, { history } from '../redux/store';
@@ -17,11 +15,6 @@ import { ConnectedRouter } from 'connected-react-router';
 
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import CharacterSheet from '../5e/components/characterSheet/CharacterSheet';
-import { Character } from '../5e/models/Character';
-import { updatePlayerCharacter } from '../redux/actions/assets';
-import { closeCharacterSheet } from '../redux/actions/characters';
-import { saveNewMessage } from '../redux/actions/chat';
 
 interface State {
 	projectName: string;

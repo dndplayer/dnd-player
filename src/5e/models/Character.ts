@@ -1,8 +1,10 @@
 import { AttackEffectType } from '../5eRules';
+import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 
 export interface Character {
 	id: string;
 	name: string;
+	imageRef: string;
 	size: string;
 	strength: number;
 	dexterity: number;
@@ -10,16 +12,35 @@ export interface Character {
 	intelligence: number;
 	wisdom: number;
 	charisma: number;
+	speed: CharacterSpeeds;
+}
+
+export interface PlayerCharacter extends PlayerCharacterData, Character {
 	ac: number;
 	hp: number;
 	maxHp: number;
 	hitDice: number;
-	speed: CharacterSpeeds;
 	proficiencies: CharacterProficiencies;
 	levels: CharacterLevel[];
 	equipment: CharacterEquipment[];
 	attacks: CharacterAttack[];
 	spells: CharacterSpell[];
+}
+
+export interface NonPlayerCharacter extends NonPlayerCharacterData, Character {
+	class: string;
+	alignment: string;
+	environments: string[];
+	source: string;
+	cr: number;
+	ac: number;
+	acType: string;
+	hpDice: string;
+	actions: CharacterAttack[];
+	languages: string[];
+	features: NonPlayerCharacterFeature[];
+	senses: CharacterSense[];
+	variants?: string[];
 }
 
 export interface CharacterSpeeds {
@@ -125,4 +146,22 @@ export interface CharacterSpell {
 	description: string;
 	higherLevels?: string;
 	effects: CharacterAttackEffect[];
+}
+
+export interface NonPlayerCharacterFeature {
+	title: string;
+	description: string;
+}
+
+export interface CharacterSense {
+	type: CharacterSenseType;
+	range: number;
+}
+
+export enum CharacterSenseType {
+	Tremorsense = 0,
+	Darkvision = 1,
+	Blindsight = 2,
+	Truesight = 3,
+	Blind = 4
 }

@@ -73,6 +73,18 @@ function* syncPlayerCharactersSaga(): any {
 	);
 }
 
+function* updateNonPlayerCharacterSaga(action: AnyAction): any {
+	// TODO: Sort the payload
+	const currentUser: firebase.User = yield select(state => state.auth.user);
+	const payload = {
+		...action.character,
+		timestamp: database.ServerValue.TIMESTAMP,
+		creator: currentUser.uid
+	};
+
+	yield call(rsf.database.update, '/nonPlayerCharacters/' + action.character.id, payload);
+}
+
 function* syncNonPlayerCharactersSaga(): any {
 	yield fork(
 		rsf.database.sync,
@@ -93,6 +105,7 @@ export default function* rootSaga(): any {
 		fork(syncNonPlayerCharactersSaga),
 		takeEvery(types.ASSETS.PLAYERCHARACTER.UPDATE, updatePlayerCharacterSaga),
 		takeEvery(types.ASSETS.PLAYERCHARACTER.NEW.SAVE, saveNewPlayerCharacterSaga),
+		takeEvery(types.ASSETS.NONPLAYERCHARACTER.UPDATE, updateNonPlayerCharacterSaga),
 		takeEvery(types.ASSETS.NONPLAYERCHARACTER.NEW.SAVE, saveNewNonPlayerCharacterSaga)
 	]);
 }

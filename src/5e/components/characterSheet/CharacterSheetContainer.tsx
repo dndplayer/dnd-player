@@ -1,16 +1,18 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
-import CharacterSheet from './CharacterSheet';
+import PlayerCharacterSheet from './pc/PlayerCharacterSheet';
+import NonPlayerCharacterSheet from './npc/NonPlayerCharacterSheet';
 import { ChatMessageData } from '../../../models/ChatMessage';
 
 import { saveNewMessage } from '../../../redux/actions/chat';
-import { Character } from '../../models/Character';
+import { Character, NonPlayerCharacter, PlayerCharacter } from '../../models/Character';
 import { closeCharacterSheet } from '../../../redux/actions/characters';
-import { updatePlayerCharacter } from '../../../redux/actions/assets';
+import { updatePlayerCharacter, updateNonPlayerCharacter } from '../../../redux/actions/assets';
 import { Upload } from '../../../models/Upload';
 
 const mapStateToProps = (state): any => ({
 	playerCharacters: state.assets.playerCharacters,
+	nonPlayerCharacters: state.assets.nonPlayerCharacters,
 	openCharacterSheets: state.characters.openCharacterSheets,
 	images: state.images.images
 });
@@ -19,18 +21,22 @@ const mapDispatchToProps = (dispatch): any => ({
 	sendMessage: (message, data?) => dispatch(saveNewMessage(message, data)),
 	closeCharacterSheet: characterId => dispatch(closeCharacterSheet(characterId)),
 	updatePlayerCharacter: (characterId, character) =>
-		dispatch(updatePlayerCharacter(characterId, character))
+		dispatch(updatePlayerCharacter(characterId, character)),
+	updateNonPlayerCharacter: (characterId, character) =>
+		dispatch(updateNonPlayerCharacter(characterId, character))
 });
 
 interface DispatchFromProps {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	closeCharacterSheet: (characterId: string) => void;
 	updatePlayerCharacter: (characterId: string, character: Character) => void;
+	updateNonPlayerCharacter: (characterId: string, character: Character) => void;
 }
 
 interface StateFromProps {
 	openCharacterSheets: string[];
-	playerCharacters: Character[];
+	playerCharacters: PlayerCharacter[];
+	nonPlayerCharacters: NonPlayerCharacter[];
 	images: Upload[];
 	popout?: string;
 }
@@ -45,13 +51,26 @@ class CharacterSheetContainer extends Component<Props> {
 
 		const characterSheets = [];
 		if (popout) {
-			const character = playerCharacters.find(x => x.id === popout);
-			if (character) {
-				const image = images.find(x => x.filePath === (character as any).imageRef);
+			const pc = this.props.playerCharacters.find(x => x.id === this.props.popout);
+			if (pc) {
+				const image = images.find(x => x.filePath === pc.imageRef);
 				return (
-					<CharacterSheet
+					<PlayerCharacterSheet
 						key={popout}
-						character={character}
+						character={pc}
+						popout="popout"
+						image={image}
+						{...this.props}
+					/>
+				);
+			}
+			const npc = this.props.nonPlayerCharacters.find(x => x.id === this.props.popout);
+			if (npc) {
+				const image = images.find(x => x.filePath === npc.imageRef);
+				return (
+					<NonPlayerCharacterSheet
+						key={popout}
+						character={npc}
 						popout="popout"
 						image={image}
 						{...this.props}
@@ -60,14 +79,26 @@ class CharacterSheetContainer extends Component<Props> {
 			}
 		}
 
-		for (const characterId of openCharacterSheets) {
-			const character = playerCharacters.find(x => x.id === characterId);
-			if (character) {
-				const image = images.find(x => x.filePath === (character as any).imageRef);
+		for (const characterId of this.props.openCharacterSheets) {
+			const pc = this.props.playerCharacters.find(x => x.id === characterId);
+			if (pc) {
+				const image = images.find(x => x.filePath === pc.imageRef);
 				characterSheets.push(
-					<CharacterSheet
+					<PlayerCharacterSheet
 						key={characterId}
-						character={character}
+						character={pc}
+						image={image}
+						{...this.props}
+					/>
+				);
+			}
+			const npc = this.props.nonPlayerCharacters.find(x => x.id === characterId);
+			if (npc) {
+				const image = images.find(x => x.filePath === npc.imageRef);
+				characterSheets.push(
+					<NonPlayerCharacterSheet
+						key={characterId}
+						character={npc}
 						image={image}
 						{...this.props}
 					/>

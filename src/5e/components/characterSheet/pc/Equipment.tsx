@@ -1,11 +1,11 @@
 import React, { ReactNode } from 'react';
 
 import styles from './Equipment.module.css';
-import { Character } from '../../models/Character';
+import { PlayerCharacter } from '../../../models/Character';
 import EquipmentItem from './EquipmentItem';
 
 interface Props {
-	character: Character;
+	character: PlayerCharacter;
 }
 
 export default class Equipment extends React.Component<Props, {}> {

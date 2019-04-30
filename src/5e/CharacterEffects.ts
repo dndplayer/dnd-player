@@ -1,6 +1,6 @@
 import {
 	CharacterAttackEffect,
-	Character,
+	PlayerCharacter,
 	ToHitCharacterAttackEffect,
 	DamageCharacterAttackEffect,
 	SavingThrowCharacterAttackEffect,
@@ -25,7 +25,7 @@ export default class CharacterEffects {
 
 	public static mapCharacterAttackEffect(
 		effect: CharacterAttackEffect,
-		character: Character
+		character: PlayerCharacter
 	): AttackEffect {
 		const fn = this.attackEffectMap[effect.type];
 		if (fn) {
@@ -41,7 +41,7 @@ export default class CharacterEffects {
 
 	static mapToHitCharacterEffect(
 		effect: CharacterAttackEffect,
-		character: Character
+		character: PlayerCharacter
 	): ToHitAttackEffect {
 		const toHitEffect = effect as ToHitCharacterAttackEffect;
 		return {
@@ -55,7 +55,7 @@ export default class CharacterEffects {
 
 	static mapDamageCharacterEffect(
 		effect: CharacterAttackEffect,
-		character: Character
+		character: PlayerCharacter
 	): DamageAttackEffect {
 		const damageEffect = effect as DamageCharacterAttackEffect;
 		return {
@@ -73,7 +73,7 @@ export default class CharacterEffects {
 
 	static mapSavingThrowCharacterEffect(
 		effect: CharacterAttackEffect,
-		character: Character
+		character: PlayerCharacter
 	): SavingThrowAttackEffect {
 		const savingEffect = effect as SavingThrowCharacterAttackEffect;
 		return {

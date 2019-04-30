@@ -1,4 +1,4 @@
-import { Character } from './models/Character';
+import { Character, PlayerCharacter } from './models/Character';
 import CharacterEffects from './CharacterEffects';
 
 export interface Attack {
@@ -43,7 +43,7 @@ export interface TextAttackEffect extends AttackEffect {
 }
 
 export default class Rules {
-	public static getProficiencyBonus(character: Character): number {
+	public static getProficiencyBonus(character: PlayerCharacter): number {
 		if (!character || !character.levels) {
 			return null;
 		}
@@ -54,7 +54,7 @@ export default class Rules {
 		return 1 + Math.ceil(totalLevel / 4);
 	}
 
-	public static getSaveModifier(character: Character, ability: string): number {
+	public static getSaveModifier(character: PlayerCharacter, ability: string): number {
 		if (!character || !character.proficiencies || !character.proficiencies.saves) {
 			return null;
 		}
@@ -78,7 +78,11 @@ export default class Rules {
 		return this.getAbilityModifier(character, 'dexterity');
 	}
 
-	public static getSkillModifier(character: Character, skill: string, ability: string): number {
+	public static getSkillModifier(
+		character: PlayerCharacter,
+		skill: string,
+		ability: string
+	): number {
 		if (!character || character[ability] === undefined) {
 			return null;
 		}
@@ -88,7 +92,7 @@ export default class Rules {
 		return baseModifier + Math.floor(proficiencyMultiplier * proficiencyBonus);
 	}
 
-	public static getAttacks(character: Character): Attack[] {
+	public static getAttacks(character: PlayerCharacter): Attack[] {
 		const attacks = []
 			.concat((character.equipment || []).map(x => x.attacks || []))
 			.concat(character.attacks || [])

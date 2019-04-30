@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
-import './CharacterSheet.css';
-import { Character, CharacterSpeeds } from '../../models/Character';
+import './PlayerCharacterSheet.css';
+import { Character, CharacterSpeeds } from '../../../models/Character';
 
 interface Props {
 	character: Character;

@@ -1,11 +1,11 @@
 import React, { ReactNode } from 'react';
 
-import './CharacterSheet.css';
-import { Character } from '../../models/Character';
-import Rules from '../../5eRules';
+import './PlayerCharacterSheet.css';
+import { PlayerCharacter } from '../../../models/Character';
+import Rules from '../../../5eRules';
 
 interface Props {
-	character: Character;
+	character: PlayerCharacter;
 }
 
 export default class ProficiencyBonus extends React.Component<Props, {}> {
