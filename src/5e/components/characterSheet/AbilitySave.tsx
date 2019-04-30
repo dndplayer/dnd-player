@@ -6,6 +6,7 @@ import { RollData, ChatMessageData } from '../../../models/ChatMessage';
 import './CharacterSheet.css';
 import { Character } from '../../models/Character';
 import Rules from '../../5eRules';
+import { ProficiencyClassMap } from './CharacterSheet';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -17,8 +18,6 @@ export default class AbilitySave extends React.Component<Props, {}> {
 	constructor(props: Props) {
 		super(props);
 
-		this.state = {};
-
 		this.handleClick = this.handleClick.bind(this);
 	}
 
@@ -26,14 +25,7 @@ export default class AbilitySave extends React.Component<Props, {}> {
 		const { ability, character } = this.props;
 		const saves = (character.proficiencies || { saves: {} }).saves || {};
 		const modifier = Rules.getSaveModifier(character, ability);
-		const proficiencyClass =
-			saves[ability] === 2
-				? 'expertise'
-				: saves[ability] === 1
-				? 'proficient'
-				: saves[ability] === 0.5
-				? 'half-proficient'
-				: 'none';
+		const proficiencyClass = ProficiencyClassMap[saves[ability] || 0];
 
 		return (
 			<div className="save" onClick={e => this.handleClick(e, 0)}>
@@ -55,30 +47,11 @@ export default class AbilitySave extends React.Component<Props, {}> {
 		);
 	}
 
-	getLongName(ability: string): string {
-		switch (ability) {
-			case 'strength':
-				return 'Strength Save';
-			case 'dexterity':
-				return 'Dexterity Save';
-			case 'constitution':
-				return 'Constitution Save';
-			case 'intelligence':
-				return 'Intelligence Save';
-			case 'wisdom':
-				return 'Wisdom Save';
-			case 'charisma':
-				return 'Charisma Save';
-			default:
-				return '';
-		}
-	}
-
 	handleClick(e, advantage: number): void {
 		const modifier = Rules.getSaveModifier(this.props.character, this.props.ability);
 		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
 		const roll = new DiceRoll('d20' + modifierStr);
-		const stat = this.getLongName(this.props.ability);
+		const stat = Rules.getSaveName(this.props.ability);
 
 		const data: RollData = {
 			type: 'roll',

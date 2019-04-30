@@ -12,12 +12,6 @@ interface Props {
 }
 
 export default class Attacks extends React.Component<Props, {}> {
-	constructor(props: Props) {
-		super(props);
-
-		this.state = {};
-	}
-
 	render(): ReactNode {
 		const { character } = this.props;
 

@@ -143,6 +143,15 @@ export default class Rules {
 		survival: 'Survival'
 	};
 
+	static saveNameMap = {
+		strength: 'Strength Save',
+		dexterity: 'Dexterity Save',
+		constitution: 'Constitution Save',
+		intelligence: 'Intelligence Save',
+		wisdom: 'Wisdom Save',
+		charisma: 'Charisma Save'
+	};
+
 	public static getShortAbilityName(ability: string): string {
 		const result = Rules.abilityNameMap[ability];
 		return result && result.short;
@@ -155,5 +164,9 @@ export default class Rules {
 
 	public static getLongSkillName(ability: string): string {
 		return Rules.skillNameMap[ability];
+	}
+
+	public static getSaveName(ability: string): string {
+		return Rules.saveNameMap[ability];
 	}
 }

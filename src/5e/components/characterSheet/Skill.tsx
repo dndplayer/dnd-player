@@ -6,6 +6,7 @@ import { RollData, ChatMessageData } from '../../../models/ChatMessage';
 import './CharacterSheet.css';
 import { Character } from '../../models/Character';
 import Rules from '../../5eRules';
+import { ProficiencyClassMap } from './CharacterSheet';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -25,16 +26,9 @@ export default class Skill extends React.Component<Props, {}> {
 
 	render(): ReactNode {
 		const { ability, character, skill } = this.props;
-		const skills = character.proficiencies || { skills: {} } || {};
+		const skills = (character.proficiencies || { skills: {} }).skills || {};
 		const modifier = Rules.getSkillModifier(character, skill, ability);
-		const proficiencyClass =
-			skills[skill] === 2
-				? 'expertise'
-				: skills[skill] === 1
-				? 'proficient'
-				: skills[skill] === 0.5
-				? 'half-proficient'
-				: 'none';
+		const proficiencyClass = ProficiencyClassMap[skills[skill] || 0];
 
 		return (
 			<div className="skill" onClick={e => this.handleClick(e, 0)}>

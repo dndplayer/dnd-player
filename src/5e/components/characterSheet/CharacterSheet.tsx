@@ -27,6 +27,13 @@ interface State {
 	newCharacter: string;
 }
 
+export const ProficiencyClassMap = {
+	0: 'none',
+	0.5: 'half-proficienct',
+	1: 'proficient',
+	2: 'expertise'
+};
+
 export default class CharacterSheet extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);

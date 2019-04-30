@@ -8,12 +8,6 @@ interface Props {
 }
 
 export default class Speed extends React.Component<Props, {}> {
-	constructor(props: Props) {
-		super(props);
-
-		this.state = {};
-	}
-
 	render(): ReactNode {
 		const { character } = this.props;
 		const speed: CharacterSpeeds = character.speed || { walk: 0 };

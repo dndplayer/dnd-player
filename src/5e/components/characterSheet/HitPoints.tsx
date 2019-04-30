@@ -8,12 +8,6 @@ interface Props {
 }
 
 export default class HitPoints extends React.Component<Props, {}> {
-	constructor(props: Props) {
-		super(props);
-
-		this.state = {};
-	}
-
 	render(): ReactNode {
 		const { character } = this.props;
 

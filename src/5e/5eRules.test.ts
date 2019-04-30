@@ -190,6 +190,20 @@ describe('Rules', () => {
 			expect(Rules.getLongSkillName(ability)).toStrictEqual(expected);
 		});
 	});
+	describe('getSaveName', () => {
+		each`
+			ability            | expected
+			${'strength'}      | ${'Strength Save'}
+			${'dexterity'}     | ${'Dexterity Save'}
+			${'constitution'}  | ${'Constitution Save'}
+			${'intelligence'}  | ${'Intelligence Save'}
+			${'wisdom'}        | ${'Wisdom Save'}
+			${'charisma'}      | ${'Charisma Save'}
+			${'anything else'} | ${undefined}
+		`.it('should be $expected when passed $ability', ({ ability, expected }) => {
+			expect(Rules.getSaveName(ability)).toStrictEqual(expected);
+		});
+	});
 });
 
 function getMockCharacter(): Character {
