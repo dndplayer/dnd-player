@@ -9,6 +9,9 @@ export const types = {
 		},
 		ASSET: {
 			ADD: 'TESTMAP.ASSET.ADD'
+		},
+		IMAGE: {
+			ADD: 'TESTMAP.IMAGE.ADD'
 		}
 	}
 };
@@ -34,4 +37,9 @@ export const addAssetToMap = ({ assetType, assetId }): any => ({
 	type: types.TESTMAP.ASSET.ADD,
 	assetType,
 	assetId
+});
+
+export const addImageToMap = ({ imageRef }): any => ({
+	type: types.TESTMAP.IMAGE.ADD,
+	imageRef
 });

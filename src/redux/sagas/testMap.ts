@@ -57,10 +57,25 @@ function* addAssetToTestMap(action): any {
 	yield call(rsf.database.create, '/testMap/layers/tokens/mapObjects', payload);
 }
 
+function* addImageToTestMap(action): any {
+	const { imageRef } = action;
+	let payload = {
+		anchor: { x: 0.5, y: 0.5 },
+		pivot: { x: 0.5, y: 0.5 },
+		name: 'New Map Object',
+		position: { x: 0, y: 0 },
+		rotation: 0,
+		scale: { x: 1, y: 1 },
+		imageRef
+	};
+	yield call(rsf.database.create, '/testMap/layers/background/mapObjects', payload);
+}
+
 export default function* rootSaga() {
 	yield all([
 		fork(syncTestMapSaga),
 		takeEvery(types.TESTMAP.UPDATE.OBJECT, testMapUpdateObject),
-		takeEvery(types.TESTMAP.ASSET.ADD, addAssetToTestMap)
+		takeEvery(types.TESTMAP.ASSET.ADD, addAssetToTestMap),
+		takeEvery(types.TESTMAP.IMAGE.ADD, addImageToTestMap)
 	]);
 }

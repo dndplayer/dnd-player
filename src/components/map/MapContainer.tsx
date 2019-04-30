@@ -1,7 +1,7 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import Map from './Map';
-import { testMapUpdateObject, addAssetToMap } from '../../redux/actions/testMap';
+import { testMapUpdateObject, addAssetToMap, addImageToMap } from '../../redux/actions/testMap';
 import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 import { Upload } from '../../models/Upload';
 
@@ -15,6 +15,7 @@ interface StateProps {
 interface DispatchProps {
 	onUpdateObject: (data) => void;
 	onAddAssetToMap: (data) => void;
+	onAddImageToMap: (data) => void;
 }
 interface OwnProps {}
 
@@ -27,6 +28,7 @@ class MapContainer extends Component<Props> {
 			testMap,
 			onUpdateObject,
 			onAddAssetToMap,
+			onAddImageToMap,
 			playerCharacters,
 			nonPlayerCharacters,
 			images
@@ -41,6 +43,7 @@ class MapContainer extends Component<Props> {
 				nonPlayerCharacters={nonPlayerCharacters}
 				onUpdateObject={onUpdateObject}
 				onAddAssetToMap={onAddAssetToMap}
+				onAddImageToMap={onAddImageToMap}
 				images={images}
 			/>
 		);
@@ -56,7 +59,8 @@ const mapStateToProps = (state): StateProps => ({
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	onUpdateObject: data => dispatch(testMapUpdateObject(data)),
-	onAddAssetToMap: data => dispatch(addAssetToMap(data))
+	onAddAssetToMap: data => dispatch(addAssetToMap(data)),
+	onAddImageToMap: data => dispatch(addImageToMap(data))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

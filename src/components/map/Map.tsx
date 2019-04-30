@@ -6,7 +6,7 @@ import Viewport from 'pixi-viewport';
 import { MapData } from '../../models/Map';
 import DraggableSprite from './objects/DraggableSprite';
 
-import { DropTarget } from 'react-dnd';
+import { DropTarget, DropTargetMonitor } from 'react-dnd';
 import types from '../../constants/dragdroptypes';
 
 import TESTDATA from './testMap.json';
@@ -52,6 +52,7 @@ const styles = theme => ({
 
 interface CollectProps {
 	connectDropTarget: any;
+	itemType: typeof types;
 }
 
 interface OwnProps extends WithStyles<typeof styles> {
@@ -63,6 +64,7 @@ interface OwnProps extends WithStyles<typeof styles> {
 	nonPlayerCharacters: NonPlayerCharacterData[];
 	onUpdateObject: (data) => void;
 	onAddAssetToMap: (data) => void;
+	onAddImageToMap: (data) => void;
 	images: Upload[];
 }
 
@@ -259,24 +261,35 @@ const mapTargetSpec = {
 		return true;
 	},
 	hover(props, monitor, component) {},
-	drop(props, monitor, component) {
+	drop(props, monitor: DropTargetMonitor, component) {
 		const item = monitor.getItem();
+		const type = monitor.getItemType();
 		console.log(`dropped [DROPPER]:`);
 		console.log(item);
-		// TODO: Send Action
 
-		if (props.onAddAssetToMap) {
-			props.onAddAssetToMap({ assetType: item.assetType, assetId: item.id });
+		switch (type) {
+			case types.PLAYER_CHARACTER_ASSET:
+				if (props.onAddAssetToMap) {
+					props.onAddAssetToMap({ assetType: item.assetType, assetId: item.id });
+				}
+				break;
+			case types.UPLOAD_IMAGE:
+				if (props.onAddImageToMap) {
+					props.onAddImageToMap({ imageRef: item.imageRef });
+				}
 		}
 	}
 };
 
-function collect(connect, monitor): CollectProps {
+function collect(connect, monitor: DropTargetMonitor): CollectProps {
 	return {
-		connectDropTarget: connect.dropTarget()
+		connectDropTarget: connect.dropTarget(),
+		itemType: monitor.getItemType() as any
 	};
 }
 
-export default DropTarget(types.PLAYER_CHARACTER_ASSET, mapTargetSpec, collect)(
-	withStyles(styles)(Map)
-);
+export default DropTarget(
+	[types.PLAYER_CHARACTER_ASSET, types.UPLOAD_IMAGE],
+	mapTargetSpec,
+	collect
+)(withStyles(styles)(Map));
