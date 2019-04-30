@@ -109,22 +109,25 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 		}
 
 		if (newProps.hp !== oldProps.hp) {
+			const healthbarMinWidth = 128;
 			const healthbarHeight = 64;
 			const healthbarMargin = 10;
 			const healthbarPercent = newProps.hp.value / newProps.hp.max;
+
+			const hbWidth = Math.max(healthbarMinWidth, s.width);
 
 			g.clear();
 			// g.lineStyle(4, 0xffffff);
 			// g.drawRect(0, 0, s.width, healthbarHeight);
 			g.beginFill(0x761633);
-			g.drawRect(0, 0, s.width, healthbarHeight);
+			g.drawRect(0, 0, hbWidth, healthbarHeight);
 			g.endFill();
 
 			g.beginFill(0xff0000);
-			g.drawRect(0, 0, s.width * healthbarPercent, healthbarHeight);
+			g.drawRect(0, 0, hbWidth * healthbarPercent, healthbarHeight);
 			g.endFill();
 
-			g.position.set(-(s.width / 2), -(s.height / 2) - healthbarHeight - healthbarMargin);
+			g.position.set(-(hbWidth / 2), -(s.height / 2) - healthbarHeight - healthbarMargin);
 		}
 	},
 
