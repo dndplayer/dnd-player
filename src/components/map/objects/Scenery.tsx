@@ -1,13 +1,19 @@
 import { Sprite, PixiComponent } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
+import DraggableContainer from './DraggableContainer';
+import { OutlineFilter } from '@pixi/filter-outline';
 
 interface Props {
-	imageUrl: string;
+	// imageUrl: string;
+	resource: any;
 	anchor?: { x: number; y: number };
 	pivot?: { x: number; y: number };
 	scale?: { x: number; y: number };
 	position?: { x: number; y: number };
 	rotation?: number;
+	onUpdateObject: (data) => void;
+	layerName: string;
+	mapObjectId: string;
 }
 
 /**
@@ -18,17 +24,39 @@ interface Props {
  * In reality this is probably only useful for the main background image of a map as you
  * probably want the ease of dragging other scenery objects.
  **/
-export default PixiComponent<Props, PIXI.Sprite>('Scenery', {
+export default PixiComponent<Props, DraggableContainer>('Scenery', {
 	create: (props: Props): any => {
-		const s = PIXI.Sprite.fromImage(props.imageUrl);
-		return s;
+		// const s = PIXI.Sprite.fromImage(props.imageUrl);
+		const s = new PIXI.Sprite(props.resource);
+		s.name = 'sprite';
+		const cont = new DraggableContainer();
+		cont.addChild(s);
+
+		// Scenery mouse over outline is green
+		cont.hoverFilters = [new OutlineFilter(4, 0x00ff00)];
+
+		cont.onUpdateObject = props.onUpdateObject;
+		cont.layerName = props.layerName;
+		cont.mapObjectId = props.mapObjectId;
+
+		return cont;
 	},
-	applyProps: (instance: PIXI.Sprite, oldProps: Props, newProps: Props): void => {
+	applyProps: (instance: DraggableContainer, oldProps: Props, newProps: Props): void => {
+		const s = instance.getChildByName('sprite') as PIXI.Sprite;
+
+		if (newProps.resource !== oldProps.resource) {
+			if (s) {
+				s.texture = newProps.resource;
+			}
+		}
+
 		if (newProps.anchor !== oldProps.anchor) {
-			instance.anchor.set(
-				newProps.anchor ? newProps.anchor.x : 0.5,
-				newProps.anchor ? newProps.anchor.y : 0.5
-			);
+			if (s) {
+				s.anchor.set(
+					newProps.anchor ? newProps.anchor.x : 0.5,
+					newProps.anchor ? newProps.anchor.y : 0.5
+				);
+			}
 		}
 		if (newProps.pivot !== oldProps.pivot) {
 			instance.pivot.set(
@@ -52,6 +80,22 @@ export default PixiComponent<Props, PIXI.Sprite>('Scenery', {
 			instance.rotation = newProps.rotation || 0.0;
 		}
 	},
-	didMount: (instance: PIXI.DisplayObject, parent: PIXI.Container): void => {},
-	willUnmount: (instance: PIXI.Sprite, parent: PIXI.Container): void => {}
+	didMount: (instance: DraggableContainer, parent: PIXI.Container): void => {
+		instance.on('mousedown', instance.onDragStart);
+		instance.on('mouseup', instance.onDragEnd);
+		instance.on('mouseupoutside', instance.onDragEnd);
+		instance.on('mousemove', instance.onDragMove);
+		instance.on('mouseover', instance.onMouseOver);
+		instance.on('mouseout', instance.onMouseOut);
+		// instance.on('click', onClick);
+	},
+	willUnmount: (instance: DraggableContainer, parent: PIXI.Container): void => {
+		instance.off('mousedown');
+		instance.off('mouseup');
+		instance.off('mouseupoutside');
+		instance.off('mousemove');
+		instance.off('mouseover');
+		instance.off('mouseout');
+		// instance.off('click');
+	}
 });

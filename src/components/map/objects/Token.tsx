@@ -1,6 +1,7 @@
 import { Sprite, PixiComponent } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 import { OutlineFilter } from '@pixi/filter-outline';
+import DraggableContainer from './DraggableContainer';
 
 interface Props {
 	// imageUrl: string;
@@ -16,23 +17,7 @@ interface Props {
 	mapObjectId: string;
 }
 
-class TokenContainer extends PIXI.Container {
-	// Filters
-	hoverFilters: any[]; // Filters to be applied when hovering over this token
-	dragFilters: any[]; // Filters to be applied when dragging this token
-
-	onUpdateObject: (data) => void; // An update callback to be used to update
-	layerName: string; // The layer this token is on to be included in update events back up.
-	mapObjectId: string; // The Map Object ID to be included in update events back up.
-
-	// Dragging
-	dragGrabOffset?: PIXI.PointLike; // The offset a drag was started at to be applied to the sprite during the drag
-	dragging: boolean; // Is this token currently being dragged
-	dragData?: any; // Keep track of dragging event data during drag
-	dragLocked: boolean; // Lock the token so it can't be dragged
-
-	// General
-}
+class TokenContainer extends DraggableContainer {}
 
 /**
  * TODO:
@@ -44,17 +29,6 @@ class TokenContainer extends PIXI.Container {
 export default PixiComponent<Props, TokenContainer>('Token', {
 	create: (props: Props): any => {
 		const cont = new TokenContainer();
-
-		cont.interactive = true;
-		cont.buttonMode = true;
-
-		// Filters to apply when hovering
-		cont.hoverFilters = [new OutlineFilter(4, 0xff0000)];
-
-		// Filters to apply when dragging, if any
-		cont.dragFilters = [
-			/*new DotFilter()*/
-		];
 
 		cont.onUpdateObject = props.onUpdateObject;
 		cont.layerName = props.layerName;
@@ -138,91 +112,18 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 	},
 
 	didMount: (instance: TokenContainer, parent: PIXI.Container): void => {
-		const onDragStart = (e: PIXI.interaction.InteractionEvent): void => {
-			instance.alpha = 0.7;
-			instance.dragging = true;
-			instance.dragData = e.data;
-			instance.dragGrabOffset = e.data.getLocalPosition(e.currentTarget);
-
-			const sprite = instance.getChildByName('sprite') as PIXI.Sprite;
-
-			if (sprite) {
-				sprite.filters = [...sprite.filters, ...instance.dragFilters];
-			}
-
-			// TODO: Move this sprite to a DragLayer that has the highest Z index
-			//       when dragging starts to keep it on-top, then when it ends
-			//       put it back on it's proper layer.
-			// http://scottmcdonnell.github.io/pixi-examples/index.html?s=display&f=zorder.js&title=Z-order&plugins=pixi-display
-		};
-
-		const onDragEnd = (e: PIXI.interaction.InteractionEvent): void => {
-			instance.alpha = 1.0;
-			if (!instance.dragData || !instance.dragging) {
-				return;
-			}
-			let lastPos = instance.dragData.getLocalPosition(e.currentTarget.parent);
-			if (instance.dragGrabOffset) {
-				lastPos.x -= instance.dragGrabOffset.x;
-				lastPos.y -= instance.dragGrabOffset.y;
-			}
-			instance.dragging = false;
-			instance.dragData = null;
-			instance.dragGrabOffset = null;
-
-			// Remove the drag filters
-			if (instance.filters) {
-				instance.filters = instance.filters.filter(
-					x => !(instance.dragFilters.indexOf(x) >= 0)
-				);
-			}
-
-			if (instance.onUpdateObject) {
-				instance.onUpdateObject({
-					layerName: instance.layerName,
-					mapObjectId: instance.mapObjectId,
-					newData: {
-						position: lastPos
-					}
-				});
-			}
-		};
-
-		const onDragMove = (e: PIXI.interaction.InteractionEvent): void => {
-			if (instance.dragging) {
-				const newPos = instance.dragData.getLocalPosition(e.currentTarget.parent);
-				instance.x = newPos.x - (instance.dragGrabOffset ? instance.dragGrabOffset.x : 0);
-				instance.y = newPos.y - (instance.dragGrabOffset ? instance.dragGrabOffset.y : 0);
-			}
-		};
-
-		const onMouseOver = (e: PIXI.interaction.InteractionEvent): void => {
-			const sprite = instance.getChildByName('sprite') as PIXI.Sprite;
-			if (sprite) {
-				// inst.tint = 0x4ef125;
-				sprite.filters = instance.hoverFilters;
-			}
-		};
-
-		const onMouseOut = (e: PIXI.interaction.InteractionEvent): void => {
-			const sprite = instance.getChildByName('sprite') as PIXI.Sprite;
-			if (sprite) {
-				// inst.tint = 0xffffff;
-				sprite.filters = null;
-			}
-		};
 		const onClick = (e: PIXI.interaction.InteractionEvent): void => {
 			// const inst = instance as PIXI.Sprite;
 			// if (inst && (inst as any).onSelect) {
 			// 	(inst as any).onSelect(inst);
 			// }
 		};
-		instance.on('mousedown', onDragStart);
-		instance.on('mouseup', onDragEnd);
-		instance.on('mouseupoutside', onDragEnd);
-		instance.on('mousemove', onDragMove);
-		instance.on('mouseover', onMouseOver);
-		instance.on('mouseout', onMouseOut);
+		instance.on('mousedown', instance.onDragStart);
+		instance.on('mouseup', instance.onDragEnd);
+		instance.on('mouseupoutside', instance.onDragEnd);
+		instance.on('mousemove', instance.onDragMove);
+		instance.on('mouseover', instance.onMouseOver);
+		instance.on('mouseout', instance.onMouseOut);
 		instance.on('click', onClick);
 	},
 

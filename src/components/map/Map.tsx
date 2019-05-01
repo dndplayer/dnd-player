@@ -14,6 +14,7 @@ import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset'
 import Token from './objects/Token';
 import { Upload } from '../../models/Upload';
 import { withStyles, WithStyles, LinearProgress } from '@material-ui/core';
+import Scenery from './objects/Scenery';
 
 const ViewportComponent = PixiComponent('Viewport', {
 	create: props => {
@@ -182,19 +183,19 @@ class Map extends Component<Props, State> {
 											: npcAsset && npcAsset.imageRef
 											? npcAsset.imageRef
 											: o.imageRef || '__missing__';
+									const res = PIXI.loader.resources[imageUrl].texture;
 									return (
-										<DraggableSprite
+										<Scenery
 											key={mapObjId}
 											position={o.position}
 											scale={o.scale}
 											rotation={o.rotation}
 											pivot={o.pivot}
 											anchor={o.anchor}
-											image={imageUrl}
+											resource={res}
 											onUpdateObject={this.props.onUpdateObject}
 											mapObjectId={mapObjId}
 											layerName="background"
-											onSelect={x => console.log(`Selected`)}
 										/>
 									);
 								}
