@@ -13,7 +13,7 @@ import TESTDATA from './testMap.json';
 import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 import Token from './objects/Token';
 import { Upload } from '../../models/Upload';
-import { withStyles, WithStyles } from '@material-ui/core';
+import { withStyles, WithStyles, LinearProgress } from '@material-ui/core';
 
 const ViewportComponent = PixiComponent('Viewport', {
 	create: props => {
@@ -72,10 +72,12 @@ type Props = CollectProps & OwnProps;
 
 interface State {
 	loadingAssets: boolean;
+	loadProgress: number;
 }
 class Map extends Component<Props, State> {
 	state = {
-		loadingAssets: true
+		loadingAssets: true,
+		loadProgress: 0
 	};
 
 	private app: any;
@@ -128,6 +130,8 @@ class Map extends Component<Props, State> {
 					this.setState({ loadingAssets: false });
 				}
 			);
+
+			this.loader.onProgress.add(x => this.setState({ loadProgress: x.progress }));
 		}
 	}
 
@@ -138,6 +142,7 @@ class Map extends Component<Props, State> {
 			return (
 				<div className={classes.loadingWrapper}>
 					<div className={classes.loadingText}>LOADING...</div>
+					<LinearProgress variant="determinate" value={this.state.loadProgress} />
 				</div>
 			);
 		}
