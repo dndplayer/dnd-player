@@ -8,12 +8,13 @@
 	flex-direction: column;
 }
 
-.character-sheet {
+.characterSheet {
 	background: #202020;
 	width: 1000px;
 	position: absolute;
 	top: 10vh;
 	left: 10vh;
+	color: #ccc;
 }
 
 .character-sheet.popout {
@@ -42,461 +43,52 @@
 	cursor: pointer;
 }
 
-.character-details {
-	display: flex;
-	flex-direction: row;
-	align-items: space-between;
-	justify-content: center;
-	width: 100%;
-}
-
-.character-name,
-.character-classes {
-	flex: 1;
-	color: #ccc;
-	font-family: 'Libre Baskerville', serif;
-	font-variant: small-caps;
-	font-size: 24px;
-	border: 2px solid #000;
-	background: #202020;
-	margin: 8px;
-	padding: 8px 24px;
-}
-
-.character-image img {
-	border-radius: 50%;
-	width: 128px;
-	height: 128px;
-}
-
-.character-classes {
-	font-size: 16px;
-}
-
-.ability-container {
-	display: flex;
-}
-
-.proficiency,
-.ability-container,
-.speed,
-.initiative {
-	color: #ccc;
-	font-family: sans-serif;
-}
-
-.ability,
-.proficiency,
-.speed,
-.initiative {
-	margin: 8px;
-	height: 75px;
-	position: relative;
-	margin: 8px;
-	border: 2px solid #000;
-	background: #202020;
-	border-radius: 8px;
-	margin-bottom: 8px;
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.ability {
-	width: 80px;
-}
-
-.proficiency,
-.speed,
-.initiative {
-	width: 90px;
-}
-
-.initiative {
-	border-radius: 32px;
-	height: 65px;
-}
-
-.ability-title,
-.proficiency-title,
-.speed-title,
-.initiative-title,
-.speed-type,
-.ac-title,
-.hp-title,
-.hp-header {
-	text-align: center;
-	text-transform: uppercase;
-	font-size: 9px;
-	font-weight: 700;
-	color: #999;
-	letter-spacing: -0.4px;
-}
-
-.ability-title,
-.proficiency-title,
-.speed-title,
-.initiative-title,
-.ac-title,
-.hp-title {
+.characterImageContainer {
 	position: absolute;
-	top: 12px;
-	left: 0;
-	right: 0;
+	top: 30px;
+	right: 30px;
 }
 
-.ability-modifier,
-.proficiency-modifier,
-.speed-modifier,
-.initiative-modifier {
-	position: relative;
-	line-height: 28px;
-}
-
-.ability-modifier {
-	margin-top: 7px;
-}
-
-.proficiency-modifier {
-	margin-top: 12px;
-}
-
-.initiative-modifier {
-	margin-top: 19px;
-}
-
-.ability-symbol,
-.proficiency-symbol,
-.initiative-symbol {
-	position: absolute;
-	right: 100%;
-	margin-right: 1px;
-	font-size: 20px;
-	font-weight: 700;
-	color: #808080;
-}
-
-.ability-number,
-.proficiency-number,
-.speed-number,
-.initiative-number {
-	font-size: 28px;
-}
-
-.ability-score {
-	position: absolute;
-	font-weight: 600;
-	font-size: 17px;
-	top: 62px;
-	height: 25px;
-	left: 18px;
-	width: 40px;
-	line-height: 25px;
-	text-align: center;
-	border: 2px solid #000;
-	border-radius: 50%;
-	background: #202020;
-}
-
-.popup-advantage,
-.popup-disadvantage {
-	height: 30px;
-	width: 30px;
-	color: #202020;
-	font-size: 20px;
-	text-align: center;
-	line-height: 30px;
-	font-weight: 600;
-	position: absolute;
-	top: 50%;
-	margin-top: -15px;
-	z-index: 1;
-	opacity: 0;
-	visibility: collapse;
-	transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
-		opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms, visibility 300ms;
-}
-
-.popup-advantage {
-	background: url(../../../components/chat/advantage.svg);
-	right: -16px;
-	transform: translate3d(-10px, 0, 0);
-}
-
-.popup-disadvantage {
-	background: url(../../../components/chat/disadvantage.svg);
-	left: -16px;
-	transform: translate3d(10px, 0, 0);
-}
-
-div:hover > .popup-advantage,
-div:hover > .popup-disadvantage {
-	transform: translate3d(0, 0, 0);
-	opacity: 1;
-	visibility: visible;
-}
-
-div:hover > .popup-advantage:hover,
-div:hover > .popup-disadvantage:hover {
-	color: #ccc;
-	transform: scale(1.25);
-}
-
-.proficiency-title,
-.speed-title,
-.initiative-title,
-.ac-title,
-.hp-title {
-	font-family: 'Libre Baskerville', serif;
-	font-variant: small-caps;
-	font-size: 11px;
-	top: 9px;
-}
-
-.speed-container {
-	margin-top: 12px;
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-
-.speed-unit {
-	color: #808080;
-	position: absolute;
-	left: 100%;
-	margin-left: 4px;
-	bottom: 3px;
-}
-
-.speed-popup {
-	position: absolute;
-	top: -2px;
-	left: -2px;
-	right: -2px;
-	border: 2px solid #000;
-	background: #202020;
-	border-radius: 8px;
-	opacity: 0;
-	transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), visibility 300ms;
-	visibility: collapse;
-	padding-bottom: 12px;
-	padding-top: 16px;
-	z-index: 1;
-}
-
-.speed-popup-wrap {
-	position: relative;
-}
-
-.speed:hover .speed-popup {
-	opacity: 1;
-	visibility: visible;
-}
-
-.save-container,
-.skill-container {
-	width: 285px;
-	border: 2px solid #000;
-	border-radius: 32px;
-	background: #202020;
-	margin: 16px 0 16px 16px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	box-sizing: border-box;
-	color: #ccc;
-	padding: 8px;
-}
-
-.save-container {
-	flex-wrap: wrap;
-}
-
-.skill-container {
-	flex-direction: column;
-}
-
-.save,
-.skill {
-	position: relative;
-	cursor: pointer;
-}
-
-.save {
-	margin: 8px;
-}
-
-.skill {
-	margin: 4px 8px;
-}
-
-.save-wrapper,
-.skill-wrapper {
-	border: 1px solid #444;
-	border-radius: 80px;
-	display: flex;
-	position: relative;
-	margin-right: 32px;
-	padding: 4px;
-}
-
-.save-wrapper {
-	width: 70px;
-	justify-content: center;
-	align-items: center;
-}
-
-.skill-wrapper {
-	width: 210px;
-	justify-content: start;
-	align-items: center;
-}
-
-.save-title,
-.skill-ability {
-	text-transform: uppercase;
-	font-weight: 600;
-	font-size: 14px;
-	letter-spacing: -0.4px;
-}
-
-.skill-ability {
-	color: #808080;
-	margin: 0 24px;
-	width: 24px;
-}
-
-.skill-title {
-	font-size: 14px;
-}
-
-.save-modifier,
-.skill-modifier {
-	border: 1px solid #444;
-	background: #202020;
-	width: 45px;
-	position: absolute;
-	right: -30px;
-	border-radius: 35px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.save-modifier {
-	height: 35px;
-}
-
-.skill-modifier {
-	height: 30px;
-}
-
-.save-symbol,
-.skill-symbol {
-	font-weight: 700;
-	color: #808080;
-	margin-top: -4px;
-	margin-left: -4px;
-}
-
-.save-number,
-.skill-number {
-	font-size: 20px;
-	font-weight: 600;
-	margin-top: -4px;
-}
-
-.save-proficiency,
-.skill-proficiency {
-	position: absolute;
-	border: 1px solid #444;
-	width: 12px;
-	height: 12px;
-	border-radius: 12px;
-	background: #202020;
-	left: -6px;
-}
-
-.save-proficiency.expertise,
-.skill-proficiency.expertise {
-	background: #4c976e;
-}
-
-.save-proficiency.proficient,
-.skill-proficiency.proficient {
-	background: #ccc;
-}
-
-.save-proficiency.half-proficient,
-.skill-proficiency.half-proficient {
-	background: #666;
-}
-
-.ac {
-	background: url('./ac.svg');
-	width: 96px;
-	height: 110px;
-	position: relative;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: pointer;
-}
-
-.ac-title {
-	top: 20px;
-}
-
-.ac-number {
-	color: #ccc;
-	font-size: 28px;
-}
-
-.hp {
-	border: 2px solid #000;
-	background: #202020;
-	width: 160px;
-	margin: 8px;
-	height: 75px;
-	border-radius: 16px;
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: space-evenly;
-}
-
-.hp-divider {
-	color: #444;
-	font-size: 32px;
-}
-
-.hp-current,
-.hp-max {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	margin-top: 16px;
-	color: #ccc;
-	font-size: 28px;
-}
-
-.hp-header {
-	color: #666;
-}
-
-.section-title {
-	color: #666;
+.characterName {
+	color: #d29a38;
 	font-weight: bold;
 	font-variant: small-caps;
 	font-family: 'Libre Baskerville', serif;
-	text-align: center;
+	font-size: 24px;
+}
+
+.characterType {
+	font-style: italic;
+}
+
+.divider {
+	border: 1px solid #d29a38;
+	margin: 8px 0;
+}
+
+.abilityContainer {
+	display: flex;
+	flex-direction: row;
+	align-content: center;
+	justify-content: space-evenly;
 	width: 100%;
-	margin: 4px 0;
+}
+
+.ability {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	padding: 0 24px;
+}
+
+.abilityTitle {
+	color: #444;
+	display: inline-block;
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 11px;
+	font-weight: 700;
+	color: #999;
 }

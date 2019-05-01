@@ -16,9 +16,6 @@ interface Props {
 export default class AbilityScore extends React.Component<Props, {}> {
 	constructor(props: Props) {
 		super(props);
-
-		this.state = {};
-
 		this.handleClick = this.handleClick.bind(this);
 	}
 
@@ -27,19 +24,17 @@ export default class AbilityScore extends React.Component<Props, {}> {
 		const modifier = Rules.getAbilityModifier(character, ability);
 
 		return (
-			<div className="ability" onClick={e => this.handleClick(e, 0)}>
+			<div className={css.ability} onClick={e => this.handleClick(e, 0)}>
 				<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
 					A
 				</div>
 				<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
 					D
 				</div>
-				<div className="ability-title">{Rules.getLongAbilityName(ability)}</div>
-				<div className="ability-modifier">
-					<div className="ability-symbol">{modifier < 0 ? '-' : '+'}</div>
-					<div className="ability-number">{Math.abs(modifier)}</div>
+				<div className={css.abilityTitle}>{Rules.getShortAbilityName(ability)}</div>
+				<div>
+					{character[ability]} ({modifier >= 0 ? `+${modifier}` : modifier})
 				</div>
-				<div className="ability-score">{character[ability]}</div>
 			</div>
 		);
 	}

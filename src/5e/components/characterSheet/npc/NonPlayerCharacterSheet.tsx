@@ -7,6 +7,7 @@ import css from './NonPlayerCharacterSheet.module.css';
 import { Character, NonPlayerCharacter } from '../../../models/Character';
 import { Upload } from '../../../../models/Upload';
 import CharacterImage from '../CharacterImage';
+import AbilityScoreContainer from './AbilityScoreContainer';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -55,7 +56,7 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, Stat
 		}
 
 		return (
-			<div className={`column character-sheet ${this.props.popout ? 'popout' : ''}`}>
+			<div className={`column ${css.characterSheet} ${this.props.popout ? 'popout' : ''}`}>
 				<div className="character-close" onClick={e => this.closeSheet()}>
 					X
 				</div>
@@ -65,35 +66,26 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, Stat
 				<div className="character-popout" onClick={e => this.popoutSheet()}>
 					POPOUT
 				</div>
-				<div className="row character-details">
-					<div className="character-name">{character.name}</div>
-					<div className="character-image">
-						<CharacterImage
-							imageUrl={this.props.image ? this.props.image.downloadUrl : null}
-							character={character}
-							updateCharacter={this.props.updateNonPlayerCharacter}
-						/>
-					</div>
-					<div className="character-classes">{character.class}</div>
+				<div className={css.characterImageContainer}>
+					<CharacterImage
+						imageUrl={this.props.image ? this.props.image.downloadUrl : null}
+						character={character}
+						updateCharacter={this.props.updateNonPlayerCharacter}
+					/>
 				</div>
-				<div className="row">
-					<div className="ability-container">
-						<AbilityScore ability="strength" character={character} {...this.props} />
-						<AbilityScore ability="dexterity" character={character} {...this.props} />
-						<AbilityScore
-							ability="constitution"
-							character={character}
-							{...this.props}
-						/>
-						<AbilityScore
-							ability="intelligence"
-							character={character}
-							{...this.props}
-						/>
-						<AbilityScore ability="wisdom" character={character} {...this.props} />
-						<AbilityScore ability="charisma" character={character} {...this.props} />
-					</div>
+				<div className={css.characterName}>{character.name}</div>
+				<div className={css.characterType}>
+					{character.class}, {character.alignment}
 				</div>
+				<hr className={css.divider} />
+				<div>
+					Armor class: {character.ac} ({character.acType})
+				</div>
+				<div>Hit Points: {character.hpDice}</div>
+				<div>Speed: {(character.speed && character.speed.walk) || 0} ft.</div>
+				<hr className={css.divider} />
+				<AbilityScoreContainer {...this.props} />
+				<hr className={css.divider} />
 			</div>
 		);
 	}
