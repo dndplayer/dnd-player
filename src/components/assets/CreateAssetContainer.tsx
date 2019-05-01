@@ -8,7 +8,6 @@ import { saveNewPlayerCharacter, saveNewNonPlayerCharacter } from '../../redux/a
 
 interface StateProps {
 	assets: any[];
-	uploads: Upload[];
 }
 interface DispatchProps {
 	saveNewPlayerCharacter: (data: any) => void;
@@ -28,13 +27,12 @@ class CreateAssetContainer extends Component<Props> {
 	};
 
 	render() {
-		return <CreateAsset uploads={this.props.uploads} saveNewAsset={this.saveNewAsset} />;
+		return <CreateAsset saveNewAsset={this.saveNewAsset} />;
 	}
 }
 
 const mapStateToProps = (state): StateProps => ({
-	assets: state.assets.assets,
-	uploads: state.images.images
+	assets: state.assets.assets
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	saveNewPlayerCharacter: data => dispatch(saveNewPlayerCharacter(data)),
