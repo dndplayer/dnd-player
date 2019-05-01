@@ -8,6 +8,10 @@ import { Character, NonPlayerCharacter } from '../../../models/Character';
 import { Upload } from '../../../../models/Upload';
 import CharacterImage from '../CharacterImage';
 import AbilityScoreContainer from './AbilityScoreContainer';
+import Skills from './Skills';
+import Features from './Features';
+import Actions from './Actions';
+import Senses from './Senses';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -79,13 +83,36 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, Stat
 				</div>
 				<hr className={css.divider} />
 				<div>
-					Armor class: {character.ac} ({character.acType})
+					<span className={css.boldHeading}>Armor Class</span>
+					<span>
+						{character.ac} ({character.acType})
+					</span>
 				</div>
-				<div>Hit Points: {character.hpDice}</div>
-				<div>Speed: {(character.speed && character.speed.walk) || 0} ft.</div>
+				<div>
+					<span className={css.boldHeading}>Hit Points</span>
+					<span>{character.hpDice}</span>
+				</div>
+				<div>
+					<span className={css.boldHeading}>Speed</span>
+					<span>{(character.speed && character.speed.walk) || 0} ft.</span>
+				</div>
 				<hr className={css.divider} />
 				<AbilityScoreContainer {...this.props} />
 				<hr className={css.divider} />
+				<Skills {...this.props} />
+				<Senses {...this.props} />
+				<div>
+					<span className={css.boldHeading}>Languages</span>
+					<span>{(character.languages || []).join(', ')}</span>
+				</div>
+				<div>
+					<span className={css.boldHeading}>Challenge</span>
+					<span>{character.cr}</span>
+				</div>
+				<hr className={css.divider} />
+				<Features {...this.props} />
+				<div className={css.subheading}>Actions</div>
+				<Actions {...this.props} />
 			</div>
 		);
 	}

@@ -40,6 +40,7 @@ export interface NonPlayerCharacter extends NonPlayerCharacterData, Character {
 	languages: string[];
 	features: NonPlayerCharacterFeature[];
 	senses: CharacterSense[];
+	skills: NonPlayerCharacterSkill[];
 	variants?: string[];
 }
 
@@ -164,4 +165,10 @@ export enum CharacterSenseType {
 	Blindsight = 2,
 	Truesight = 3,
 	Blind = 4
+}
+
+export interface NonPlayerCharacterSkill {
+	ability: string;
+	skill: string;
+	modifier: number;
 }

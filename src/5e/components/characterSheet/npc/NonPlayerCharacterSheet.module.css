@@ -8,13 +8,56 @@
 	flex-direction: column;
 }
 
+.popupAdvantage,
+.popupDisadvantage {
+	height: 30px;
+	width: 30px;
+	color: #202020;
+	font-size: 20px;
+	text-align: center;
+	line-height: 30px;
+	font-weight: 600;
+	position: absolute;
+	top: 50%;
+	margin-top: -15px;
+	z-index: 1;
+	opacity: 0;
+	visibility: collapse;
+	transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+		opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms, visibility 300ms;
+}
+.popupAdvantage {
+	background: url(../../../../components/chat/advantage.svg);
+	right: -30px;
+	transform: translate3d(-10px, 0, 0);
+}
+.popupDisadvantage {
+	background: url(../../../../components/chat/disadvantage.svg);
+	left: -30px;
+	transform: translate3d(10px, 0, 0);
+}
+
+div:hover > .popupAdvantage,
+div:hover > .popupDisadvantage {
+	transform: translate3d(0, 0, 0);
+	opacity: 1;
+	visibility: visible;
+}
+
+div:hover > .popupAdvantage:hover,
+div:hover > .popupDisadvantage:hover {
+	color: #ccc;
+	transform: scale(1.25);
+}
+
 .characterSheet {
 	background: #202020;
-	width: 1000px;
+	width: 800px;
 	position: absolute;
 	top: 10vh;
 	left: 10vh;
 	color: #ccc;
+	padding: 12px;
 }
 
 .character-sheet.popout {
@@ -59,11 +102,26 @@
 
 .characterType {
 	font-style: italic;
+	color: #999;
+}
+
+.boldHeading {
+	font-weight: 600;
+	margin-right: 4px;
+	color: #a6792d;
+}
+.italicHeading {
+	font-weight: 600;
+	margin-right: 4px;
+	font-style: italic;
 }
 
 .divider {
-	border: 1px solid #d29a38;
 	margin: 8px 0;
+	height: 0;
+	border-style: solid;
+	border-width: 3px 0 3px 800px;
+	border-color: transparent transparent transparent #d29a38;
 }
 
 .abilityContainer {
@@ -88,7 +146,40 @@
 	display: inline-block;
 	text-transform: uppercase;
 	text-align: center;
-	font-size: 11px;
+	font-size: 16px;
 	font-weight: 700;
 	color: #999;
+}
+
+.skill {
+	display: flex;
+	flex-direction: row;
+	margin: 0 4px;
+}
+
+.feature,
+.action {
+	margin-bottom: 8px;
+}
+
+.action {
+	cursor: pointer;
+}
+
+.subheading {
+	font-variant: small-caps;
+	font-family: 'Libre Baskerville', serif;
+	font-size: 24px;
+	width: 100%;
+	color: #a6792d;
+	border-bottom: 1px solid #a6792d;
+	margin: 4px 0 8px 0;
+}
+
+.rollable {
+	color: #3477bf;
+	cursor: pointer;
+	position: relative;
+	font-weight: 600;
+	margin: 0 4px;
 }

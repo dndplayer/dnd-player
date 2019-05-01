@@ -1,4 +1,4 @@
-import { Character, PlayerCharacter } from './models/Character';
+import { Character, PlayerCharacter, CharacterSenseType } from './models/Character';
 import CharacterEffects from './CharacterEffects';
 
 export interface Attack {
@@ -156,6 +156,14 @@ export default class Rules {
 		charisma: 'Charisma Save'
 	};
 
+	static senseNameMap = {
+		[CharacterSenseType.Tremorsense]: 'tremorsense',
+		[CharacterSenseType.Darkvision]: 'darkvision',
+		[CharacterSenseType.Blindsight]: 'blindsight',
+		[CharacterSenseType.Truesight]: 'truesight',
+		[CharacterSenseType.Blind]: 'blind'
+	};
+
 	public static getShortAbilityName(ability: string): string {
 		const result = Rules.abilityNameMap[ability];
 		return result && result.short;
@@ -172,5 +180,9 @@ export default class Rules {
 
 	public static getSaveName(ability: string): string {
 		return Rules.saveNameMap[ability];
+	}
+
+	public static getSenseName(senseType: CharacterSenseType): string {
+		return Rules.senseNameMap[senseType];
 	}
 }
