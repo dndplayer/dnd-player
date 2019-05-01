@@ -31,7 +31,8 @@ function* syncMessagesSaga(): any {
 		rsf.database.sync,
 		database(rsf.app)
 			.ref('/chatroom')
-			.orderByChild('timestamp') as any,
+			.orderByChild('timestamp')
+			.limitToLast(100) as any,
 		{
 			successActionCreator: syncChatMessages,
 			failureActionCreator: syncChatFailed,
