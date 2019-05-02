@@ -1,17 +1,13 @@
 import { Sprite, PixiComponent } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 import * as Ease from 'pixi-ease';
-import DraggableContainer from './DraggableContainer';
+import DraggableContainer, { DraggableContainerProps } from './DraggableContainer';
 import { OutlineFilter } from '@pixi/filter-outline';
 
-interface Props {
+interface Props extends DraggableContainerProps {
 	// imageUrl: string;
 	resource: any;
-	anchor?: { x: number; y: number };
-	pivot?: { x: number; y: number };
-	scale?: { x: number; y: number };
-	position?: { x: number; y: number };
-	rotation?: number;
+	anchor?: { x: number; y: number }; // Anchor is Sprite specific and not on container
 	onUpdateObject: (data) => void;
 	layerName: string;
 	mapObjectId: string;
@@ -45,6 +41,8 @@ export default PixiComponent<Props, DraggableContainer>('Scenery', {
 	applyProps: (instance: DraggableContainer, oldProps: Props, newProps: Props): void => {
 		const s = instance.getChildByName('sprite') as PIXI.Sprite;
 
+		instance.innerApplyProps(instance, oldProps, newProps);
+
 		if (newProps.resource !== oldProps.resource) {
 			if (s) {
 				s.texture = newProps.resource;
@@ -58,33 +56,6 @@ export default PixiComponent<Props, DraggableContainer>('Scenery', {
 					newProps.anchor ? newProps.anchor.y : 0.5
 				);
 			}
-		}
-		if (newProps.pivot !== oldProps.pivot) {
-			instance.pivot.set(
-				newProps.pivot ? newProps.pivot.x : 0.5,
-				newProps.pivot ? newProps.pivot.y : 0.5
-			);
-		}
-		if (newProps.scale !== oldProps.scale) {
-			instance.scale.set(
-				newProps.scale ? newProps.scale.x : 1.0,
-				newProps.scale ? newProps.scale.y : 1.0
-			);
-		}
-		if (newProps.position !== oldProps.position) {
-			const list = new Ease.list();
-			list.add(
-				new Ease.to(instance, { x: newProps.position.x, y: newProps.position.y }, 300, {
-					ease: 'easeInOutCubic'
-				})
-			);
-			// instance.position.set(
-			// 	newProps.position ? newProps.position.x : 1.0,
-			// 	newProps.position ? newProps.position.y : 1.0
-			// );
-		}
-		if (newProps.rotation !== oldProps.rotation) {
-			instance.rotation = newProps.rotation || 0.0;
 		}
 	},
 	didMount: (instance: DraggableContainer, parent: PIXI.Container): void => {

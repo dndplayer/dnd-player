@@ -1,6 +1,8 @@
 import * as PIXI from 'pixi.js';
-import MapObject from './MapObject';
+import MapObject, { MapObjectProps } from './MapObject';
 import { OutlineFilter } from '@pixi/filter-outline';
+
+export interface DraggableContainerProps extends MapObjectProps {}
 
 export default class DraggableContainer extends MapObject {
 	dragGrabOffset?: PIXI.PointLike; // The offset a drag was started at to be applied to the sprite during the drag

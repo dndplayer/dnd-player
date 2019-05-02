@@ -2,17 +2,13 @@ import { Sprite, PixiComponent } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 import * as Ease from 'pixi-ease';
 import { OutlineFilter } from '@pixi/filter-outline';
-import DraggableContainer from './DraggableContainer';
+import DraggableContainer, { DraggableContainerProps } from './DraggableContainer';
 import Healthbar from './Healthbar';
 
-interface Props {
+interface Props extends DraggableContainerProps {
 	// imageUrl: string;
 	resource: any;
 	anchor?: { x: number; y: number };
-	pivot?: { x: number; y: number };
-	scale?: { x: number; y: number };
-	position?: { x: number; y: number };
-	rotation?: number;
 	hp: { value: number; max: number };
 	onUpdateObject: (data) => void;
 	layerName: string;
@@ -63,10 +59,12 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 
 		return cont;
 	},
-	applyProps: (instance: PIXI.Container, oldProps: Props, newProps: Props): void => {
+	applyProps: (instance: TokenContainer, oldProps: Props, newProps: Props): void => {
 		// const g = instance.getChildByName('healthbar') as PIXI.Graphics;
 		const g = instance.getChildByName('healthbar') as Healthbar;
 		const s = instance.getChildByName('sprite') as PIXI.Sprite;
+
+		instance.innerApplyProps(instance, oldProps, newProps);
 
 		if (newProps.resource !== oldProps.resource) {
 			if (s) {
@@ -81,33 +79,6 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 					newProps.anchor ? newProps.anchor.y : 0.5
 				);
 			}
-		}
-		if (newProps.pivot !== oldProps.pivot) {
-			instance.pivot.set(
-				newProps.pivot ? newProps.pivot.x : 0.5,
-				newProps.pivot ? newProps.pivot.y : 0.5
-			);
-		}
-		if (newProps.scale !== oldProps.scale) {
-			instance.scale.set(
-				newProps.scale ? newProps.scale.x : 1.0,
-				newProps.scale ? newProps.scale.y : 1.0
-			);
-		}
-		if (newProps.position !== oldProps.position) {
-			const list = new Ease.list();
-			list.add(
-				new Ease.to(instance, { x: newProps.position.x, y: newProps.position.y }, 300, {
-					ease: 'easeInOutCubic'
-				})
-			);
-			// instance.position.set(
-			// 	newProps.position ? newProps.position.x : 1.0,
-			// 	newProps.position ? newProps.position.y : 1.0
-			// );
-		}
-		if (newProps.rotation !== oldProps.rotation) {
-			instance.rotation = newProps.rotation || 0.0;
 		}
 
 		if (newProps.hp !== oldProps.hp) {
