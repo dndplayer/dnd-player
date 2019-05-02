@@ -47,6 +47,7 @@ export default class Skill extends React.Component<Props, {}> {
 
 		const data: RollData = {
 			type: 'roll',
+			characterName: this.props.character.name,
 			rollType: 'Skill',
 			rollName: stat,
 			modifier: modifierStr,

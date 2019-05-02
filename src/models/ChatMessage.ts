@@ -11,6 +11,7 @@ export interface ChatMessageData {
 
 export interface CharacterActionData extends ChatMessageData {
 	title: string;
+	characterName: string;
 	results: CharacterActionResult[];
 }
 
@@ -55,6 +56,7 @@ export interface CharacterActionDiceRollResultRoll {
 }
 
 export interface RollData extends ChatMessageData {
+	characterName?: string;
 	rollType: string;
 	rollName: string;
 	rollSuffix?: string;

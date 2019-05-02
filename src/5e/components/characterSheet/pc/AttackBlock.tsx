@@ -22,10 +22,12 @@ import {
 } from '../../../../models/ChatMessage';
 import { DiceRoll } from 'rpg-dice-roller';
 import CharacterActionHelper from '../../../CharacterActionHelper';
+import { Character } from '../../../models/Character';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	attack: Attack;
+	character: Character;
 }
 
 export default class AttackBlock extends React.Component<Props, {}> {
@@ -92,6 +94,7 @@ export default class AttackBlock extends React.Component<Props, {}> {
 
 		const data: CharacterActionData = {
 			type: 'action',
+			characterName: this.props.character.name,
 			title: attack.name,
 			results: []
 		};

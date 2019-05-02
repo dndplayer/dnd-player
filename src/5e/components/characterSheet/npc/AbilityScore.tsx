@@ -49,6 +49,7 @@ export default class AbilityScore extends React.Component<Props, {}> {
 
 		const data: RollData = {
 			type: 'roll',
+			characterName: this.props.character.name,
 			rollType: 'Ability',
 			rollName: stat,
 			modifier: modifierStr,

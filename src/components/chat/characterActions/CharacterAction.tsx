@@ -20,7 +20,7 @@ export default class CharacterAction extends React.Component<Props> {
 		return (
 			<div className={`character-action-container`}>
 				<div className="action-header">
-					<span className="action-user">{message.sender}</span>
+					<span className="action-user">{data.characterName || message.sender}</span>
 				</div>
 				<div className="action-title">
 					<span className="action-name">{data.title}</span>

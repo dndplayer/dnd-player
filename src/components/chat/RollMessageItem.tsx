@@ -33,10 +33,12 @@ export default class RollMessageItem extends React.Component<Props> {
 			(data.rollAdvantageType < 0 && data.roll1Total > data.roll2Total);
 		var ignoreRoll2 = data.rollAdvantageType && !ignoreRoll1;
 
+		const sender = (message.data && (message.data as any).characterName) || message.sender;
+
 		return (
 			<div className={`roll-container ${className}`}>
 				<div className="roll-header">
-					<span className="roll-user">{message.sender}</span>
+					<span className="roll-user">{sender}</span>
 					<span className="roll-type">{data.rollType}</span>
 				</div>
 				<div className="roll-title">

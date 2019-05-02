@@ -1,4 +1,4 @@
-import { CharacterAttack } from './models/Character';
+import { CharacterAttack, Character } from './models/Character';
 
 import {
 	CharacterActionData,
@@ -23,6 +23,7 @@ import { DiceRoll } from 'rpg-dice-roller';
 
 export default class CharacterActionHelper {
 	public static doAction(
+		character: Character,
 		action: CharacterAttack,
 		advantage: number,
 		sendMessage: (string, any) => void
@@ -32,6 +33,7 @@ export default class CharacterActionHelper {
 		const data: CharacterActionData = {
 			type: 'action',
 			title: action.title,
+			characterName: character.name,
 			results: []
 		};
 

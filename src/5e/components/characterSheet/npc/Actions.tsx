@@ -1,27 +1,15 @@
 import React, { ReactNode } from 'react';
 
-import {
-	ChatMessageData,
-	CharacterActionData,
-	CharacterActionResult,
-	CharacterActionDiceRollResult,
-	CharacterActionResultType,
-	AdvantageType,
-	CharacterActionConditionResult,
-	CharacterActionTextResult
-} from '../../../../models/ChatMessage';
+import { ChatMessageData } from '../../../../models/ChatMessage';
 
 import css from './NonPlayerCharacterSheet.module.css';
-import { NonPlayerCharacter, CharacterAttack } from '../../../models/Character';
-import Rules, {
+import { NonPlayerCharacter } from '../../../models/Character';
+import {
 	AttackEffectType,
 	TextAttackEffect,
 	ToHitAttackEffect,
-	DamageAttackEffect,
-	AttackEffect,
-	SavingThrowAttackEffect
+	DamageAttackEffect
 } from '../../../5eRules';
-import { DiceRoll } from 'rpg-dice-roller';
 import CharacterActionHelper from '../../../CharacterActionHelper';
 
 interface Props {
@@ -75,6 +63,11 @@ export default class Actions extends React.Component<Props, {}> {
 	}
 
 	doAction(action, advantage) {
-		CharacterActionHelper.doAction(action, advantage, this.props.sendMessage);
+		CharacterActionHelper.doAction(
+			this.props.character,
+			action,
+			advantage,
+			this.props.sendMessage
+		);
 	}
 }
