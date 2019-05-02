@@ -47,12 +47,29 @@ const styles = theme => ({
 	},
 	loadingText: {
 		fontSize: '200%'
+	},
+	dragAddObjectWrapper: {
+		position: 'absolute' as 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		background: 'rgba(0,0,0,0.4)'
+	},
+	dragAddObjectText: {
+		position: 'absolute' as 'absolute',
+		top: '50%',
+		left: '50%',
+		color: 'white',
+		transform: 'translate(-50%, -50%)',
+		fontSize: 120
 	}
 });
 
 interface CollectProps {
 	connectDropTarget: any;
 	itemType: typeof types;
+	isHovering: boolean;
 }
 
 interface OwnProps extends WithStyles<typeof styles> {
@@ -158,9 +175,19 @@ class Map extends Component<Props, State> {
 		if (!this.props.mapData) {
 			return <div>No Map</div>;
 		}
+
 		const { background, tokens } = this.props.mapData.layers;
 
-		const { connectDropTarget } = this.props;
+		const { connectDropTarget, isHovering } = this.props;
+
+		let overlay = null;
+		if (isHovering) {
+			overlay = (
+				<div className={classes.dragAddObjectWrapper}>
+					<div className={classes.dragAddObjectText}>+</div>
+				</div>
+			);
+		}
 
 		// TODO: A-lot of the code below repeats for each layer, it's not very DRY.
 		//       Creating a custom LayerContainer element would help encapsulate that
@@ -168,6 +195,7 @@ class Map extends Component<Props, State> {
 
 		return connectDropTarget(
 			<div>
+				{overlay}
 				<Stage
 					// onMount={this.onMapMount}
 					width={window.innerWidth * 0.75}
@@ -282,7 +310,8 @@ const mapTargetSpec = {
 function collect(connect, monitor: DropTargetMonitor): CollectProps {
 	return {
 		connectDropTarget: connect.dropTarget(),
-		itemType: monitor.getItemType() as any
+		itemType: monitor.getItemType() as any,
+		isHovering: monitor.isOver()
 	};
 }
 
