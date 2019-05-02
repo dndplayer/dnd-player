@@ -11,6 +11,8 @@ import RollMessageItem from './RollMessageItem';
 import { ChatMessage, ChatMessageData, RollData } from '../../models/ChatMessage.js';
 import Authentication from '../authentication/Authentication';
 import CharacterAction from './characterActions/CharacterAction';
+import WindowPortal from '../util/WindowPortal';
+import { Icon, Fab } from '@material-ui/core';
 
 interface Props {
 	messages: ChatMessage[];
@@ -22,11 +24,13 @@ interface Props {
 interface State {
 	msg: string;
 	messages: ChatMessage[];
+	showWindowPortal: boolean;
 }
 export default class Chat extends React.Component<Props, State> {
 	state = {
 		msg: '',
-		messages: []
+		messages: [],
+		showWindowPortal: false
 	};
 
 	private scrollDiv: HTMLElement;
@@ -48,7 +52,7 @@ export default class Chat extends React.Component<Props, State> {
 	render(): ReactNode {
 		const { messages } = this.props;
 
-		return (
+		const chat = (
 			<div style={{ padding: '0 10px 10px 10px' }}>
 				{!this.props.loggedIn ? (
 					<Authentication />
@@ -66,6 +70,23 @@ export default class Chat extends React.Component<Props, State> {
 							<Authentication />
 						</div>
 						<h1 className={styles.chatHeader}>Chat</h1>
+						{!this.state.showWindowPortal && (
+							<Icon
+								style={{
+									position: 'absolute',
+									top: 60,
+									right: 5,
+									cursor: 'pointer',
+									fontSize: 18
+								}}
+								onClick={() => this.setState({ showWindowPortal: true })}
+							>
+								open_in_new
+							</Icon>
+							// <button onClick={() => this.setState({ showWindowPortal: true })}>
+							// 	Popout
+							// </button>
+						)}
 						<div className={styles.messageWrapper}>
 							<div className={styles.messages} ref={cmpt => (this.scrollDiv = cmpt)}>
 								{messages.map(
@@ -102,6 +123,14 @@ export default class Chat extends React.Component<Props, State> {
 					</div>
 				)}
 			</div>
+		);
+
+		return this.state.showWindowPortal ? (
+			<WindowPortal title="Chat" onClose={() => this.setState({ showWindowPortal: false })}>
+				{chat}
+			</WindowPortal>
+		) : (
+			chat
 		);
 	}
 
