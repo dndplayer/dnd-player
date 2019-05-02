@@ -1,40 +1,42 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import PlayerCharacterSheet from './pc/PlayerCharacterSheet';
-import NonPlayerCharacterSheet from './npc/NonPlayerCharacterSheet';
-import { ChatMessageData } from '../../../models/ChatMessage';
 
 import { saveNewMessage } from '../../../redux/actions/chat';
 import { Character, NonPlayerCharacter, PlayerCharacter } from '../../models/Character';
-import { closeCharacterSheet } from '../../../redux/actions/characters';
 import { updatePlayerCharacter, updateNonPlayerCharacter } from '../../../redux/actions/assets';
 import { Upload } from '../../../models/Upload';
+import NonPlayerCharacterSheetWrapper from './npc/NonPlayerCharacterSheetWrapper';
+import { ChatMessageData } from '../../../models/ChatMessage';
+import { abortEditCharacterSheet, editCharacterSheet } from '../../../redux/actions/characters';
 
 const mapStateToProps = (state): any => ({
 	playerCharacters: state.assets.playerCharacters,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
-	openCharacterSheets: state.characters.openCharacterSheets,
+	editingCharacterSheets: state.characters.editingCharacterSheets,
 	images: state.images.images
 });
 
 const mapDispatchToProps = (dispatch): any => ({
 	sendMessage: (message, data?) => dispatch(saveNewMessage(message, data)),
-	closeCharacterSheet: characterId => dispatch(closeCharacterSheet(characterId)),
 	updatePlayerCharacter: (characterId, character) =>
 		dispatch(updatePlayerCharacter(characterId, character)),
 	updateNonPlayerCharacter: (characterId, character) =>
-		dispatch(updateNonPlayerCharacter(characterId, character))
+		dispatch(updateNonPlayerCharacter(characterId, character)),
+	editNonPlayerCharacter: characterId => dispatch(editCharacterSheet(characterId)),
+	abortEditNonPlayerCharacter: characterId => dispatch(abortEditCharacterSheet(characterId))
 });
 
 interface DispatchFromProps {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
-	closeCharacterSheet: (characterId: string) => void;
 	updatePlayerCharacter: (characterId: string, character: Character) => void;
 	updateNonPlayerCharacter: (characterId: string, character: Character) => void;
+	editNonPlayerCharacter: (characterId: string) => void;
+	abortEditNonPlayerCharacter: (characterId: string) => void;
 }
 
 interface StateFromProps {
-	openCharacterSheets: string[];
+	editingCharacterSheets: string[];
 	playerCharacters: PlayerCharacter[];
 	nonPlayerCharacters: NonPlayerCharacter[];
 	images: Upload[];
@@ -52,7 +54,7 @@ export class CharacterSheetContainer extends Component<Props> {
 			images,
 			playerCharacters,
 			nonPlayerCharacters,
-			openCharacterSheets
+			editingCharacterSheets
 		} = this.props;
 
 		const characterSheets = [];
@@ -74,44 +76,18 @@ export class CharacterSheetContainer extends Component<Props> {
 			if (npc) {
 				const image = images.find(x => x.filePath === npc.imageRef);
 				return (
-					<NonPlayerCharacterSheet
+					<NonPlayerCharacterSheetWrapper
 						key={popout}
 						character={npc}
 						popout="popout"
 						image={image}
+						editing={editingCharacterSheets.some(y => y === npc.id)}
 						{...this.props}
 					/>
 				);
 			}
 		}
 
-		for (const characterId of openCharacterSheets) {
-			const pc = playerCharacters.find(x => x.id === characterId);
-			if (pc) {
-				const image = images.find(x => x.filePath === pc.imageRef);
-				characterSheets.push(
-					<PlayerCharacterSheet
-						key={characterId}
-						character={pc}
-						image={image}
-						{...this.props}
-					/>
-				);
-				continue;
-			}
-			const npc = nonPlayerCharacters.find(x => x.id === characterId);
-			if (npc) {
-				const image = images.find(x => x.filePath === npc.imageRef);
-				characterSheets.push(
-					<NonPlayerCharacterSheet
-						key={characterId}
-						character={npc}
-						image={image}
-						{...this.props}
-					/>
-				);
-			}
-		}
 		return <div>{characterSheets}</div>;
 	}
 }

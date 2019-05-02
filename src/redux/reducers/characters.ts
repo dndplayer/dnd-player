@@ -1,25 +1,27 @@
 import { types } from '../actions/characters';
 
 const initialState: {
-	openCharacterSheets: string[];
+	editingCharacterSheets: string[];
 } = {
-	openCharacterSheets: []
+	editingCharacterSheets: []
 };
 
 export default function reducer(state = initialState, action: any = {}) {
 	switch (action.type) {
-		case types.CHARACTERS.OPEN_SHEET:
+		case types.CHARACTERS.EDIT_SHEET:
 			return {
 				...state,
-				openCharacterSheets: [
-					...state.openCharacterSheets.filter(x => x !== action.characterId),
+				editingCharacterSheets: [
+					...state.editingCharacterSheets.filter(x => x !== action.characterId),
 					action.characterId
 				]
 			};
-		case types.CHARACTERS.CLOSE_SHEET:
+		case types.CHARACTERS.ABORT_EDIT_SHEET:
 			return {
 				...state,
-				openCharacterSheets: state.openCharacterSheets.filter(x => x !== action.characterId)
+				editingCharacterSheets: [
+					...state.editingCharacterSheets.filter(x => x !== action.characterId)
+				]
 			};
 		default:
 			return state;

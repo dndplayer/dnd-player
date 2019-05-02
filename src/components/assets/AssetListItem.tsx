@@ -9,7 +9,7 @@ interface Props {
 	asset: any;
 	assetType: AssetType;
 	images: Upload[];
-	openCharacterSheet: (characterId: string) => void;
+	editCharacterSheet: (characterId: string) => void;
 }
 
 export default class AssetListItem extends Component<Props, {}> {

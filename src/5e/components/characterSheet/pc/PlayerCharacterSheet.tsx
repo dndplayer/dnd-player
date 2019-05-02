@@ -19,7 +19,6 @@ import { Upload } from '../../../../models/Upload';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
-	closeCharacterSheet: (characterId: string) => void;
 	updatePlayerCharacter: (characterId: string, character: Character) => void;
 	character: PlayerCharacter;
 	popout?: string;
@@ -72,14 +71,8 @@ export default class PlayerCharacterSheet extends React.Component<Props, State> 
 
 		return (
 			<div className={`column character-sheet ${this.props.popout ? 'popout' : ''}`}>
-				<div className="character-close" onClick={e => this.closeSheet()}>
-					X
-				</div>
 				<div className="character-edit" onClick={e => this.editSheet()}>
 					EDIT
-				</div>
-				<div className="character-popout" onClick={e => this.popoutSheet()}>
-					POPOUT
 				</div>
 				<div className="row character-details">
 					<div className="character-name">{character.name}</div>
@@ -267,10 +260,6 @@ export default class PlayerCharacterSheet extends React.Component<Props, State> 
 		);
 	}
 
-	closeSheet(): void {
-		this.props.closeCharacterSheet(this.props.character.id);
-	}
-
 	editSheet(): void {
 		this.setState({
 			...this.state,
@@ -292,15 +281,5 @@ export default class PlayerCharacterSheet extends React.Component<Props, State> 
 			...this.state,
 			editing: false
 		});
-	}
-
-	popoutSheet(): void {
-		window.open(
-			`/#/characterSheet/${this.props.character.id}`,
-			'popupWindow',
-			'height=768,width=1024,toolbar=no,location=no,statusbar=no,titlebar=no,directories=no',
-			false
-		);
-		this.closeSheet();
 	}
 }

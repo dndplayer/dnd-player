@@ -2,7 +2,7 @@ import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import AssetList from './AssetList';
 import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
-import { openCharacterSheet } from '../../redux/actions/characters';
+import { editCharacterSheet } from '../../redux/actions/characters';
 import { Upload } from '../../models/Upload';
 
 interface StateProps {
@@ -11,7 +11,7 @@ interface StateProps {
 	images: Upload[];
 }
 interface DispatchProps {
-	openCharacterSheet: (characterId: string) => void;
+	editCharacterSheet: (characterId: string) => void;
 }
 interface OwnProps {}
 
@@ -19,14 +19,14 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 class AssetListContainer extends Component<Props> {
 	render(): ReactNode {
-		const { playerCharacters, nonPlayerCharacters, openCharacterSheet, images } = this.props;
+		const { playerCharacters, nonPlayerCharacters, editCharacterSheet, images } = this.props;
 		return (
 			<div>
 				<h1>Asset List</h1>
 				<AssetList
 					playerCharacters={playerCharacters}
 					nonPlayerCharacters={nonPlayerCharacters}
-					openCharacterSheet={openCharacterSheet}
+					editCharacterSheet={editCharacterSheet}
 					images={images}
 				/>
 			</div>
@@ -40,7 +40,7 @@ const mapStateToProps = (state): StateProps => ({
 	images: state.images.images
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
-	openCharacterSheet: (characterId: string) => dispatch(openCharacterSheet(characterId))
+	editCharacterSheet: (characterId: string) => dispatch(editCharacterSheet(characterId))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

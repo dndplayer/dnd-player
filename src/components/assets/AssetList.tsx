@@ -7,7 +7,7 @@ import { Upload } from '../../models/Upload';
 interface Props {
 	playerCharacters: PlayerCharacterData[];
 	nonPlayerCharacters: NonPlayerCharacterData[];
-	openCharacterSheet: (characterId: string) => void;
+	editCharacterSheet: (characterId: string) => void;
 	images: Upload[];
 }
 

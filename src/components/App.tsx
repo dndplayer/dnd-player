@@ -12,7 +12,6 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
 
 import { Provider } from 'react-redux';
 import store, { history } from '../redux/store';
-import { ConnectedRouter } from 'connected-react-router';
 
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -44,7 +43,7 @@ export class App extends Component<{}, State> {
 
 		return (
 			<Provider store={store}>
-				<HashRouter history={history}>
+				<HashRouter>
 					<DragDropContextProvider backend={HTML5Backend}>
 						<div className="App">
 							<MuiThemeProvider theme={theme}>
@@ -59,9 +58,6 @@ export class App extends Component<{}, State> {
 												</div>
 												<div className={styles.chatWrapper}>
 													<Sidebar />
-												</div>
-												<div>
-													<CharacterSheetContainer />
 												</div>
 											</div>
 										)}

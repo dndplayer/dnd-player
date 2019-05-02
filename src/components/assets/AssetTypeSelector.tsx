@@ -1,7 +1,6 @@
-import React, { Component, ReactNode, ReactElement } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, StyledComponentProps } from '@material-ui/core';
+import React, { Component, ReactNode } from 'react';
+import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { withStyles } from '@material-ui/core';
-import { Upload } from '../../models/Upload';
 import { AssetType } from '../../models/AssetType';
 
 const styles = (theme): any => ({
