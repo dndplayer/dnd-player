@@ -4,7 +4,6 @@ import * as PIXI from 'pixi.js';
 import Viewport from 'pixi-viewport';
 
 import { MapData } from '../../models/Map';
-import DraggableSprite from './objects/DraggableSprite';
 
 import { DropTarget, DropTargetMonitor } from 'react-dnd';
 import types from '../../constants/dragdroptypes';
@@ -237,21 +236,6 @@ class Map extends Component<Props, State> {
 												layerName="tokens"
 											/>
 										);
-										// return (
-										// 	<DraggableSprite
-										// 		key={mapObjId}
-										// 		position={o.position}
-										// 		scale={o.scale}
-										// 		rotation={o.rotation}
-										// 		pivot={o.pivot}
-										// 		anchor={o.anchor}
-										// 		image={imageUrl}
-										// 		onUpdateObject={this.props.onUpdateObject}
-										// 		mapObjectId={mapObjId}
-										// 		layerName="tokens"
-										// 		onSelect={x => console.log(`Selected`)}
-										// 	/>
-										// );
 									}
 								)}
 						</Container>

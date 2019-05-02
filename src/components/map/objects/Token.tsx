@@ -1,5 +1,6 @@
 import { Sprite, PixiComponent } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
+import * as Ease from 'pixi-ease';
 import { OutlineFilter } from '@pixi/filter-outline';
 import DraggableContainer from './DraggableContainer';
 import Healthbar from './Healthbar';
@@ -94,6 +95,12 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 			);
 		}
 		if (newProps.position !== oldProps.position) {
+			const list = new Ease.list();
+			list.add(
+				new Ease.to(instance, { x: newProps.position.x, y: newProps.position.y }, 300, {
+					ease: 'cubic-bezier(0.4, 0.0, 0.2, 1)'
+				})
+			);
 			instance.position.set(
 				newProps.position ? newProps.position.x : 1.0,
 				newProps.position ? newProps.position.y : 1.0
