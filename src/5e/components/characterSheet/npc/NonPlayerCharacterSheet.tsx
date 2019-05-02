@@ -11,6 +11,8 @@ import Skills from './Skills';
 import Features from './Features';
 import Actions from './Actions';
 import Senses from './Senses';
+import { Icon } from '@mdi/react';
+import { mdiFileDocumentEdit } from '@mdi/js';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -26,9 +28,6 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 		const { character, editNonPlayerCharacter } = this.props;
 		return (
 			<div className={`column ${css.characterSheet} ${this.props.popout ? 'popout' : ''}`}>
-				<div className="character-edit" onClick={e => editNonPlayerCharacter(character.id)}>
-					EDIT
-				</div>
 				<div className={css.characterImageContainer}>
 					<CharacterImage
 						imageUrl={this.props.image ? this.props.image.downloadUrl : null}
@@ -36,7 +35,15 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 						updateCharacter={this.props.updateNonPlayerCharacter}
 					/>
 				</div>
-				<div className={css.characterName}>{character.name}</div>
+				<div className={css.characterName}>
+					<span>{character.name}</span>
+					<span
+						onClick={() => editNonPlayerCharacter(character.id)}
+						style={{ margin: '0 8px' }}
+					>
+						<Icon path={mdiFileDocumentEdit} size={1} color={'#a6792d'} />
+					</span>
+				</div>
 				<div className={css.characterType}>
 					{character.class}, {character.alignment}
 				</div>
