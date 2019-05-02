@@ -20,17 +20,16 @@ interface Props {
 	login: (username: string, password: string) => void;
 	loggedIn: boolean;
 	user: firebase.User;
+	testButton: () => void;
 }
 interface State {
 	msg: string;
 	messages: ChatMessage[];
-	showWindowPortal: boolean;
 }
 export default class Chat extends React.Component<Props, State> {
 	state = {
 		msg: '',
-		messages: [],
-		showWindowPortal: false
+		messages: []
 	};
 
 	private scrollDiv: HTMLElement;
@@ -52,41 +51,16 @@ export default class Chat extends React.Component<Props, State> {
 	render(): ReactNode {
 		const { messages } = this.props;
 
-		const chat = (
+		return (
 			<div style={{ padding: '0 10px 10px 10px' }}>
 				{!this.props.loggedIn ? (
 					<Authentication />
 				) : (
-					<div
-						style={
-							{
-								// display: 'flex',
-								// flexDirection: 'column',
-								// justifyContent: 'start-flex'
-							}
-						}
-					>
+					<div>
 						<div style={{ paddingBottom: '15px' }}>
 							<Authentication />
 						</div>
 						<h1 className={styles.chatHeader}>Chat</h1>
-						{!this.state.showWindowPortal && (
-							<Icon
-								style={{
-									position: 'absolute',
-									top: 60,
-									right: 5,
-									cursor: 'pointer',
-									fontSize: 18
-								}}
-								onClick={() => this.setState({ showWindowPortal: true })}
-							>
-								open_in_new
-							</Icon>
-							// <button onClick={() => this.setState({ showWindowPortal: true })}>
-							// 	Popout
-							// </button>
-						)}
 						<div className={styles.messageWrapper}>
 							<div className={styles.messages} ref={cmpt => (this.scrollDiv = cmpt)}>
 								{messages.map(
@@ -109,28 +83,20 @@ export default class Chat extends React.Component<Props, State> {
 								)}
 							</div>
 							<div className={styles.chatInputWrapper}>
-								{/* This could do with some work to not look so aweful */}
 								<TextField
 									placeholder="msg or d20+4 etc"
-									onChange={this.handleMsgChange}
-									onKeyDown={this.handleKeyDown}
+									onChange={e => this.handleMsgChange(e)}
+									onKeyDown={e => this.handleKeyDown(e)}
 									value={this.state.msg}
 									variant="filled"
 									margin="normal"
 								/>
+								{/* <Button onClick={() => this.props.testButton()}>TEST</Button> */}
 							</div>
 						</div>
 					</div>
 				)}
 			</div>
-		);
-
-		return this.state.showWindowPortal ? (
-			<WindowPortal title="Chat" onClose={() => this.setState({ showWindowPortal: false })}>
-				{chat}
-			</WindowPortal>
-		) : (
-			chat
 		);
 	}
 

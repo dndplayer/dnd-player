@@ -31,41 +31,53 @@ interface Props {
 	onClose?: () => void;
 }
 
-export default class WindowPortal extends Component<Props> {
+interface State {
+	win: any;
+	el: any;
+}
+
+export default class WindowPortal extends Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
-		this.containerEl = document.createElement('div');
-		this.externalWindow = null;
+		this.state = {
+			win: null,
+			el: null
+		};
 	}
 
-	private containerEl: any;
-	private externalWindow: any;
-
 	render(): any {
-		return ReactDOM.createPortal(this.props.children, this.containerEl);
+		const { el } = this.state;
+		if (!el) {
+			return null;
+		}
+		return ReactDOM.createPortal(this.props.children, el);
 	}
 
 	componentDidMount() {
-		this.externalWindow = window.open(
+		let win = window.open(
 			'',
 			'',
 			'width=600,height=400,left=200,top=200,toolbar=no,menubar=no,scrollbars=yes,resizable=yes'
 		);
 
-		this.externalWindow.document.body.appendChild(this.containerEl);
+		let el = document.createElement('div');
 
-		this.externalWindow.document.title = this.props.title || '';
+		win.document.body.appendChild(el);
 
-		copyStyles(document, this.externalWindow.document);
+		win.document.title = this.props.title || '';
 
-		this.externalWindow.addEventListener(
-			'beforeunload',
-			() => this.props.onClose && this.props.onClose()
-		);
+		copyStyles(document, win.document);
+
+		win.addEventListener('beforeunload', () => this.props.onClose && this.props.onClose());
+
+		this.setState({
+			win,
+			el
+		});
 	}
 
 	componentWillUnmount() {
-		this.externalWindow.close();
+		this.state.win.close();
 	}
 }
