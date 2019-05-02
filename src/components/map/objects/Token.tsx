@@ -98,7 +98,7 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 			const list = new Ease.list();
 			list.add(
 				new Ease.to(instance, { x: newProps.position.x, y: newProps.position.y }, 300, {
-					ease: 'cubic-bezier(0.4, 0.0, 0.2, 1)'
+					ease: 'easeInOutCubic'
 				})
 			);
 			instance.position.set(
