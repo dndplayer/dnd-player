@@ -101,10 +101,10 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 					ease: 'easeInOutCubic'
 				})
 			);
-			instance.position.set(
-				newProps.position ? newProps.position.x : 1.0,
-				newProps.position ? newProps.position.y : 1.0
-			);
+			// instance.position.set(
+			// 	newProps.position ? newProps.position.x : 1.0,
+			// 	newProps.position ? newProps.position.y : 1.0
+			// );
 		}
 		if (newProps.rotation !== oldProps.rotation) {
 			instance.rotation = newProps.rotation || 0.0;

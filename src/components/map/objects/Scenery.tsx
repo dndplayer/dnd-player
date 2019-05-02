@@ -1,5 +1,6 @@
 import { Sprite, PixiComponent } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
+import * as Ease from 'pixi-ease';
 import DraggableContainer from './DraggableContainer';
 import { OutlineFilter } from '@pixi/filter-outline';
 
@@ -71,10 +72,16 @@ export default PixiComponent<Props, DraggableContainer>('Scenery', {
 			);
 		}
 		if (newProps.position !== oldProps.position) {
-			instance.position.set(
-				newProps.position ? newProps.position.x : 1.0,
-				newProps.position ? newProps.position.y : 1.0
+			const list = new Ease.list();
+			list.add(
+				new Ease.to(instance, { x: newProps.position.x, y: newProps.position.y }, 300, {
+					ease: 'easeInOutCubic'
+				})
 			);
+			// instance.position.set(
+			// 	newProps.position ? newProps.position.x : 1.0,
+			// 	newProps.position ? newProps.position.y : 1.0
+			// );
 		}
 		if (newProps.rotation !== oldProps.rotation) {
 			instance.rotation = newProps.rotation || 0.0;
