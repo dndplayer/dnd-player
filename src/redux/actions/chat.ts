@@ -1,3 +1,6 @@
+import { ChatMessage } from '../../models/ChatMessage';
+import { Action } from 'redux';
+
 export const types = {
 	CHAT: {
 		SYNC: 'CHAT.SYNC',
@@ -9,7 +12,18 @@ export const types = {
 	}
 };
 
-export const syncChatMessages = messages => ({
+// --------------------------------------------------------
+// Action type interfaces
+// --------------------------------------------------------
+
+interface SyncChatMessagesAction extends Action {
+	messages: ChatMessage[];
+}
+
+// --------------------------------------------------------
+// Action creators
+// --------------------------------------------------------
+export const syncChatMessages = (messages): SyncChatMessagesAction => ({
 	type: types.CHAT.SYNC,
 	messages
 });

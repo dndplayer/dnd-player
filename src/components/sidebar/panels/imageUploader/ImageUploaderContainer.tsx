@@ -2,6 +2,7 @@ import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { sendFile } from '../../../../redux/actions/storage';
 import ImageUploader from './ImageUploader';
+import { UploadHitAreaTypes } from '../../../../models/UploadHitAreaTypes';
 
 interface StateProps {
 	uploadProgress: number;
@@ -30,7 +31,7 @@ const mapStateToProps = (state): StateProps => ({
 	uploading: state.storage.uploading
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
-	sendFile: (name, file): void => dispatch(sendFile(name, file))
+	sendFile: (name, file): void => dispatch(sendFile(name, file, UploadHitAreaTypes.DEFAULT))
 });
 
 export default connect<StateProps, DispatchProps>(

@@ -5,7 +5,11 @@ import {
 	TextField,
 	Button,
 	Input,
-	LinearProgress
+	LinearProgress,
+	Select,
+	MenuItem,
+	FormControl,
+	InputLabel
 } from '@material-ui/core';
 
 const styles = (theme): any => ({
@@ -24,6 +28,7 @@ const styles = (theme): any => ({
 interface State {
 	file: File;
 	uploadName: string;
+	hitAreaType: string;
 }
 interface Props extends WithStyles<typeof styles> {
 	onUpload: (name: string, file: File) => void;
@@ -36,7 +41,8 @@ class ImageUploader extends Component<Props, State> {
 
 		this.state = {
 			uploadName: '',
-			file: null
+			file: null,
+			hitAreaType: 'default'
 		};
 
 		this.onUpload = this.onUpload.bind(this);
@@ -58,10 +64,20 @@ class ImageUploader extends Component<Props, State> {
 			return;
 		}
 
-		// TODO: Validate input I.E. valid name (alphanumeric + dash/underscore)
+		const reg = new RegExp(/^[a-z0-9_-]+$/, 'i');
+		const isValidName = reg.test(this.state.uploadName);
+
+		if (!isValidName) {
+			// TODO: Highlight input as invalid
+			return;
+		}
 
 		this.props.onUpload(this.state.uploadName, this.state.file);
 	}
+
+	handleHitAreaTypeChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+		this.setState({ hitAreaType: e.target.value });
+	};
 
 	render(): ReactNode {
 		const { classes } = this.props;
@@ -83,6 +99,17 @@ class ImageUploader extends Component<Props, State> {
 				>
 					Upload
 				</Button>
+				<FormControl className={classes.formControl}>
+					<InputLabel htmlFor="hitAreaType">Hit Area Type</InputLabel>
+					<Select
+						value={this.state.hitAreaType}
+						onChange={this.handleHitAreaTypeChange}
+						inputProps={{ name: 'hitAreaType', id: 'hitAreaType' }}
+					>
+						<MenuItem value="default">Default (Bounds)</MenuItem>
+						<MenuItem value="circle">Circle</MenuItem>
+					</Select>
+				</FormControl>
 				<LinearProgress
 					value={this.props.progress}
 					variant="determinate"

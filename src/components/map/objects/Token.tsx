@@ -16,6 +16,14 @@ interface Props {
 	onUpdateObject: (data) => void;
 	layerName: string;
 	mapObjectId: string;
+	isCircleHitarea?: boolean;
+	customHitArea?:  // This isn't very serializable, need to figure out a better way to define custom hitAreas
+		| PIXI.Rectangle
+		| PIXI.Circle
+		| PIXI.Ellipse
+		| PIXI.Polygon
+		| PIXI.RoundedRectangle
+		| PIXI.HitArea;
 }
 
 class TokenContainer extends DraggableContainer {}
@@ -38,6 +46,11 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 		cont.dragLocked = false;
 
 		const s = new PIXI.Sprite(props.resource);
+		if (props.isCircleHitarea) {
+			s.hitArea = new PIXI.Circle(0, 0, s.width / 2);
+		} else if (props.customHitArea) {
+			s.hitArea = props.customHitArea;
+		}
 		s.name = 'sprite';
 
 		// const g = new PIXI.Graphics();
@@ -93,7 +106,7 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 		if (newProps.hp !== oldProps.hp) {
 			g.hp = newProps.hp.value;
 			g.hpMax = newProps.hp.max;
-			g.redraw(s.width, s.height);
+			g.redraw(s.width);
 
 			const healthBarMargin = 10;
 

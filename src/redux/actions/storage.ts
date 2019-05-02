@@ -1,4 +1,5 @@
-import { AnyAction } from 'redux';
+import { AnyAction, Action } from 'redux';
+import { UploadHitAreaTypes } from '../../models/UploadHitAreaTypes';
 
 export const types = {
 	STORAGE: {
@@ -9,20 +10,47 @@ export const types = {
 	}
 };
 
-export const sendFile = (name: string, file: File): AnyAction => ({
+// --------------------------------------------------------
+// Action type interfaces
+// --------------------------------------------------------
+interface SendFileAction extends Action {
+	name: string;
+	file: File;
+	hitAreaType: UploadHitAreaTypes;
+}
+
+interface UploadProgressAction extends Action {
+	progress: number;
+}
+
+interface UploadCompleteAction extends Action {}
+
+interface UploadFailedAction extends Action {
+	error: any;
+}
+
+// --------------------------------------------------------
+// Action creators
+// --------------------------------------------------------
+export const sendFile = (
+	name: string,
+	file: File,
+	hitAreaType: UploadHitAreaTypes
+): SendFileAction => ({
 	type: types.STORAGE.SEND_FILE,
 	name,
-	file
+	file,
+	hitAreaType
 });
 
-export const uploadProgress = progress => ({
+export const uploadProgress = (progress): UploadProgressAction => ({
 	type: types.STORAGE.SEND_FILE_PROGRESS,
 	progress
 });
-export const uploadCompleted = () => ({
+export const uploadCompleted = (): UploadCompleteAction => ({
 	type: types.STORAGE.SEND_FILE_SUCCESS
 });
-export const uploadFailed = error => ({
+export const uploadFailed = (error): UploadFailedAction => ({
 	type: types.STORAGE.SEND_FILE_FAILURE,
 	error
 });
