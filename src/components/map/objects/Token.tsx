@@ -2,6 +2,7 @@ import { Sprite, PixiComponent } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 import { OutlineFilter } from '@pixi/filter-outline';
 import DraggableContainer from './DraggableContainer';
+import Healthbar from './Healthbar';
 
 interface Props {
 	// imageUrl: string;
@@ -36,11 +37,11 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 
 		cont.dragLocked = false;
 
-		// const s = PIXI.Sprite.fromImage(props.imageUrl);
 		const s = new PIXI.Sprite(props.resource);
 		s.name = 'sprite';
 
-		const g = new PIXI.Graphics();
+		// const g = new PIXI.Graphics();
+		const g = new Healthbar();
 		g.name = 'healthbar';
 
 		cont.addChild(s);
@@ -49,7 +50,8 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 		return cont;
 	},
 	applyProps: (instance: PIXI.Container, oldProps: Props, newProps: Props): void => {
-		const g = instance.getChildByName('healthbar') as PIXI.Graphics;
+		// const g = instance.getChildByName('healthbar') as PIXI.Graphics;
+		const g = instance.getChildByName('healthbar') as Healthbar;
 		const s = instance.getChildByName('sprite') as PIXI.Sprite;
 
 		if (newProps.resource !== oldProps.resource) {
@@ -89,25 +91,13 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 		}
 
 		if (newProps.hp !== oldProps.hp) {
-			const healthbarMinWidth = 128;
-			const healthbarHeight = 64;
-			const healthbarMargin = 10;
-			const healthbarPercent = newProps.hp.value / newProps.hp.max;
+			g.hp = newProps.hp.value;
+			g.hpMax = newProps.hp.max;
+			g.redraw(s.width, s.height);
 
-			const hbWidth = Math.max(healthbarMinWidth, s.width);
+			const healthBarMargin = 10;
 
-			g.clear();
-			// g.lineStyle(4, 0xffffff);
-			// g.drawRect(0, 0, s.width, healthbarHeight);
-			g.beginFill(0x761633);
-			g.drawRect(0, 0, hbWidth, healthbarHeight);
-			g.endFill();
-
-			g.beginFill(0xff0000);
-			g.drawRect(0, 0, hbWidth * healthbarPercent, healthbarHeight);
-			g.endFill();
-
-			g.position.set(-(hbWidth / 2), -(s.height / 2) - healthbarHeight - healthbarMargin);
+			g.position.set(-(g.barWidth / 2), -(s.height / 2) - g.barHeight - healthBarMargin);
 		}
 	},
 
