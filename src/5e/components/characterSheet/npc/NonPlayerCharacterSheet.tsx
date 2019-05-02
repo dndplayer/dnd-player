@@ -146,7 +146,7 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, Stat
 
 	popoutSheet(): void {
 		window.open(
-			`/characterSheet/${this.props.character.id}`,
+			`/#/characterSheet/${this.props.character.id}`,
 			'popupWindow2',
 			'height=768,width=1024,toolbar=no,location=no,statusbar=no,titlebar=no,directories=no',
 			false

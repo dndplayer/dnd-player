@@ -26,6 +26,11 @@ export default class AssetListItem extends Component<Props, {}> {
 	}
 
 	onClick(asset): void {
-		this.props.openCharacterSheet(asset.id);
+		window.open(
+			`/#/characterSheet/${asset.id}`,
+			'popupWindow',
+			'height=1000,width=800,toolbar=no,location=no,statusbar=no,titlebar=no,directories=no',
+			false
+		);
 	}
 }

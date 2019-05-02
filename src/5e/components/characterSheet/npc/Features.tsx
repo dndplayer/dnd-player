@@ -19,9 +19,10 @@ export default class Features extends React.Component<Props, {}> {
 		}
 
 		const features = [];
-		for (const feature of character.features) {
+		for (const featureIdx in character.features) {
+			const feature = character.features[featureIdx];
 			features.push(
-				<div className={css.feature}>
+				<div className={css.feature} key={featureIdx}>
 					<span className={css.italicHeading}>{feature.title}.</span>
 					<span>{feature.description}</span>
 				</div>

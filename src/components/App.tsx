@@ -1,6 +1,7 @@
 import React, { Component, ReactNode, ReactElement } from 'react';
 import { Switch, Route } from 'react-router';
 import styles from './App.module.css';
+import { HashRouter } from 'react-router-dom';
 
 import CharacterSheetContainer from '../5e/components/characterSheet/CharacterSheetContainer';
 import ImageUploaderContainer from './sidebar/panels/imageUploader/ImageUploaderContainer';
@@ -43,7 +44,7 @@ export class App extends Component<{}, State> {
 
 		return (
 			<Provider store={store}>
-				<ConnectedRouter history={history}>
+				<HashRouter history={history}>
 					<DragDropContextProvider backend={HTML5Backend}>
 						<div className="App">
 							<MuiThemeProvider theme={theme}>
@@ -86,7 +87,7 @@ export class App extends Component<{}, State> {
 							</MuiThemeProvider>
 						</div>
 					</DragDropContextProvider>
-				</ConnectedRouter>
+				</HashRouter>
 			</Provider>
 		);
 	}

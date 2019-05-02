@@ -26,33 +26,38 @@ export default class Actions extends React.Component<Props, {}> {
 		}
 
 		const actions = [];
-		for (const action of character.actions) {
-			const effects = action.effects.map(effect => {
+		for (const actionIdx in character.actions) {
+			const action = character.actions[actionIdx];
+			const effects = action.effects.map((effect, idx) => {
 				switch (effect.type) {
 					case AttackEffectType.Text:
 						const textEffect = effect as TextAttackEffect;
-						return <span>{textEffect.text}</span>;
+						return <span key={idx}>{textEffect.text}</span>;
 					case AttackEffectType.ToHit:
 						const toHitEffect = effect as ToHitAttackEffect;
 						return (
-							<span>
+							<span key={idx}>
 								{toHitEffect.modifier} to hit, range {action.range} ft.
 							</span>
 						);
 					case AttackEffectType.Damage:
 						const damageEffect = effect as DamageAttackEffect;
 						return (
-							<span>
+							<span key={idx}>
 								Hit: {damageEffect.diceCount}d{damageEffect.diceSize}+
 								{damageEffect.bonus} {damageEffect.damageType} damage.
 							</span>
 						);
 					default:
-						return <div />;
+						return <div key={idx} />;
 				}
 			});
 			actions.push(
-				<div className={css.action} onClick={() => this.doAction(action, 0)}>
+				<div
+					className={css.action}
+					onClick={() => this.doAction(action, 0)}
+					key={actionIdx}
+				>
 					<span className={css.italicHeading}>{action.title}.</span>
 					<span>{effects}</span>
 				</div>

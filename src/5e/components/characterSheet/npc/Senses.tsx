@@ -20,9 +20,10 @@ export default class Senses extends React.Component<Props, {}> {
 		}
 
 		const senses = [];
-		for (const sense of character.senses) {
+		for (const senseIdx in character.senses) {
+			const sense = character.senses[senseIdx];
 			senses.push(
-				<div>
+				<div key={senseIdx}>
 					{Rules.getSenseName(sense.type)} {sense.range} ft.
 				</div>
 			);

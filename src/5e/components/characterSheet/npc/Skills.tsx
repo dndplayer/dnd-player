@@ -20,8 +20,9 @@ export default class Skills extends React.Component<Props, {}> {
 		}
 
 		const skills = [];
-		for (const skill of character.skills) {
-			skills.push(<Skill skill={skill} {...this.props} />);
+		for (const skillIdx in character.skills) {
+			const skill = character.skills[skillIdx];
+			skills.push(<Skill key={skillIdx} skill={skill} {...this.props} />);
 		}
 
 		return (

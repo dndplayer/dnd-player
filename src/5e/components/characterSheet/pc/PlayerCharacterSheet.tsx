@@ -296,7 +296,7 @@ export default class PlayerCharacterSheet extends React.Component<Props, State> 
 
 	popoutSheet(): void {
 		window.open(
-			`/characterSheet/${this.props.character.id}`,
+			`/#/characterSheet/${this.props.character.id}`,
 			'popupWindow',
 			'height=768,width=1024,toolbar=no,location=no,statusbar=no,titlebar=no,directories=no',
 			false
