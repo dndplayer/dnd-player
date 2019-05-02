@@ -83,6 +83,8 @@ class Map extends Component<Props, State> {
 	private app: any;
 	private root: PIXI.Container;
 
+	private _viewport: Viewport;
+
 	private loader: PIXI.loaders.Loader = PIXI.loader;
 
 	/**
@@ -97,9 +99,15 @@ class Map extends Component<Props, State> {
 	 * 	  * [-] Perhaps make the file path upload/{name}/{guid} so refs are still somewhat readable
 	 **/
 
-	componentDidUpdate(prevProps, prevState): void {
+	componentDidUpdate(prevProps: Props, prevState: State): void {
 		// This errors currently as it's run multiple times and tries to load the
 		// same asset multiple times.
+
+		if (prevState.loadingAssets && !this.state.loadingAssets) {
+			if (this._viewport) {
+				this._viewport.fitWorld();
+			}
+		}
 
 		if (this.props.images != prevProps.images) {
 			// TODO: Instead of loading ALL images EVERY time the props.images changes,
@@ -165,7 +173,7 @@ class Map extends Component<Props, State> {
 					width={window.innerWidth * 0.75}
 					height={window.innerHeight}
 				>
-					<ViewportComponent>
+					<ViewportComponent ref={c => (this._viewport = c as any)}>
 						<Container name="layer-background">
 							{Object.keys(background.mapObjects).map(
 								(mapObjId): ReactElement => {

@@ -15,8 +15,17 @@ export default class MapObject extends PIXI.Container {
 
 	onUpdateObject: (data) => void; // An update callback to be used to update
 
-	// TODO: Put a method here that can be called in applyProps to spread props in higher up
-
+	/**
+	 * Any common prop application should be done here, for example
+	 * all MapObjects will want to handle Position & rotation changes
+	 * in a common way.
+	 *
+	 * In classes that ultimately extend this class remember to call
+	 * super.innerApplyProps(...) in the applyProps definition.
+	 *
+	 * You can always override any behaviour after that call if you want
+	 * to customise it in that component.
+	 **/
 	innerApplyProps = (
 		instance: MapObject,
 		oldProps: MapObjectProps,
