@@ -16,8 +16,17 @@ export const types = {
 // Action type interfaces
 // --------------------------------------------------------
 
-interface SyncChatMessagesAction extends Action {
+export interface SyncChatMessagesAction extends Action {
 	messages: ChatMessage[];
+}
+
+export interface SaveNewMessageAction extends Action {
+	message: ChatMessage;
+	data: any;
+}
+
+export interface SyncChatMessagesFailedAction extends Action {
+	error: any;
 }
 
 // --------------------------------------------------------
@@ -33,13 +42,13 @@ export const syncChatMessages = (messages): SyncChatMessagesAction => ({
 // 	message
 // });
 
-export const saveNewMessage = (message, data) => ({
+export const saveNewMessage = (message, data): SaveNewMessageAction => ({
 	type: types.CHAT.NEW.SAVE,
 	message,
 	data
 });
 
-export const syncChatFailed = error => ({
+export const syncChatFailed = (error): SyncChatMessagesFailedAction => ({
 	type: types.CHAT.SYNC_FAILED,
 	error
 });

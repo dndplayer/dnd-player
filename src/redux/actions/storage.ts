@@ -13,19 +13,19 @@ export const types = {
 // --------------------------------------------------------
 // Action type interfaces
 // --------------------------------------------------------
-interface SendFileAction extends Action {
+export interface SendFileAction extends Action {
 	name: string;
 	file: File;
 	hitAreaType: UploadHitAreaTypes;
 }
 
-interface UploadProgressAction extends Action {
+export interface UploadProgressAction extends Action {
 	progress: number;
 }
 
-interface UploadCompleteAction extends Action {}
+export interface UploadCompleteAction extends Action {}
 
-interface UploadFailedAction extends Action {
+export interface UploadFailedAction extends Action {
 	error: any;
 }
 
