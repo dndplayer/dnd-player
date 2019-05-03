@@ -9,10 +9,11 @@ import {
 } from '../../redux/actions/testMap';
 import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 import { Upload } from '../../models/Upload';
+import { MapData } from '../../models/Map';
 
 interface StateProps {
 	zoom: number;
-	testMap: any;
+	testMap: MapData;
 	selectedObjects: string[];
 	playerCharacters: PlayerCharacterData[];
 	nonPlayerCharacters: NonPlayerCharacterData[];

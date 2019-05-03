@@ -33,7 +33,6 @@ export interface SyncTestMapFailedAction extends Action {
 }
 
 export interface TestMapUpdateObjectAction extends Action {
-	layerName: string;
 	mapObjectId: string;
 	newData: any;
 }
@@ -64,13 +63,8 @@ export const syncTestMapFailed = (error): SyncTestMapFailedAction => ({
 	error
 });
 
-export const testMapUpdateObject = ({
-	layerName,
-	mapObjectId,
-	newData
-}): TestMapUpdateObjectAction => ({
+export const testMapUpdateObject = ({ mapObjectId, newData }): TestMapUpdateObjectAction => ({
 	type: types.TESTMAP.UPDATE.OBJECT,
-	layerName,
 	mapObjectId,
 	newData
 });

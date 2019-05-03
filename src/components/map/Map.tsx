@@ -14,6 +14,7 @@ import Token from './objects/Token';
 import { Upload } from '../../models/Upload';
 import { withStyles, WithStyles, LinearProgress } from '@material-ui/core';
 import Scenery from './objects/Scenery';
+import { groupObjectsByLayer } from './MapUtils';
 
 const ViewportComponent = PixiComponent('Viewport', {
 	create: props => {
@@ -106,18 +107,6 @@ class Map extends Component<Props, State> {
 
 	private loader: PIXI.loaders.Loader = PIXI.loader;
 
-	/**
-	 * Loader:
-	 *  * [ ] At map first load, load all the images used in the map
-	 *  * [ ] When new assets are added to the map they need to be loaded too
-	 *  * [-] Load resources with name->downloadUrl mapping
-	 *    * [-] This then means we need to use name refs in asset / mapObjects, then
-	 *      the loader would look these up in the images database and add them to
-	 *      the loader.add array.
-	 *  * [-] Change Assets image ref to use name or filePath? (Name may not be unique)
-	 * 	  * [-] Perhaps make the file path upload/{name}/{guid} so refs are still somewhat readable
-	 **/
-
 	componentDidUpdate(prevProps: Props, prevState: State): void {
 		// This errors currently as it's run multiple times and tries to load the
 		// same asset multiple times.
@@ -197,6 +186,7 @@ class Map extends Component<Props, State> {
 			return <div>No Map</div>;
 		}
 
+		const { objects } = this.props.mapData;
 		const { background, tokens } = this.props.mapData.layers;
 
 		const { connectDropTarget, isHovering } = this.props;
@@ -210,9 +200,8 @@ class Map extends Component<Props, State> {
 			);
 		}
 
-		// TODO: A-lot of the code below repeats for each layer, it's not very DRY.
-		//       Creating a custom LayerContainer element would help encapsulate that
-		//       logic.
+		// TODO: Group the objects by layer
+		const groupedObjects = groupObjectsByLayer(this.props.mapData);
 
 		return connectDropTarget(
 			<div>
@@ -223,7 +212,67 @@ class Map extends Component<Props, State> {
 					height={window.innerHeight}
 				>
 					<ViewportComponent ref={c => (this._viewport = c as any)}>
-						<Container name="layer-background">
+						{Object.keys(groupedObjects).map((layerName: string) => {
+							const l = groupedObjects[layerName];
+							return (
+								<Container key={layerName} name={`layer-${layerName}`}>
+									{l.map(o => {
+										const isPc = !!o.pcId;
+										const isNpc = !!o.npcId;
+										const pcAsset = o.pcId
+											? playerCharacters.find(x => x.id === o.pcId)
+											: null;
+										const npcAsset = o.npcId
+											? nonPlayerCharacters.find(x => x.id === o.npcId)
+											: null;
+										const imageUrl =
+											pcAsset && pcAsset.imageRef
+												? pcAsset.imageRef
+												: npcAsset && npcAsset.imageRef
+												? npcAsset.imageRef
+												: o.imageRef || '__missing__';
+										const res = PIXI.loader.resources[imageUrl].texture;
+										const isSelected = !!selectedObjects.find(x => x === o.id);
+										const isToken = isPc || isNpc;
+										return !isToken ? (
+											<Scenery
+												key={o.id}
+												position={o.position}
+												scale={o.scale}
+												rotation={o.rotation}
+												pivot={o.pivot}
+												anchor={o.anchor}
+												resource={res}
+												onUpdateObject={this.props.onUpdateObject}
+												isSelected={isSelected}
+												isSelectable={true}
+												onSelected={this.props.onSelectObject}
+												mapObjectId={o.id}
+												layerName="background"
+											/>
+										) : (
+											<Token
+												key={o.id}
+												resource={res}
+												hp={o.hp || { value: 30, max: 60 }}
+												position={o.position}
+												scale={o.scale}
+												rotation={o.rotation}
+												pivot={o.pivot}
+												anchor={o.anchor}
+												onUpdateObject={this.props.onUpdateObject}
+												isSelected={isSelected}
+												isSelectable={true}
+												onSelected={this.props.onSelectObject}
+												mapObjectId={o.id}
+												layerName="tokens"
+											/>
+										);
+									})}
+								</Container>
+							);
+						})}
+						{/* <Container name="layer-background">
 							{Object.keys(background.mapObjects).map(
 								(mapObjId): ReactElement => {
 									const o = background.mapObjects[mapObjId];
@@ -305,7 +354,7 @@ class Map extends Component<Props, State> {
 										);
 									}
 								)}
-						</Container>
+						</Container> */}
 					</ViewportComponent>
 				</Stage>
 			</div>

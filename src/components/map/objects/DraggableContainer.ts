@@ -99,7 +99,6 @@ export default class DraggableContainer extends MapObject {
 
 		if (this.onUpdateObject) {
 			this.onUpdateObject({
-				layerName: this.layerName,
 				mapObjectId: this.mapObjectId,
 				newData: {
 					position: lastPos

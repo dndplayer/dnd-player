@@ -9,13 +9,16 @@ export interface MapObject {
 	rotation: number;
 	scale: PIXI.PointLike;
 	type: string;
+	layer: string;
 	imageRef?: string; // Override the image used by an asset (if it has one)
 	pcId?: string; // References a PlayerCharacter asset
 	npcId?: string; // References a NonPlayerCharacter asset
 }
 
 export interface MapLayer {
-	mapObjects: object; // Key (Id) -> MapObject
+	name: string;
+	visibleTo?: string[]; // Group visibility in the future
+	zIndex?: number;
 }
 
 export interface MapLayers {
@@ -31,4 +34,5 @@ export interface MapLayers {
 export interface MapData {
 	id: string;
 	layers: MapLayers;
+	objects: MapObject[];
 }

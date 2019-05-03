@@ -1,16 +1,18 @@
 import { all, call, fork, takeEvery } from 'redux-saga/effects';
 
-import { types, syncTestMap, syncTestMapFailed } from '../actions/testMap';
+import {
+	types,
+	syncTestMap,
+	syncTestMapFailed,
+	AddImageToMapAction,
+	AddAssetToMapAction,
+	TestMapUpdateObjectAction
+} from '../actions/testMap';
 
 import rsf from '../rsf';
 import { database } from 'firebase';
 import { AssetType } from '../../models/AssetType';
 
-// const testMapTransformer = ({ value }) =>
-// 	Object.keys(value).map(key => ({
-// 		...value[key],
-// 		id: key
-// 	}));
 const testMapTransformer = ({ value }) => value;
 
 function* syncTestMapSaga(): any {
@@ -27,16 +29,12 @@ function* syncTestMapSaga(): any {
 	);
 }
 
-function* testMapUpdateObject(action): any {
-	const { layerName, mapObjectId, newData } = action;
-	yield call(
-		rsf.database.patch,
-		`/testMap/layers/${layerName}/mapObjects/${mapObjectId}`,
-		newData
-	);
+function* testMapUpdateObject(action: TestMapUpdateObjectAction): any {
+	const { mapObjectId, newData } = action;
+	yield call(rsf.database.patch, `/testMap/objects/${mapObjectId}`, newData);
 }
 
-function* addAssetToTestMap(action): any {
+function* addAssetToTestMap(action: AddAssetToMapAction): any {
 	const { assetType, assetId } = action;
 	let payload = {
 		anchor: { x: 0.5, y: 0.5 },
@@ -44,7 +42,8 @@ function* addAssetToTestMap(action): any {
 		name: 'New Asset',
 		position: { x: 0, y: 0 },
 		rotation: 0,
-		scale: { x: 1, y: 1 }
+		scale: { x: 1, y: 1 },
+		layer: 'token'
 		// TODO: TEMPORARILY REQUIRED UNTIL IT USES THE ASSET IMAGE!
 		// imageUrl:
 		// 	'https://firebasestorage.googleapis.com/v0/b/dnd-player-a7776.appspot.com/o/uploads%2F5e9a7b59-678a-477c-a18b-4739c9cb197a?alt=media&token=73ec57e9-87e2-44ca-9b08-4243d584cd91'
@@ -54,10 +53,10 @@ function* addAssetToTestMap(action): any {
 	} else if (assetType === AssetType.NonPlayerCharacter) {
 		payload['npcId'] = assetId;
 	}
-	yield call(rsf.database.create, '/testMap/layers/tokens/mapObjects', payload);
+	yield call(rsf.database.create, '/testMap/objects', payload);
 }
 
-function* addImageToTestMap(action): any {
+function* addImageToTestMap(action: AddImageToMapAction): any {
 	const { imageRef } = action;
 	let payload = {
 		anchor: { x: 0.5, y: 0.5 },
@@ -66,9 +65,10 @@ function* addImageToTestMap(action): any {
 		position: { x: 0, y: 0 },
 		rotation: 0,
 		scale: { x: 1, y: 1 },
-		imageRef
+		imageRef,
+		layer: 'background'
 	};
-	yield call(rsf.database.create, '/testMap/layers/background/mapObjects', payload);
+	yield call(rsf.database.create, '/testMap/objects', payload);
 }
 
 export default function* rootSaga() {
