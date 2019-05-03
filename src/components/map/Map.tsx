@@ -216,6 +216,10 @@ class Map extends Component<Props, State> {
 					onMount={this.onMapMount}
 					width={window.innerWidth * 0.75}
 					height={window.innerHeight}
+					options={{
+						antialias: true
+						// backgroundColor: 0xffffff
+					}}
 				>
 					<ViewportComponent ref={c => (this._viewport = c as any)}>
 						{Object.keys(groupedObjects)
