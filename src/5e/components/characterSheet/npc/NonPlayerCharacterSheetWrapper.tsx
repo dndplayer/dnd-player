@@ -5,7 +5,7 @@ import { ChatMessageData } from '../../../../models/ChatMessage';
 import { Character, NonPlayerCharacter } from '../../../models/Character';
 import { Upload } from '../../../../models/Upload';
 import NonPlayerCharacterSheet from './NonPlayerCharacterSheet';
-import NonPlayerCharacterSheetEditor from './NonPlayerCharacterSheetEditor';
+import NonPlayerCharacterSheetEditor from './editor/NonPlayerCharacterSheetEditor';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;

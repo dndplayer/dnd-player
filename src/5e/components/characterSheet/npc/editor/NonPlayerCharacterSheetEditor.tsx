@@ -1,19 +1,19 @@
 import React, { ReactNode } from 'react';
 
-import { ChatMessageData } from '../../../../models/ChatMessage';
-import AbilityScore from './AbilityScore';
+import { ChatMessageData } from '../../../../../models/ChatMessage';
 
-import css from './NonPlayerCharacterSheet.module.css';
-import { Character, NonPlayerCharacter } from '../../../models/Character';
-import { Upload } from '../../../../models/Upload';
-import CharacterImage from '../CharacterImage';
-import AbilityScoreContainer from './AbilityScoreContainer';
-import Skills from './Skills';
-import Features from './Features';
-import Actions from './Actions';
-import Senses from './Senses';
+import css from './NonPlayerCharacterSheetEditor.module.css';
+import { Character, NonPlayerCharacter, CharacterSize } from '../../../../models/Character';
+import { Upload } from '../../../../../models/Upload';
+import CharacterImage from '../../CharacterImage';
+import SkillsEditor from './SkillsEditor';
+import Features from '../Features';
+import Actions from '../Actions';
+import Senses from '../Senses';
 import { Icon } from '@mdi/react';
 import { mdiCancel, mdiContentSave } from '@mdi/js';
+import AbilityScoreEditorContainer from './AbilityScoreEditorContainer';
+import SpeedsEditor from './SpeedsEditor';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -24,7 +24,7 @@ interface Props {
 	image: Upload;
 }
 interface State {
-	character: NonPlayerCharacter;
+	newCharacter: NonPlayerCharacter;
 }
 
 export default class NonPlayerCharacterSheetEditor extends React.Component<Props, State> {
@@ -32,12 +32,13 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 		super(props);
 
 		this.state = {
-			character: { ...this.props.character }
+			newCharacter: { ...this.props.character }
 		};
 	}
 
 	render(): ReactNode {
-		const { character } = this.state;
+		const { newCharacter } = this.state;
+		const update = this.update.bind(this);
 
 		return (
 			<div className={`column character-sheet ${this.props.popout ? 'popout' : ''}`}>
@@ -45,32 +46,44 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 					<div className={css.characterImageContainer}>
 						<CharacterImage
 							imageUrl={this.props.image ? this.props.image.downloadUrl : null}
-							character={character}
+							character={newCharacter}
 							updateCharacter={this.props.updateNonPlayerCharacter}
 						/>
 					</div>
 
-					<div className={css.characterName}>
+					<div className={css.characterName + ' row'}>
 						<input
-							value={character.name}
+							value={newCharacter.name}
 							placeholder="Name"
 							onChange={e => this.update('name', e.target.value)}
 						/>
-						<span onClick={() => this.abortEditSheet()} style={{ margin: '0 8px' }}>
+						<div onClick={() => this.abortEditSheet()} className={css.button}>
 							<Icon path={mdiCancel} size={1} color={'#a6792d'} />
-						</span>
-						<span onClick={() => this.saveSheet()} style={{ margin: '0 8px' }}>
+						</div>
+						<div onClick={() => this.saveSheet()} className={css.button}>
 							<Icon path={mdiContentSave} size={1} color={'#a6792d'} />
-						</span>
+						</div>
 					</div>
 					<div className={css.characterType}>
+						<select
+							value={newCharacter.size}
+							placeholder="Class"
+							onChange={e => this.update('size', e.target.value)}
+						>
+							<option value={CharacterSize.Tiny}>Tiny</option>
+							<option value={CharacterSize.Small}>Small</option>
+							<option value={CharacterSize.Medium}>Medium</option>
+							<option value={CharacterSize.Large}>Large</option>
+							<option value={CharacterSize.Huge}>Huge</option>
+							<option value={CharacterSize.Gargantuan}>Gargantuan</option>
+						</select>
 						<input
-							value={character.class}
+							value={newCharacter.class}
 							placeholder="Class"
 							onChange={e => this.update('class', e.target.value)}
 						/>
 						<input
-							value={character.alignment}
+							value={newCharacter.alignment}
 							placeholder="Alignment"
 							onChange={e => this.update('alignment', e.target.value)}
 						/>
@@ -80,13 +93,13 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 						<span className={css.boldHeading}>Armor Class</span>
 						<span>
 							<input
-								value={character.ac}
+								value={newCharacter.ac}
 								type="number"
 								min="0"
 								onChange={e => this.update('ac', e.target.value || 0)}
 							/>
 							<input
-								value={character.acType}
+								value={newCharacter.acType}
 								placeholder="natural armor"
 								onChange={e => this.update('acType', e.target.value)}
 							/>
@@ -96,7 +109,7 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 						<span className={css.boldHeading}>Hit Points</span>
 						<span>
 							<input
-								value={character.hpDice}
+								value={newCharacter.hpDice}
 								placeholder="8d10 + 40"
 								onChange={e => this.update('hpDice', e.target.value)}
 							/>
@@ -104,20 +117,23 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 					</div>
 					<div>
 						<span className={css.boldHeading}>Speed</span>
-						<span>{(character.speed && character.speed.walk) || 0} ft.</span>
+						<SpeedsEditor updateCharacterProperty={update} character={newCharacter} />
 					</div>
 					<hr className={css.divider} />
-					<AbilityScoreContainer {...this.props} />
+					<AbilityScoreEditorContainer
+						updateCharacterProperty={update}
+						character={newCharacter}
+					/>
 					<hr className={css.divider} />
-					<Skills {...this.props} />
+					<SkillsEditor updateCharacterProperty={update} character={newCharacter} />
 					<Senses {...this.props} />
 					<div>
 						<span className={css.boldHeading}>Languages</span>
-						<span>{(character.languages || []).join(', ')}</span>
+						<span>{(newCharacter.languages || []).join(', ')}</span>
 					</div>
 					<div>
 						<span className={css.boldHeading}>Challenge</span>
-						<span>{character.cr}</span>
+						<span>{newCharacter.cr}</span>
 					</div>
 					<hr className={css.divider} />
 					<Features {...this.props} />
@@ -129,20 +145,15 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 	}
 
 	update(prop: string, value: any): void {
-		const newObj = {
-			...this.state,
-			character: {
-				...this.state.character
-			}
-		};
-
-		newObj.character[prop] = value;
-
-		this.setState(newObj);
+		this.setState(prevState => {
+			const newObj = { newCharacter: { ...prevState.newCharacter } };
+			newObj.newCharacter[prop] = value;
+			return newObj;
+		});
 	}
 
 	saveSheet(): void {
-		this.props.updateNonPlayerCharacter(this.props.character.id, this.state.character);
+		this.props.updateNonPlayerCharacter(this.props.character.id, this.state.newCharacter);
 		this.props.abortEditNonPlayerCharacter(this.props.character.id);
 	}
 

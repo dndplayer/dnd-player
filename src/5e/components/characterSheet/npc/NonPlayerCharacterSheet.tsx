@@ -13,6 +13,8 @@ import Actions from './Actions';
 import Senses from './Senses';
 import { Icon } from '@mdi/react';
 import { mdiFileDocumentEdit } from '@mdi/js';
+import Rules from '../../../5eRules';
+import Speeds from './Speeds';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -35,17 +37,17 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 						updateCharacter={this.props.updateNonPlayerCharacter}
 					/>
 				</div>
-				<div className={css.characterName}>
+				<div className={css.characterName + ' row'}>
 					<span>{character.name}</span>
-					<span
+					<div
 						onClick={() => editNonPlayerCharacter(character.id)}
-						style={{ margin: '0 8px' }}
+						className={css.button}
 					>
 						<Icon path={mdiFileDocumentEdit} size={1} color={'#a6792d'} />
-					</span>
+					</div>
 				</div>
 				<div className={css.characterType}>
-					{character.class}, {character.alignment}
+					{Rules.getSizeName(character.size)} {character.class}, {character.alignment}
 				</div>
 				<hr className={css.divider} />
 				<div>
@@ -58,10 +60,7 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 					<span className={css.boldHeading}>Hit Points</span>
 					<span>{character.hpDice}</span>
 				</div>
-				<div>
-					<span className={css.boldHeading}>Speed</span>
-					<span>{(character.speed && character.speed.walk) || 0} ft.</span>
-				</div>
+				<Speeds {...this.props} />
 				<hr className={css.divider} />
 				<AbilityScoreContainer {...this.props} />
 				<hr className={css.divider} />

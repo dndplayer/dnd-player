@@ -5,7 +5,7 @@ export interface Character {
 	id: string;
 	name: string;
 	imageRef: string;
-	size: string;
+	size: CharacterSize;
 	strength: number;
 	dexterity: number;
 	constitution: number;
@@ -44,6 +44,14 @@ export interface NonPlayerCharacter extends NonPlayerCharacterData, Character {
 	variants?: string[];
 }
 
+export enum CharacterSize {
+	Tiny = 0,
+	Small = 1,
+	Medium = 2,
+	Large = 3,
+	Huge = 4,
+	Gargantuan = 5
+}
 export interface CharacterSpeeds {
 	walk: number;
 	burrow?: number;
@@ -168,7 +176,6 @@ export enum CharacterSenseType {
 }
 
 export interface NonPlayerCharacterSkill {
-	ability: string;
 	skill: string;
 	modifier: number;
 }

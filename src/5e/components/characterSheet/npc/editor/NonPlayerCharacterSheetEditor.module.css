@@ -13,48 +13,6 @@
 	justify-content: center;
 }
 
-.popupAdvantage,
-.popupDisadvantage {
-	height: 30px;
-	width: 30px;
-	color: #202020;
-	font-size: 20px;
-	text-align: center;
-	line-height: 30px;
-	font-weight: 600;
-	position: absolute;
-	top: 50%;
-	margin-top: -15px;
-	z-index: 1;
-	opacity: 0;
-	visibility: collapse;
-	transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
-		opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms, visibility 300ms;
-}
-.popupAdvantage {
-	background: url(../../../../components/chat/advantage.svg);
-	right: -30px;
-	transform: translate3d(-10px, 0, 0);
-}
-.popupDisadvantage {
-	background: url(../../../../components/chat/disadvantage.svg);
-	left: -30px;
-	transform: translate3d(10px, 0, 0);
-}
-
-div:hover > .popupAdvantage,
-div:hover > .popupDisadvantage {
-	transform: translate3d(0, 0, 0);
-	opacity: 1;
-	visibility: visible;
-}
-
-div:hover > .popupAdvantage:hover,
-div:hover > .popupDisadvantage:hover {
-	color: #ccc;
-	transform: scale(1.25);
-}
-
 .characterSheet {
 	background: #202020;
 	width: 100%;
@@ -78,6 +36,19 @@ div:hover > .popupDisadvantage:hover {
 	font-variant: small-caps;
 	font-family: 'Libre Baskerville', serif;
 	font-size: 24px;
+}
+
+input,
+select {
+	background: #333;
+	color: #ccc;
+	border: none;
+	font-size: 16px;
+	min-width: 30px;
+	max-width: 150px;
+	margin: 1px;
+	font-family: apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+		'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
 .button {
@@ -123,7 +94,10 @@ div:hover > .popupDisadvantage:hover {
 	width: 100%;
 }
 
-.ability {
+.ability,
+.ability input,
+.speed,
+.speed input {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -133,7 +107,8 @@ div:hover > .popupDisadvantage:hover {
 	padding: 0 0px;
 }
 
-.abilityTitle {
+.abilityTitle,
+.speedTitle {
 	color: #444;
 	display: inline-block;
 	text-transform: uppercase;

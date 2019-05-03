@@ -1,4 +1,4 @@
-import { Character, PlayerCharacter, CharacterSenseType } from './models/Character';
+import { Character, PlayerCharacter, CharacterSenseType, CharacterSize } from './models/Character';
 import CharacterEffects from './CharacterEffects';
 
 export interface Attack {
@@ -164,6 +164,23 @@ export default class Rules {
 		[CharacterSenseType.Blind]: 'blind'
 	};
 
+	static sizeNameMap = {
+		[CharacterSize.Tiny]: 'Tiny',
+		[CharacterSize.Small]: 'Small',
+		[CharacterSize.Medium]: 'Medium',
+		[CharacterSize.Large]: 'Large',
+		[CharacterSize.Huge]: 'Huge',
+		[CharacterSize.Gargantuan]: 'Gargantuan'
+	};
+
+	static speedNameMap = {
+		walk: '',
+		fly: 'fly',
+		burrow: 'burrow',
+		swim: 'swim',
+		climb: 'climb'
+	};
+
 	public static getShortAbilityName(ability: string): string {
 		const result = Rules.abilityNameMap[ability];
 		return result && result.short;
@@ -184,5 +201,13 @@ export default class Rules {
 
 	public static getSenseName(senseType: CharacterSenseType): string {
 		return Rules.senseNameMap[senseType];
+	}
+
+	public static getSizeName(size: number): string {
+		return Rules.sizeNameMap[size];
+	}
+
+	public static getSpeedName(key: string): string {
+		return Rules.speedNameMap[key];
 	}
 }
