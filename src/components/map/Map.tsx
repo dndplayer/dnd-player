@@ -252,6 +252,7 @@ class Map extends Component<Props, State> {
 											resource={res}
 											onUpdateObject={this.props.onUpdateObject}
 											isSelected={isSelected}
+											isSelectable={true}
 											onSelected={this.props.onSelectObject}
 											mapObjectId={mapObjId}
 											layerName="background"
@@ -296,6 +297,7 @@ class Map extends Component<Props, State> {
 												anchor={o.anchor}
 												onUpdateObject={this.props.onUpdateObject}
 												isSelected={isSelected}
+												isSelectable={true}
 												onSelected={this.props.onSelectObject}
 												mapObjectId={mapObjId}
 												layerName="tokens"

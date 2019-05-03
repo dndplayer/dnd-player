@@ -5,6 +5,7 @@ import { OutlineFilter } from '@pixi/filter-outline';
 export interface DraggableContainerProps extends MapObjectProps {
 	onSelected?: (data) => void;
 	isSelected: boolean;
+	isSelectable?: boolean;
 }
 
 export default class DraggableContainer extends MapObject {
@@ -63,13 +64,12 @@ export default class DraggableContainer extends MapObject {
 
 		let isClick = false;
 
-		if (this.dragStartPosition) {
+		if (this.dragStartPosition && this.isSelectable) {
 			const globalLastPos = this.dragData.global;
 			const dX = globalLastPos.x - this.dragStartPosition.x;
 			const dY = globalLastPos.y - this.dragStartPosition.y;
 
 			// TODO: Only process selection if this.isSelectable = true
-
 			if (dX < DraggableContainer.clickThreshold && dY < DraggableContainer.clickThreshold) {
 				isClick = true;
 				if (this.onSelected) {
@@ -86,6 +86,7 @@ export default class DraggableContainer extends MapObject {
 		this.dragging = false;
 		this.dragData = null;
 		this.dragGrabOffset = null;
+		this.dragStartPosition = null;
 
 		// Remove the drag filters
 		if (this.filters) {

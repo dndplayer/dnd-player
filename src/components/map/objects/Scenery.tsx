@@ -32,6 +32,7 @@ export default PixiComponent<Props, DraggableContainer>('Scenery', {
 		// Scenery mouse over outline is green
 		cont.hoverFilters = [new OutlineFilter(4, 0x00ff00)];
 
+		cont.isSelectable = props.isSelectable || true;
 		cont.onSelected = props.onSelected;
 		cont.onUpdateObject = props.onUpdateObject;
 		cont.layerName = props.layerName;
@@ -56,6 +57,12 @@ export default PixiComponent<Props, DraggableContainer>('Scenery', {
 					newProps.anchor ? newProps.anchor.x : 0.5,
 					newProps.anchor ? newProps.anchor.y : 0.5
 				);
+			}
+		}
+
+		if (newProps.isSelected !== oldProps.isSelected) {
+			if (s) {
+				s.tint = newProps.isSelected && !oldProps.isSelected ? 0x0000ff : 0xffffff;
 			}
 		}
 	},
