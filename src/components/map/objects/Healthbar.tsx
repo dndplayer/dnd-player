@@ -84,6 +84,7 @@ export default class Healthbar extends PIXI.Container {
 		// this._barText.width = this._barWidth;
 		// this._barText.height = this._barHeight;
 		this._barText.text = `${this.hp}/${this.hpMax}`;
+		this._barText.style.fill = 'white';
 
 		this._barText.visible = this._showText;
 	};
