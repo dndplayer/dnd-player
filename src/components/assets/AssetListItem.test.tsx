@@ -11,8 +11,7 @@ function setup() {
 	const props = {
 		asset: { id: 'testId', name: 'testAsset' },
 		assetType: AssetType.PlayerCharacter,
-		images: [],
-		openCharacterSheet: jest.fn()
+		images: []
 	};
 
 	const enzymeWrapper = shallow(<AssetListItem {...props} />);
@@ -24,11 +23,11 @@ function setup() {
 }
 
 describe('AssetListItem', () => {
-	it('should call openCharacterSheet with the asset id on click', () => {
+	/*it('should call openCharacterSheet with the asset id on click', () => {
 		const { enzymeWrapper } = setup();
 		enzymeWrapper.find(`div.${css.title}`).simulate('click');
 		expect(enzymeWrapper.instance().props.openCharacterSheet).toHaveBeenCalledWith('testId');
-	});
+	});*/
 	it('should contain the asset name', () => {
 		const { enzymeWrapper } = setup();
 		expect(enzymeWrapper.find(`div.${css.title}`).text()).toBe('testAsset');

@@ -11,8 +11,7 @@ function getProps() {
 		sendPlayerCharacterUpdate: jest.fn(),
 		sendNonPlayerCharacterUpdate: jest.fn(),
 		sendMessage: jest.fn(),
-		closeCharacterSheet: jest.fn(),
-		openCharacterSheets: [],
+		editingCharacterSheets: [],
 		playerCharacters: [],
 		nonPlayerCharacters: [],
 		updatePlayerCharacter: jest.fn(),
@@ -32,22 +31,22 @@ function setup(props?) {
 }
 
 describe('CharacterSheetContainer', () => {
-	it('should add a NonPlayerCharacterSheet for non player characters', () => {
+	it('should add a NonPlayerCharacterSheetWrapper for non player characters', () => {
 		const props = getProps();
 		props.nonPlayerCharacters.push({ id: 'test1' });
-		props.openCharacterSheets.push('test1');
+		props.popout = 'test1';
 		const { enzymeWrapper } = setup(props);
 
-		expect(enzymeWrapper.find('NonPlayerCharacterSheet')).toHaveLength(1);
+		expect(enzymeWrapper.find('NonPlayerCharacterSheetWrapper')).toHaveLength(1);
 		expect(enzymeWrapper.find('PlayerCharacterSheet')).toHaveLength(0);
 	});
 	it('should add a PlayerCharacterSheet for player characters', () => {
 		const props = getProps();
 		props.playerCharacters.push({ id: 'test2' });
-		props.openCharacterSheets.push('test2');
+		props.popout = 'test2';
 		const { enzymeWrapper } = setup(props);
 
 		expect(enzymeWrapper.find('PlayerCharacterSheet')).toHaveLength(1);
-		expect(enzymeWrapper.find('NonPlayerCharacterSheet')).toHaveLength(0);
+		expect(enzymeWrapper.find('NonPlayerCharacterSheetWrapper')).toHaveLength(0);
 	});
 });
