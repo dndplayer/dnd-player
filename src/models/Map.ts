@@ -34,5 +34,6 @@ export interface MapLayers {
 export interface MapData {
 	id: string;
 	layers: MapLayers;
-	objects: MapObject[];
+	// objects: MapObject[];
+	objects: object;
 }

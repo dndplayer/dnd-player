@@ -200,8 +200,14 @@ class Map extends Component<Props, State> {
 			);
 		}
 
-		// TODO: Group the objects by layer
+		// TODO: Order this (maybe make it an array not an object) so layer zIndex is obeyed.
 		const groupedObjects = groupObjectsByLayer(this.props.mapData);
+		// const layerSortFunc = (a, b) =>
+		// 	groupedObjects[a].zIndex < groupedObjects[b].zIndex
+		// 		? -1
+		// 		: groupedObjects[a].zIndex > groupedObjects[b].zIndex
+		// 			? 1
+		// 		: 0;
 
 		return connectDropTarget(
 			<div>
@@ -212,66 +218,70 @@ class Map extends Component<Props, State> {
 					height={window.innerHeight}
 				>
 					<ViewportComponent ref={c => (this._viewport = c as any)}>
-						{Object.keys(groupedObjects).map((layerName: string) => {
-							const l = groupedObjects[layerName];
-							return (
-								<Container key={layerName} name={`layer-${layerName}`}>
-									{l.map(o => {
-										const isPc = !!o.pcId;
-										const isNpc = !!o.npcId;
-										const pcAsset = o.pcId
-											? playerCharacters.find(x => x.id === o.pcId)
-											: null;
-										const npcAsset = o.npcId
-											? nonPlayerCharacters.find(x => x.id === o.npcId)
-											: null;
-										const imageUrl =
-											pcAsset && pcAsset.imageRef
-												? pcAsset.imageRef
-												: npcAsset && npcAsset.imageRef
-												? npcAsset.imageRef
-												: o.imageRef || '__missing__';
-										const res = PIXI.loader.resources[imageUrl].texture;
-										const isSelected = !!selectedObjects.find(x => x === o.id);
-										const isToken = isPc || isNpc;
-										return !isToken ? (
-											<Scenery
-												key={o.id}
-												position={o.position}
-												scale={o.scale}
-												rotation={o.rotation}
-												pivot={o.pivot}
-												anchor={o.anchor}
-												resource={res}
-												onUpdateObject={this.props.onUpdateObject}
-												isSelected={isSelected}
-												isSelectable={true}
-												onSelected={this.props.onSelectObject}
-												mapObjectId={o.id}
-												layerName="background"
-											/>
-										) : (
-											<Token
-												key={o.id}
-												resource={res}
-												hp={o.hp || { value: 30, max: 60 }}
-												position={o.position}
-												scale={o.scale}
-												rotation={o.rotation}
-												pivot={o.pivot}
-												anchor={o.anchor}
-												onUpdateObject={this.props.onUpdateObject}
-												isSelected={isSelected}
-												isSelectable={true}
-												onSelected={this.props.onSelectObject}
-												mapObjectId={o.id}
-												layerName="tokens"
-											/>
-										);
-									})}
-								</Container>
-							);
-						})}
+						{Object.keys(groupedObjects)
+							// .sort(layerSortFunc)
+							.map((layerName: string) => {
+								const l = groupedObjects[layerName];
+								return (
+									<Container key={layerName} name={`layer-${layerName}`}>
+										{l.map(o => {
+											const isPc = !!o.pcId;
+											const isNpc = !!o.npcId;
+											const pcAsset = o.pcId
+												? playerCharacters.find(x => x.id === o.pcId)
+												: null;
+											const npcAsset = o.npcId
+												? nonPlayerCharacters.find(x => x.id === o.npcId)
+												: null;
+											const imageUrl =
+												pcAsset && pcAsset.imageRef
+													? pcAsset.imageRef
+													: npcAsset && npcAsset.imageRef
+													? npcAsset.imageRef
+													: o.imageRef || '__missing__';
+											const res = PIXI.loader.resources[imageUrl].texture;
+											const isSelected = !!selectedObjects.find(
+												x => x === o.id
+											);
+											const isToken = isPc || isNpc;
+											return !isToken ? (
+												<Scenery
+													key={o.id}
+													position={o.position}
+													scale={o.scale}
+													rotation={o.rotation}
+													pivot={o.pivot}
+													anchor={o.anchor}
+													resource={res}
+													onUpdateObject={this.props.onUpdateObject}
+													isSelected={isSelected}
+													isSelectable={true}
+													onSelected={this.props.onSelectObject}
+													mapObjectId={o.id}
+													layerName="background"
+												/>
+											) : (
+												<Token
+													key={o.id}
+													resource={res}
+													hp={o.hp || { value: 30, max: 60 }}
+													position={o.position}
+													scale={o.scale}
+													rotation={o.rotation}
+													pivot={o.pivot}
+													anchor={o.anchor}
+													onUpdateObject={this.props.onUpdateObject}
+													isSelected={isSelected}
+													isSelectable={true}
+													onSelected={this.props.onSelectObject}
+													mapObjectId={o.id}
+													layerName="tokens"
+												/>
+											);
+										})}
+									</Container>
+								);
+							})}
 						{/* <Container name="layer-background">
 							{Object.keys(background.mapObjects).map(
 								(mapObjId): ReactElement => {
