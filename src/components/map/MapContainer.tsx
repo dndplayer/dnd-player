@@ -16,6 +16,7 @@ interface DispatchProps {
 	onUpdateObject: (data) => void;
 	onAddAssetToMap: (data) => void;
 	onAddImageToMap: (data) => void;
+	onSelectObject: (data) => void;
 }
 interface OwnProps {}
 
@@ -27,6 +28,7 @@ class MapContainer extends Component<Props> {
 			zoom,
 			testMap,
 			onUpdateObject,
+			onSelectObject,
 			onAddAssetToMap,
 			onAddImageToMap,
 			playerCharacters,
@@ -44,6 +46,7 @@ class MapContainer extends Component<Props> {
 				onUpdateObject={onUpdateObject}
 				onAddAssetToMap={onAddAssetToMap}
 				onAddImageToMap={onAddImageToMap}
+				onSelectObject={onSelectObject}
 				images={images}
 			/>
 		);
@@ -60,7 +63,10 @@ const mapStateToProps = (state): StateProps => ({
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	onUpdateObject: data => dispatch(testMapUpdateObject(data)),
 	onAddAssetToMap: data => dispatch(addAssetToMap(data)),
-	onAddImageToMap: data => dispatch(addImageToMap(data))
+	onAddImageToMap: data => dispatch(addImageToMap(data)),
+	onSelectObject: data => {
+		console.log('CLICK?');
+	} // TODO: Tie this to a proper action + Redux
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

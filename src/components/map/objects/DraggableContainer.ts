@@ -2,19 +2,28 @@ import * as PIXI from 'pixi.js';
 import MapObject, { MapObjectProps } from './MapObject';
 import { OutlineFilter } from '@pixi/filter-outline';
 
-export interface DraggableContainerProps extends MapObjectProps {}
+export interface DraggableContainerProps extends MapObjectProps {
+	onSelected?: (data) => void;
+}
 
 export default class DraggableContainer extends MapObject {
-	dragGrabOffset?: PIXI.PointLike; // The offset a drag was started at to be applied to the sprite during the drag
-	dragging: boolean; // Is this token currently being dragged
-	dragData?: any; // Keep track of dragging event data during drag
-	dragLocked: boolean; // Lock the token so it can't be dragged
+	// Drag handling
+	public dragGrabOffset?: PIXI.PointLike; // The offset a drag was started at to be applied to the sprite during the drag
+	public dragging: boolean; // Is this token currently being dragged
+	public dragData?: any; // Keep track of dragging event data during drag
+	public dragLocked: boolean; // Lock the token so it can't be dragged
 
-	hoverFilters: any[] = [new OutlineFilter(4, 0xff0000)]; // Filters to be applied when hovering over this token
-	dragFilters: any[] = []; // Filters to be applied when dragging this token
+	public hoverFilters: any[] = [new OutlineFilter(4, 0xff0000)]; // Filters to be applied when hovering over this token
+	public dragFilters: any[] = []; // Filters to be applied when dragging this token
 
-	interactive: boolean = true;
-	buttonMode: boolean = true;
+	public interactive: boolean = true;
+	public buttonMode: boolean = true;
+
+	// Click selection handling
+	public isSelectable: boolean = true;
+	public onSelected?: (data) => void;
+	private dragStartPosition?: PIXI.PointLike;
+	private static clickThreshold: number = 0.1; // Tune this to account for shaky hands etc
 
 	// Core functionality
 	onDragStart = (e: PIXI.interaction.InteractionEvent): void => {
@@ -22,6 +31,8 @@ export default class DraggableContainer extends MapObject {
 		this.dragging = true;
 		this.dragData = e.data;
 		this.dragGrabOffset = e.data.getLocalPosition(e.currentTarget);
+
+		this.dragStartPosition = new PIXI.Point(e.data.global.x, e.data.global.y);
 
 		const sprite = this.getChildByName('sprite') as PIXI.Sprite;
 
@@ -45,6 +56,22 @@ export default class DraggableContainer extends MapObject {
 			lastPos.x -= this.dragGrabOffset.x;
 			lastPos.y -= this.dragGrabOffset.y;
 		}
+
+		let isClick = false;
+
+		if (this.dragStartPosition) {
+			const globalLastPos = this.dragData.global;
+			const dX = globalLastPos.x - this.dragStartPosition.x;
+			const dY = globalLastPos.y - this.dragStartPosition.y;
+
+			if (dX < DraggableContainer.clickThreshold && dY < DraggableContainer.clickThreshold) {
+				isClick = true;
+				if (this.onSelected) {
+					this.onSelected({}); // TODO: Include click data
+				}
+			}
+		}
+
 		this.dragging = false;
 		this.dragData = null;
 		this.dragGrabOffset = null;
@@ -52,6 +79,10 @@ export default class DraggableContainer extends MapObject {
 		// Remove the drag filters
 		if (this.filters) {
 			this.filters = this.filters.filter(x => !(this.dragFilters.indexOf(x) >= 0));
+		}
+
+		if (isClick) {
+			return;
 		}
 
 		if (this.onUpdateObject) {

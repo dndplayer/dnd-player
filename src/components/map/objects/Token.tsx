@@ -36,6 +36,7 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 	create: (props: Props): any => {
 		const cont = new TokenContainer();
 
+		cont.onSelected = props.onSelected;
 		cont.onUpdateObject = props.onUpdateObject;
 		cont.layerName = props.layerName;
 		cont.mapObjectId = props.mapObjectId;

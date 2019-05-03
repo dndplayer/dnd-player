@@ -79,6 +79,7 @@ interface OwnProps extends WithStyles<typeof styles> {
 	// testMap: any;
 	playerCharacters: PlayerCharacterData[];
 	nonPlayerCharacters: NonPlayerCharacterData[];
+	onSelectObject: (data) => void;
 	onUpdateObject: (data) => void;
 	onAddAssetToMap: (data) => void;
 	onAddImageToMap: (data) => void;
@@ -229,6 +230,7 @@ class Map extends Component<Props, State> {
 											anchor={o.anchor}
 											resource={res}
 											onUpdateObject={this.props.onUpdateObject}
+											onSelected={this.props.onSelectObject}
 											mapObjectId={mapObjId}
 											layerName="background"
 										/>
@@ -268,6 +270,7 @@ class Map extends Component<Props, State> {
 												pivot={o.pivot}
 												anchor={o.anchor}
 												onUpdateObject={this.props.onUpdateObject}
+												onSelected={this.props.onSelectObject}
 												mapObjectId={mapObjId}
 												layerName="tokens"
 											/>

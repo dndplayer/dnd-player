@@ -32,6 +32,7 @@ export default PixiComponent<Props, DraggableContainer>('Scenery', {
 		// Scenery mouse over outline is green
 		cont.hoverFilters = [new OutlineFilter(4, 0x00ff00)];
 
+		cont.onSelected = props.onSelected;
 		cont.onUpdateObject = props.onUpdateObject;
 		cont.layerName = props.layerName;
 		cont.mapObjectId = props.mapObjectId;
