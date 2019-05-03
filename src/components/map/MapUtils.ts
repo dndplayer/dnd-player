@@ -7,6 +7,9 @@ interface GroupedMapObjects {
 }
 
 export const groupObjectsByLayer = (map: MapData): GroupedMapObjects => {
+	if (!map || !map.objects) {
+		return {};
+	}
 	return Object.keys(map.objects).reduce((prev: GroupedMapObjects, curr: string): any => {
 		const l = map.objects[curr].layer;
 		if (!prev[l]) {
