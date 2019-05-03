@@ -1,13 +1,19 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import Map from './Map';
-import { testMapUpdateObject, addAssetToMap, addImageToMap } from '../../redux/actions/testMap';
+import {
+	testMapUpdateObject,
+	addAssetToMap,
+	addImageToMap,
+	selectObject
+} from '../../redux/actions/testMap';
 import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 import { Upload } from '../../models/Upload';
 
 interface StateProps {
 	zoom: number;
 	testMap: any;
+	selectedObjects: string[];
 	playerCharacters: PlayerCharacterData[];
 	nonPlayerCharacters: NonPlayerCharacterData[];
 	images: Upload[];
@@ -27,6 +33,7 @@ class MapContainer extends Component<Props> {
 		const {
 			zoom,
 			testMap,
+			selectedObjects,
 			onUpdateObject,
 			onSelectObject,
 			onAddAssetToMap,
@@ -40,6 +47,7 @@ class MapContainer extends Component<Props> {
 				updateSpriteLocation={() => {}}
 				zoom={zoom}
 				mapData={testMap}
+				selectedObjects={selectedObjects}
 				// testMap={testMap}
 				playerCharacters={playerCharacters}
 				nonPlayerCharacters={nonPlayerCharacters}
@@ -56,6 +64,7 @@ class MapContainer extends Component<Props> {
 const mapStateToProps = (state): StateProps => ({
 	zoom: state.map.zoom,
 	testMap: state.testMap.map,
+	selectedObjects: state.testMap.selectedObjects,
 	images: state.images.images,
 	playerCharacters: state.assets.playerCharacters,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters
@@ -64,9 +73,7 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 	onUpdateObject: data => dispatch(testMapUpdateObject(data)),
 	onAddAssetToMap: data => dispatch(addAssetToMap(data)),
 	onAddImageToMap: data => dispatch(addImageToMap(data)),
-	onSelectObject: data => {
-		console.log('CLICK?');
-	} // TODO: Tie this to a proper action + Redux
+	onSelectObject: data => dispatch(selectObject(data))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

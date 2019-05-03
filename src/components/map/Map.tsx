@@ -76,6 +76,7 @@ interface OwnProps extends WithStyles<typeof styles> {
 	updateSpriteLocation: (sprite: Sprite) => void;
 	mapData?: MapData;
 	zoom?: number;
+	selectedObjects: string[];
 	// testMap: any;
 	playerCharacters: PlayerCharacterData[];
 	nonPlayerCharacters: NonPlayerCharacterData[];
@@ -161,8 +162,27 @@ class Map extends Component<Props, State> {
 		}
 	}
 
+	onMapMount = (app: PIXI.Application) => {
+		app.stage.hitArea = new PIXI.Rectangle(
+			0,
+			0,
+			app.renderer.width / app.renderer.resolution,
+			app.renderer.height / app.renderer.resolution
+		);
+		app.stage.interactive = true;
+		// Any free space click should de-select the currently selected object.
+		// for this to work any objects on the stage the implement .on('mouseup')
+		// need to ensure they call e.stopPropagation(); or the event will also get here!
+		app.stage.on('mouseup', e => {
+			console.log(e);
+			if (this.props.onSelectObject) {
+				this.props.onSelectObject({ mapObjectId: null });
+			}
+		});
+	};
+
 	render(): ReactNode {
-		const { classes, playerCharacters, nonPlayerCharacters } = this.props;
+		const { classes, playerCharacters, nonPlayerCharacters, selectedObjects } = this.props;
 
 		if (this.state.loadingAssets) {
 			return (
@@ -198,7 +218,7 @@ class Map extends Component<Props, State> {
 			<div>
 				{overlay}
 				<Stage
-					// onMount={this.onMapMount}
+					onMount={this.onMapMount}
 					width={window.innerWidth * 0.75}
 					height={window.innerHeight}
 				>
@@ -220,6 +240,7 @@ class Map extends Component<Props, State> {
 											? npcAsset.imageRef
 											: o.imageRef || '__missing__';
 									const res = PIXI.loader.resources[imageUrl].texture;
+									const isSelected = !!selectedObjects.find(x => x === mapObjId);
 									return (
 										<Scenery
 											key={mapObjId}
@@ -230,6 +251,7 @@ class Map extends Component<Props, State> {
 											anchor={o.anchor}
 											resource={res}
 											onUpdateObject={this.props.onUpdateObject}
+											isSelected={isSelected}
 											onSelected={this.props.onSelectObject}
 											mapObjectId={mapObjId}
 											layerName="background"
@@ -259,6 +281,9 @@ class Map extends Component<Props, State> {
 												? npcAsset.imageRef
 												: o.imageRef || '__missing__';
 										const res = PIXI.loader.resources[imageUrl].texture;
+										const isSelected = !!selectedObjects.find(
+											x => x === mapObjId
+										);
 										return (
 											<Token
 												key={mapObjId}
@@ -270,6 +295,7 @@ class Map extends Component<Props, State> {
 												pivot={o.pivot}
 												anchor={o.anchor}
 												onUpdateObject={this.props.onUpdateObject}
+												isSelected={isSelected}
 												onSelected={this.props.onSelectObject}
 												mapObjectId={mapObjId}
 												layerName="tokens"

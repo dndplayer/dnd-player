@@ -4,6 +4,7 @@ import { OutlineFilter } from '@pixi/filter-outline';
 
 export interface DraggableContainerProps extends MapObjectProps {
 	onSelected?: (data) => void;
+	isSelected: boolean;
 }
 
 export default class DraggableContainer extends MapObject {
@@ -20,6 +21,7 @@ export default class DraggableContainer extends MapObject {
 	public buttonMode: boolean = true;
 
 	// Click selection handling
+	public isSelected: boolean = false;
 	public isSelectable: boolean = true;
 	public onSelected?: (data) => void;
 	private dragStartPosition?: PIXI.PointLike;
@@ -47,6 +49,8 @@ export default class DraggableContainer extends MapObject {
 	};
 
 	onDragEnd = (e: PIXI.interaction.InteractionEvent): void => {
+		e.stopPropagation(); // Prevent this triggering the stage.on('mouseup') which handles de-selects
+
 		this.alpha = 1.0;
 		if (!this.dragData || !this.dragging) {
 			return;
@@ -64,10 +68,17 @@ export default class DraggableContainer extends MapObject {
 			const dX = globalLastPos.x - this.dragStartPosition.x;
 			const dY = globalLastPos.y - this.dragStartPosition.y;
 
+			// TODO: Only process selection if this.isSelectable = true
+
 			if (dX < DraggableContainer.clickThreshold && dY < DraggableContainer.clickThreshold) {
 				isClick = true;
 				if (this.onSelected) {
-					this.onSelected({}); // TODO: Include click data
+					if (this.isSelected) {
+						// TODO: if this is already selected, do we want second click to de-select?
+						this.onSelected({ mapObjectId: null }); // De-select // TODO: This doesn't seem to work
+					} else {
+						this.onSelected({ mapObjectId: this.mapObjectId }); // TODO: Include extra click data
+					}
 				}
 			}
 		}

@@ -1,8 +1,18 @@
-import { types } from '../actions/testMap';
+import { types, SelectObjectAction } from '../actions/testMap';
+import { MapData } from '../../models/Map';
+import { stat } from 'fs';
+import { Action } from 'redux';
 
-const initialState = {
+interface State {
+	map?: MapData;
+	syncError?: any;
+	selectedObjects: string[];
+}
+
+const initialState: State = {
 	map: null,
-	syncError: null
+	syncError: null,
+	selectedObjects: []
 };
 
 export default function imagesReducer(state = initialState, action: any = {}) {
@@ -16,6 +26,12 @@ export default function imagesReducer(state = initialState, action: any = {}) {
 			return {
 				...state,
 				syncError: action.error
+			};
+		case types.TESTMAP.SELECT.OBJECT:
+			const a = action as SelectObjectAction;
+			return {
+				...state,
+				selectedObjects: a.mapObjectId ? [a.mapObjectId] : []
 			};
 		default:
 			return state;

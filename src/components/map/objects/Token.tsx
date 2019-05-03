@@ -91,6 +91,12 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 
 			g.position.set(-(g.barWidth / 2), -(s.height / 2) - g.barHeight - healthBarMargin);
 		}
+
+		if (newProps.isSelected !== oldProps.isSelected) {
+			if (s) {
+				s.tint = newProps.isSelected && !oldProps.isSelected ? 0x0000ff : 0xffffff;
+			}
+		}
 	},
 
 	didMount: (instance: TokenContainer, parent: PIXI.Container): void => {
