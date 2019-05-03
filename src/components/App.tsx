@@ -15,6 +15,7 @@ import store, { history } from '../redux/store';
 
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import PropertiesPanelContainer from './propertiesPanel/PropertiesPanelContainer';
 
 interface State {
 	projectName: string;
@@ -54,6 +55,7 @@ export class App extends Component<{}, State> {
 										render={(): ReactElement => (
 											<div>
 												<div className={styles.mapWrapper}>
+													<PropertiesPanelContainer />
 													<MapContainer />
 												</div>
 												<div className={styles.chatWrapper}>

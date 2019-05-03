@@ -9,6 +9,7 @@ import ImageReducer from './images';
 import AssetReducer from './assets';
 import MapReducer from './map';
 import TestMapReducer from './testMap';
+import UiReducer from './ui';
 
 export default history =>
 	combineReducers({
@@ -20,5 +21,6 @@ export default history =>
 		assets: AssetReducer,
 		map: MapReducer,
 		characters: CharactersReducer,
-		testMap: TestMapReducer
+		testMap: TestMapReducer,
+		ui: UiReducer
 	});
