@@ -163,7 +163,7 @@ class Map extends Component<Props, State> {
 		// for this to work any objects on the stage the implement .on('mouseup')
 		// need to ensure they call e.stopPropagation(); or the event will also get here!
 		app.stage.on('mouseup', e => {
-			console.log(e);
+			// console.log(e);
 			if (this.props.onSelectObject) {
 				this.props.onSelectObject({ mapObjectId: null });
 			}
@@ -380,8 +380,8 @@ const mapTargetSpec = {
 	drop(props, monitor: DropTargetMonitor, component) {
 		const item = monitor.getItem();
 		const type = monitor.getItemType();
-		console.log(`dropped [DROPPER]:`);
-		console.log(item);
+		// console.log(`dropped [DROPPER]:`);
+		// console.log(item);
 
 		switch (type) {
 			case types.PLAYER_CHARACTER_ASSET:
