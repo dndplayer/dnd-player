@@ -23,6 +23,8 @@ interface State {
 	name?: string;
 	rotation?: number;
 	layer?: string;
+	scaleX: number;
+	scaleY: number;
 	isPcAsset: boolean;
 	isNpcAsset: boolean;
 	layers: object[];
@@ -37,10 +39,16 @@ export default class PropertiesPanel extends Component<Props, State> {
 		layer: null,
 		isPcAsset: false,
 		isNpcAsset: false,
-		layers: []
+		layers: [],
+		scaleX: 1.0,
+		scaleY: 1.0
 	};
 
 	handleChange = (propName): ((e) => void) => (e): void => {
+		if (e.target.value === null) {
+			return; // Ignore no change to select for example
+		}
+
 		this.setState({
 			[propName]: e.target.value
 		} as any);
@@ -57,7 +65,11 @@ export default class PropertiesPanel extends Component<Props, State> {
 				newData: {
 					name: this.state.name,
 					rotation: this.state.rotation,
-					layer: this.state.layer
+					layer: this.state.layer,
+					scale: {
+						x: this.state.scaleX,
+						y: this.state.scaleY
+					}
 				}
 			});
 		}
@@ -100,14 +112,16 @@ export default class PropertiesPanel extends Component<Props, State> {
 			layer: object ? object.layer : null,
 			isPcAsset,
 			isNpcAsset,
-			layers: layersArr
+			layers: layersArr,
+			scaleX: object ? object.scale.x : 1.0,
+			scaleY: object ? object.scale.y : 1.0
 		});
 	};
 
 	render(): ReactNode {
 		const { visible } = this.props;
 
-		const { object, name, rotation, layers } = this.state;
+		const { object, name, rotation, layers, scaleX, scaleY } = this.state;
 
 		if (!visible) {
 			return <div />;
@@ -140,12 +154,27 @@ export default class PropertiesPanel extends Component<Props, State> {
 						/>
 						<li>Layer = {object.layer}</li>
 						<select onChange={this.handleChange('layer')}>
+							<option value={null}>---</option>
 							{layers.map(x => (
 								<option key={x.id} value={x.id}>
 									{x.id} ({x.zIndex})
 								</option>
 							))}
 						</select>
+
+						<li>Scale X</li>
+						<input
+							type="number"
+							value={scaleX}
+							onChange={this.handleChange('scaleX')}
+						/>
+
+						<li>Scale Y</li>
+						<input
+							type="number"
+							value={scaleY}
+							onChange={this.handleChange('scaleY')}
+						/>
 					</ul>
 					<button onClick={this.saveChanges}>Save</button>
 				</div>
