@@ -162,7 +162,7 @@ class Map extends Component<Props, State> {
 		// Any free space click should de-select the currently selected object.
 		// for this to work any objects on the stage the implement .on('mouseup')
 		// need to ensure they call e.stopPropagation(); or the event will also get here!
-		app.stage.on('mouseup', e => {
+		app.stage.on('mousedown', e => {
 			// console.log(e);
 			if (this.props.onSelectObject) {
 				this.props.onSelectObject({ mapObjectId: null });
