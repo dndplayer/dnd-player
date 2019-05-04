@@ -14,12 +14,15 @@ export default class SpeedsEditor extends React.Component<Props, {}> {
 		const update = this.update.bind(this);
 		const { character } = this.props;
 		return (
-			<div className={`${css.speedContainer} ${css.row}`}>
-				<SpeedEditor type="walk" character={character} updateSpeedProperty={update} />
-				<SpeedEditor type="fly" character={character} updateSpeedProperty={update} />
-				<SpeedEditor type="climb" character={character} updateSpeedProperty={update} />
-				<SpeedEditor type="swim" character={character} updateSpeedProperty={update} />
-				<SpeedEditor type="burrow" character={character} updateSpeedProperty={update} />
+			<div className="row">
+				<span className={css.boldHeading}>Speed</span>
+				<div className={`${css.speedContainer} ${css.row}`}>
+					<SpeedEditor type="walk" character={character} updateSpeedProperty={update} />
+					<SpeedEditor type="fly" character={character} updateSpeedProperty={update} />
+					<SpeedEditor type="climb" character={character} updateSpeedProperty={update} />
+					<SpeedEditor type="swim" character={character} updateSpeedProperty={update} />
+					<SpeedEditor type="burrow" character={character} updateSpeedProperty={update} />
+				</div>
 			</div>
 		);
 	}

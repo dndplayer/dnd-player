@@ -97,7 +97,11 @@ select {
 .ability,
 .ability input,
 .speed,
-.speed input {
+.speed input,
+.save,
+.save input,
+.sense,
+.sense input {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -108,7 +112,9 @@ select {
 }
 
 .abilityTitle,
-.speedTitle {
+.speedTitle,
+.saveTitle,
+.senseTitle {
 	color: #444;
 	display: inline-block;
 	text-transform: uppercase;
@@ -116,7 +122,9 @@ select {
 	color: #999;
 }
 
-.speedTitle {
+.speedTitle,
+.saveTitle,
+.senseTitle {
 	font-size: 12px;
 }
 .abilityTitle {

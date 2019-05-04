@@ -14,6 +14,8 @@ import { Icon } from '@mdi/react';
 import { mdiCancel, mdiContentSave } from '@mdi/js';
 import AbilityScoreEditorContainer from './AbilityScoreEditorContainer';
 import SpeedsEditor from './SpeedsEditor';
+import SensesEditor from './SensesEditor';
+import SavesEditor from './SavesEditor';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -115,21 +117,47 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 							/>
 						</span>
 					</div>
-					<div>
-						<span className={css.boldHeading}>Speed</span>
-						<SpeedsEditor updateCharacterProperty={update} character={newCharacter} />
-					</div>
+					<SpeedsEditor updateCharacterProperty={update} character={newCharacter} />
 					<hr className={css.divider} />
 					<AbilityScoreEditorContainer
 						updateCharacterProperty={update}
 						character={newCharacter}
 					/>
 					<hr className={css.divider} />
+					<SavesEditor updateCharacterProperty={update} character={newCharacter} />
 					<SkillsEditor updateCharacterProperty={update} character={newCharacter} />
-					<Senses {...this.props} />
+					<div>
+						<span className={css.boldHeading}>Damage Resistances</span>
+						<input
+							value={newCharacter.damageResistances}
+							placeholder="cold"
+							onChange={e => this.update('damageResistances', e.target.value)}
+						/>
+					</div>
+					<div>
+						<span className={css.boldHeading}>Damage Immunities</span>
+						<input
+							value={newCharacter.damageImmunities}
+							placeholder="cold"
+							onChange={e => this.update('damageImmunities', e.target.value)}
+						/>
+					</div>
+					<div>
+						<span className={css.boldHeading}>Condition Immunities</span>
+						<input
+							value={newCharacter.conditionImmunities}
+							placeholder="poisoned"
+							onChange={e => this.update('conditionImmunities', e.target.value)}
+						/>
+					</div>
+					<SensesEditor updateCharacterProperty={update} character={newCharacter} />
 					<div>
 						<span className={css.boldHeading}>Languages</span>
-						<span>{(newCharacter.languages || []).join(', ')}</span>
+						<input
+							value={newCharacter.languages}
+							placeholder="Common"
+							onChange={e => this.update('languages', e.target.value)}
+						/>
 					</div>
 					<div>
 						<span className={css.boldHeading}>Challenge</span>

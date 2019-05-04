@@ -1,4 +1,4 @@
-import { Character, PlayerCharacter, CharacterSenseType, CharacterSize } from './models/Character';
+import { Character, PlayerCharacter, CharacterSize } from './models/Character';
 import CharacterEffects from './CharacterEffects';
 
 export interface Attack {
@@ -157,11 +157,10 @@ export default class Rules {
 	};
 
 	static senseNameMap = {
-		[CharacterSenseType.Tremorsense]: 'tremorsense',
-		[CharacterSenseType.Darkvision]: 'darkvision',
-		[CharacterSenseType.Blindsight]: 'blindsight',
-		[CharacterSenseType.Truesight]: 'truesight',
-		[CharacterSenseType.Blind]: 'blind'
+		tremorsense: 'tremorsense',
+		darkvision: 'darkvision',
+		blindsight: 'blindsight',
+		truesight: 'truesight'
 	};
 
 	static sizeNameMap = {
@@ -199,7 +198,7 @@ export default class Rules {
 		return Rules.saveNameMap[ability];
 	}
 
-	public static getSenseName(senseType: CharacterSenseType): string {
+	public static getSenseName(senseType: string): string {
 		return Rules.senseNameMap[senseType];
 	}
 

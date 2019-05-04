@@ -37,9 +37,13 @@ export interface NonPlayerCharacter extends NonPlayerCharacterData, Character {
 	acType: string;
 	hpDice: string;
 	actions: CharacterAttack[];
-	languages: string[];
+	languages: string;
+	saves: NonPlayerCharacterSaves;
+	damageResistances: string;
+	damageImmunities: string;
+	conditionImmunities: string;
 	features: NonPlayerCharacterFeature[];
-	senses: CharacterSense[];
+	senses: CharacterSenses;
 	skills: NonPlayerCharacterSkill[];
 	variants?: string[];
 }
@@ -162,20 +166,24 @@ export interface NonPlayerCharacterFeature {
 	description: string;
 }
 
-export interface CharacterSense {
-	type: CharacterSenseType;
-	range: number;
-}
-
-export enum CharacterSenseType {
-	Tremorsense = 0,
-	Darkvision = 1,
-	Blindsight = 2,
-	Truesight = 3,
-	Blind = 4
+export interface CharacterSenses {
+	tremorsense?: number;
+	blind?: boolean;
+	blindsight?: number;
+	truesight?: number;
+	darkvision?: number;
 }
 
 export interface NonPlayerCharacterSkill {
 	skill: string;
 	modifier: number;
+}
+
+export interface NonPlayerCharacterSaves {
+	strength?: number;
+	dexterity?: number;
+	constitution?: number;
+	intelligence?: number;
+	wisdom?: number;
+	charisma?: number;
 }

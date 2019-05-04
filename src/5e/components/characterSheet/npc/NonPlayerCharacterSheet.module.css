@@ -149,7 +149,8 @@ div:hover > .popupDisadvantage:hover {
 	font-weight: 700;
 }
 
-.skill {
+.skill,
+.save {
 	display: flex;
 	flex-direction: row;
 	margin: 0 4px;

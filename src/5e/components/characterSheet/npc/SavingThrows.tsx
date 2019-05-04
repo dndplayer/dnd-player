@@ -4,37 +4,38 @@ import { ChatMessageData } from '../../../../models/ChatMessage';
 
 import css from './NonPlayerCharacterSheet.module.css';
 import { NonPlayerCharacter } from '../../../models/Character';
-import Rules from '../../../5eRules';
+import SavingThrow from './SavingThrow';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	character: NonPlayerCharacter;
 }
 
-export default class Senses extends React.Component<Props, {}> {
+export default class SavingThrows extends React.Component<Props, {}> {
 	render(): ReactNode {
 		const { character } = this.props;
 
-		if (!character.senses) {
+		if (!character.saves) {
 			return null;
 		}
 
-		const senses = [];
-		for (const senseType in character.senses) {
-			const range = character.senses[senseType];
-			if (range) {
-				senses.push(
-					<div key={senseType}>
-						{Rules.getSenseName(senseType)} {range.toString()} ft.
-					</div>
-				);
+		const saves = [];
+		for (const saveType in character.saves) {
+			if (!character.saves[saveType]) {
+				continue;
 			}
+
+			saves.push(<SavingThrow key={saveType} save={saveType} {...this.props} />);
+		}
+
+		if (!saves.length) {
+			return null;
 		}
 
 		return (
 			<div className="row">
-				<span className={css.boldHeading}>Senses</span>
-				{senses}
+				<span className={css.boldHeading}>Saving Throws</span>
+				{saves}
 			</div>
 		);
 	}

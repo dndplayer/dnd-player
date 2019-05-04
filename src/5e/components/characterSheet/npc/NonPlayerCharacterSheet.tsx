@@ -15,6 +15,7 @@ import { Icon } from '@mdi/react';
 import { mdiFileDocumentEdit } from '@mdi/js';
 import Rules from '../../../5eRules';
 import Speeds from './Speeds';
+import SavingThrows from './SavingThrows';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -64,11 +65,30 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 				<hr className={css.divider} />
 				<AbilityScoreContainer {...this.props} />
 				<hr className={css.divider} />
+				<SavingThrows {...this.props} />
 				<Skills {...this.props} />
+				{character.damageResistances && (
+					<div>
+						<span className={css.boldHeading}>Damage Resistances</span>
+						<span>{character.damageResistances}</span>
+					</div>
+				)}
+				{character.damageImmunities && (
+					<div>
+						<span className={css.boldHeading}>Damage Immunities</span>
+						<span>{character.damageImmunities}</span>
+					</div>
+				)}
+				{character.conditionImmunities && (
+					<div>
+						<span className={css.boldHeading}>Condition Immunities</span>
+						<span>{character.conditionImmunities}</span>
+					</div>
+				)}
 				<Senses {...this.props} />
 				<div>
 					<span className={css.boldHeading}>Languages</span>
-					<span>{(character.languages || []).join(', ')}</span>
+					<span>{character.languages}</span>
 				</div>
 				<div>
 					<span className={css.boldHeading}>Challenge</span>
