@@ -15,19 +15,20 @@ import CharacterActionHelper from '../../../CharacterActionHelper';
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	character: NonPlayerCharacter;
+	actionProperty: string;
 }
 
 export default class Actions extends React.Component<Props, {}> {
 	render(): ReactNode {
-		const { character } = this.props;
+		const { character, actionProperty } = this.props;
 
-		if (!character.actions || !character.actions.length) {
+		if (!character[actionProperty] || !character[actionProperty].length) {
 			return null;
 		}
 
 		const actions = [];
-		for (const actionIdx in character.actions) {
-			const action = character.actions[actionIdx];
+		for (const actionIdx in character[actionProperty]) {
+			const action = character[actionProperty][actionIdx];
 			const effects = action.effects.map((effect, idx) => {
 				switch (effect.type) {
 					case AttackEffectType.Text:
@@ -58,7 +59,7 @@ export default class Actions extends React.Component<Props, {}> {
 					onClick={() => this.doAction(action, 0)}
 					key={actionIdx}
 				>
-					<span className={css.italicHeading}>{action.title}.</span>
+					<span className={css.italicHeading}>{action.name}.</span>
 					<span>{effects}</span>
 				</div>
 			);

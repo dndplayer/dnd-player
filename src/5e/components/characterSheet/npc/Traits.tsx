@@ -10,25 +10,25 @@ interface Props {
 	character: NonPlayerCharacter;
 }
 
-export default class Features extends React.Component<Props, {}> {
+export default class Traits extends React.Component<Props, {}> {
 	render(): ReactNode {
 		const { character } = this.props;
 
-		if (!character.features || !character.features.length) {
+		if (!character.traits || !character.traits.length) {
 			return null;
 		}
 
-		const features = [];
-		for (const featureIdx in character.features) {
-			const feature = character.features[featureIdx];
-			features.push(
-				<div className={css.feature} key={featureIdx}>
-					<span className={css.italicHeading}>{feature.title}.</span>
-					<span>{feature.description}</span>
+		const traits = [];
+		for (const traitIdx in character.traits) {
+			const trait = character.traits[traitIdx];
+			traits.push(
+				<div className={css.trait} key={traitIdx}>
+					<span className={css.italicHeading}>{trait.title}.</span>
+					<span>{trait.description}</span>
 				</div>
 			);
 		}
 
-		return <div>{features}</div>;
+		return <div>{traits}</div>;
 	}
 }

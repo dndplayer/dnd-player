@@ -39,7 +39,8 @@
 }
 
 input,
-select {
+select,
+textarea {
 	background: #333;
 	color: #ccc;
 	border: none;
@@ -49,6 +50,10 @@ select {
 	margin: 1px;
 	font-family: apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
 		'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+textarea {
+	max-width: none;
 }
 
 .button {
@@ -72,7 +77,8 @@ select {
 	margin-right: 4px;
 	color: #a6792d;
 }
-.italicHeading {
+.italicHeading,
+input.italicHeading {
 	font-weight: 600;
 	margin-right: 4px;
 	font-style: italic;
@@ -132,13 +138,14 @@ select {
 	font-weight: 700;
 }
 
-.skill {
+.skill,
+.trait {
 	display: flex;
 	flex-direction: row;
 	margin: 0 4px;
 }
 
-.feature,
+.trait,
 .action {
 	margin-bottom: 8px;
 }

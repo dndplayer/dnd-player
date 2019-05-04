@@ -12,7 +12,7 @@ interface Props {
 	removeSkill: () => void;
 }
 
-export default class Skill extends React.Component<Props, {}> {
+export default class SkillEditor extends React.Component<Props, {}> {
 	render(): ReactNode {
 		const { skill } = this.props;
 		const options = [];

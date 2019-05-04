@@ -1,4 +1,4 @@
-import { AttackEffectType } from '../5eRules';
+import { AttackEffectType, Attack } from '../5eRules';
 import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 
 export interface Character {
@@ -36,13 +36,16 @@ export interface NonPlayerCharacter extends NonPlayerCharacterData, Character {
 	ac: number;
 	acType: string;
 	hpDice: string;
-	actions: CharacterAttack[];
+	actions: Attack[];
+	reactions: Attack[];
+	legendaryActions: Attack[];
+	legendaryActionCount?: number;
 	languages: string;
 	saves: NonPlayerCharacterSaves;
 	damageResistances: string;
 	damageImmunities: string;
 	conditionImmunities: string;
-	features: NonPlayerCharacterFeature[];
+	traits: NonPlayerCharacterTrait[];
 	senses: CharacterSenses;
 	skills: NonPlayerCharacterSkill[];
 	variants?: string[];
@@ -161,7 +164,7 @@ export interface CharacterSpell {
 	effects: CharacterAttackEffect[];
 }
 
-export interface NonPlayerCharacterFeature {
+export interface NonPlayerCharacterTrait {
 	title: string;
 	description: string;
 }

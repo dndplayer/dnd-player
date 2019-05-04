@@ -8,7 +8,7 @@ import { Upload } from '../../../../models/Upload';
 import CharacterImage from '../CharacterImage';
 import AbilityScoreContainer from './AbilityScoreContainer';
 import Skills from './Skills';
-import Features from './Features';
+import Traits from './Traits';
 import Actions from './Actions';
 import Senses from './Senses';
 import { Icon } from '@mdi/react';
@@ -95,9 +95,31 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 					<span>{character.cr}</span>
 				</div>
 				<hr className={css.divider} />
-				<Features {...this.props} />
-				<div className={css.subheading}>Actions</div>
-				<Actions {...this.props} />
+				<Traits {...this.props} />
+				{character.actions && character.actions.length && (
+					<div>
+						<div className={css.subheading}>Actions</div>
+						<Actions actionProperty="actions" {...this.props} />
+					</div>
+				)}
+				{character.reactions && character.reactions.length && (
+					<div>
+						<div className={css.subheading}>Reactions</div>
+						<Actions actionProperty="reactions" {...this.props} />
+					</div>
+				)}
+				{character.legendaryActions && character.legendaryActions.length && (
+					<div>
+						<div className={css.subheading}>Legendary Actions</div>
+						<div style={{ marginBottom: '8px' }}>{`The ${
+							character.name
+						} can take ${character.legendaryActionCount ||
+							1} legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature's turn. The ${
+							character.name
+						} regains spent legendary actions at the start of its turn.`}</div>
+						<Actions actionProperty="legendaryActions" {...this.props} />
+					</div>
+				)}
 			</div>
 		);
 	}

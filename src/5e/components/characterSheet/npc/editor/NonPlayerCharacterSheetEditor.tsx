@@ -7,15 +7,15 @@ import { Character, NonPlayerCharacter, CharacterSize } from '../../../../models
 import { Upload } from '../../../../../models/Upload';
 import CharacterImage from '../../CharacterImage';
 import SkillsEditor from './SkillsEditor';
-import Features from '../Features';
 import Actions from '../Actions';
-import Senses from '../Senses';
 import { Icon } from '@mdi/react';
 import { mdiCancel, mdiContentSave } from '@mdi/js';
 import AbilityScoreEditorContainer from './AbilityScoreEditorContainer';
 import SpeedsEditor from './SpeedsEditor';
 import SensesEditor from './SensesEditor';
 import SavesEditor from './SavesEditor';
+import TraitsEditor from './TraitsEditor';
+import ActionsEditor from './ActionsEditor';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -161,12 +161,39 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 					</div>
 					<div>
 						<span className={css.boldHeading}>Challenge</span>
-						<span>{newCharacter.cr}</span>
+						<input
+							value={newCharacter.cr}
+							placeholder="1/2"
+							onChange={e => this.update('cr', e.target.value)}
+						/>
 					</div>
 					<hr className={css.divider} />
-					<Features {...this.props} />
+					<TraitsEditor updateCharacterProperty={update} character={newCharacter} />
 					<div className={css.subheading}>Actions</div>
-					<Actions {...this.props} />
+					<ActionsEditor
+						updateCharacterProperty={update}
+						character={newCharacter}
+						actionProperty="actions"
+					/>
+					<div className={css.subheading}>Reactions</div>
+					<ActionsEditor
+						updateCharacterProperty={update}
+						character={newCharacter}
+						actionProperty="reactions"
+					/>
+					<div className={css.subheading}>Legendary Actions</div>
+					<label>Number of legendary actions:</label>
+					<input
+						value={newCharacter.legendaryActionCount}
+						type="number"
+						min={1}
+						onChange={e => this.update('legendaryActionCount', e.target.value)}
+					/>
+					<ActionsEditor
+						updateCharacterProperty={update}
+						character={newCharacter}
+						actionProperty="legendaryActions"
+					/>
 				</div>
 			</div>
 		);
