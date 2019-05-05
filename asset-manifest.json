@@ -1,15 +1,15 @@
 {
-  "main.css": "/static/css/main.a5bc5b8d.chunk.css",
-  "main.js": "/static/js/main.5c2e1e4f.chunk.js",
-  "main.js.map": "/static/js/main.5c2e1e4f.chunk.js.map",
+  "main.css": "/static/css/main.82415bfb.chunk.css",
+  "main.js": "/static/js/main.db345f3f.chunk.js",
+  "main.js.map": "/static/js/main.db345f3f.chunk.js.map",
   "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
   "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-  "static/js/2.e57ca73d.chunk.js": "/static/js/2.e57ca73d.chunk.js",
-  "static/js/2.e57ca73d.chunk.js.map": "/static/js/2.e57ca73d.chunk.js.map",
+  "static/js/2.06175f67.chunk.js": "/static/js/2.06175f67.chunk.js",
+  "static/js/2.06175f67.chunk.js.map": "/static/js/2.06175f67.chunk.js.map",
   "index.html": "/index.html",
-  "precache-manifest.842e91c5d915a312bd051a747f316963.js": "/precache-manifest.842e91c5d915a312bd051a747f316963.js",
+  "precache-manifest.7e0be306d1228673b3e0c7b06bb0c974.js": "/precache-manifest.7e0be306d1228673b3e0c7b06bb0c974.js",
   "service-worker.js": "/service-worker.js",
-  "static/css/main.a5bc5b8d.chunk.css.map": "/static/css/main.a5bc5b8d.chunk.css.map",
+  "static/css/main.82415bfb.chunk.css.map": "/static/css/main.82415bfb.chunk.css.map",
   "static/media/PlayerCharacterSheet.css": "/static/media/ac.b36135ab.svg",
   "static/media/Roll.css": "/static/media/disadvantage.301ac636.svg"
 }
