@@ -14,7 +14,7 @@
 .messages {
 	overflow-y: scroll;
 	overflow-x: hidden;
-	height: 70vh;
+	height: 20vh;
 }
 
 .rollButton {

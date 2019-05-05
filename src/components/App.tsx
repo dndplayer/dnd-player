@@ -16,6 +16,9 @@ import store, { history } from '../redux/store';
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import PropertiesPanelContainer from './propertiesPanel/PropertiesPanelContainer';
+import ChatContainer from './chat/ChatContainer';
+// import OverlayTab from './sidebar/panels/overlays/OverlayTab';
+// import UploadOverlayContainer from './sidebar/panels/overlays/UploadOverlayContainer';
 
 interface State {
 	projectName: string;
@@ -54,13 +57,32 @@ export class App extends Component<{}, State> {
 										path="/"
 										render={(): ReactElement => (
 											<div>
+												{/* <OverlayTab name="Uploads">
+													<UploadOverlayContainer />
+												</OverlayTab> */}
+												<div className={styles.overlayWrapper}>
+													<div
+														style={{
+															zIndex: 9999,
+															position: 'absolute',
+															bottom: 0,
+															left: 0,
+															backgroundColor:
+																'rgba(255,255,255, 0.4)',
+															padding: '10px',
+															width: '30vw'
+														}}
+													>
+														<ChatContainer />
+													</div>
+												</div>
 												<div className={styles.mapWrapper}>
 													<PropertiesPanelContainer />
 													<MapContainer />
 												</div>
-												<div className={styles.chatWrapper}>
+												{/* <div className={styles.chatWrapper}>
 													<Sidebar />
-												</div>
+												</div> */}
 											</div>
 										)}
 									/>

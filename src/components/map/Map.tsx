@@ -1,5 +1,5 @@
 import React, { Component, ReactNode, ReactElement } from 'react';
-import { Stage, Sprite, Container, PixiComponent } from '@inlet/react-pixi';
+import { Stage, Sprite, Container, PixiComponent, AppConsumer } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 import Viewport from 'pixi-viewport';
 
@@ -16,16 +16,20 @@ import { withStyles, WithStyles, LinearProgress } from '@material-ui/core';
 import Scenery from './objects/Scenery';
 import { groupObjectsByLayer } from './MapUtils';
 
-const ViewportComponent = PixiComponent('Viewport', {
+interface ViewportComponentProps {
+	app?: PIXI.Application;
+}
+const ViewportComponent = PixiComponent<ViewportComponentProps, Viewport>('Viewport', {
 	create: props => {
 		const v = new Viewport({
-			screenWidth: window.innerWidth * 0.75,
+			screenWidth: window.innerWidth,
 			screenHeight: window.innerHeight,
 			worldWidth: 1000,
-			worldHeight: 1000
-
-			// !TODO: This line is important and needed BUT we don't have app here!
-			//interaction: app.renderer.plugins.interaction
+			worldHeight: 1000,
+			divWheel: props.app
+				? props.app.renderer.plugins.interaction.interactionDOMElement
+				: null,
+			interaction: props.app ? props.app.renderer.plugins.interaction : null
 		});
 
 		v.drag({
@@ -36,6 +40,10 @@ const ViewportComponent = PixiComponent('Viewport', {
 			.decelerate();
 
 		return v;
+	},
+	applyProps: (instance, oldProps, newProps) => {
+		if (oldProps.app !== newProps.app) {
+		}
 	}
 });
 
@@ -93,17 +101,21 @@ type Props = CollectProps & OwnProps;
 interface State {
 	loadingAssets: boolean;
 	loadProgress: number;
+	app?: PIXI.Application;
 }
 class Map extends Component<Props, State> {
 	state = {
 		loadingAssets: true,
-		loadProgress: 0
+		loadProgress: 0,
+		app: null
 	};
 
 	private app: any;
 	private root: PIXI.Container;
 
 	private _viewport: Viewport;
+	private _stage: any;
+	private _mainWrapper: HTMLElement;
 
 	private loader: PIXI.loaders.Loader = PIXI.loader;
 
@@ -152,6 +164,7 @@ class Map extends Component<Props, State> {
 	}
 
 	onMapMount = (app: PIXI.Application) => {
+		this.setState({ app: app });
 		app.stage.hitArea = new PIXI.Rectangle(
 			0,
 			0,
@@ -202,176 +215,107 @@ class Map extends Component<Props, State> {
 
 		// TODO: Order this (maybe make it an array not an object) so layer zIndex is obeyed.
 		const groupedObjects = groupObjectsByLayer(this.props.mapData);
-		// const layerSortFunc = (a, b) =>
-		// 	groupedObjects[a].zIndex < groupedObjects[b].zIndex
-		// 		? -1
-		// 		: groupedObjects[a].zIndex > groupedObjects[b].zIndex
-		// 			? 1
-		// 		: 0;
+		const layerSortFunc = (a, b) =>
+			groupedObjects[a].zIndex < groupedObjects[b].zIndex
+				? -1
+				: groupedObjects[a].zIndex > groupedObjects[b].zIndex
+				? 1
+				: 0;
 
 		return connectDropTarget(
-			<div>
+			<div ref={c => (this._mainWrapper = c)}>
 				{overlay}
 				<Stage
+					ref={c => (this._stage = c as any)}
 					onMount={this.onMapMount}
-					width={window.innerWidth * 0.75}
+					width={window.innerWidth}
 					height={window.innerHeight}
 					options={{
 						antialias: true
 						// backgroundColor: 0xffffff
 					}}
 				>
-					<ViewportComponent ref={c => (this._viewport = c as any)}>
-						{Object.keys(groupedObjects)
-							// .sort(layerSortFunc)
-							.map((layerName: string) => {
-								const l = groupedObjects[layerName];
-								return (
-									<Container key={layerName} name={`layer-${layerName}`}>
-										{l.map(o => {
-											const isPc = !!o.pcId;
-											const isNpc = !!o.npcId;
-											const pcAsset = o.pcId
-												? playerCharacters.find(x => x.id === o.pcId)
-												: null;
-											const npcAsset = o.npcId
-												? nonPlayerCharacters.find(x => x.id === o.npcId)
-												: null;
-											const imageUrl =
-												pcAsset && pcAsset.imageRef
-													? pcAsset.imageRef
-													: npcAsset && npcAsset.imageRef
-													? npcAsset.imageRef
-													: o.imageRef || '__missing__';
-											const res =
-												PIXI.loader.resources[imageUrl] &&
-												PIXI.loader.resources[imageUrl].texture;
-											const isSelected = !!selectedObjects.find(
-												x => x === o.id
-											);
-											const isToken = isPc || isNpc;
-											return !isToken ? (
-												<Scenery
-													key={o.id}
-													position={o.position}
-													scale={o.scale}
-													rotation={o.rotation}
-													pivot={o.pivot}
-													anchor={o.anchor}
-													resource={res}
-													onUpdateObject={this.props.onUpdateObject}
-													isSelected={isSelected}
-													isSelectable={true}
-													onSelected={this.props.onSelectObject}
-													mapObjectId={o.id}
-													layerName="background"
-												/>
-											) : (
-												<Token
-													key={o.id}
-													resource={res}
-													hp={o.hp || { value: 30, max: 60 }}
-													position={o.position}
-													scale={o.scale}
-													rotation={o.rotation}
-													pivot={o.pivot}
-													anchor={o.anchor}
-													onUpdateObject={this.props.onUpdateObject}
-													isSelected={isSelected}
-													isSelectable={true}
-													onSelected={this.props.onSelectObject}
-													mapObjectId={o.id}
-													layerName="tokens"
-												/>
-											);
-										})}
-									</Container>
-								);
-							})}
-						{/* <Container name="layer-background">
-							{Object.keys(background.mapObjects).map(
-								(mapObjId): ReactElement => {
-									const o = background.mapObjects[mapObjId];
-									const pcAsset = o.pcId
-										? playerCharacters.find(x => x.id === o.pcId)
-										: null;
-									const npcAsset = o.npcId
-										? nonPlayerCharacters.find(x => x.id === o.npcId)
-										: null;
-									const imageUrl =
-										pcAsset && pcAsset.imageRef
-											? pcAsset.imageRef
-											: npcAsset && npcAsset.imageRef
-											? npcAsset.imageRef
-											: o.imageRef || '__missing__';
-									const res = PIXI.loader.resources[imageUrl].texture;
-									const isSelected = !!selectedObjects.find(x => x === mapObjId);
-									return (
-										<Scenery
-											key={mapObjId}
-											position={o.position}
-											scale={o.scale}
-											rotation={o.rotation}
-											pivot={o.pivot}
-											anchor={o.anchor}
-											resource={res}
-											onUpdateObject={this.props.onUpdateObject}
-											isSelected={isSelected}
-											isSelectable={true}
-											onSelected={this.props.onSelectObject}
-											mapObjectId={mapObjId}
-											layerName="background"
-										/>
-									);
-								}
-							)}
-						</Container>
-						<Container name="layer-tokens">
-							{tokens &&
-								tokens.mapObjects &&
-								Object.keys(tokens.mapObjects).map(
-									(mapObjId): ReactElement => {
-										const o = tokens.mapObjects[mapObjId];
-										const isPc = !!o.pcId;
-										const isNpc = !!o.npcId;
-										const pcAsset = isPc
-											? playerCharacters.find(x => x.id === o.pcId)
-											: null;
-										const npcAsset = isNpc
-											? nonPlayerCharacters.find(x => x.id === o.npcId)
-											: null;
-										const imageUrl =
-											pcAsset && pcAsset.imageRef
-												? pcAsset.imageRef
-												: npcAsset && npcAsset.imageRef
-												? npcAsset.imageRef
-												: o.imageRef || '__missing__';
-										const res = PIXI.loader.resources[imageUrl].texture;
-										const isSelected = !!selectedObjects.find(
-											x => x === mapObjId
-										);
+					<AppConsumer>
+						{app => (
+							<ViewportComponent ref={c => (this._viewport = c as any)} app={app}>
+								{Object.keys(groupedObjects)
+									.sort(layerSortFunc)
+									.reverse()
+									.map((layerName: string) => {
+										const l = groupedObjects[layerName];
 										return (
-											<Token
-												key={mapObjId}
-												resource={res}
-												hp={o.hp || { value: 30, max: 60 }}
-												position={o.position}
-												scale={o.scale}
-												rotation={o.rotation}
-												pivot={o.pivot}
-												anchor={o.anchor}
-												onUpdateObject={this.props.onUpdateObject}
-												isSelected={isSelected}
-												isSelectable={true}
-												onSelected={this.props.onSelectObject}
-												mapObjectId={mapObjId}
-												layerName="tokens"
-											/>
+											<Container key={layerName} name={`layer-${layerName}`}>
+												{l.map(o => {
+													const isPc = !!o.pcId;
+													const isNpc = !!o.npcId;
+													const pcAsset = o.pcId
+														? playerCharacters.find(
+																x => x.id === o.pcId
+														  )
+														: null;
+													const npcAsset = o.npcId
+														? nonPlayerCharacters.find(
+																x => x.id === o.npcId
+														  )
+														: null;
+													const imageUrl =
+														pcAsset && pcAsset.imageRef
+															? pcAsset.imageRef
+															: npcAsset && npcAsset.imageRef
+															? npcAsset.imageRef
+															: o.imageRef || '__missing__';
+													const res =
+														PIXI.loader.resources[imageUrl] &&
+														PIXI.loader.resources[imageUrl].texture;
+													const isSelected = !!selectedObjects.find(
+														x => x === o.id
+													);
+													const isToken = isPc || isNpc;
+													return !isToken ? (
+														<Scenery
+															key={o.id}
+															position={o.position}
+															scale={o.scale}
+															rotation={o.rotation}
+															pivot={o.pivot}
+															anchor={o.anchor}
+															resource={res}
+															onUpdateObject={
+																this.props.onUpdateObject
+															}
+															isSelected={isSelected}
+															isSelectable={true}
+															onSelected={this.props.onSelectObject}
+															mapObjectId={o.id}
+															layerName="background"
+														/>
+													) : (
+														<Token
+															key={o.id}
+															resource={res}
+															hp={o.hp || { value: 30, max: 60 }}
+															position={o.position}
+															scale={o.scale}
+															rotation={o.rotation}
+															pivot={o.pivot}
+															anchor={o.anchor}
+															onUpdateObject={
+																this.props.onUpdateObject
+															}
+															isSelected={isSelected}
+															isSelectable={true}
+															onSelected={this.props.onSelectObject}
+															mapObjectId={o.id}
+															layerName="tokens"
+														/>
+													);
+												})}
+											</Container>
 										);
-									}
-								)}
-						</Container> */}
-					</ViewportComponent>
+									})}
+							</ViewportComponent>
+						)}
+					</AppConsumer>
 				</Stage>
 			</div>
 		);

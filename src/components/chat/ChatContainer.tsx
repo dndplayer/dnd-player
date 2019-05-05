@@ -63,13 +63,13 @@ class ChatContainer extends Component<Props> {
 		return (
 			<div>
 				{!this.state.showWindowPortal ? (
-					<div>
+					<div style={{ paddingTop: 24 }}>
 						{chat}
 						<Icon
 							style={{
 								position: 'absolute',
-								top: 60,
-								right: 5,
+								top: 16,
+								right: 16,
 								cursor: 'pointer',
 								fontSize: 18
 							}}

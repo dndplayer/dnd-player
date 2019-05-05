@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactNode, ReactElement, SyntheticEvent } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
@@ -60,7 +60,6 @@ export default class Chat extends React.Component<Props, State> {
 						<div style={{ paddingBottom: '15px' }}>
 							<Authentication />
 						</div>
-						<h1 className={styles.chatHeader}>Chat</h1>
 						<div className={styles.messageWrapper}>
 							<div className={styles.messages} ref={cmpt => (this.scrollDiv = cmpt)}>
 								{messages.map(

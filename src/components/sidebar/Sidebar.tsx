@@ -11,7 +11,7 @@ import UploadListContainer from './panels/uploadList/UploadListContainer';
 
 export default class Sidebar extends Component {
 	state = {
-		value: 0
+		value: 'upload'
 	};
 
 	handleChange = (event, value): void => {
@@ -24,26 +24,26 @@ export default class Sidebar extends Component {
 			<div>
 				<AppBar position="static">
 					<Tabs variant="scrollable" value={value} onChange={this.handleChange}>
-						<Tab label="Chat" />
-						<Tab label="Upload" />
-						<Tab label="Assets" />
-						<Tab label="Settings" />
+						{/* <Tab value='chat' label="Chat" /> */}
+						<Tab value="upload" label="Upload" />
+						<Tab value="assets" label="Assets" />
+						<Tab value="settings" label="Settings" />
 					</Tabs>
 				</AppBar>
-				{value === 0 && <ChatContainer />}
-				{value === 1 && (
+				{/* {value === 'chat' && <ChatContainer />} */}
+				{value === 'upload' && (
 					<div>
 						<ImageUploaderContainer />
 						<UploadListContainer />
 					</div>
 				)}
-				{value === 2 && (
+				{value === 'assets' && (
 					<div>
 						<CreateAssetContainer />
 						<AssetListContainer />
 					</div>
 				)}
-				{value === 3 && <SettingsContainer />}
+				{value === 'settings' && <SettingsContainer />}
 			</div>
 		);
 	}
