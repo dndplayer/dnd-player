@@ -82,7 +82,7 @@ function* updateNonPlayerCharacterSaga(action: AnyAction): any {
 		creator: currentUser.uid
 	};
 
-	yield call(rsf.database.update, '/nonPlayerCharacters/' + action.character.id, payload);
+	yield call(rsf.database.update, '/nonPlayerCharacters/' + action.characterId, payload);
 }
 
 function* syncNonPlayerCharactersSaga(): any {

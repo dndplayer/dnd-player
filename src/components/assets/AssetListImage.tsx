@@ -52,7 +52,7 @@ class AssetListImage extends Component<Props> {
 			<img
 				style={s}
 				className={css.image}
-				src={image ? image.downloadUrl : asset.imageUrl || ''}
+				src={image ? image.downloadUrl : asset.imageUrl || asset.imageRef}
 				alt={asset.name || 'unknown'}
 			/>
 		);

@@ -47,7 +47,11 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 				<div className={`column ${css.characterSheet} 'popout'}`}>
 					<div className={css.characterImageContainer}>
 						<CharacterImage
-							imageUrl={this.props.image ? this.props.image.downloadUrl : null}
+							imageUrl={
+								this.props.image
+									? this.props.image.downloadUrl
+									: newCharacter.imageRef
+							}
 							character={newCharacter}
 							updateCharacter={this.props.updateNonPlayerCharacter}
 						/>

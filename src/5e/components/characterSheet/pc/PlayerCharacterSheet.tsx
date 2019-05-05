@@ -78,7 +78,9 @@ export default class PlayerCharacterSheet extends React.Component<Props, State> 
 					<div className="character-name">{character.name}</div>
 					<div className="character-image">
 						<CharacterImage
-							imageUrl={this.props.image ? this.props.image.downloadUrl : null}
+							imageUrl={
+								this.props.image ? this.props.image.downloadUrl : character.imageRef
+							}
 							character={character}
 							updateCharacter={this.props.updatePlayerCharacter}
 						/>
