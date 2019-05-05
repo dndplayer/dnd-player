@@ -243,7 +243,9 @@ class Map extends Component<Props, State> {
 													: npcAsset && npcAsset.imageRef
 													? npcAsset.imageRef
 													: o.imageRef || '__missing__';
-											const res = PIXI.loader.resources[imageUrl].texture;
+											const res =
+												PIXI.loader.resources[imageUrl] &&
+												PIXI.loader.resources[imageUrl].texture;
 											const isSelected = !!selectedObjects.find(
 												x => x === o.id
 											);
