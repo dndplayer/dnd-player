@@ -16,7 +16,8 @@ import Rules, {
 	ToHitAttackEffect,
 	DamageAttackEffect,
 	SavingThrowAttackEffect,
-	TextAttackEffect
+	TextAttackEffect,
+	Attack
 } from './5eRules';
 
 import { DiceRoll } from 'rpg-dice-roller';
@@ -24,7 +25,7 @@ import { DiceRoll } from 'rpg-dice-roller';
 export default class CharacterActionHelper {
 	public static doAction(
 		character: Character,
-		action: CharacterAttack,
+		action: CharacterAttack & Attack,
 		advantage: number,
 		sendMessage: (string, any) => void
 	): void {
@@ -32,7 +33,7 @@ export default class CharacterActionHelper {
 
 		const data: CharacterActionData = {
 			type: 'action',
-			title: action.title,
+			title: action.title || action.name,
 			characterName: character.name,
 			results: []
 		};
