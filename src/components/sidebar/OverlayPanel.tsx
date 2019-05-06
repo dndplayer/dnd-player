@@ -21,7 +21,8 @@ export default class OverlayPanel extends Component {
 					bottom: 0,
 					left: 0,
 					right: 0,
-					padding: '5px'
+					padding: '5px',
+					overflowY: 'scroll'
 				}}
 			>
 				<CSSTransition
