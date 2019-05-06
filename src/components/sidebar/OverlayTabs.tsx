@@ -29,7 +29,7 @@ export default class OverlayTabs extends Component<Props> {
 		return (
 			<div
 				style={{
-					zIndex: 9999,
+					zIndex: 99,
 					position: 'absolute' as 'absolute',
 					top: 0,
 					bottom: 0,
