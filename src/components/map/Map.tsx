@@ -18,6 +18,7 @@ import { groupObjectsByLayer } from './MapUtils';
 
 interface ViewportComponentProps {
 	app?: PIXI.Application;
+	name?: string;
 }
 const ViewportComponent = PixiComponent<ViewportComponentProps, Viewport>('Viewport', {
 	create: props => {
@@ -31,6 +32,8 @@ const ViewportComponent = PixiComponent<ViewportComponentProps, Viewport>('Viewp
 				: null,
 			interaction: props.app ? props.app.renderer.plugins.interaction : null
 		});
+
+		v.name = props.name || 'viewport';
 
 		v.drag({
 			mouseButtons: 'right'
@@ -163,7 +166,7 @@ class Map extends Component<Props, State> {
 		}
 	}
 
-	onMapMount = (app: PIXI.Application) => {
+	onMapMount = (app: PIXI.Application): void => {
 		this.setState({ app: app });
 		app.stage.hitArea = new PIXI.Rectangle(
 			0,
@@ -175,12 +178,18 @@ class Map extends Component<Props, State> {
 		// Any free space click should de-select the currently selected object.
 		// for this to work any objects on the stage the implement .on('mouseup')
 		// need to ensure they call e.stopPropagation(); or the event will also get here!
-		app.stage.on('mousedown', e => {
-			// console.log(e);
-			if (this.props.onSelectObject) {
-				this.props.onSelectObject({ mapObjectId: null });
+		app.stage.on(
+			'mousedown',
+			(e): void => {
+				// console.log(e);
+				if (e.target.name !== this._viewport.name) {
+					return;
+				}
+				if (this.props.onSelectObject) {
+					this.props.onSelectObject({ mapObjectId: null });
+				}
 			}
-		});
+		);
 	};
 
 	render(): ReactNode {
@@ -237,7 +246,11 @@ class Map extends Component<Props, State> {
 				>
 					<AppConsumer>
 						{app => (
-							<ViewportComponent ref={c => (this._viewport = c as any)} app={app}>
+							<ViewportComponent
+								name="viewport"
+								ref={c => (this._viewport = c as any)}
+								app={app}
+							>
 								{Object.keys(groupedObjects)
 									.sort(layerSortFunc)
 									.reverse()

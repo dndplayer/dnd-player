@@ -14,6 +14,7 @@ export default class DraggableContainer extends MapObject {
 	public dragging: boolean; // Is this token currently being dragged
 	public dragData?: any; // Keep track of dragging event data during drag
 	public dragLocked: boolean; // Lock the token so it can't be dragged
+	public clickedAvailable: boolean; // When a drag starts this is true until it can no longer be considered a click I.E. Movement has occurred.
 
 	public hoverFilters: any[] = [new OutlineFilter(4, 0xff0000)]; // Filters to be applied when hovering over this token
 	public dragFilters: any[] = []; // Filters to be applied when dragging this token
@@ -34,6 +35,7 @@ export default class DraggableContainer extends MapObject {
 		this.dragging = true;
 		this.dragData = e.data;
 		this.dragGrabOffset = e.data.getLocalPosition(e.currentTarget);
+		this.clickedAvailable = true;
 
 		this.dragStartPosition = new PIXI.Point(e.data.global.x, e.data.global.y);
 
@@ -62,24 +64,11 @@ export default class DraggableContainer extends MapObject {
 			lastPos.y -= this.dragGrabOffset.y;
 		}
 
-		let isClick = false;
-
-		if (this.dragStartPosition && this.isSelectable) {
-			const globalLastPos = this.dragData.global;
-			const dX = globalLastPos.x - this.dragStartPosition.x;
-			const dY = globalLastPos.y - this.dragStartPosition.y;
-
-			// TODO: Only process selection if this.isSelectable = true
-			if (dX < DraggableContainer.clickThreshold && dY < DraggableContainer.clickThreshold) {
-				isClick = true;
-				if (this.onSelected) {
-					if (this.isSelected) {
-						// TODO: if this is already selected, do we want second click to de-select?
-						this.onSelected({ mapObjectId: null }); // De-select // TODO: This doesn't seem to work
-					} else {
-						this.onSelected({ mapObjectId: this.mapObjectId }); // TODO: Include extra click data
-					}
-				}
+		if (this.isSelectable && this.clickedAvailable && this.onSelected) {
+			if (this.isSelected) {
+				// this.onSelected({ mapObjectId: null }); // De-select
+			} else {
+				this.onSelected({ mapObjectId: this.mapObjectId });
 			}
 		}
 
@@ -87,14 +76,11 @@ export default class DraggableContainer extends MapObject {
 		this.dragData = null;
 		this.dragGrabOffset = null;
 		this.dragStartPosition = null;
+		this.clickedAvailable = false;
 
 		// Remove the drag filters
 		if (this.filters) {
 			this.filters = this.filters.filter(x => !(this.dragFilters.indexOf(x) >= 0));
-		}
-
-		if (isClick) {
-			return;
 		}
 
 		if (this.onUpdateObject) {
@@ -112,6 +98,15 @@ export default class DraggableContainer extends MapObject {
 			const newPos = this.dragData.getLocalPosition(e.currentTarget.parent);
 			this.x = newPos.x - (this.dragGrabOffset ? this.dragGrabOffset.x : 0);
 			this.y = newPos.y - (this.dragGrabOffset ? this.dragGrabOffset.y : 0);
+
+			// TODO: Add back in a check so clicked is only unavailable beyond a threshold of movement
+			//       to allow for shaky hands etc.
+			// Prev use above:
+			// const globalLastPos = this.dragData.global;
+			// 	const dX = globalLastPos.x - this.dragStartPosition.x;
+			// 	const dY = globalLastPos.y - this.dragStartPosition.y;
+			// 	if (dX < DraggableContainer.clickThreshold && dY < DraggableContainer.clickThreshold)
+			this.clickedAvailable = false;
 		}
 	};
 
