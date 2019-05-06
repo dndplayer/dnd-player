@@ -43,9 +43,13 @@ export default class OverlayTabs extends Component<Props> {
 			>
 				<div
 					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'center'
+						// display: 'flex',
+						// flexDirection: 'column',
+						// justifyContent: 'center',
+						width: '40px',
+						position: 'absolute' as 'absolute',
+						top: '50%',
+						left: '-40px'
 					}}
 				>
 					<OverlayTab
