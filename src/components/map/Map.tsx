@@ -188,6 +188,8 @@ class Map extends Component<Props, State> {
 				if (this.props.onSelectObject) {
 					this.props.onSelectObject({ mapObjectId: null });
 				}
+
+				// TODO: Possibly also trigger a close of the sidebar if it's open
 			}
 		);
 	};
