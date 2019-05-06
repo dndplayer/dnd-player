@@ -17,8 +17,7 @@ import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import PropertiesPanelContainer from './propertiesPanel/PropertiesPanelContainer';
 import ChatContainer from './chat/ChatContainer';
-// import OverlayTab from './sidebar/panels/overlays/OverlayTab';
-// import UploadOverlayContainer from './sidebar/panels/overlays/UploadOverlayContainer';
+import OverlayTabsContainer from './sidebar/OverlayTabsContainer';
 
 interface State {
 	projectName: string;
@@ -57,9 +56,7 @@ export class App extends Component<{}, State> {
 										path="/"
 										render={(): ReactElement => (
 											<div>
-												{/* <OverlayTab name="Uploads">
-													<UploadOverlayContainer />
-												</OverlayTab> */}
+												<OverlayTabsContainer />
 												<div className={styles.overlayWrapper}>
 													<div
 														style={{
@@ -80,9 +77,9 @@ export class App extends Component<{}, State> {
 													<PropertiesPanelContainer />
 													<MapContainer />
 												</div>
-												<div className={styles.chatWrapper}>
+												{/* <div className={styles.chatWrapper}>
 													<Sidebar />
-												</div>
+												</div> */}
 											</div>
 										)}
 									/>
