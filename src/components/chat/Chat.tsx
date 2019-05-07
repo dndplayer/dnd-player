@@ -20,16 +20,17 @@ interface Props {
 	login: (username: string, password: string) => void;
 	loggedIn: boolean;
 	user: firebase.User;
-	testButton: () => void;
 }
 interface State {
 	msg: string;
 	messages: ChatMessage[];
+	messagesOpen: boolean;
 }
 export default class Chat extends React.Component<Props, State> {
 	state = {
 		msg: '',
-		messages: []
+		messages: [],
+		messagesOpen: true
 	};
 
 	private scrollDiv: HTMLElement;
@@ -50,51 +51,58 @@ export default class Chat extends React.Component<Props, State> {
 
 	render(): ReactNode {
 		const { messages } = this.props;
+		const { messagesOpen } = this.state;
 
 		return (
-			<div style={{ padding: '0 10px 10px 10px' }}>
-				{!this.props.loggedIn ? (
-					<Authentication />
-				) : (
-					<div>
-						<div style={{ paddingBottom: '15px' }}>
-							<Authentication />
-						</div>
-						<div className={styles.messageWrapper}>
-							<div className={styles.messages} ref={cmpt => (this.scrollDiv = cmpt)}>
-								{messages.map(
-									(x, idx): ReactElement => {
-										switch (x.data && x.data.type) {
-											case 'roll':
-												return <RollMessageItem message={x} key={idx} />;
-											case 'action':
-												return <CharacterAction message={x} key={idx} />;
-											default:
-												return (
-													<ChatMessageItem
-														message={x}
-														key={idx}
-														isOwner={x.sender === this.props.user.email}
-													/>
-												);
-										}
+			<div
+				style={{
+					position: 'relative',
+					height: '100%',
+					marginTop: '24px'
+				}}
+			>
+				<div
+					style={{
+						height: '100%',
+						display: 'flex',
+						flexDirection: 'column'
+					}}
+				>
+					{messagesOpen && (
+						<div className={styles.messages} ref={cmpt => (this.scrollDiv = cmpt)}>
+							{messages.map(
+								(x, idx): ReactElement => {
+									switch (x.data && x.data.type) {
+										case 'roll':
+											return <RollMessageItem message={x} key={idx} />;
+										case 'action':
+											return <CharacterAction message={x} key={idx} />;
+										default:
+											return (
+												<ChatMessageItem
+													message={x}
+													key={idx}
+													isOwner={x.sender === this.props.user.email}
+												/>
+											);
 									}
-								)}
-							</div>
-							<div className={styles.chatInputWrapper}>
-								<TextField
-									placeholder="msg or d20+4 etc"
-									onChange={e => this.handleMsgChange(e)}
-									onKeyDown={e => this.handleKeyDown(e)}
-									value={this.state.msg}
-									variant="filled"
-									margin="normal"
-								/>
-								{/* <Button onClick={() => this.props.testButton()}>TEST</Button> */}
-							</div>
+								}
+							)}
 						</div>
+					)}
+					{/* MarginBottom needed below to account for the popout button margin above */}
+					<div style={{ marginBottom: '24px' }}>
+						<TextField
+							fullWidth
+							placeholder="msg or d20+4 etc"
+							onChange={e => this.handleMsgChange(e)}
+							onKeyDown={e => this.handleKeyDown(e)}
+							value={this.state.msg}
+							variant="filled"
+							margin="dense"
+						/>
 					</div>
-				)}
+				</div>
 			</div>
 		);
 	}

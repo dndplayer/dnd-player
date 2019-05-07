@@ -48,22 +48,6 @@ export default class MapObject extends PIXI.Container {
 			);
 		}
 
-		if (newProps.rotation !== oldProps.rotation) {
-			const list = new Ease.list();
-			list.add(
-				new Ease.to(
-					instance,
-					{
-						rotation: newProps.rotation || 0.0
-					},
-					300,
-					{
-						ease: 'easeInOutCubic'
-					}
-				)
-			);
-		}
-
 		if (newProps.pivot !== oldProps.pivot) {
 			instance.pivot.set(
 				newProps.pivot ? newProps.pivot.x : 0.5,

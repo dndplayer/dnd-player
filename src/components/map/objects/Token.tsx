@@ -83,6 +83,22 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 			}
 		}
 
+		if (newProps.rotation !== oldProps.rotation) {
+			const list = new Ease.list();
+			list.add(
+				new Ease.to(
+					s,
+					{
+						rotation: newProps.rotation || 0.0
+					},
+					300,
+					{
+						ease: 'easeInOutCubic'
+					}
+				)
+			);
+		}
+
 		if (newProps.hp !== oldProps.hp) {
 			g.hp = newProps.hp.value;
 			g.hpMax = newProps.hp.max;

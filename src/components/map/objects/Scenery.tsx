@@ -60,6 +60,22 @@ export default PixiComponent<Props, DraggableContainer>('Scenery', {
 			}
 		}
 
+		if (newProps.rotation !== oldProps.rotation) {
+			const list = new Ease.list();
+			list.add(
+				new Ease.to(
+					s,
+					{
+						rotation: newProps.rotation || 0.0
+					},
+					300,
+					{
+						ease: 'easeInOutCubic'
+					}
+				)
+			);
+		}
+
 		if (newProps.isSelected !== oldProps.isSelected) {
 			if (s) {
 				s.tint = newProps.isSelected && !oldProps.isSelected ? 0x0000ff : 0xffffff;

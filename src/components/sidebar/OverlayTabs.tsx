@@ -18,9 +18,13 @@ interface Props {
 
 export default class OverlayTabs extends Component<Props> {
 	onClickTab = (panel: OverlayPanelTypes): (() => void) => (): void => {
-		this.props.openPanel(panel);
-		if (!this.props.open) {
-			this.props.openTab();
+		if (this.props.open && this.props.currentPanel === panel) {
+			this.props.closeTabs();
+		} else {
+			this.props.openPanel(panel);
+			if (!this.props.open) {
+				this.props.openTab();
+			}
 		}
 	};
 

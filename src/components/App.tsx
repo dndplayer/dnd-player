@@ -18,6 +18,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import PropertiesPanelContainer from './propertiesPanel/PropertiesPanelContainer';
 import ChatContainer from './chat/ChatContainer';
 import OverlayTabsContainer from './sidebar/OverlayTabsContainer';
+import { Rnd } from 'react-rnd';
 
 interface State {
 	projectName: string;
@@ -63,11 +64,7 @@ export class App extends Component<{}, State> {
 															zIndex: 9999,
 															position: 'absolute',
 															bottom: 0,
-															left: 0,
-															backgroundColor:
-																'rgba(255,255,255, 0.4)',
-															padding: '10px',
-															width: '30vw'
+															left: 0
 														}}
 													>
 														<ChatContainer />

@@ -7,6 +7,7 @@ import { saveNewMessage } from '../../redux/actions/chat';
 import { login } from '../../redux/actions/auth';
 import WindowPortal from '../util/WindowPortal';
 import { Icon } from '@material-ui/core';
+import { Rnd } from 'react-rnd';
 
 const mapStateToProps = (state): any => ({
 	messages: state.chat.messages,
@@ -53,31 +54,51 @@ class ChatContainer extends Component<Props> {
 	}
 
 	render(): ReactNode {
-		const chat = (
-			<Chat
-				ref={c => (this._chat = c)}
-				{...this.props}
-				testButton={() => console.log('TEST BUTTON')}
-			/>
-		);
+		const chat = <Chat ref={c => (this._chat = c)} {...this.props} />;
 		return (
-			<div>
+			<div style={{ height: '100%' }}>
 				{!this.state.showWindowPortal ? (
-					<div style={{ paddingTop: 24 }}>
-						{chat}
-						<Icon
+					// TODO: All this view specific code e.g. RND shouldn't be in the container!
+					// Containers are for Data, so move all this into a view based component.
+					<Rnd
+						default={{
+							x: 0,
+							y: -300, // TODO: -300px if messages open and -100px if not
+							width: '400px',
+							height: '300px' // TODO: 300px if messages open and 100px if not
+							// height: 'auto'
+						}}
+						minWidth={200}
+						minHeight={100}
+						disableDragging={true}
+						style={{
+							zIndex: 9,
+							backgroundColor: 'rgba(255, 255, 255, 0.4)'
+						}}
+					>
+						<div
 							style={{
-								position: 'absolute',
-								top: 16,
-								right: 16,
-								cursor: 'pointer',
-								fontSize: 18
+								height: '100%',
+								position: 'relative'
 							}}
-							onClick={() => this.setState({ showWindowPortal: true })}
 						>
-							open_in_new
-						</Icon>
-					</div>
+							<div style={{ height: '100%' }}>
+								{chat}
+								<Icon
+									style={{
+										position: 'absolute',
+										top: -18,
+										right: 5,
+										cursor: 'pointer',
+										fontSize: 18
+									}}
+									onClick={() => this.setState({ showWindowPortal: true })}
+								>
+									open_in_new
+								</Icon>
+							</div>
+						</div>
+					</Rnd>
 				) : (
 					<WindowPortal
 						title="Chat"

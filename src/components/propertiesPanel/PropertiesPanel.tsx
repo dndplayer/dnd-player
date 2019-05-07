@@ -1,8 +1,10 @@
 import React, { Component, ReactNode } from 'react';
 import { Rnd } from 'react-rnd';
 import { Button, TextField } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import SaveIcon from '@material-ui/icons/Save';
 import { MapData, MapObject } from '../../models/Map';
+import RotationSelector from './controls/RotationSelector';
 
 const wrapperStyle = {
 	position: 'absolute' as 'absolute',
@@ -18,6 +20,7 @@ interface Props {
 	selected: string[];
 	map: MapData;
 	onUpdateObject: (data) => void;
+	close: () => void;
 }
 
 interface State {
@@ -141,23 +144,24 @@ export default class PropertiesPanel extends Component<Props, State> {
 		return (
 			<Rnd
 				default={{
-					x: 0,
-					y: 0,
+					x: 5,
+					y: 5,
 					width: 250,
-					height: 350
+					height: 400
 				}}
 				minWidth={250}
-				minHeight={350}
+				minHeight={400}
 				dragHandleClassName="dragBar"
+				bounds={'window'}
 				enableResizing={{
 					bottom: true,
 					bottomLeft: true,
 					bottomRight: true,
 					left: true,
-					right: true,
-					top: true,
-					topLeft: true,
-					topRight: true
+					right: false,
+					top: false,
+					topLeft: false,
+					topRight: false
 				}}
 			>
 				<div
@@ -180,9 +184,35 @@ export default class PropertiesPanel extends Component<Props, State> {
 							margin: '-5px -5px'
 						}}
 					>
-						<h1 style={{ fontSize: '120%', textDecoration: 'underline' }}>
+						<h1
+							style={{
+								display: 'inline-block',
+								fontSize: '120%',
+								textDecoration: 'underline'
+							}}
+						>
 							Properties
 						</h1>
+						<div
+							style={{
+								padding: 2,
+								backgroundColor: 'red',
+								textAlign: 'center',
+								// position: 'absolute' as 'absolute',
+								// top: 0,
+								// left: -42,
+								float: 'right',
+								display: 'inline-block',
+								width: 24,
+								height: 24,
+								cursor: 'pointer'
+							}}
+							onClick={() => this.props.close()}
+						>
+							<span style={{}}>
+								<CloseIcon />
+							</span>
+						</div>
 					</div>
 					<div
 						style={{
@@ -200,6 +230,15 @@ export default class PropertiesPanel extends Component<Props, State> {
 								value={rotation}
 								onChange={this.handleChange('rotation')}
 							/>
+							<RotationSelector
+								diameter={64}
+								initialRotationRad={rotation}
+								rotationChanged={(rotDeg, rotRad) => {
+									this.setState({
+										rotation: rotRad
+									});
+								}}
+							/>
 						</div>
 						<div>
 							Layer = {object.layer}
@@ -214,7 +253,7 @@ export default class PropertiesPanel extends Component<Props, State> {
 						</div>
 
 						<div>
-							Scale X
+							<span style={{ marginRight: 5 }}>Scale X</span>
 							<input
 								type="number"
 								value={scaleX}
@@ -222,7 +261,7 @@ export default class PropertiesPanel extends Component<Props, State> {
 							/>
 						</div>
 						<div>
-							Scale Y
+							<span style={{ marginRight: 5 }}>Scale Y</span>
 							<input
 								type="number"
 								value={scaleY}
