@@ -1,4 +1,7 @@
 import React, { Component, ReactNode } from 'react';
+import { Rnd } from 'react-rnd';
+import { Button, TextField } from '@material-ui/core';
+import SaveIcon from '@material-ui/icons/Save';
 import { MapData, MapObject } from '../../models/Map';
 
 const wrapperStyle = {
@@ -136,49 +139,104 @@ export default class PropertiesPanel extends Component<Props, State> {
 		}
 
 		return (
-			<div style={wrapperStyle}>
-				<div>
-					<h1>Properties</h1>
-					<h2>
-						<input type="text" value={name} onChange={this.handleChange('name')} />
-					</h2>
-					<ul>
-						<li>
-							Position = ({object.position.x}, {object.position.y})
-						</li>
-						<li>Rotation</li>
-						<input
-							type="number"
-							value={rotation}
-							onChange={this.handleChange('rotation')}
-						/>
-						<li>Layer = {object.layer}</li>
-						<select onChange={this.handleChange('layer')}>
-							<option value={null}>---</option>
-							{layers.map(x => (
-								<option key={x.id} value={x.id}>
-									{x.id} ({x.zIndex})
-								</option>
-							))}
-						</select>
+			<Rnd
+				default={{
+					x: 0,
+					y: 0,
+					width: 250,
+					height: 350
+				}}
+				minWidth={250}
+				minHeight={350}
+				dragHandleClassName="dragBar"
+				enableResizing={{
+					bottom: true,
+					bottomLeft: true,
+					bottomRight: true,
+					left: true,
+					right: true,
+					top: true,
+					topLeft: true,
+					topRight: true
+				}}
+			>
+				<div
+					style={{
+						backgroundColor: 'rgba(100, 100, 100, 0.8)',
+						border: '2px solid #444',
+						width: '100%',
+						height: '100%',
+						position: 'relative',
+						padding: '5px'
+					}}
+				>
+					<div
+						className="dragBar"
+						style={{
+							cursor: 'grab',
+							backgroundColor: '#444',
+							height: '36px',
+							width: 'calc(100% + 10px)', // This weird sizing causes the resize handles to be slightly offset
+							margin: '-5px -5px'
+						}}
+					>
+						<h1 style={{ fontSize: '120%', textDecoration: 'underline' }}>
+							Properties
+						</h1>
+					</div>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column'
+						}}
+					>
+						<div>
+							<TextField value={name} onChange={this.handleChange('name')} />
+						</div>
+						<div>
+							Position = ({object.position.x}, {object.position.y}) Rotation
+							<input
+								type="number"
+								value={rotation}
+								onChange={this.handleChange('rotation')}
+							/>
+						</div>
+						<div>
+							Layer = {object.layer}
+							<select onChange={this.handleChange('layer')}>
+								<option value={null}>---</option>
+								{layers.map(x => (
+									<option key={x.id} value={x.id}>
+										{x.id} ({x.zIndex})
+									</option>
+								))}
+							</select>
+						</div>
 
-						<li>Scale X</li>
-						<input
-							type="number"
-							value={scaleX}
-							onChange={this.handleChange('scaleX')}
-						/>
+						<div>
+							Scale X
+							<input
+								type="number"
+								value={scaleX}
+								onChange={this.handleChange('scaleX')}
+							/>
+						</div>
+						<div>
+							Scale Y
+							<input
+								type="number"
+								value={scaleY}
+								onChange={this.handleChange('scaleY')}
+							/>
+						</div>
 
-						<li>Scale Y</li>
-						<input
-							type="number"
-							value={scaleY}
-							onChange={this.handleChange('scaleY')}
-						/>
-					</ul>
-					<button onClick={this.saveChanges}>Save</button>
+						<Button fullWidth variant="contained" onClick={this.saveChanges}>
+							Save
+							<SaveIcon />
+						</Button>
+					</div>
 				</div>
-			</div>
+			</Rnd>
 		);
 	}
 }

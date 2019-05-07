@@ -77,9 +77,6 @@ export class App extends Component<{}, State> {
 													<PropertiesPanelContainer />
 													<MapContainer />
 												</div>
-												{/* <div className={styles.chatWrapper}>
-													<Sidebar />
-												</div> */}
 											</div>
 										)}
 									/>
