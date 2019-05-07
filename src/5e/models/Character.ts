@@ -25,6 +25,10 @@ export interface PlayerCharacter extends Character {
 	spells: CharacterSpell[];
 	saves: CharacterProficiencySaves;
 	skills: CharacterProficiencySkills;
+	traits: CharacterTrait[];
+	resources: CharacterResource[];
+	spellSlots: CharacterSpellSlot[];
+	money: CharacterMoney;
 }
 
 export interface NonPlayerCharacter extends Character {
@@ -97,9 +101,32 @@ export interface CharacterProficiencySkills {
 	survival?: number;
 }
 
+export interface CharacterSpellSlot {
+	level: number;
+	current: number;
+	max: number;
+}
+export interface CharacterResource {
+	name: string;
+	quantity: number;
+	max: number;
+}
+export interface CharacterTrait {
+	name: string;
+	description: string;
+}
+
 export interface CharacterLevel {
 	className: string;
 	level: number;
+}
+
+export interface CharacterMoney {
+	cp: number;
+	sp: number;
+	ep: number;
+	gp: number;
+	pp: number;
 }
 
 export interface CharacterEquipment {

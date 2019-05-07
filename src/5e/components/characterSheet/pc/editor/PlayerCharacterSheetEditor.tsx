@@ -106,15 +106,47 @@ export default class PlayerCharacterSheetEditor extends React.Component<Props, S
 						<SavesEditor character={newCharacter} updateCharacterProperty={update} />
 						<SkillsEditor character={newCharacter} updateCharacterProperty={update} />
 					</div>
+					Equipment
 					<textarea
-						rows={40}
-						value={JSON.stringify(this.state.newCharacter)}
-						onChange={e =>
-							this.setState({
-								...this.state,
-								newCharacter: JSON.parse(e.target.value)
-							})
-						}
+						rows={10}
+						value={JSON.stringify(newCharacter.equipment)}
+						onChange={e => this.update('equipment', JSON.parse(e.target.value))}
+					/>
+					Spells
+					<textarea
+						rows={10}
+						value={JSON.stringify(newCharacter.spells)}
+						onChange={e => this.update('spells', JSON.parse(e.target.value))}
+					/>
+					Spell slots
+					<textarea
+						rows={5}
+						value={JSON.stringify(newCharacter.spellSlots)}
+						onChange={e => this.update('spellSlots', JSON.parse(e.target.value))}
+					/>
+					Attacks
+					<textarea
+						rows={10}
+						value={JSON.stringify(newCharacter.attacks)}
+						onChange={e => this.update('attacks', JSON.parse(e.target.value))}
+					/>
+					Traits
+					<textarea
+						rows={5}
+						value={JSON.stringify(newCharacter.traits)}
+						onChange={e => this.update('traits', JSON.parse(e.target.value))}
+					/>
+					Resources
+					<textarea
+						rows={5}
+						value={JSON.stringify(newCharacter.resources)}
+						onChange={e => this.update('resources', JSON.parse(e.target.value))}
+					/>
+					Money
+					<textarea
+						rows={5}
+						value={JSON.stringify(newCharacter.money)}
+						onChange={e => this.update('money', JSON.parse(e.target.value))}
 					/>
 				</div>
 			</div>
