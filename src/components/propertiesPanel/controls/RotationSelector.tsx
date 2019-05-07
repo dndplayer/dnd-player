@@ -93,8 +93,13 @@ export default class RotationSelector extends Component<Props, State> {
 
 		// console.log(`centerX = ${centerX}, centerY = ${centerY}`);
 
-		const currX = e.nativeEvent.layerX;
-		const currY = e.nativeEvent.layerY;
+		if (!e.currentTarget) {
+			return;
+		}
+
+		const b = e.currentTarget.getBoundingClientRect();
+		const currX = e.clientX - b.left;
+		const currY = e.clientY - b.top;
 
 		// console.log(`currX = ${currX}, currY = ${currY}`);
 
