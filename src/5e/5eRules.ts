@@ -55,14 +55,14 @@ export default class Rules {
 	}
 
 	public static getSaveModifier(character: PlayerCharacter, ability: string): number {
-		if (!character || !character.proficiencies || !character.proficiencies.saves) {
+		if (!character || !character.saves) {
 			return null;
 		}
 		const baseModifier = this.getAbilityModifier(character, ability);
 		if (baseModifier === null) {
 			return null;
 		}
-		const proficiencyMultiplier = character.proficiencies.saves[ability] || 0;
+		const proficiencyMultiplier = character.saves[ability] || 0;
 		const proficiencyBonus = Rules.getProficiencyBonus(character);
 		return baseModifier + Math.floor(proficiencyMultiplier * proficiencyBonus);
 	}
@@ -87,7 +87,7 @@ export default class Rules {
 			return null;
 		}
 		const baseModifier = Math.floor((character[ability] - 10) / 2);
-		const proficiencyMultiplier = character.proficiencies.skills[skill] || 0;
+		const proficiencyMultiplier = (character.skills || {})[skill] || 0;
 		const proficiencyBonus = Rules.getProficiencyBonus(character);
 		return baseModifier + Math.floor(proficiencyMultiplier * proficiencyBonus);
 	}
@@ -178,6 +178,21 @@ export default class Rules {
 		burrow: 'burrow',
 		swim: 'swim',
 		climb: 'climb'
+	};
+
+	static classNameMap = {
+		barbarian: 'Barbarian',
+		bard: 'Bard',
+		cleric: 'Cleric',
+		druid: 'Druid',
+		fighter: 'Fighter',
+		monk: 'Monk',
+		paladin: 'Paladin',
+		ranger: 'Ranger',
+		rogue: 'Rogue',
+		sorcerer: 'Sorcerer',
+		warlock: 'Warlock',
+		wizard: 'Wizard'
 	};
 
 	public static getShortAbilityName(ability: string): string {

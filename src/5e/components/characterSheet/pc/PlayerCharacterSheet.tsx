@@ -16,17 +16,15 @@ import Attacks from './Attacks';
 import Equipment from './Equipment';
 import CharacterImage from './../CharacterImage';
 import { Upload } from '../../../../models/Upload';
+import Rules from '../../../5eRules';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	updatePlayerCharacter: (characterId: string, character: Character) => void;
+	editPlayerCharacter: (characterId: string) => void;
 	character: PlayerCharacter;
 	popout?: string;
 	image: Upload;
-}
-interface State {
-	editing: boolean;
-	newCharacter: string;
 }
 
 export const ProficiencyClassMap = {
@@ -36,42 +34,21 @@ export const ProficiencyClassMap = {
 	2: 'expertise'
 };
 
-export default class PlayerCharacterSheet extends React.Component<Props, State> {
+export default class PlayerCharacterSheet extends React.Component<Props, {}> {
 	constructor(props: Props) {
 		super(props);
 
 		this.state = {
-			editing: false,
 			newCharacter: JSON.stringify(this.props.character, undefined, ' ')
 		};
 	}
 
 	render(): ReactNode {
-		const { character } = this.props;
-
-		if (this.state.editing) {
-			return (
-				<div className={`column character-sheet ${this.props.popout ? 'popout' : ''}`}>
-					<div className="character-cancel" onClick={e => this.abortEditSheet()}>
-						CANCEL
-					</div>
-					<div className="character-edit" onClick={e => this.saveSheet()}>
-						SAVE
-					</div>
-					<textarea
-						rows={40}
-						value={this.state.newCharacter}
-						onChange={e =>
-							this.setState({ ...this.state, newCharacter: e.target.value })
-						}
-					/>
-				</div>
-			);
-		}
+		const { character, editPlayerCharacter } = this.props;
 
 		return (
 			<div className={`column character-sheet ${this.props.popout ? 'popout' : ''}`}>
-				<div className="character-edit" onClick={e => this.editSheet()}>
+				<div className="character-edit" onClick={() => editPlayerCharacter(character.id)}>
 					EDIT
 				</div>
 				<div className="row character-details">
@@ -86,7 +63,9 @@ export default class PlayerCharacterSheet extends React.Component<Props, State> 
 						/>
 					</div>
 					<div className="character-classes">
-						{(character.levels || []).map(x => `${x.className} ${x.level}`).join(', ')}
+						{(character.levels || [])
+							.map(x => `${Rules.classNameMap[x.className]} ${x.level}`)
+							.join(', ')}
 					</div>
 				</div>
 				<div className="row">
@@ -260,28 +239,5 @@ export default class PlayerCharacterSheet extends React.Component<Props, State> 
 				</div>
 			</div>
 		);
-	}
-
-	editSheet(): void {
-		this.setState({
-			...this.state,
-			editing: true
-		});
-	}
-
-	abortEditSheet(): void {
-		this.setState({
-			...this.state,
-			editing: false
-		});
-	}
-
-	saveSheet(): void {
-		const newCharacter = JSON.parse(this.state.newCharacter);
-		this.props.updatePlayerCharacter(newCharacter.id, newCharacter);
-		this.setState({
-			...this.state,
-			editing: false
-		});
 	}
 }

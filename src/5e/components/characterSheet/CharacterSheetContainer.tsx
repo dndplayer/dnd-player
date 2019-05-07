@@ -1,6 +1,6 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
-import PlayerCharacterSheet from './pc/PlayerCharacterSheet';
+import PlayerCharacterSheetWrapper from './pc/PlayerCharacterSheetWrapper';
 
 import { saveNewMessage } from '../../../redux/actions/chat';
 import { Character, NonPlayerCharacter, PlayerCharacter } from '../../models/Character';
@@ -21,6 +21,8 @@ const mapDispatchToProps = (dispatch): any => ({
 	sendMessage: (message, data?) => dispatch(saveNewMessage(message, data)),
 	updatePlayerCharacter: (characterId, character) =>
 		dispatch(updatePlayerCharacter(characterId, character)),
+	editPlayerCharacter: characterId => dispatch(editCharacterSheet(characterId)),
+	abortEditPlayerCharacter: characterId => dispatch(abortEditCharacterSheet(characterId)),
 	updateNonPlayerCharacter: (characterId, character) =>
 		dispatch(updateNonPlayerCharacter(characterId, character)),
 	editNonPlayerCharacter: characterId => dispatch(editCharacterSheet(characterId)),
@@ -30,6 +32,8 @@ const mapDispatchToProps = (dispatch): any => ({
 interface DispatchFromProps {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	updatePlayerCharacter: (characterId: string, character: Character) => void;
+	editPlayerCharacter: (characterId: string) => void;
+	abortEditPlayerCharacter: (characterId: string) => void;
 	updateNonPlayerCharacter: (characterId: string, character: Character) => void;
 	editNonPlayerCharacter: (characterId: string) => void;
 	abortEditNonPlayerCharacter: (characterId: string) => void;
@@ -63,11 +67,12 @@ export class CharacterSheetContainer extends Component<Props> {
 			if (pc) {
 				const image = images.find(x => x.filePath === pc.imageRef);
 				return (
-					<PlayerCharacterSheet
+					<PlayerCharacterSheetWrapper
 						key={popout}
 						character={pc}
 						popout="popout"
 						image={image}
+						editing={editingCharacterSheets.some(y => y === pc.id)}
 						{...this.props}
 					/>
 				);

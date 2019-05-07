@@ -20,11 +20,12 @@ export interface PlayerCharacter extends PlayerCharacterData, Character {
 	hp: number;
 	maxHp: number;
 	hitDice: number;
-	proficiencies: CharacterProficiencies;
 	levels: CharacterLevel[];
 	equipment: CharacterEquipment[];
 	attacks: CharacterAttack[];
 	spells: CharacterSpell[];
+	saves: CharacterProficiencySaves;
+	skills: CharacterProficiencySkills;
 }
 
 export interface NonPlayerCharacter extends NonPlayerCharacterData, Character {
@@ -65,10 +66,6 @@ export interface CharacterSpeeds {
 	climb?: number;
 	fly?: number;
 	swim?: number;
-}
-export interface CharacterProficiencies {
-	saves: CharacterProficiencySaves;
-	skills: CharacterProficiencySkills;
 }
 
 export interface CharacterProficiencySaves {

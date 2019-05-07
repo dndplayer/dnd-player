@@ -58,7 +58,6 @@ describe('Rules', () => {
 	describe('getSaveModifier', () => {
 		it('should return null if the character is invalid', () => {
 			expect(Rules.getSaveModifier({}, 'strength')).toBe(null);
-			expect(Rules.getSaveModifier({ proficiencies: {} }, 'strength')).toBe(null);
 		});
 		it('should return null if the attribute is invalid', () => {
 			const char = getMockCharacter();
@@ -68,21 +67,21 @@ describe('Rules', () => {
 			const char = getMockCharacter();
 			char.strength = 12;
 			char.levels = [{ className: 'fighter', level: 5 }, { className: 'wizard', level: 4 }];
-			char.proficiencies.saves = {};
+			char.saves = {};
 			expect(Rules.getSaveModifier(char, 'strength')).toBe(1);
 		});
 		it('should be the ability score plus proficiency bonus if the character is proficient', () => {
 			const char = getMockCharacter();
 			char.strength = 12;
 			char.levels = [{ className: 'fighter', level: 5 }, { className: 'wizard', level: 4 }];
-			char.proficiencies.saves = { strength: 1 };
+			char.saves = { strength: 1 };
 			expect(Rules.getSaveModifier(char, 'strength')).toBe(5);
 		});
 		it('should be the ability score plus double proficiency bonus if the character has expertise', () => {
 			const char = getMockCharacter();
 			char.strength = 12;
 			char.levels = [{ className: 'fighter', level: 5 }, { className: 'wizard', level: 4 }];
-			char.proficiencies.saves = { strength: 2 };
+			char.saves = { strength: 2 };
 			expect(Rules.getSaveModifier(char, 'strength')).toBe(9);
 		});
 	});
@@ -226,21 +225,19 @@ function getMockCharacter(): Character {
 			climb: 0,
 			fly: 0
 		},
-		proficiencies: {
-			saves: {
-				strength: 1,
-				constitution: 1
-			},
-			skills: {
-				athletics: 2,
-				insight: 1,
-				intimidation: 1,
-				perception: 1
-			}
+		saves: {
+			strength: 1,
+			constitution: 1
+		},
+		skills: {
+			athletics: 2,
+			insight: 1,
+			intimidation: 1,
+			perception: 1
 		},
 		levels: [
 			{
-				className: 'Fighter',
+				className: 'fighter',
 				level: 8
 			}
 		],

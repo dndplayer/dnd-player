@@ -40,13 +40,13 @@ describe('CharacterSheetContainer', () => {
 		expect(enzymeWrapper.find('NonPlayerCharacterSheetWrapper')).toHaveLength(1);
 		expect(enzymeWrapper.find('PlayerCharacterSheet')).toHaveLength(0);
 	});
-	it('should add a PlayerCharacterSheet for player characters', () => {
+	it('should add a PlayerCharacterSheetWrapper for player characters', () => {
 		const props = getProps();
 		props.playerCharacters.push({ id: 'test2' });
 		props.popout = 'test2';
 		const { enzymeWrapper } = setup(props);
 
-		expect(enzymeWrapper.find('PlayerCharacterSheet')).toHaveLength(1);
+		expect(enzymeWrapper.find('PlayerCharacterSheetWrapper')).toHaveLength(1);
 		expect(enzymeWrapper.find('NonPlayerCharacterSheetWrapper')).toHaveLength(0);
 	});
 });

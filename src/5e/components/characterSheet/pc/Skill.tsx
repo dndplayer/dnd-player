@@ -26,7 +26,7 @@ export default class Skill extends React.Component<Props, {}> {
 
 	render(): ReactNode {
 		const { ability, character, skill } = this.props;
-		const skills = (character.proficiencies || { skills: {} }).skills || {};
+		const skills = character.skills || {};
 		const modifier = Rules.getSkillModifier(character, skill, ability);
 		const proficiencyClass = ProficiencyClassMap[skills[skill] || 0];
 

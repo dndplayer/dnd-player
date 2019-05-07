@@ -13,7 +13,7 @@ interface CollectProps {
 interface OwnProps {
 	character: Character;
 	imageUrl?: string;
-	updateCharacter: (characterId: string, character: Character) => void;
+	updateCharacter?: (characterId: string, character: Character) => void;
 }
 
 type Props = CollectProps & OwnProps;

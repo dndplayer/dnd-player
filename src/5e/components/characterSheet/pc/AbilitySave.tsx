@@ -23,7 +23,7 @@ export default class AbilitySave extends React.Component<Props, {}> {
 
 	render(): ReactNode {
 		const { ability, character } = this.props;
-		const saves = (character.proficiencies || { saves: {} }).saves || {};
+		const saves = character.saves || {};
 		const modifier = Rules.getSaveModifier(character, ability);
 		const proficiencyClass = ProficiencyClassMap[saves[ability] || 0];
 
