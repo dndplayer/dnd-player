@@ -59,11 +59,6 @@ export default class RotationSelector extends Component<Props, State> {
 		});
 	};
 	mouseMove = (e): void => {
-		// const currX = e.nativeEvent.offsetX;
-		// const currY = e.nativeEvent.offsetY;
-
-		// console.log(`currX = ${currX}, currY = ${currY}`);
-
 		if (!this.state.isActive) {
 			return;
 		}

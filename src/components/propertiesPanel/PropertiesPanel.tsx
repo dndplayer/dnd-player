@@ -15,6 +15,10 @@ const wrapperStyle = {
 	backgroundColor: 'rgba(0, 0, 0, 0.5)'
 };
 
+const PropertyRow = (props: any) => {
+	return <div style={{ marginTop: '10px' }}>{props.children}</div>;
+};
+
 interface Props {
 	visible?: boolean;
 	selected: string[];
@@ -188,7 +192,8 @@ export default class PropertiesPanel extends Component<Props, State> {
 							style={{
 								display: 'inline-block',
 								fontSize: '120%',
-								textDecoration: 'underline'
+								textDecoration: 'underline',
+								paddingLeft: '10px'
 							}}
 						>
 							Properties
@@ -220,11 +225,14 @@ export default class PropertiesPanel extends Component<Props, State> {
 							flexDirection: 'column'
 						}}
 					>
-						<div>
+						<PropertyRow>
 							<TextField value={name} onChange={this.handleChange('name')} />
-						</div>
-						<div>
-							Position = ({object.position.x}, {object.position.y}) Rotation
+						</PropertyRow>
+						<PropertyRow>
+							Position = ({object.position.x}, {object.position.y})
+						</PropertyRow>
+						<PropertyRow>
+							Rotation
 							<input
 								type="number"
 								value={rotation}
@@ -239,8 +247,8 @@ export default class PropertiesPanel extends Component<Props, State> {
 									});
 								}}
 							/>
-						</div>
-						<div>
+						</PropertyRow>
+						<PropertyRow>
 							Layer = {object.layer}
 							<select onChange={this.handleChange('layer')}>
 								<option value={null}>---</option>
@@ -250,26 +258,34 @@ export default class PropertiesPanel extends Component<Props, State> {
 									</option>
 								))}
 							</select>
-						</div>
+						</PropertyRow>
 
-						<div>
+						<PropertyRow>
 							<span style={{ marginRight: 5 }}>Scale X</span>
 							<input
 								type="number"
 								value={scaleX}
 								onChange={this.handleChange('scaleX')}
 							/>
-						</div>
-						<div>
+						</PropertyRow>
+						<PropertyRow>
 							<span style={{ marginRight: 5 }}>Scale Y</span>
 							<input
 								type="number"
 								value={scaleY}
 								onChange={this.handleChange('scaleY')}
 							/>
-						</div>
+						</PropertyRow>
 
-						<Button fullWidth variant="contained" onClick={this.saveChanges}>
+						<Button
+							fullWidth
+							color="primary"
+							variant="contained"
+							onClick={this.saveChanges}
+							style={{
+								marginTop: '15px'
+							}}
+						>
 							Save
 							<SaveIcon />
 						</Button>
