@@ -8,12 +8,12 @@ import { MapData } from '../../models/Map';
 import { DropTarget, DropTargetMonitor } from 'react-dnd';
 import types from '../../constants/dragdroptypes';
 
-import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 import Token from './objects/Token';
 import { Upload } from '../../models/Upload';
 import { withStyles, WithStyles, LinearProgress } from '@material-ui/core';
 import Scenery from './objects/Scenery';
 import { groupObjectsByLayer } from './MapUtils';
+import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
 
 interface ViewportComponentProps {
 	app?: PIXI.Application;
@@ -89,8 +89,8 @@ interface OwnProps extends WithStyles<typeof styles> {
 	zoom?: number;
 	selectedObjects: string[];
 	// testMap: any;
-	playerCharacters: PlayerCharacterData[];
-	nonPlayerCharacters: NonPlayerCharacterData[];
+	playerCharacters: PlayerCharacter[];
+	nonPlayerCharacters: NonPlayerCharacter[];
 	onSelectObject: (data) => void;
 	onUpdateObject: (data) => void;
 	onAddAssetToMap: (data) => void;
@@ -335,7 +335,14 @@ class Map extends Component<Props, State> {
 														<Token
 															key={o.id}
 															resource={res}
-															hp={o.hp || { value: 30, max: 60 }}
+															hp={
+																pcAsset
+																	? {
+																			value: pcAsset.hp,
+																			max: pcAsset.maxHp
+																	  }
+																	: undefined
+															}
 															position={o.position}
 															scale={o.scale}
 															rotation={o.rotation}

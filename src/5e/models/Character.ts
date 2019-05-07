@@ -1,5 +1,4 @@
 import { AttackEffectType, Attack } from '../5eRules';
-import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 
 export interface Character {
 	id: string;
@@ -15,7 +14,7 @@ export interface Character {
 	speed: CharacterSpeeds;
 }
 
-export interface PlayerCharacter extends PlayerCharacterData, Character {
+export interface PlayerCharacter extends Character {
 	ac: number;
 	hp: number;
 	maxHp: number;
@@ -28,7 +27,7 @@ export interface PlayerCharacter extends PlayerCharacterData, Character {
 	skills: CharacterProficiencySkills;
 }
 
-export interface NonPlayerCharacter extends NonPlayerCharacterData, Character {
+export interface NonPlayerCharacter extends Character {
 	class: string;
 	alignment: string;
 	environments: string[];

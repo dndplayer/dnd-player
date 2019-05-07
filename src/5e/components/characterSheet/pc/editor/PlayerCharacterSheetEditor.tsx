@@ -86,6 +86,15 @@ export default class PlayerCharacterSheetEditor extends React.Component<Props, S
 							/>
 						</div>
 						<div className={css.row}>
+							<span>Hit dice:</span>
+							<input
+								value={newCharacter.hitDice}
+								type="number"
+								placeholder="10"
+								onChange={e => this.update('hitDice', e.target.value)}
+							/>
+						</div>
+						<div className={css.row}>
 							<span>AC:</span>
 							<input
 								value={newCharacter.ac}

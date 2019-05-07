@@ -4,7 +4,6 @@ import Settings from './Settings';
 import { logout } from '../../redux/actions/auth';
 import { NonPlayerCharacter } from '../../5e/models/Character';
 import { updateNonPlayerCharacter, saveNewNonPlayerCharacter } from '../../redux/actions/assets';
-import { NonPlayerCharacterData } from '../../models/Asset';
 
 interface StateProps {
 	loggedIn: boolean;
@@ -39,9 +38,9 @@ const mapStateToProps = (state): StateProps => ({
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	logout: () => dispatch(logout()),
-	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacterData) =>
+	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) =>
 		dispatch(updateNonPlayerCharacter(characterId, character)),
-	saveNewNonPlayerCharacter: (character: NonPlayerCharacterData) =>
+	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) =>
 		dispatch(saveNewNonPlayerCharacter(character))
 });
 

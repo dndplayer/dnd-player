@@ -1,5 +1,5 @@
 import { types } from '../actions/assets';
-import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
+import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
 
 interface AssetState {
 	// TODO: Perhaps these pc and npc collections should be object with
@@ -7,8 +7,8 @@ interface AssetState {
 	//       really need these to be an array as we don't often iterate it and
 	//       Object.keys() is good enough to handle when we do want to iterate.
 
-	playerCharacters: PlayerCharacterData[];
-	nonPlayerCharacters: NonPlayerCharacterData[];
+	playerCharacters: PlayerCharacter[];
+	nonPlayerCharacters: NonPlayerCharacter[];
 
 	pcSyncError?: string;
 	npcSyncError?: string;

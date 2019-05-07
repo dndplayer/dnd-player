@@ -7,16 +7,16 @@ import {
 	addImageToMap,
 	selectObject
 } from '../../redux/actions/testMap';
-import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 import { Upload } from '../../models/Upload';
 import { MapData } from '../../models/Map';
+import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
 
 interface StateProps {
 	zoom: number;
 	testMap: MapData;
 	selectedObjects: string[];
-	playerCharacters: PlayerCharacterData[];
-	nonPlayerCharacters: NonPlayerCharacterData[];
+	playerCharacters: PlayerCharacter[];
+	nonPlayerCharacters: NonPlayerCharacter[];
 	images: Upload[];
 }
 interface DispatchProps {

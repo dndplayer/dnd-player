@@ -24,7 +24,7 @@ export default class Healthbar extends PIXI.Container {
 
 		this._barGraphic = new PIXI.Graphics();
 		this._barText = new PIXI.Text(
-			`${this.hp}/${this.hpMax}`,
+			this.hpMax ? `${this.hp}/${this.hpMax}` : '',
 			new PIXI.TextStyle({ fontSize: 90, fontWeight: 'bold' })
 		);
 		this._barText.anchor.set(0.5, 0.5);
@@ -57,6 +57,11 @@ export default class Healthbar extends PIXI.Container {
 	 * @param targetWidth Specify the desired width of the healthbar - usually an associated Sprite
 	 **/
 	redraw = (targetWidth?: number): void => {
+		if (!this.hpMax) {
+			this._barText.text = '';
+			return;
+		}
+
 		const healthbarMinWidth = 240;
 		const healthbarHeight = 100;
 		const healthbarPercent = this.hp / this.hpMax;

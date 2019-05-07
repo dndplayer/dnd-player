@@ -1,13 +1,13 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import AssetList from './AssetList';
-import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 import { editCharacterSheet } from '../../redux/actions/characters';
 import { Upload } from '../../models/Upload';
+import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
 
 interface StateProps {
-	playerCharacters: PlayerCharacterData[];
-	nonPlayerCharacters: NonPlayerCharacterData[];
+	playerCharacters: PlayerCharacter[];
+	nonPlayerCharacters: NonPlayerCharacter[];
 	images: Upload[];
 }
 interface DispatchProps {

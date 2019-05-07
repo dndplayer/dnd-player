@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import AssetListItem from './AssetListItem';
 import { AssetType } from '../../models/AssetType';
-import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 import { Upload } from '../../models/Upload';
+import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
 
 interface Props {
-	playerCharacters: PlayerCharacterData[];
-	nonPlayerCharacters: NonPlayerCharacterData[];
+	playerCharacters: PlayerCharacter[];
+	nonPlayerCharacters: NonPlayerCharacter[];
 	editCharacterSheet: (characterId: string) => void;
 	images: Upload[];
 }
