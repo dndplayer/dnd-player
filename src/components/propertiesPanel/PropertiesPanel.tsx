@@ -240,6 +240,10 @@ export default class PropertiesPanel extends Component<Props, State> {
 							/>
 							<RotationSelector
 								diameter={64}
+								style={{
+									marginLeft: 'auto',
+									marginRight: 'auto'
+								}}
 								initialRotationRad={rotation}
 								rotationChanged={(rotDeg, rotRad) => {
 									this.setState({

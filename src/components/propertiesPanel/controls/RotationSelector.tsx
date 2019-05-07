@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from 'react';
+import React, { Component, ReactNode, CSSProperties } from 'react';
 
 const Spinner = props => {
 	return (
@@ -20,6 +20,7 @@ interface Props {
 	diameter?: number;
 	initialRotationRad?: number;
 	rotationChanged: (rotDeg: number, rotRad: number) => void;
+	style?: CSSProperties;
 }
 
 interface State {
@@ -125,7 +126,8 @@ export default class RotationSelector extends Component<Props, State> {
 					width: this.props.diameter || '128px',
 					height: this.props.diameter || '128px',
 					borderRadius: '50%',
-					overflow: 'hidden'
+					overflow: 'hidden',
+					...this.props.style
 				}}
 			>
 				<Spinner
