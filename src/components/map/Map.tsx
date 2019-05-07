@@ -8,7 +8,6 @@ import { MapData } from '../../models/Map';
 import { DropTarget, DropTargetMonitor } from 'react-dnd';
 import types from '../../constants/dragdroptypes';
 
-import TESTDATA from './testMap.json';
 import { PlayerCharacterData, NonPlayerCharacterData } from '../../models/Asset';
 import Token from './objects/Token';
 import { Upload } from '../../models/Upload';
@@ -132,30 +131,58 @@ class Map extends Component<Props, State> {
 			}
 		}
 
-		if (this.props.images != prevProps.images) {
-			// TODO: Instead of loading ALL images EVERY time the props.images changes,
-			//       only load those in use on this map
-			// const loader = PIXI.loader;
+		if (
+			(this.props.mapData && !prevProps.mapData) ||
+			(this.props.mapData && this.props.mapData.objects !== prevProps.mapData.objects)
+		) {
 			if (!this.loader.resources['__missing__']) {
 				this.loader.add('__missing__', 'http://placekitten.com/128/128');
 			}
 
-			this.setState({ loadingAssets: true });
-
-			const assetsToLoad = this.props.images
+			const mapAssetsToLoad = Object.keys(this.props.mapData.objects)
 				.map(
-					(x): any => {
-						const alreadyExists = !!this.loader.resources[x.filePath];
+					(x: string): any => {
+						// TODO: CE - Really not loving this code to determine the image ref, revisit this
+						const o = this.props.mapData.objects[x];
+						const pc = o.pcId
+							? this.props.playerCharacters.find(y => y.id === o.pcId)
+							: null;
+						const npc = o.npcId
+							? this.props.nonPlayerCharacters.find(y => y.id === o.npcId)
+							: null;
+						const imgRef =
+							o && o.imageRef
+								? o.imageRef
+								: pc
+								? pc.imageRef
+								: npc
+								? npc.imageRef
+								: '__missing__';
+						const alreadyExists = !!this.loader.resources[imgRef];
 						if (alreadyExists) return null;
+						const img = this.props.images.find(y => y.filePath === imgRef);
+						if (!img) {
+							// This could be a remote image
+						}
+
 						return {
-							name: x.filePath,
-							url: x.downloadUrl,
+							name: imgRef,
+							url: img ? img.downloadUrl : imgRef,
 							loadType: 2 //PIXI.loaders.LOAD_TYPE.IMAGE
 						};
 					}
 				)
-				.filter((x): any => x); // Remove Nulls I.E. already loaded
-			this.loader.add(assetsToLoad);
+				.filter(x => x);
+
+			const distinctAssetsToLoad = Array.from(new Set(mapAssetsToLoad.map(x => x.name))).map(
+				name => {
+					return {
+						...mapAssetsToLoad.find(x => x.name === name)
+					};
+				}
+			);
+
+			this.loader.add(distinctAssetsToLoad);
 			this.loader.load(
 				(): void => {
 					this.setState({ loadingAssets: false });
