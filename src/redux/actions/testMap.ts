@@ -9,6 +9,9 @@ export const types = {
 		UPDATE: {
 			OBJECT: 'TESTMAP.UPDATE.OBJECT'
 		},
+		REMOVE: {
+			OBJECT: 'TESTMAP.REMOVE.OBJECT'
+		},
 		ASSET: {
 			ADD: 'TESTMAP.ASSET.ADD'
 		},
@@ -50,6 +53,10 @@ export interface SelectObjectAction extends Action {
 	mapObjectId: string;
 }
 
+export interface TestMapRemoveObjectAction extends Action {
+	mapObjectId: string;
+}
+
 //-----------------------------------------------------------------------
 // Action creators
 //-----------------------------------------------------------------------
@@ -67,6 +74,11 @@ export const testMapUpdateObject = ({ mapObjectId, newData }): TestMapUpdateObje
 	type: types.TESTMAP.UPDATE.OBJECT,
 	mapObjectId,
 	newData
+});
+
+export const testMapRemoveObject = (mapObjectId: string): TestMapRemoveObjectAction => ({
+	type: types.TESTMAP.REMOVE.OBJECT,
+	mapObjectId
 });
 
 export const addAssetToMap = ({ assetType, assetId }): AddAssetToMapAction => ({

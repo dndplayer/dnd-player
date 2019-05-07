@@ -3,6 +3,7 @@ import { Rnd } from 'react-rnd';
 import { Button, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import SaveIcon from '@material-ui/icons/Save';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { MapData, MapObject } from '../../models/Map';
 import RotationSelector from './controls/RotationSelector';
 
@@ -24,6 +25,7 @@ interface Props {
 	selected: string[];
 	map: MapData;
 	onUpdateObject: (data) => void;
+	removeObject: (mapObjectId) => void;
 	close: () => void;
 }
 
@@ -62,6 +64,12 @@ export default class PropertiesPanel extends Component<Props, State> {
 		this.setState({
 			[propName]: e.target.value
 		} as any);
+	};
+
+	removeObject = (): void => {
+		if (this.props.removeObject) {
+			this.props.removeObject(this.state.objectId);
+		}
 	};
 
 	saveChanges = (): void => {
@@ -151,10 +159,10 @@ export default class PropertiesPanel extends Component<Props, State> {
 					x: 5,
 					y: 5,
 					width: 250,
-					height: 400
+					height: 450
 				}}
 				minWidth={250}
-				minHeight={400}
+				minHeight={450}
 				dragHandleClassName="dragBar"
 				bounds={'window'}
 				enableResizing={{
@@ -292,6 +300,17 @@ export default class PropertiesPanel extends Component<Props, State> {
 						>
 							Save
 							<SaveIcon />
+						</Button>
+
+						<Button
+							fullWidth
+							color="secondary"
+							variant="contained"
+							onClick={this.removeObject}
+							style={{ marginTop: '15px' }}
+						>
+							Remove Object
+							<DeleteIcon />
 						</Button>
 					</div>
 				</div>

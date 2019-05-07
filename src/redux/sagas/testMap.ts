@@ -6,7 +6,8 @@ import {
 	syncTestMapFailed,
 	AddImageToMapAction,
 	AddAssetToMapAction,
-	TestMapUpdateObjectAction
+	TestMapUpdateObjectAction,
+	TestMapRemoveObjectAction
 } from '../actions/testMap';
 
 import rsf from '../rsf';
@@ -32,6 +33,11 @@ function* syncTestMapSaga(): any {
 function* testMapUpdateObject(action: TestMapUpdateObjectAction): any {
 	const { mapObjectId, newData } = action;
 	yield call(rsf.database.patch, `/testMap/objects/${mapObjectId}`, newData);
+}
+
+function* testMapRemoveObject(action: TestMapRemoveObjectAction): any {
+	const { mapObjectId } = action;
+	yield call(rsf.database.delete, `/testMap/objects/${mapObjectId}`);
 }
 
 function* addAssetToTestMap(action: AddAssetToMapAction): any {
@@ -76,6 +82,7 @@ export default function* rootSaga() {
 		fork(syncTestMapSaga),
 		takeEvery(types.TESTMAP.UPDATE.OBJECT, testMapUpdateObject),
 		takeEvery(types.TESTMAP.ASSET.ADD, addAssetToTestMap),
-		takeEvery(types.TESTMAP.IMAGE.ADD, addImageToTestMap)
+		takeEvery(types.TESTMAP.IMAGE.ADD, addImageToTestMap),
+		takeEvery(types.TESTMAP.REMOVE.OBJECT, testMapRemoveObject)
 	]);
 }
