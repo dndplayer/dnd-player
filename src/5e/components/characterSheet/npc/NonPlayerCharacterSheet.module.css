@@ -63,6 +63,7 @@ div:hover > .popupDisadvantage:hover {
 	box-sizing: border-box;
 	color: #ccc;
 	padding: 8px;
+	position: relative;
 }
 
 .characterImageContainer {
