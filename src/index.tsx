@@ -4,36 +4,51 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { MuiThemeProvider, TextField, Button, createMuiTheme } from '@material-ui/core';
 
+import firebase from 'firebase';
+// import '@firebase/firestore';
+import '@firebase/database';
+
 // Error reporting
 import * as Sentry from '@sentry/browser';
+import ReduxSagaFirebase from 'redux-saga-firebase';
 
 // SENTRYINITHERE
 
 const state = {
 	projectId: '',
-	apiKey: ''
+	apiKey: '',
+	username: '',
+	password: ''
 };
 
-const saveConfig = (): void => {
-	localStorage.setItem(
-		'firebaseConfig',
-		JSON.stringify({
-			apiKey: state.apiKey,
-			authDomain: `${state.projectId}.firebaseapp.com`,
-			databaseURL: `https://${state.projectId}.firebaseio.com`,
-			projectId: state.projectId,
-			storageBucket: `${state.projectId}.appspot.com`
-		})
-	);
+const saveConfig = async (): Promise<void> => {
+	const config = {
+		apiKey: state.apiKey,
+		authDomain: `${state.projectId}.firebaseapp.com`,
+		databaseURL: `https://${state.projectId}.firebaseio.com`,
+		projectId: state.projectId,
+		storageBucket: `${state.projectId}.appspot.com`
+	};
+	const firebaseApp = firebase.initializeApp(config);
 
-	window.location.replace(window.location.origin);
+	try {
+		const user = await firebaseApp
+			.auth()
+			.signInWithEmailAndPassword(state.username, state.password);
+		localStorage.setItem('firebaseConfig', JSON.stringify(config));
+
+		window.location.replace(window.location.origin);
+	} catch (e) {
+		alert(`Failed to log in. ${e.message}`);
+	} finally {
+		firebaseApp.delete();
+	}
 };
 
 const match = window.location.search.match(/\?projectId=(.*?)&apiKey=(.*)$/);
 if (match) {
 	state.projectId = match[1];
 	state.apiKey = match[2];
-	saveConfig();
 } else if (localStorage.getItem('firebaseConfig') == null) {
 	const theme = createMuiTheme({
 		palette: {
@@ -56,9 +71,18 @@ if (match) {
 						placeholder="AIzaSd***************pK5ao6g95Q-9auWt-8"
 						onChange={evt => (state.apiKey = evt.target.value)}
 						margin="normal"
-						onKeyUp={event => {
-							event.keyCode === 13 && this.saveConfig(); // Quick save on enter if API box is focused.
-						}}
+					/>
+					<TextField
+						label="Username"
+						placeholder="email@example.com"
+						onChange={evt => (state.username = evt.target.value)}
+						margin="normal"
+					/>
+					<TextField
+						label="Password"
+						type="Password"
+						onChange={evt => (state.password = evt.target.value)}
+						margin="normal"
 					/>
 					<Button variant="contained" color="primary" onClick={() => saveConfig()}>
 						Save
