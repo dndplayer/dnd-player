@@ -9,6 +9,7 @@ import CharacterImage from '../../CharacterImage';
 import Icon from '@mdi/react';
 import { mdiCancel, mdiContentSave } from '@mdi/js';
 import AbilityScoreEditorContainer from './AbilityScoreEditorContainer';
+import MoneyEditorContainer from './MoneyEditorContainer';
 import LevelsEditor from './LevelEditor';
 import SavesEditor from './SavesEditor';
 import SkillsEditor from './SkillsEditor';
@@ -142,11 +143,9 @@ export default class PlayerCharacterSheetEditor extends React.Component<Props, S
 						value={JSON.stringify(newCharacter.resources)}
 						onChange={e => this.update('resources', JSON.parse(e.target.value))}
 					/>
-					Money
-					<textarea
-						rows={5}
-						value={JSON.stringify(newCharacter.money)}
-						onChange={e => this.update('money', JSON.parse(e.target.value))}
+					<MoneyEditorContainer
+						character={newCharacter}
+						updateCharacterProperty={update}
 					/>
 				</div>
 			</div>
