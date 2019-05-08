@@ -73,7 +73,8 @@ class ChatContainer extends Component<Props> {
 						disableDragging={true}
 						style={{
 							zIndex: 9,
-							backgroundColor: 'rgba(255, 255, 255, 0.4)'
+							// backgroundColor: 'rgba(255, 255, 255, 0.4)'
+							backgroundColor: 'rgba(0, 0, 0, 0.5)'
 						}}
 					>
 						<div

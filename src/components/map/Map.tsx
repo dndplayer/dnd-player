@@ -269,8 +269,8 @@ class Map extends Component<Props, State> {
 					width={window.innerWidth}
 					height={window.innerHeight}
 					options={{
-						antialias: true
-						// backgroundColor: 0xffffff
+						antialias: true,
+						backgroundColor: 0xffffff
 					}}
 				>
 					<AppConsumer>
