@@ -13,6 +13,8 @@ import MoneyEditorContainer from './MoneyEditorContainer';
 import LevelsEditor from './LevelEditor';
 import SavesEditor from './SavesEditor';
 import SkillsEditor from './SkillsEditor';
+import SpellsEditor from './SpellsEditor';
+import SpellSlotEditorContainer from './SpellSlotEditorContainer';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -114,16 +116,11 @@ export default class PlayerCharacterSheetEditor extends React.Component<Props, S
 						onChange={e => this.update('equipment', JSON.parse(e.target.value))}
 					/>
 					Spells
-					<textarea
-						rows={10}
-						value={JSON.stringify(newCharacter.spells)}
-						onChange={e => this.update('spells', JSON.parse(e.target.value))}
-					/>
+					<SpellsEditor character={newCharacter} updateCharacterProperty={update} />
 					Spell slots
-					<textarea
-						rows={5}
-						value={JSON.stringify(newCharacter.spellSlots)}
-						onChange={e => this.update('spellSlots', JSON.parse(e.target.value))}
+					<SpellSlotEditorContainer
+						character={newCharacter}
+						updateCharacterProperty={update}
 					/>
 					Attacks
 					<textarea

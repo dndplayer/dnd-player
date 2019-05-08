@@ -1,48 +1,97 @@
 import React, { ReactNode } from 'react';
 
-import css from './NonPlayerCharacterSheetEditor.module.css';
+import css from './PlayerCharacterSheetEditor.module.css';
+import {
+	CharacterAttackEffect,
+	TextCharacterAttackEffect,
+	DamageCharacterAttackEffect,
+	SavingThrowCharacterAttackEffect,
+	ToHitCharacterAttackEffect
+} from '../../../../models/Character';
+
 import Icon from '@mdi/react';
-import { mdiDelete } from '@mdi/js';
-import Rules, {
-	AttackEffectType,
-	AttackEffect,
-	ToHitAttackEffect,
-	DamageAttackEffect,
-	SavingThrowAttackEffect,
-	TextAttackEffect
-} from '../../../../5eRules';
+import { mdiDelete, mdiPlus } from '@mdi/js';
+import Rules, { AttackEffectType } from '../../../../5eRules';
+
+interface OuterProps {
+	effects: CharacterAttackEffect[];
+	updateEffects: (effects: CharacterAttackEffect[]) => void;
+}
+
+export default class EffectsEditor extends React.Component<OuterProps, {}> {
+	render(): ReactNode {
+		const { effects } = this.props;
+
+		return (
+			<div className="column">
+				<div className={`${css.column} ${css.center}`}>
+					{(effects || []).map((effect, idx) => (
+						<EffectEditor
+							key={idx}
+							effect={effect}
+							updateEffectProperty={(p, v) => this.updateEffectProperty(idx, p, v)}
+							removeEffect={() => this.removeEffect(idx)}
+						/>
+					))}
+					<div className={css.button} onClick={() => this.addEffect()}>
+						<Icon path={mdiPlus} size={1} color={'#ccc'} />
+					</div>
+				</div>
+			</div>
+		);
+	}
+
+	updateEffectProperty(effectIdx: number, property: string, value: any): void {
+		const newEffects = [...this.props.effects];
+		newEffects[effectIdx][property] = value;
+		this.props.updateEffects(newEffects);
+	}
+
+	removeEffect(effectIdx: number): void {
+		const newEffects = [...this.props.effects];
+		newEffects.splice(effectIdx, 1);
+		this.props.updateEffects(newEffects);
+	}
+
+	addEffect(): void {
+		this.props.updateEffects([...(this.props.effects || []), { type: 3 }]);
+	}
+}
 
 interface Props {
 	updateEffectProperty: (property: string, value: any) => void;
-	effect: AttackEffect;
+	effect: CharacterAttackEffect;
 	removeEffect: () => void;
 }
 
-export default class EffectEditor extends React.Component<Props, {}> {
+export class EffectEditor extends React.Component<Props, {}> {
 	render(): ReactNode {
 		let { effect } = this.props;
 
 		if (!effect) {
-			const textEffect: TextAttackEffect = { type: AttackEffectType.Text, text: 'No effect' };
+			const textEffect: TextCharacterAttackEffect = {
+				type: AttackEffectType.Text,
+				text: 'No effect'
+			};
 			effect = textEffect;
 		}
 
 		let details: ReactNode;
 		switch (effect.type) {
 			case AttackEffectType.ToHit:
-				const toHitEffect = effect as ToHitAttackEffect;
+				const toHitEffect = effect as ToHitCharacterAttackEffect;
 				details = <ToHitEffectEditor toHitEffect={toHitEffect} {...this.props} />;
 				break;
 			case AttackEffectType.Damage:
-				const damageEffect = effect as DamageAttackEffect;
+				const damageEffect = effect as DamageCharacterAttackEffect;
 				details = <DamageEffectEditor damageEffect={damageEffect} {...this.props} />;
 				break;
 			case AttackEffectType.SavingThrow:
-				const saveEffect = effect as SavingThrowAttackEffect;
+				const saveEffect = effect as SavingThrowCharacterAttackEffect;
 				details = <SavingThrowEffectEditor saveEffect={saveEffect} {...this.props} />;
 				break;
 			case AttackEffectType.Text:
-				const textEffect = effect as TextAttackEffect;
+				const textEffect = effect as TextCharacterAttackEffect;
 				details = <TextEffectEditor textEffect={textEffect} {...this.props} />;
 				break;
 			default:
@@ -70,24 +119,32 @@ export default class EffectEditor extends React.Component<Props, {}> {
 }
 
 interface ToHitProps extends Props {
-	toHitEffect: ToHitAttackEffect;
+	toHitEffect: ToHitCharacterAttackEffect;
 }
 class ToHitEffectEditor extends React.Component<ToHitProps, {}> {
 	render(): ReactNode {
 		const { toHitEffect, updateEffectProperty } = this.props;
 		return (
 			<div className={css.effect}>
-				<input
-					value={toHitEffect.modifier}
-					onChange={e => updateEffectProperty('modifier', e.target.value)}
-				/>
+				<select
+					value={toHitEffect.ability}
+					onChange={e => updateEffectProperty('ability', e.target.value)}
+				>
+					<option value="">None</option>
+					<option value="strength">Strength</option>
+					<option value="dexterity">Dexterity</option>
+					<option value="constitution">Constitution</option>
+					<option value="intelligence">Intelligence</option>
+					<option value="wisdom">Wisdom</option>
+					<option value="charisma">Charisma</option>
+				</select>
 			</div>
 		);
 	}
 }
 
 interface DamageProps extends Props {
-	damageEffect: DamageAttackEffect;
+	damageEffect: DamageCharacterAttackEffect;
 }
 class DamageEffectEditor extends React.Component<DamageProps, {}> {
 	render(): ReactNode {
@@ -110,10 +167,23 @@ class DamageEffectEditor extends React.Component<DamageProps, {}> {
 					<option value={12}>d12</option>
 				</select>
 				+
+				<select
+					value={damageEffect.ability}
+					onChange={e => updateEffectProperty('ability', e.target.value)}
+				>
+					<option value="">None</option>
+					<option value="strength">Strength</option>
+					<option value="dexterity">Dexterity</option>
+					<option value="constitution">Constitution</option>
+					<option value="intelligence">Intelligence</option>
+					<option value="wisdom">Wisdom</option>
+					<option value="charisma">Charisma</option>
+				</select>
+				+
 				<input
 					value={damageEffect.bonus}
 					type="number"
-					onChange={e => updateEffectProperty('bonus', e.target.value)}
+					onChange={e => updateEffectProperty('bonus', parseInt(e.target.value))}
 				/>
 				<input
 					value={damageEffect.damageType}
@@ -125,19 +195,25 @@ class DamageEffectEditor extends React.Component<DamageProps, {}> {
 }
 
 interface SavingThrowProps extends Props {
-	saveEffect: SavingThrowAttackEffect;
+	saveEffect: SavingThrowCharacterAttackEffect;
 }
 class SavingThrowEffectEditor extends React.Component<SavingThrowProps, {}> {
 	render(): ReactNode {
 		const { saveEffect, updateEffectProperty } = this.props;
 		return (
 			<div className={css.effect}>
-				DC
-				<input
-					value={saveEffect.saveDC}
-					type="number"
-					onChange={e => updateEffectProperty('saveDC', e.target.value)}
-				/>
+				DC Ability
+				<select
+					value={saveEffect.DCAbility}
+					onChange={e => updateEffectProperty('DCability', e.target.value)}
+				>
+					<option value="strength">Strength</option>
+					<option value="dexterity">Dexterity</option>
+					<option value="constitution">Constitution</option>
+					<option value="intelligence">Intelligence</option>
+					<option value="wisdom">Wisdom</option>
+					<option value="charisma">Charisma</option>
+				</select>
 				<select
 					value={saveEffect.saveType}
 					onChange={e => updateEffectProperty('saveType', e.target.value)}
@@ -173,7 +249,7 @@ class SavingThrowEffectEditor extends React.Component<SavingThrowProps, {}> {
 }
 
 interface TextProps extends Props {
-	textEffect: TextAttackEffect;
+	textEffect: TextCharacterAttackEffect;
 }
 class TextEffectEditor extends React.Component<TextProps, {}> {
 	render(): ReactNode {

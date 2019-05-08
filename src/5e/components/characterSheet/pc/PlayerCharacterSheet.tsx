@@ -17,6 +17,7 @@ import Equipment from './Equipment';
 import CharacterImage from './../CharacterImage';
 import { Upload } from '../../../../models/Upload';
 import Rules from '../../../5eRules';
+import Spells from './Spells';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -236,6 +237,9 @@ export default class PlayerCharacterSheet extends React.Component<Props, {}> {
 							<Equipment character={character} {...this.props} />
 						</div>
 					</div>
+				</div>
+				<div>
+					<Spells character={character} {...this.props} />
 				</div>
 			</div>
 		);

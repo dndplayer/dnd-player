@@ -1,26 +1,8 @@
 import React, { ReactNode } from 'react';
 
 import './PlayerCharacterSheet.css';
-import Rules, {
-	Attack,
-	AttackEffectType,
-	ToHitAttackEffect,
-	DamageAttackEffect,
-	SavingThrowAttackEffect,
-	AttackEffect,
-	TextAttackEffect
-} from '../../../5eRules';
-import {
-	ChatMessageData,
-	CharacterActionData,
-	CharacterActionResultType,
-	CharacterActionDiceRollResult,
-	AdvantageType,
-	CharacterActionResult,
-	CharacterActionTextResult,
-	CharacterActionConditionResult
-} from '../../../../models/ChatMessage';
-import { DiceRoll } from 'rpg-dice-roller';
+import { Attack, AttackEffectType, ToHitAttackEffect, DamageAttackEffect } from '../../../5eRules';
+import { ChatMessageData, CharacterActionData } from '../../../../models/ChatMessage';
 import CharacterActionHelper from '../../../CharacterActionHelper';
 import { Character } from '../../../models/Character';
 
@@ -81,8 +63,12 @@ export default class AttackBlock extends React.Component<Props, {}> {
 					)*/}
 				</div>
 				<div className="attack-damage">
-					{damageEffect.diceCount}d{damageEffect.diceSize}+{damageEffect.bonus || 0}{' '}
-					{damageEffect.damageType}
+					{damageEffect && (
+						<div>
+							{damageEffect.diceCount}d{damageEffect.diceSize}+
+							{damageEffect.bonus || 0} {damageEffect.damageType}
+						</div>
+					)}
 				</div>
 			</div>
 		);
