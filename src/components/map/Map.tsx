@@ -13,7 +13,7 @@ import { Upload } from '../../models/Upload';
 import { withStyles, WithStyles, LinearProgress } from '@material-ui/core';
 import Scenery from './objects/Scenery';
 import { groupObjectsByLayer } from './MapUtils';
-import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
+import { PlayerCharacter, NonPlayerCharacter, CharacterSize } from '../../5e/models/Character';
 
 interface ViewportComponentProps {
 	app?: PIXI.Application;
@@ -313,6 +313,31 @@ class Map extends Component<Props, State> {
 														x => x === o.id
 													);
 													const isToken = isPc || isNpc;
+													const asset = pcAsset || npcAsset;
+													let scale = o.scale;
+													if (asset) {
+														const size = (asset.size || '').toString();
+														switch (parseInt(size)) {
+															case CharacterSize.Tiny:
+																scale = { x: 0.25, y: 0.25 };
+																break;
+															case CharacterSize.Small:
+																scale = { x: 0.5, y: 0.5 };
+																break;
+															case CharacterSize.Medium:
+																scale = { x: 0.5, y: 0.5 };
+																break;
+															case CharacterSize.Large:
+																scale = { x: 1, y: 1 };
+																break;
+															case CharacterSize.Huge:
+																scale = { x: 1.5, y: 1.5 };
+																break;
+															case CharacterSize.Gargantuan:
+																scale = { x: 2, y: 2 };
+																break;
+														}
+													}
 													return !isToken ? (
 														<Scenery
 															key={o.id}
@@ -344,7 +369,7 @@ class Map extends Component<Props, State> {
 																	: undefined
 															}
 															position={o.position}
-															scale={o.scale}
+															scale={scale}
 															rotation={o.rotation}
 															pivot={o.pivot}
 															anchor={o.anchor}
