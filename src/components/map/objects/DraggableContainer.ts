@@ -34,7 +34,10 @@ export default class DraggableContainer extends MapObject {
 		this.alpha = 0.7;
 		this.dragging = true;
 		this.dragData = e.data;
-		this.dragGrabOffset = e.data.getLocalPosition(e.currentTarget);
+		this.dragGrabOffset = new PIXI.Point(
+			e.data.getLocalPosition(e.currentTarget).x * e.currentTarget.scale.x,
+			e.data.getLocalPosition(e.currentTarget).y * e.currentTarget.scale.y
+		);
 		this.clickedAvailable = true;
 
 		this.dragStartPosition = new PIXI.Point(e.data.global.x, e.data.global.y);
