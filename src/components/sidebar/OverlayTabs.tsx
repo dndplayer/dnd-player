@@ -51,7 +51,7 @@ export default class OverlayTabs extends Component<Props> {
 						// display: 'flex',
 						// flexDirection: 'column',
 						// justifyContent: 'center',
-						width: '40px',
+						//width: '40px',
 						position: 'absolute' as 'absolute',
 						top: '50%',
 						left: '-40px'
@@ -60,16 +60,19 @@ export default class OverlayTabs extends Component<Props> {
 					<OverlayTab
 						text="Uploads"
 						name="uploads"
+						active={this.props.currentPanel === OverlayPanelTypes.UPLOAD}
 						onClick={this.onClickTab(OverlayPanelTypes.UPLOAD)}
 					/>
 					<OverlayTab
 						text="Assets"
 						name="assets"
+						active={this.props.currentPanel === OverlayPanelTypes.ASSETS}
 						onClick={this.onClickTab(OverlayPanelTypes.ASSETS)}
 					/>
 					<OverlayTab
 						text="General"
 						name="general"
+						active={this.props.currentPanel === OverlayPanelTypes.GENERAL}
 						onClick={this.onClickTab(OverlayPanelTypes.GENERAL)}
 					/>
 				</div>

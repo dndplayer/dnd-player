@@ -3,20 +3,23 @@ import React, { Component, ReactNode } from 'react';
 interface Props {
 	text: string;
 	name: string;
+	active?: boolean;
 	onClick: () => void;
 }
 export default class OverlayTab extends Component<Props> {
 	render(): ReactNode {
-		const { text, onClick } = this.props;
+		const { text, onClick, active } = this.props;
 
 		return (
-			<div style={{ display: 'table' }}>
+			// <div style={{ display: 'table' }}>
+			<div style={{}}>
 				<div style={{ padding: '50% 0', height: 0 }}>
 					<div
 						style={{
 							display: 'block',
 							padding: 10,
-							backgroundColor: 'red',
+							backgroundColor: !active ? 'red' : 'purple',
+							borderLeft: '1px dashed #444',
 							// marginLeft: 30,
 							cursor: 'pointer',
 							transform: 'rotate(-90deg)',
