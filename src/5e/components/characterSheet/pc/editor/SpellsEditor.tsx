@@ -10,6 +10,7 @@ import EffectsEditor from './EffectsEditor';
 
 export default class SpellsEditor extends ArrayEditor<CharacterSpell> {
 	prop: string = 'spells';
+	heading: string = 'Spells';
 
 	mapItem(idx: string, item: CharacterSpell): React.ReactNode {
 		return (

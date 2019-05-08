@@ -15,6 +15,7 @@ import SavesEditor from './SavesEditor';
 import SkillsEditor from './SkillsEditor';
 import SpellsEditor from './SpellsEditor';
 import SpellSlotEditorContainer from './SpellSlotEditorContainer';
+import TraitsEditor from './TraitsEditor';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -115,9 +116,7 @@ export default class PlayerCharacterSheetEditor extends React.Component<Props, S
 						value={JSON.stringify(newCharacter.equipment)}
 						onChange={e => this.update('equipment', JSON.parse(e.target.value))}
 					/>
-					Spells
 					<SpellsEditor character={newCharacter} updateCharacterProperty={update} />
-					Spell slots
 					<SpellSlotEditorContainer
 						character={newCharacter}
 						updateCharacterProperty={update}
@@ -128,12 +127,7 @@ export default class PlayerCharacterSheetEditor extends React.Component<Props, S
 						value={JSON.stringify(newCharacter.attacks)}
 						onChange={e => this.update('attacks', JSON.parse(e.target.value))}
 					/>
-					Traits
-					<textarea
-						rows={5}
-						value={JSON.stringify(newCharacter.traits)}
-						onChange={e => this.update('traits', JSON.parse(e.target.value))}
-					/>
+					<TraitsEditor character={newCharacter} updateCharacterProperty={update} />
 					Resources
 					<textarea
 						rows={5}

@@ -9,6 +9,7 @@ import ArrayEditor from './ArrayEditor';
 
 export default class LevelsEditor extends ArrayEditor<CharacterLevel> {
 	prop = 'levels';
+	heading = 'Levels';
 	mapItem(idx: string, item: CharacterLevel): React.ReactNode {
 		return (
 			<LevelEditor

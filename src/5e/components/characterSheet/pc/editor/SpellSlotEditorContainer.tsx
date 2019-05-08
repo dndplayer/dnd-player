@@ -13,6 +13,7 @@ export default class SpellSlotEditorContainer extends React.Component<Props, {}>
 	render(): ReactNode {
 		return (
 			<div className={css.abilityContainer}>
+				Spell slots:
 				<SpellSlotEditor slot={1} {...this.props} />
 				<SpellSlotEditor slot={2} {...this.props} />
 				<SpellSlotEditor slot={3} {...this.props} />

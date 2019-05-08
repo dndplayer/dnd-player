@@ -13,10 +13,12 @@ interface Props<T> {
 export default abstract class ArrayEditor<T> extends React.Component<Props<T>, {}> {
 	abstract mapItem(idx: string, item: T): ReactNode;
 	abstract prop: string;
+	abstract heading: string;
 
 	render(): ReactNode {
 		const { character } = this.props;
 		const prop = this.prop;
+		const heading = this.heading;
 
 		const items = [];
 		for (const itemIdx in character[prop] || []) {
@@ -27,7 +29,7 @@ export default abstract class ArrayEditor<T> extends React.Component<Props<T>, {
 
 		return (
 			<div className="row">
-				<span className={css.boldHeading}>Levels</span>
+				<span className={css.boldHeading}>{heading}</span>
 				<div className={`${css.column} ${css.center}`}>
 					{items}
 					<div className={css.button} onClick={() => this.addItem()}>
