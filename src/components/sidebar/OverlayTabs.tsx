@@ -7,6 +7,7 @@ import UploadListContainer from './panels/uploadList/UploadListContainer';
 import AssetListContainer from '../assets/AssetListContainer';
 import CreateAssetContainer from '../assets/CreateAssetContainer';
 import ImageUploaderContainer from './panels/imageUploader/ImageUploaderContainer';
+import GeneralPanelContainer from './panels/general/GeneralPanelContainer';
 
 interface Props {
 	open: boolean;
@@ -66,6 +67,11 @@ export default class OverlayTabs extends Component<Props> {
 						name="assets"
 						onClick={this.onClickTab(OverlayPanelTypes.ASSETS)}
 					/>
+					<OverlayTab
+						text="General"
+						name="general"
+						onClick={this.onClickTab(OverlayPanelTypes.GENERAL)}
+					/>
 				</div>
 				<div
 					style={{
@@ -109,6 +115,11 @@ export default class OverlayTabs extends Component<Props> {
 						<OverlayPanel>
 							<CreateAssetContainer />
 							<AssetListContainer />
+						</OverlayPanel>
+					)}
+					{this.props.currentPanel === OverlayPanelTypes.GENERAL && (
+						<OverlayPanel>
+							<GeneralPanelContainer />
 						</OverlayPanel>
 					)}
 				</div>
