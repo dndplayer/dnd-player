@@ -1,13 +1,22 @@
-import { types } from '../actions/auth';
+import { types, SetIsDmAction } from '../actions/auth';
 
-const initialState = {
+interface AuthState {
+	loading: boolean;
+	loggedIn: boolean;
+	user?: firebase.User;
+	loginError?: any;
+	isDm: boolean;
+}
+
+const initialState: AuthState = {
 	loading: false,
 	loggedIn: false,
 	user: null,
-	loginError: null
+	loginError: null,
+	isDm: false
 };
 
-export default function authReducer(state = initialState, action: any = {}) {
+export default function authReducer(state: AuthState = initialState, action: any = {}) {
 	switch (action.type) {
 		case types.LOGIN.REQUEST:
 		case types.LOGOUT.REQUEST:
@@ -35,6 +44,12 @@ export default function authReducer(state = initialState, action: any = {}) {
 			return {
 				...state,
 				loading: false
+			};
+		case types.DM.SET:
+			const a = action as SetIsDmAction;
+			return {
+				...state,
+				isDm: a.value
 			};
 		default:
 			return state;

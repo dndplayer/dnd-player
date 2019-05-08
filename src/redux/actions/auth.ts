@@ -1,4 +1,4 @@
-import { AnyAction } from 'redux';
+import { AnyAction, Action } from 'redux';
 
 export const types = {
 	LOGIN: {
@@ -10,8 +10,15 @@ export const types = {
 		REQUEST: 'LOGOUT.REQUEST',
 		SUCCESS: 'LOGOUT.SUCCESS',
 		FAILURE: 'LOGOUT.FAILURE'
+	},
+	DM: {
+		SET: 'AUTH.DM.SET'
 	}
 };
+
+export interface SetIsDmAction extends Action {
+	value: boolean;
+}
 
 export const login = (username: string, password: string): AnyAction => ({
 	type: types.LOGIN.REQUEST,
@@ -40,4 +47,9 @@ export const logoutSuccess = () => ({
 export const logoutFailure = error => ({
 	type: types.LOGOUT.FAILURE,
 	error
+});
+
+export const setIsDm = (val: boolean): SetIsDmAction => ({
+	type: types.DM.SET,
+	value: val
 });

@@ -3,15 +3,26 @@ import { Switch, FormControlLabel } from '@material-ui/core';
 
 interface State {
 	stageBackground: string;
+	isDm: boolean;
 }
 
 interface Props {
 	stageBackground: string;
+	isDm: boolean;
 	updateStageBackground: (value: string) => void;
+	setIsDm: (val: boolean) => void;
 }
 
 export default class GeneralPanel extends Component<Props, State> {
+	constructor(props) {
+		super(props);
+
+		this.onChangeStageBackground = this.onChangeStageBackground.bind(this);
+		this.onChangeIsDm = this.onChangeIsDm.bind(this);
+	}
+
 	state = {
+		isDm: this.props.isDm,
 		stageBackground: this.props.stageBackground || '#ffffff'
 	};
 
@@ -21,13 +32,19 @@ export default class GeneralPanel extends Component<Props, State> {
 		}
 	}
 
-	handleChange = (name: string) => e => {
-		this.setState({ [name]: e.target.value } as any);
+	onChangeStageBackground = e => {
+		this.setState({ onChangeStageBackground: e.target.value } as any);
 
-		if (name === 'stageBackground') {
-			if (this.props.updateStageBackground) {
-				this.props.updateStageBackground(e.target.value);
-			}
+		if (this.props.updateStageBackground) {
+			this.props.updateStageBackground(e.target.value);
+		}
+	};
+
+	onChangeIsDm = e => {
+		this.setState({ isDm: !!e.target.checked });
+
+		if (this.props.setIsDm) {
+			this.props.setIsDm(!!e.target.checked);
 		}
 	};
 
@@ -47,7 +64,7 @@ export default class GeneralPanel extends Component<Props, State> {
 						type="color"
 						id="stageBackground"
 						name="stageBackground"
-						onChange={this.handleChange('stageBackground')}
+						onChange={this.onChangeStageBackground}
 						value={this.state.stageBackground}
 						style={{
 							margin: '.4rem'
@@ -61,7 +78,10 @@ export default class GeneralPanel extends Component<Props, State> {
 					</label>
 				</div>
 
-				<FormControlLabel control={<Switch />} label="Is DM?" />
+				<FormControlLabel
+					control={<Switch value={this.state.isDm} onChange={this.onChangeIsDm} />}
+					label="Is DM?"
+				/>
 			</div>
 		);
 	}
