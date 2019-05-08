@@ -30,7 +30,8 @@ export default class OverlayTab extends Component<Props> {
 							whiteSpace: 'nowrap',
 							textAlign: 'center',
 							transition: 'background-color 500ms',
-							transitionTimingFunction: 'cubic-bezier(0.4, 0.0, 0.2, 1)'
+							transitionTimingFunction: 'cubic-bezier(0.4, 0.0, 0.2, 1)',
+							userSelect: 'none'
 						}}
 						onClick={() => onClick()}
 					>
