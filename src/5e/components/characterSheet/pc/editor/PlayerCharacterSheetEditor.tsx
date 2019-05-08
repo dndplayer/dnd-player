@@ -16,6 +16,9 @@ import SkillsEditor from './SkillsEditor';
 import SpellsEditor from './SpellsEditor';
 import SpellSlotEditorContainer from './SpellSlotEditorContainer';
 import TraitsEditor from './TraitsEditor';
+import AttacksEditor from './AttacksEditor';
+import EquipmentEditor from './EquipmentEditor';
+import ResourcesEditor from './ResourcesEditor';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -110,30 +113,15 @@ export default class PlayerCharacterSheetEditor extends React.Component<Props, S
 						<SavesEditor character={newCharacter} updateCharacterProperty={update} />
 						<SkillsEditor character={newCharacter} updateCharacterProperty={update} />
 					</div>
-					Equipment
-					<textarea
-						rows={10}
-						value={JSON.stringify(newCharacter.equipment)}
-						onChange={e => this.update('equipment', JSON.parse(e.target.value))}
-					/>
+					<EquipmentEditor character={newCharacter} updateCharacterProperty={update} />
 					<SpellsEditor character={newCharacter} updateCharacterProperty={update} />
 					<SpellSlotEditorContainer
 						character={newCharacter}
 						updateCharacterProperty={update}
 					/>
-					Attacks
-					<textarea
-						rows={10}
-						value={JSON.stringify(newCharacter.attacks)}
-						onChange={e => this.update('attacks', JSON.parse(e.target.value))}
-					/>
+					<AttacksEditor character={newCharacter} updateCharacterProperty={update} />
 					<TraitsEditor character={newCharacter} updateCharacterProperty={update} />
-					Resources
-					<textarea
-						rows={5}
-						value={JSON.stringify(newCharacter.resources)}
-						onChange={e => this.update('resources', JSON.parse(e.target.value))}
-					/>
+					<ResourcesEditor character={newCharacter} updateCharacterProperty={update} />
 					<MoneyEditorContainer
 						character={newCharacter}
 						updateCharacterProperty={update}
