@@ -7,7 +7,8 @@ import {
 	AddImageToMapAction,
 	AddAssetToMapAction,
 	TestMapUpdateObjectAction,
-	TestMapRemoveObjectAction
+	TestMapRemoveObjectAction,
+	TestMapUpdateBackgroundColour
 } from '../actions/testMap';
 
 import rsf from '../rsf';
@@ -38,6 +39,11 @@ function* testMapUpdateObject(action: TestMapUpdateObjectAction): any {
 function* testMapRemoveObject(action: TestMapRemoveObjectAction): any {
 	const { mapObjectId } = action;
 	yield call(rsf.database.delete, `/testMap/objects/${mapObjectId}`);
+}
+
+function* updateBackgroundColour(action: TestMapUpdateBackgroundColour): any {
+	const { colour } = action;
+	yield call(rsf.database.update, `/testMap/backgroundColour`, colour);
 }
 
 function* addAssetToTestMap(action: AddAssetToMapAction): any {
@@ -83,6 +89,7 @@ export default function* rootSaga() {
 		takeEvery(types.TESTMAP.UPDATE.OBJECT, testMapUpdateObject),
 		takeEvery(types.TESTMAP.ASSET.ADD, addAssetToTestMap),
 		takeEvery(types.TESTMAP.IMAGE.ADD, addImageToTestMap),
-		takeEvery(types.TESTMAP.REMOVE.OBJECT, testMapRemoveObject)
+		takeEvery(types.TESTMAP.REMOVE.OBJECT, testMapRemoveObject),
+		takeEvery(types.TESTMAP.UPDATE.BACKGROUND_COLOUR, updateBackgroundColour)
 	]);
 }

@@ -1,14 +1,43 @@
-import React, { Component } from 'react';
+import React, { Component, ReactNode, SyntheticEvent } from 'react';
+import { Switch, FormControlLabel } from '@material-ui/core';
 
-export default class GeneralPanel extends Component {
-	render() {
+interface State {
+	stageBackground: string;
+}
+
+interface Props {
+	stageBackground: string;
+	updateStageBackground: (value: string) => void;
+}
+
+export default class GeneralPanel extends Component<Props, State> {
+	state = {
+		stageBackground: this.props.stageBackground || '#ffffff'
+	};
+
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps.stageBackground !== this.props.stageBackground) {
+			this.setState({ stageBackground: this.props.stageBackground });
+		}
+	}
+
+	handleChange = (name: string) => e => {
+		this.setState({ [name]: e.target.value } as any);
+
+		if (name === 'stageBackground') {
+			if (this.props.updateStageBackground) {
+				this.props.updateStageBackground(e.target.value);
+			}
+		}
+	};
+
+	render(): ReactNode {
 		return (
 			<div>
 				<h1>General</h1>
 
 				<h2>TODO:</h2>
 				<ul>
-					<li>Map stage background colour</li>
 					<li>Room URL copy button</li>
 					<li>Logout button</li>
 				</ul>
@@ -18,7 +47,8 @@ export default class GeneralPanel extends Component {
 						type="color"
 						id="stageBackground"
 						name="stageBackground"
-						value="#ffffff"
+						onChange={this.handleChange('stageBackground')}
+						value={this.state.stageBackground}
 						style={{
 							margin: '.4rem'
 						}}
@@ -30,6 +60,8 @@ export default class GeneralPanel extends Component {
 						Map Background Colour
 					</label>
 				</div>
+
+				<FormControlLabel control={<Switch />} label="Is DM?" />
 			</div>
 		);
 	}

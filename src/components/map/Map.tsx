@@ -237,7 +237,7 @@ class Map extends Component<Props, State> {
 			return <div>No Map</div>;
 		}
 
-		const { objects } = this.props.mapData;
+		const { objects, backgroundColour } = this.props.mapData;
 		const { background, tokens } = this.props.mapData.layers;
 
 		const { connectDropTarget, isHovering } = this.props;
@@ -270,7 +270,9 @@ class Map extends Component<Props, State> {
 					height={window.innerHeight}
 					options={{
 						antialias: true,
-						backgroundColor: 0xffffff
+						backgroundColor: backgroundColour
+							? parseInt(backgroundColour.slice(1), 16)
+							: 0xffffff
 					}}
 				>
 					<AppConsumer>

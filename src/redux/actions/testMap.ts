@@ -7,7 +7,8 @@ export const types = {
 		SYNC: 'TESTMAP.SYNC',
 		SYNC_FAILED: 'TESTMAP.SYNC_FAILED',
 		UPDATE: {
-			OBJECT: 'TESTMAP.UPDATE.OBJECT'
+			OBJECT: 'TESTMAP.UPDATE.OBJECT',
+			BACKGROUND_COLOUR: 'TESTMAP.UPDATE.BACKGROUND_COLOUR'
 		},
 		REMOVE: {
 			OBJECT: 'TESTMAP.REMOVE.OBJECT'
@@ -57,6 +58,10 @@ export interface TestMapRemoveObjectAction extends Action {
 	mapObjectId: string;
 }
 
+export interface TestMapUpdateBackgroundColour extends Action {
+	colour: string;
+}
+
 //-----------------------------------------------------------------------
 // Action creators
 //-----------------------------------------------------------------------
@@ -95,4 +100,9 @@ export const addImageToMap = ({ imageRef }): AddImageToMapAction => ({
 export const selectObject = ({ mapObjectId }): SelectObjectAction => ({
 	type: types.TESTMAP.SELECT.OBJECT,
 	mapObjectId
+});
+
+export const updateBackgroundColour = (colour: string): TestMapUpdateBackgroundColour => ({
+	type: types.TESTMAP.UPDATE.BACKGROUND_COLOUR,
+	colour
 });

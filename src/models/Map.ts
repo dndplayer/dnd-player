@@ -36,4 +36,5 @@ export interface MapData {
 	layers: MapLayers;
 	// objects: MapObject[];
 	objects: object;
+	backgroundColour?: string;
 }
