@@ -21,6 +21,10 @@ export default class OverlayTabs extends Component<Props> {
 	onClickTab = (panel: OverlayPanelTypes): (() => void) => (): void => {
 		if (this.props.open && this.props.currentPanel === panel) {
 			this.props.closeTabs();
+			// This openPanel(null) causes the active highlight to be removed, but not having this
+			// is quite nice because the panel persists through being shut (incase you're editing
+			// an input and want to minimize it temporarily)
+			this.props.openPanel(null);
 		} else {
 			this.props.openPanel(panel);
 			if (!this.props.open) {
@@ -30,7 +34,7 @@ export default class OverlayTabs extends Component<Props> {
 	};
 
 	render(): ReactNode {
-		const { open, openTab, closeTabs } = this.props;
+		const { open, openPanel, closeTabs } = this.props;
 		return (
 			<div
 				style={{
@@ -102,7 +106,10 @@ export default class OverlayTabs extends Component<Props> {
 							justifyContent: 'center',
 							alignItems: 'center'
 						}}
-						onClick={() => closeTabs()}
+						onClick={() => {
+							closeTabs();
+							openPanel(null);
+						}}
 					>
 						<span style={{}}>
 							<CloseIcon />
