@@ -8,6 +8,7 @@ import AssetListContainer from '../assets/AssetListContainer';
 import CreateAssetContainer from '../assets/CreateAssetContainer';
 import ImageUploaderContainer from './panels/imageUploader/ImageUploaderContainer';
 import GeneralPanelContainer from './panels/general/GeneralPanelContainer';
+import FogPanelContainer from './panels/fog/FogPanelContainer';
 
 interface Props {
 	open: boolean;
@@ -72,6 +73,11 @@ export default class OverlayTabs extends Component<Props> {
 						name="general"
 						onClick={this.onClickTab(OverlayPanelTypes.GENERAL)}
 					/>
+					<OverlayTab
+						text="Fog"
+						name="fog"
+						onClick={this.onClickTab(OverlayPanelTypes.FOG)}
+					/>
 				</div>
 				<div
 					style={{
@@ -120,6 +126,11 @@ export default class OverlayTabs extends Component<Props> {
 					{this.props.currentPanel === OverlayPanelTypes.GENERAL && (
 						<OverlayPanel>
 							<GeneralPanelContainer />
+						</OverlayPanel>
+					)}
+					{this.props.currentPanel === OverlayPanelTypes.FOG && (
+						<OverlayPanel>
+							<FogPanelContainer />
 						</OverlayPanel>
 					)}
 				</div>

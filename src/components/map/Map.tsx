@@ -14,6 +14,7 @@ import { withStyles, WithStyles, LinearProgress } from '@material-ui/core';
 import Scenery from './objects/Scenery';
 import { groupObjectsByLayer } from './MapUtils';
 import { PlayerCharacter, NonPlayerCharacter, CharacterSize } from '../../5e/models/Character';
+import FogLayer from './objects/FogLayer';
 
 interface ViewportComponentProps {
 	app?: PIXI.Application;
@@ -201,6 +202,7 @@ class Map extends Component<Props, State> {
 			app.renderer.width / app.renderer.resolution,
 			app.renderer.height / app.renderer.resolution
 		);
+		(app.renderer as any).state.blendModes[20] = [0, WebGLRenderingContext.ONE_MINUS_SRC_ALPHA];
 		app.stage.interactive = true;
 		// Any free space click should de-select the currently selected object.
 		// for this to work any objects on the stage the implement .on('mouseup')
@@ -287,8 +289,16 @@ class Map extends Component<Props, State> {
 									.reverse()
 									.map((layerName: string) => {
 										const l = groupedObjects[layerName];
+										const mask = new PIXI.Graphics();
+										mask.beginFill(0x000000);
+										mask.drawCircle(0, 0, 1500);
+										mask.endFill();
 										return (
-											<Container key={layerName} name={`layer-${layerName}`}>
+											<Container
+												key={layerName}
+												name={`layer-${layerName}`}
+												mask={mask}
+											>
 												{l.map(o => {
 													const isPc = !!o.pcId;
 													const isNpc = !!o.npcId;
@@ -389,6 +399,7 @@ class Map extends Component<Props, State> {
 											</Container>
 										);
 									})}
+								<FogLayer />
 							</ViewportComponent>
 						)}
 					</AppConsumer>
