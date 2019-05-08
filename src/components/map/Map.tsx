@@ -38,7 +38,7 @@ const ViewportComponent = PixiComponent<ViewportComponentProps, Viewport>('Viewp
 			mouseButtons: 'right'
 		})
 			.pinch()
-			.wheel()
+			.wheel({ smooth: 5 })
 			.decelerate();
 
 		return v;
