@@ -146,11 +146,7 @@ export default class PropertiesPanel extends Component<Props, State> {
 		}
 
 		if (!object) {
-			return (
-				<div style={wrapperStyle}>
-					<h1>Nothing Selected</h1>
-				</div>
-			);
+			return <div />;
 		}
 
 		return (
