@@ -15,6 +15,7 @@ import Scenery from './objects/Scenery';
 import { groupObjectsByLayer } from './MapUtils';
 import { PlayerCharacter, NonPlayerCharacter, CharacterSize } from '../../5e/models/Character';
 import { MapObjectVisibility } from './objects/MapObject';
+import Ruler from './objects/Ruler';
 
 interface ViewportComponentProps {
 	app?: PIXI.Application;
@@ -450,6 +451,12 @@ class Map extends Component<Props, State> {
 											</Container>
 										);
 									})}
+								<Ruler
+									visible={this.state.measuring}
+									measuring={this.state.measuring}
+									start={this.state.measureStart}
+									end={this.state.measureEnd}
+								/>
 							</ViewportComponent>
 						)}
 					</AppConsumer>
