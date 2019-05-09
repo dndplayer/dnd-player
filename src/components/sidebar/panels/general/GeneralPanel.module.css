@@ -1,0 +1,15 @@
+.generalPanel {
+	height: 100%;
+}
+
+.settingWrapper {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
+}
+
+.settingRow {
+	/* flex: 1; */
+}

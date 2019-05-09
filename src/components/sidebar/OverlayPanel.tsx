@@ -35,7 +35,7 @@ export default class OverlayPanel extends Component {
 						exitActive: styles.exitActive
 					}}
 				>
-					<div>{this.props.children}</div>
+					<div style={{ height: '100%' }}>{this.props.children}</div>
 				</CSSTransition>
 			</div>
 		);

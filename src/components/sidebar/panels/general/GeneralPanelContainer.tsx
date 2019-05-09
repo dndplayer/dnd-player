@@ -20,12 +20,17 @@ class GeneralPanelContainer extends Component<Props> {
 	render(): ReactNode {
 		const { backgroundColour, updateStageBackground, isDm, setIsDm } = this.props;
 
+		const settings = JSON.parse(localStorage.getItem('firebaseConfig'));
+		const roomUrl =
+			document.location + `?projectId=${settings.projectId}&apiKey=${settings.apiKey}`;
+
 		return (
 			<GeneralPanel
 				isDm={isDm}
 				setIsDm={setIsDm}
 				stageBackground={backgroundColour}
 				updateStageBackground={updateStageBackground}
+				roomUrl={roomUrl}
 			/>
 		);
 	}
