@@ -26,11 +26,11 @@ export default class MapObject extends PIXI.Container {
 	 * You can always override any behaviour after that call if you want
 	 * to customise it in that component.
 	 **/
-	innerApplyProps = (
+	public innerApplyProps(
 		instance: MapObject,
 		oldProps: MapObjectProps,
 		newProps: MapObjectProps
-	): void => {
+	): void {
 		if (newProps.position !== oldProps.position) {
 			const list = new Ease.list();
 			list.add(
@@ -60,5 +60,5 @@ export default class MapObject extends PIXI.Container {
 				newProps.scale ? newProps.scale.y : 1.0
 			);
 		}
-	};
+	}
 }

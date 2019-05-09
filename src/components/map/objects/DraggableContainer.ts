@@ -29,8 +29,19 @@ export default class DraggableContainer extends MapObject {
 	private dragStartPosition?: PIXI.PointLike;
 	private static clickThreshold: number = 0.1; // Tune this to account for shaky hands etc
 
+	innerApplyProps(
+		instance: DraggableContainer,
+		oldProps: DraggableContainerProps,
+		newProps: DraggableContainerProps
+	) {
+		this.isSelectable = newProps.isSelectable;
+		super.innerApplyProps(instance, oldProps, newProps);
+	}
 	// Core functionality
 	onDragStart = (e: PIXI.interaction.InteractionEvent): void => {
+		if (!this.isSelectable) {
+			return;
+		}
 		this.alpha = 0.7;
 		this.dragging = true;
 		this.dragData = e.data;
@@ -55,6 +66,9 @@ export default class DraggableContainer extends MapObject {
 	};
 
 	onDragEnd = (e: PIXI.interaction.InteractionEvent): void => {
+		if (!this.isSelectable) {
+			return;
+		}
 		e.stopPropagation(); // Prevent this triggering the stage.on('mouseup') which handles de-selects
 
 		this.alpha = 1.0;
@@ -115,7 +129,7 @@ export default class DraggableContainer extends MapObject {
 
 	onMouseOver = (e: PIXI.interaction.InteractionEvent): void => {
 		const sprite = this.getChildByName('sprite') as PIXI.Sprite;
-		if (sprite) {
+		if (sprite && this.isSelectable) {
 			// inst.tint = 0x4ef125;
 			sprite.filters = this.hoverFilters;
 		}
@@ -123,7 +137,7 @@ export default class DraggableContainer extends MapObject {
 
 	onMouseOut = (e: PIXI.interaction.InteractionEvent): void => {
 		const sprite = this.getChildByName('sprite') as PIXI.Sprite;
-		if (sprite) {
+		if (sprite && this.isSelectable) {
 			// inst.tint = 0xffffff;
 			sprite.filters = null;
 		}

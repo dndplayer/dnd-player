@@ -1,5 +1,5 @@
 import React, { Component, ReactNode, ReactElement } from 'react';
-import { Stage, Sprite, Container, PixiComponent, AppConsumer } from '@inlet/react-pixi';
+import { Stage, Sprite, Container, PixiComponent, AppConsumer, Graphics } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 import Viewport from 'pixi-viewport';
 
@@ -104,12 +104,18 @@ interface State {
 	loadingAssets: boolean;
 	loadProgress: number;
 	app?: PIXI.Application;
+	measuring: boolean;
+	measureStart: PIXI.PointLike;
+	measureEnd: PIXI.PointLike;
 }
 class Map extends Component<Props, State> {
 	state = {
 		loadingAssets: true,
 		loadProgress: 0,
-		app: null
+		app: null,
+		measuring: false,
+		measureStart: null,
+		measureEnd: null
 	};
 
 	private app: any;
@@ -216,7 +222,30 @@ class Map extends Component<Props, State> {
 					this.props.onSelectObject({ mapObjectId: null });
 				}
 
+				if (this.state.measuring) {
+					this.setState({
+						measureStart: e.data.global.clone(),
+						measureEnd: e.data.global.clone()
+					});
+				}
+
 				// TODO: Possibly also trigger a close of the sidebar if it's open
+			}
+		);
+		app.stage.on(
+			'mousemove',
+			(e): void => {
+				if (this.state.measuring && this.state.measureStart) {
+					this.setState({ measureEnd: e.data.global.clone() });
+				}
+			}
+		);
+		app.stage.on(
+			'mouseup',
+			(e): void => {
+				if (this.state.measuring) {
+					this.setState({ measureStart: null, measureEnd: null });
+				}
 			}
 		);
 	};
@@ -263,6 +292,26 @@ class Map extends Component<Props, State> {
 		return connectDropTarget(
 			<div ref={c => (this._mainWrapper = c)}>
 				{overlay}
+				<input
+					type="checkbox"
+					checked={this.state.measuring}
+					onChange={e => this.setState({ measuring: e.target.checked })}
+					style={{ position: 'absolute', top: 0, left: 0 }}
+				/>
+				{this.state.measureEnd && (
+					<div style={{ position: 'absolute', top: 0, left: '30px' }}>
+						{(
+							Math.pow(
+								Math.pow(this.state.measureEnd.x - this.state.measureStart.x, 2) +
+									Math.pow(
+										this.state.measureEnd.y - this.state.measureStart.y,
+										2
+									),
+								0.5
+							) / 14
+						).toFixed(1) + ' ft.'}
+					</div>
+				)}
 				<Stage
 					ref={c => (this._stage = c as any)}
 					onMount={this.onMapMount}
@@ -353,7 +402,7 @@ class Map extends Component<Props, State> {
 																this.props.onUpdateObject
 															}
 															isSelected={isSelected}
-															isSelectable={true}
+															isSelectable={!this.state.measuring}
 															onSelected={this.props.onSelectObject}
 															mapObjectId={o.id}
 															layerName="background"
@@ -379,7 +428,7 @@ class Map extends Component<Props, State> {
 																this.props.onUpdateObject
 															}
 															isSelected={isSelected}
-															isSelectable={true}
+															isSelectable={!this.state.measuring}
 															onSelected={this.props.onSelectObject}
 															mapObjectId={o.id}
 															layerName="tokens"
