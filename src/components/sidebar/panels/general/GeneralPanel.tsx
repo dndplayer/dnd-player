@@ -2,6 +2,7 @@ import React, { Component, ReactNode, SyntheticEvent } from 'react';
 import { Switch, FormControlLabel, Button, Tooltip } from '@material-ui/core';
 
 import styles from './GeneralPanel.module.css';
+import { NonPlayerCharacter } from '../../../../5e/models/Character';
 
 interface State {
 	stageBackground: string;
@@ -16,6 +17,9 @@ interface Props {
 	roomUrl: string;
 	updateStageBackground: (value: string) => void;
 	setIsDm: (val: boolean) => void;
+	nonPlayerCharacters: NonPlayerCharacter[];
+	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) => void;
+	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) => void;
 }
 
 export default class GeneralPanel extends Component<Props, State> {
@@ -80,6 +84,36 @@ export default class GeneralPanel extends Component<Props, State> {
 		});
 	};
 
+	importNpcs(): void {
+		const input = prompt('enter NPC json...');
+		const obj = JSON.parse(input);
+		if (!obj) {
+			alert('Failed to parse JSON.');
+			return;
+		}
+
+		for (const npc of obj) {
+			const existing = this.props.nonPlayerCharacters.find(y => y.name === npc.name);
+			if (existing) {
+				this.props.updateNonPlayerCharacter(existing.id, npc);
+			} else {
+				this.props.saveNewNonPlayerCharacter(npc);
+			}
+		}
+
+		alert('Done!');
+	}
+
+	exportNpcs(): void {
+		const el = document.createElement('textarea');
+		el.value = JSON.stringify(this.props.nonPlayerCharacters);
+		document.body.appendChild(el);
+		el.select();
+		document.execCommand('copy');
+		document.body.removeChild(el);
+		alert('NPC JSON copied to clipboard.');
+	}
+
 	render(): ReactNode {
 		return (
 			<div className={styles.generalPanel}>
@@ -127,6 +161,9 @@ export default class GeneralPanel extends Component<Props, State> {
 							Map Background Colour
 						</label>
 					</div>
+
+					<Button onClick={() => this.importNpcs()}>Import NPCs</Button>
+					<Button onClick={() => this.exportNpcs()}>Export NPCs</Button>
 
 					<div className={styles.settingRow}>
 						<FormControlLabel
