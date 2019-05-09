@@ -11,9 +11,10 @@ interface Props {
 	color?: number;
 }
 
-export default PixiComponent<Props, PIXI.Graphics>('Token', {
+export default PixiComponent<Props, PIXI.Graphics>('Ruler', {
 	create: (props: Props): any => {
 		const g = new PIXI.Graphics();
+		g.name = 'ruler';
 		const col = props.color || 0xff0000;
 
 		if (props.measuring) {
