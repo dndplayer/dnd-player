@@ -26,10 +26,13 @@ export default PixiComponent<Props, PIXI.Graphics>('Token', {
 	applyProps: (instance: PIXI.Graphics, oldProps: Props, newProps: Props): void => {
 		instance.clear();
 		if (newProps.measuring && newProps.start && newProps.end) {
+			const s = instance.toLocal(newProps.start);
+			const e = instance.toLocal(newProps.end);
+
 			instance
 				.lineStyle(20, 0xff0000)
-				.moveTo(newProps.start.x, newProps.start.y)
-				.lineTo(newProps.end.x, newProps.end.y);
+				.moveTo(s.x, s.y)
+				.lineTo(e.x, e.y);
 		}
 
 		instance.visible = newProps.visible;
