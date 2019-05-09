@@ -312,7 +312,9 @@ class Map extends Component<Props, State> {
 										2
 									),
 								0.5
-							) / 14
+							) /
+							this._viewport.scale.x /
+							25
 						).toFixed(1) + ' ft.'}
 					</div>
 				)}
