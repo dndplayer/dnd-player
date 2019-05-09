@@ -371,6 +371,7 @@ class Map extends Component<Props, State> {
 													);
 													const isDmOnly = o.dmOnly || false;
 													const userIsDm = isUserDm || false;
+													const layer = o.layer;
 													const visibility = isDmOnly
 														? userIsDm
 															? MapObjectVisibility.DM_VISIBLE
@@ -418,7 +419,7 @@ class Map extends Component<Props, State> {
 															isSelectable={!this.state.measuring}
 															onSelected={this.props.onSelectObject}
 															mapObjectId={o.id}
-															layerName="background"
+															layerName={layer}
 															visibility={visibility}
 														/>
 													) : (
@@ -445,7 +446,7 @@ class Map extends Component<Props, State> {
 															isSelectable={!this.state.measuring}
 															onSelected={this.props.onSelectObject}
 															mapObjectId={o.id}
-															layerName="tokens"
+															layerName={layer}
 															visibility={visibility}
 														/>
 													);
