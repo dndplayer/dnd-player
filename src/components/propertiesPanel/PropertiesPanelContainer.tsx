@@ -13,6 +13,7 @@ interface StateProps {
 	visible: boolean;
 	selected: string[];
 	map: MapData;
+	isUserDm: boolean;
 }
 interface DispatchProps {
 	onUpdateObject: (data) => void;
@@ -25,7 +26,15 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 class PropertiesPanelContainer extends Component<Props> {
 	render(): ReactNode {
-		const { visible, map, selected, onUpdateObject, removeObject, close } = this.props;
+		const {
+			visible,
+			map,
+			selected,
+			onUpdateObject,
+			removeObject,
+			close,
+			isUserDm
+		} = this.props;
 
 		// This cheats currently, until we have keyboard / hotkey support to open
 		// the property window, it will just show if there is anything selected.
@@ -38,6 +47,7 @@ class PropertiesPanelContainer extends Component<Props> {
 				onUpdateObject={onUpdateObject}
 				removeObject={removeObject}
 				close={close}
+				isUserDm={isUserDm}
 			/>
 		);
 	}
@@ -46,7 +56,8 @@ class PropertiesPanelContainer extends Component<Props> {
 const mapStateToProps = (state): StateProps => ({
 	visible: state.ui.propertyPanel.visible,
 	selected: state.testMap.selectedObjects,
-	map: state.testMap.map
+	map: state.testMap.map,
+	isUserDm: state.auth.isDm
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	onUpdateObject: data => dispatch(testMapUpdateObject(data)),

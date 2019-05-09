@@ -18,6 +18,7 @@ interface StateProps {
 	playerCharacters: PlayerCharacter[];
 	nonPlayerCharacters: NonPlayerCharacter[];
 	images: Upload[];
+	isUserDm: boolean;
 }
 interface DispatchProps {
 	onUpdateObject: (data) => void;
@@ -41,7 +42,8 @@ class MapContainer extends Component<Props> {
 			onAddImageToMap,
 			playerCharacters,
 			nonPlayerCharacters,
-			images
+			images,
+			isUserDm
 		} = this.props;
 		return (
 			<Map
@@ -57,6 +59,7 @@ class MapContainer extends Component<Props> {
 				onAddImageToMap={onAddImageToMap}
 				onSelectObject={onSelectObject}
 				images={images}
+				isUserDm={isUserDm}
 			/>
 		);
 	}
@@ -68,7 +71,8 @@ const mapStateToProps = (state): StateProps => ({
 	selectedObjects: state.testMap.selectedObjects,
 	images: state.images.images,
 	playerCharacters: state.assets.playerCharacters,
-	nonPlayerCharacters: state.assets.nonPlayerCharacters
+	nonPlayerCharacters: state.assets.nonPlayerCharacters,
+	isUserDm: state.auth.isDm
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	onUpdateObject: data => dispatch(testMapUpdateObject(data)),

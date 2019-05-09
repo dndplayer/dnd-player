@@ -1,12 +1,19 @@
 import * as PIXI from 'pixi.js';
 import * as Ease from 'pixi-ease';
 
+export enum MapObjectVisibility {
+	VISIBLE = 0,
+	DM_VISIBLE = 1,
+	HIDDEN = 2
+}
+
 export interface MapObjectProps {
 	position?: PIXI.PointLike;
 	rotation?: number;
 	pivot?: PIXI.PointLike;
 	// No Anchor here because it is only on Sprite, not container so can't be common here
 	scale?: PIXI.PointLike;
+	visibility?: MapObjectVisibility;
 }
 
 export default class MapObject extends PIXI.Container {
@@ -59,6 +66,20 @@ export default class MapObject extends PIXI.Container {
 				newProps.scale ? newProps.scale.x : 1.0,
 				newProps.scale ? newProps.scale.y : 1.0
 			);
+		}
+		if (newProps.visibility !== oldProps.visibility) {
+			switch (newProps.visibility) {
+				case MapObjectVisibility.DM_VISIBLE:
+					instance.visible = true;
+					instance.alpha = 0.4;
+					break;
+				case MapObjectVisibility.HIDDEN:
+					instance.visible = false;
+					break;
+				default:
+					instance.visible = true;
+					break;
+			}
 		}
 	}
 }

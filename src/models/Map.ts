@@ -8,6 +8,7 @@ export interface MapObject {
 	position: PIXI.PointLike;
 	rotation: number;
 	scale: PIXI.PointLike;
+	dmOnly: boolean;
 	type: string;
 	layer: string;
 	imageRef?: string; // Override the image used by an asset (if it has one)

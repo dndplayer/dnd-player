@@ -1,6 +1,6 @@
 import React, { Component, ReactNode } from 'react';
 import { Rnd } from 'react-rnd';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, FormControlLabel, Switch } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -24,6 +24,7 @@ interface Props {
 	visible?: boolean;
 	selected: string[];
 	map: MapData;
+	isUserDm: boolean; // Hide certain props
 	onUpdateObject: (data) => void;
 	removeObject: (mapObjectId) => void;
 	close: () => void;
@@ -40,6 +41,7 @@ interface State {
 	isPcAsset: boolean;
 	isNpcAsset: boolean;
 	layers: object[];
+	isDmOnly: boolean;
 }
 
 export default class PropertiesPanel extends Component<Props, State> {
@@ -53,7 +55,8 @@ export default class PropertiesPanel extends Component<Props, State> {
 		isNpcAsset: false,
 		layers: [],
 		scaleX: 1.0,
-		scaleY: 1.0
+		scaleY: 1.0,
+		isDmOnly: false
 	};
 
 	handleChange = (propName): ((e) => void) => (e): void => {
@@ -64,6 +67,10 @@ export default class PropertiesPanel extends Component<Props, State> {
 		this.setState({
 			[propName]: e.target.value
 		} as any);
+	};
+
+	onChangeIsDm = (e): void => {
+		this.setState({ isDmOnly: !!e.target.checked });
 	};
 
 	removeObject = (): void => {
@@ -87,7 +94,8 @@ export default class PropertiesPanel extends Component<Props, State> {
 					scale: {
 						x: this.state.scaleX,
 						y: this.state.scaleY
-					}
+					},
+					dmOnly: this.state.isDmOnly
 				}
 			});
 		}
@@ -132,7 +140,8 @@ export default class PropertiesPanel extends Component<Props, State> {
 			isNpcAsset,
 			layers: layersArr,
 			scaleX: object ? object.scale.x : 1.0,
-			scaleY: object ? object.scale.y : 1.0
+			scaleY: object ? object.scale.y : 1.0,
+			isDmOnly: object ? object.dmOnly : false
 		});
 	};
 
@@ -155,10 +164,10 @@ export default class PropertiesPanel extends Component<Props, State> {
 					x: 5,
 					y: 5,
 					width: 250,
-					height: 450
+					height: 510
 				}}
 				minWidth={250}
-				minHeight={450}
+				minHeight={510}
 				dragHandleClassName="dragBar"
 				bounds={'window'}
 				enableResizing={{
@@ -282,6 +291,18 @@ export default class PropertiesPanel extends Component<Props, State> {
 								type="number"
 								value={scaleY}
 								onChange={this.handleChange('scaleY')}
+							/>
+						</PropertyRow>
+
+						<PropertyRow>
+							<FormControlLabel
+								control={
+									<Switch
+										value={this.state.isDmOnly}
+										onChange={this.onChangeIsDm}
+									/>
+								}
+								label="DM Only"
 							/>
 						</PropertyRow>
 

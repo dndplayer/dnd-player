@@ -14,6 +14,7 @@ import { withStyles, WithStyles, LinearProgress } from '@material-ui/core';
 import Scenery from './objects/Scenery';
 import { groupObjectsByLayer } from './MapUtils';
 import { PlayerCharacter, NonPlayerCharacter, CharacterSize } from '../../5e/models/Character';
+import { MapObjectVisibility } from './objects/MapObject';
 
 interface ViewportComponentProps {
 	app?: PIXI.Application;
@@ -96,6 +97,7 @@ interface OwnProps extends WithStyles<typeof styles> {
 	onAddAssetToMap: (data) => void;
 	onAddImageToMap: (data) => void;
 	images: Upload[];
+	isUserDm: boolean;
 }
 
 type Props = CollectProps & OwnProps;
@@ -268,6 +270,7 @@ class Map extends Component<Props, State> {
 
 		const { objects, backgroundColour } = this.props.mapData;
 		const { background, tokens } = this.props.mapData.layers;
+		const { isUserDm } = this.props;
 
 		const { connectDropTarget, isHovering } = this.props;
 
@@ -363,6 +366,13 @@ class Map extends Component<Props, State> {
 													const isSelected = !!selectedObjects.find(
 														x => x === o.id
 													);
+													const isDmOnly = o.dmOnly || false;
+													const userIsDm = isUserDm || false;
+													const visibility = isDmOnly
+														? userIsDm
+															? MapObjectVisibility.DM_VISIBLE
+															: MapObjectVisibility.HIDDEN
+														: MapObjectVisibility.VISIBLE;
 													const isToken = isPc || isNpc;
 													const asset = pcAsset || npcAsset;
 													let scale = o.scale;
@@ -406,6 +416,7 @@ class Map extends Component<Props, State> {
 															onSelected={this.props.onSelectObject}
 															mapObjectId={o.id}
 															layerName="background"
+															visibility={visibility}
 														/>
 													) : (
 														<Token
@@ -432,6 +443,7 @@ class Map extends Component<Props, State> {
 															onSelected={this.props.onSelectObject}
 															mapObjectId={o.id}
 															layerName="tokens"
+															visibility={visibility}
 														/>
 													);
 												})}
