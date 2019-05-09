@@ -7,6 +7,8 @@ interface Props {
 	measuring: boolean;
 	start: PIXI.PointLike;
 	end: PIXI.PointLike;
+	thickness?: number;
+	color?: number;
 }
 
 export default PixiComponent<Props, PIXI.Graphics>('Token', {
@@ -14,7 +16,7 @@ export default PixiComponent<Props, PIXI.Graphics>('Token', {
 		const g = new PIXI.Graphics();
 
 		if (props.measuring) {
-			g.lineStyle(20, 0xff0000)
+			g.lineStyle(props.thickness || 20, props.color || 0xff0000)
 				.moveTo(props.start.x, props.start.y)
 				.lineTo(props.end.x, props.end.y);
 		}
@@ -30,7 +32,7 @@ export default PixiComponent<Props, PIXI.Graphics>('Token', {
 			const e = instance.toLocal(newProps.end);
 
 			instance
-				.lineStyle(20, 0xff0000)
+				.lineStyle(newProps.thickness || 20, newProps.color || 0xff0000)
 				.moveTo(s.x, s.y)
 				.lineTo(e.x, e.y);
 		}

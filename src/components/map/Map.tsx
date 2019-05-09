@@ -456,6 +456,9 @@ class Map extends Component<Props, State> {
 									measuring={this.state.measuring}
 									start={this.state.measureStart}
 									end={this.state.measureEnd}
+									thickness={
+										this._viewport ? (1 / this._viewport.scale.x) * 15 : 20
+									}
 								/>
 							</ViewportComponent>
 						)}
