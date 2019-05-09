@@ -459,6 +459,7 @@ class Map extends Component<Props, State> {
 									thickness={
 										this._viewport ? (1 / this._viewport.scale.x) * 15 : 20
 									}
+									color={0xff0000}
 								/>
 							</ViewportComponent>
 						)}

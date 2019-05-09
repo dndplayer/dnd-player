@@ -14,11 +14,15 @@ interface Props {
 export default PixiComponent<Props, PIXI.Graphics>('Token', {
 	create: (props: Props): any => {
 		const g = new PIXI.Graphics();
+		const col = props.color || 0xff0000;
 
 		if (props.measuring) {
-			g.lineStyle(props.thickness || 20, props.color || 0xff0000)
+			g.lineStyle(props.thickness || 20, col)
 				.moveTo(props.start.x, props.start.y)
 				.lineTo(props.end.x, props.end.y);
+			g.beginFill(col);
+			g.drawCircle(props.start.x, props.start.y, props.thickness * 3);
+			g.endFill();
 		}
 
 		g.visible = props.visible;
@@ -27,12 +31,19 @@ export default PixiComponent<Props, PIXI.Graphics>('Token', {
 	},
 	applyProps: (instance: PIXI.Graphics, oldProps: Props, newProps: Props): void => {
 		instance.clear();
+
+		const col = newProps.color || 0xff0000;
+
 		if (newProps.measuring && newProps.start && newProps.end) {
 			const s = instance.toLocal(newProps.start);
 			const e = instance.toLocal(newProps.end);
 
+			instance.beginFill(col, 0.8);
+			instance.drawCircle(s.x, s.y, newProps.thickness);
+			instance.endFill();
+
 			instance
-				.lineStyle(newProps.thickness || 20, newProps.color || 0xff0000)
+				.lineStyle(newProps.thickness || 20, col)
 				.moveTo(s.x, s.y)
 				.lineTo(e.x, e.y);
 		}
