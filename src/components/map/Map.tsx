@@ -1,7 +1,6 @@
 import React, { Component, ReactNode, ReactElement } from 'react';
 import { Stage, Sprite, Container, PixiComponent, AppConsumer, Graphics } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
-import Viewport from 'pixi-viewport';
 
 import { MapData } from '../../models/Map';
 
@@ -18,40 +17,7 @@ import { MapObjectVisibility } from './objects/MapObject';
 import Ruler from './objects/Ruler';
 
 import styles from './Map.module.scss';
-
-interface ViewportComponentProps {
-	app?: PIXI.Application;
-	name?: string;
-}
-const ViewportComponent = PixiComponent<ViewportComponentProps, Viewport>('Viewport', {
-	create: props => {
-		const v = new Viewport({
-			screenWidth: window.innerWidth,
-			screenHeight: window.innerHeight,
-			worldWidth: 1000,
-			worldHeight: 1000,
-			divWheel: props.app
-				? props.app.renderer.plugins.interaction.interactionDOMElement
-				: null,
-			interaction: props.app ? props.app.renderer.plugins.interaction : null
-		});
-
-		v.name = props.name || 'viewport';
-
-		v.drag({
-			mouseButtons: 'right'
-		})
-			.pinch()
-			.wheel({ smooth: 5 })
-			.decelerate();
-
-		return v;
-	},
-	applyProps: (instance, oldProps, newProps) => {
-		if (oldProps.app !== newProps.app) {
-		}
-	}
-});
+import { ViewportComponent } from './Viewport';
 
 interface CollectProps {
 	connectDropTarget: any;
