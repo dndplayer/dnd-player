@@ -482,13 +482,13 @@ const mapTargetSpec = {
 
 		switch (type) {
 			case types.PLAYER_CHARACTER_ASSET:
-				if (props.onAddAssetToMap) {
-					props.onAddAssetToMap({ assetType: item.assetType, assetId: item.id });
+				if (props.onAddAssetToMap && props.mapData) {
+					props.onAddAssetToMap(props.mapData.id, item.assetType, item.id);
 				}
 				break;
 			case types.UPLOAD_IMAGE:
-				if (props.onAddImageToMap) {
-					props.onAddImageToMap({ imageRef: item.imageRef });
+				if (props.onAddImageToMap && props.mapData) {
+					props.onAddImageToMap(props.mapData.id, item.imageRef);
 				}
 		}
 	}
