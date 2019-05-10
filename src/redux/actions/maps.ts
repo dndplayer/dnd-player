@@ -103,10 +103,7 @@ export const mapsSelectObject = (mapObjectId): MapsSelectObjectAction => ({
 	mapObjectId
 });
 
-export const mapsUpdateBackgroundColour = ({
-	mapId,
-	colour
-}): MapsUpdateBackgroundColourAction => ({
+export const mapsUpdateBackgroundColour = (mapId, colour): MapsUpdateBackgroundColourAction => ({
 	type: types.MAPS.UPDATE.BACKGROUND_COLOUR,
 	mapId,
 	colour

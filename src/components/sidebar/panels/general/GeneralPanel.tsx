@@ -20,7 +20,7 @@ interface Props {
 	stageBackground: string;
 	isDm: boolean;
 	roomUrl: string;
-	updateStageBackground: (value: string) => void;
+	updateStageBackground: (mapId: string, colour: string) => void;
 	setIsDm: (val: boolean) => void;
 	nonPlayerCharacters: NonPlayerCharacter[];
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) => void;
@@ -56,7 +56,7 @@ export default class GeneralPanel extends Component<Props, State> {
 		this.setState({ onChangeStageBackground: e.target.value } as any);
 
 		if (this.props.updateStageBackground) {
-			this.props.updateStageBackground(e.target.value);
+			this.props.updateStageBackground(this.props.activeMapId, e.target.value);
 		}
 	};
 

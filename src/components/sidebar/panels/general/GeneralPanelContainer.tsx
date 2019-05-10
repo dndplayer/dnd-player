@@ -1,7 +1,6 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import GeneralPanel from './GeneralPanel';
-import { updateBackgroundColour } from '../../../../redux/actions/testMap';
 import { setIsDm } from '../../../../redux/actions/auth';
 import { NonPlayerCharacter } from '../../../../5e/models/Character';
 import {
@@ -10,6 +9,7 @@ import {
 } from '../../../../redux/actions/assets';
 import { MapData } from '../../../../models/Map';
 import { setActiveMap } from '../../../../redux/actions/globalState';
+import { getCurrentMap, mapsUpdateBackgroundColour } from '../../../../redux/actions/maps';
 
 interface StateProps {
 	isDm: boolean;
@@ -20,7 +20,7 @@ interface StateProps {
 }
 interface DispatchProps {
 	setActiveMap: (mapId: string) => void;
-	updateStageBackground: (colour: string) => void;
+	updateStageBackground: (mapId: string, colour: string) => void;
 	setIsDm: (val: boolean) => void;
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) => void;
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) => void;
@@ -64,15 +64,15 @@ class GeneralPanelContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state): StateProps => ({
-	backgroundColour:
-		state.testMap && state.testMap.map ? state.testMap.map.backgroundColour : null,
+	backgroundColour: getCurrentMap(state).backgroundColour,
 	isDm: state.auth.isDm,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
 	maps: state.maps.maps,
-	activeMapId: state.globalState.activeMapId
+	activeMapId: state.globalState.state.activeMapId
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
-	updateStageBackground: (colour: string) => dispatch(updateBackgroundColour(colour)),
+	updateStageBackground: (mapId: string, colour: string) =>
+		dispatch(mapsUpdateBackgroundColour(mapId, colour)),
 	setIsDm: (val: boolean) => dispatch(setIsDm(val)),
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) =>
 		dispatch(updateNonPlayerCharacter(characterId, character)),
