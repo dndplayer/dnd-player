@@ -3,12 +3,8 @@ import { connect } from 'react-redux';
 import PropertiesPanel from './PropertiesPanel';
 import { MapData } from '../../models/Map';
 import { setPropertyPanelVisibility } from '../../redux/actions/ui';
-import {
-	getCurrentMap,
-	mapsUpdateObject,
-	mapsSelectObject,
-	mapsRemoveObject
-} from '../../redux/actions/maps';
+import { mapsUpdateObject, mapsSelectObject, mapsRemoveObject } from '../../redux/actions/maps';
+import { getCurrentMap } from '../../redux/selectors/maps';
 
 interface StateProps {
 	visible: boolean;

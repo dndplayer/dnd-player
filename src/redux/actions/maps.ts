@@ -114,11 +114,3 @@ export const mapsRemoveObject = (mapId, mapObjectId): MapsRemoveObjectAction => 
 	mapId,
 	mapObjectId
 });
-
-// TODO: Add Memoizing ?
-// ----------- State Getters
-export const getCurrentMap = (state): any => {
-	const maps = state.maps.maps;
-	const activeMapId = state.globalState.state ? state.globalState.state.activeMapId : null;
-	return activeMapId ? maps.find(x => x.id === activeMapId) : null;
-};

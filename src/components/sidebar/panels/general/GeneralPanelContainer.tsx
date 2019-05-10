@@ -9,7 +9,8 @@ import {
 } from '../../../../redux/actions/assets';
 import { MapData } from '../../../../models/Map';
 import { setActiveMap } from '../../../../redux/actions/globalState';
-import { getCurrentMap, mapsUpdateBackgroundColour } from '../../../../redux/actions/maps';
+import { mapsUpdateBackgroundColour } from '../../../../redux/actions/maps';
+import { getCurrentMapBackgroundColour } from '../../../../redux/selectors/maps';
 
 interface StateProps {
 	isDm: boolean;
@@ -64,7 +65,7 @@ class GeneralPanelContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state): StateProps => ({
-	backgroundColour: getCurrentMap(state).backgroundColour,
+	backgroundColour: getCurrentMapBackgroundColour(state),
 	isDm: state.auth.isDm,
 	nonPlayerCharactersIndex: state.assets.nonPlayerCharactersIndex,
 	maps: state.maps.maps,
