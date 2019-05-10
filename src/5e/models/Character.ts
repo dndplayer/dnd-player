@@ -1,7 +1,6 @@
 import { AttackEffectType, Attack } from '../5eRules';
 
 export interface Character {
-	id: string;
 	name: string;
 	imageRef: string;
 	size: CharacterSize;
@@ -15,6 +14,7 @@ export interface Character {
 }
 
 export interface PlayerCharacter extends Character {
+	id: string;
 	ac: number;
 	hp: number;
 	maxHp: number;

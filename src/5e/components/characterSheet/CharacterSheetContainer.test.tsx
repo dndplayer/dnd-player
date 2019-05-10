@@ -13,9 +13,11 @@ function getProps() {
 		sendMessage: jest.fn(),
 		editingCharacterSheets: [],
 		playerCharacters: [],
-		nonPlayerCharacters: [],
+		nonPlayerCharacters: {},
+		nonPlayerCharactersIndex: [],
 		updatePlayerCharacter: jest.fn(),
 		updateNonPlayerCharacter: jest.fn(),
+		loadFullNonPlayerCharacter: jest.fn(),
 		images: []
 	};
 }
@@ -33,7 +35,8 @@ function setup(props?) {
 describe('CharacterSheetContainer', () => {
 	it('should add a NonPlayerCharacterSheetWrapper for non player characters', () => {
 		const props = getProps();
-		props.nonPlayerCharacters.push({ id: 'test1' });
+		props.nonPlayerCharacters['test1'] = {};
+		props.nonPlayerCharactersIndex.push({ id: 'test1' });
 		props.popout = 'test1';
 		const { enzymeWrapper } = setup(props);
 

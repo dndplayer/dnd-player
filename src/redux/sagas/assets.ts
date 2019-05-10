@@ -1,11 +1,12 @@
-import { all, call, select, fork, takeEvery } from 'redux-saga/effects';
+import { all, call, select, fork, takeEvery, put } from 'redux-saga/effects';
 
 import {
 	types,
-	syncNonPlayerCharacters,
-	syncNonPlayerCharactersFailed,
+	syncNonPlayerCharactersIndex,
+	syncNonPlayerCharactersIndexFailed,
 	syncPlayerCharacters,
-	syncPlayerCharactersFailed
+	syncPlayerCharactersFailed,
+	loadFullNonPlayerCharacterDone
 } from '../actions/assets';
 
 import rsf from '../rsf';
@@ -103,12 +104,20 @@ function* syncNonPlayerCharactersSaga(): any {
 		rsf.database.sync,
 		database(rsf.app).ref('/nonPlayerCharacterIds'),
 		{
-			successActionCreator: syncNonPlayerCharacters,
-			failureActionCreator: syncNonPlayerCharactersFailed,
+			successActionCreator: syncNonPlayerCharactersIndex,
+			failureActionCreator: syncNonPlayerCharactersIndexFailed,
 			transform: nonPlayerCharacterTransformer
 		},
 		'value'
 	);
+}
+
+function* loadFullNonPlayerCharacterSaga(action: AnyAction): any {
+	const data = yield call(
+		rsf.database.read,
+		database(rsf.app).ref('/nonPlayerCharacters/' + action.characterId)
+	);
+	yield put(loadFullNonPlayerCharacterDone(action.characterId, data));
 }
 
 export default function* rootSaga(): any {
@@ -119,6 +128,7 @@ export default function* rootSaga(): any {
 		takeEvery(types.ASSETS.PLAYERCHARACTER.UPDATE, updatePlayerCharacterSaga),
 		takeEvery(types.ASSETS.PLAYERCHARACTER.NEW.SAVE, saveNewPlayerCharacterSaga),
 		takeEvery(types.ASSETS.NONPLAYERCHARACTER.UPDATE, updateNonPlayerCharacterSaga),
-		takeEvery(types.ASSETS.NONPLAYERCHARACTER.NEW.SAVE, saveNewNonPlayerCharacterSaga)
+		takeEvery(types.ASSETS.NONPLAYERCHARACTER.NEW.SAVE, saveNewNonPlayerCharacterSaga),
+		takeEvery(types.ASSETS.NONPLAYERCHARACTER.LOAD_FULL, loadFullNonPlayerCharacterSaga)
 	]);
 }

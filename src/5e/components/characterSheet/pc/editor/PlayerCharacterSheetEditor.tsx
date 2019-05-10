@@ -56,6 +56,7 @@ export default class PlayerCharacterSheetEditor extends React.Component<Props, S
 									: newCharacter.imageRef
 							}
 							character={newCharacter}
+							characterId={newCharacter.id}
 							updateCharacter={this.props.updatePlayerCharacter}
 						/>
 					</div>

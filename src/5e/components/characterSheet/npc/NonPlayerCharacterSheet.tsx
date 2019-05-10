@@ -22,13 +22,14 @@ interface Props {
 	updateNonPlayerCharacter: (characterId: string, character: Character) => void;
 	editNonPlayerCharacter: (characterId: string) => void;
 	character: NonPlayerCharacter;
+	characterId: string;
 	popout?: string;
 	image: Upload;
 }
 
 export default class NonPlayerCharacterSheet extends React.Component<Props, {}> {
 	render(): ReactNode {
-		const { character, editNonPlayerCharacter } = this.props;
+		const { character, editNonPlayerCharacter, characterId } = this.props;
 		return (
 			<div className={`column ${css.characterSheet} ${this.props.popout ? 'popout' : ''}`}>
 				<div className={css.characterImageContainer}>
@@ -37,15 +38,13 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 							this.props.image ? this.props.image.downloadUrl : character.imageRef
 						}
 						character={character}
+						characterId={characterId}
 						updateCharacter={this.props.updateNonPlayerCharacter}
 					/>
 				</div>
 				<div className={css.characterName + ' row'}>
 					<span>{character.name}</span>
-					<div
-						onClick={() => editNonPlayerCharacter(character.id)}
-						className={css.button}
-					>
+					<div onClick={() => editNonPlayerCharacter(characterId)} className={css.button}>
 						<Icon path={mdiFileDocumentEdit} size={1} color={'#a6792d'} />
 					</div>
 				</div>

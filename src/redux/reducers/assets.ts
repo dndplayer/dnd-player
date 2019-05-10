@@ -1,5 +1,9 @@
 import { types } from '../actions/assets';
-import { PlayerCharacter, NonPlayerCharacterIndex } from '../../5e/models/Character';
+import {
+	PlayerCharacter,
+	NonPlayerCharacterIndex,
+	NonPlayerCharacter
+} from '../../5e/models/Character';
 
 interface AssetState {
 	// TODO: Perhaps these pc and npc collections should be object with
@@ -8,7 +12,8 @@ interface AssetState {
 	//       Object.keys() is good enough to handle when we do want to iterate.
 
 	playerCharacters: PlayerCharacter[];
-	nonPlayerCharacters: NonPlayerCharacterIndex[];
+	nonPlayerCharactersIndex: NonPlayerCharacterIndex[];
+	nonPlayerCharacters: { [key: string]: NonPlayerCharacter };
 
 	pcSyncError?: string;
 	npcSyncError?: string;
@@ -16,8 +21,8 @@ interface AssetState {
 
 const initialState: AssetState = {
 	playerCharacters: [],
-	nonPlayerCharacters: [],
-
+	nonPlayerCharactersIndex: [],
+	nonPlayerCharacters: {},
 	pcSyncError: null,
 	npcSyncError: null
 };
@@ -42,17 +47,33 @@ export default function assetsReducer(state = initialState, action: any = {}): A
 					return action.character;
 				})
 			};
-		case types.ASSETS.NONPLAYERCHARACTER.SYNC:
+		case types.ASSETS.NONPLAYERCHARACTER.INDEX.SYNC:
 			return {
 				...state,
-				nonPlayerCharacters: action.nonPlayerCharacters
+				nonPlayerCharactersIndex: action.nonPlayerCharactersIndex
+			};
+		case types.ASSETS.NONPLAYERCHARACTER.UPDATE:
+			return {
+				...state,
+				nonPlayerCharacters: {
+					...state.nonPlayerCharacters,
+					[action.characterId]: action.character
+				}
+			};
+		case types.ASSETS.NONPLAYERCHARACTER.LOAD_FULL_DONE:
+			return {
+				...state,
+				nonPlayerCharacters: {
+					...state.nonPlayerCharacters,
+					[action.characterId]: action.character
+				}
 			};
 		case types.ASSETS.PLAYERCHARACTER.SYNC_FAILED:
 			return {
 				...state,
 				pcSyncError: action.error
 			};
-		case types.ASSETS.NONPLAYERCHARACTER.SYNC_FAILED:
+		case types.ASSETS.NONPLAYERCHARACTER.INDEX.SYNC_FAILED:
 			return {
 				...state,
 				npcSyncError: action.error

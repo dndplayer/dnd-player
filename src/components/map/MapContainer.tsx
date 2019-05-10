@@ -17,7 +17,7 @@ interface StateProps {
 	activeMapId: string;
 	selectedObjects: string[];
 	playerCharacters: PlayerCharacter[];
-	nonPlayerCharacters: NonPlayerCharacter[];
+	nonPlayerCharacters: { [key: string]: NonPlayerCharacter };
 	images: Upload[];
 	isUserDm: boolean;
 }

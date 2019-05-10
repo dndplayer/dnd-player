@@ -12,6 +12,7 @@ interface CollectProps {
 
 interface OwnProps {
 	character: Character;
+	characterId: string;
 	imageUrl?: string;
 	updateCharacter?: (characterId: string, character: Character) => void;
 }
@@ -39,7 +40,7 @@ const charImageTargetSpec = {
 		const item = monitor.getItem();
 
 		if (props.updateCharacter) {
-			props.updateCharacter(props.character.id, {
+			props.updateCharacter(props.characterId, {
 				...props.character,
 				imageRef: item.imageRef
 			});

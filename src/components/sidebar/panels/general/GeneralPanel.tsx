@@ -1,8 +1,8 @@
-import React, { Component, ReactNode, SyntheticEvent } from 'react';
+import React, { Component, ReactNode } from 'react';
 import { Switch, FormControlLabel, Button, Tooltip } from '@material-ui/core';
 
 import styles from './GeneralPanel.module.css';
-import { NonPlayerCharacter } from '../../../../5e/models/Character';
+import { NonPlayerCharacter, NonPlayerCharacterIndex } from '../../../../5e/models/Character';
 import { MapData } from '../../../../models/Map';
 
 interface State {
@@ -22,7 +22,7 @@ interface Props {
 	roomUrl: string;
 	updateStageBackground: (mapId: string, colour: string) => void;
 	setIsDm: (val: boolean) => void;
-	nonPlayerCharacters: NonPlayerCharacter[];
+	nonPlayerCharactersIndex: NonPlayerCharacterIndex[];
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) => void;
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) => void;
 }
@@ -115,7 +115,7 @@ export default class GeneralPanel extends Component<Props, State> {
 		}
 
 		for (const npc of obj) {
-			const existing = this.props.nonPlayerCharacters.find(y => y.name === npc.name);
+			const existing = this.props.nonPlayerCharactersIndex.find(y => y.name === npc.name);
 			if (existing) {
 				this.props.updateNonPlayerCharacter(existing.id, npc);
 			} else {
@@ -127,13 +127,14 @@ export default class GeneralPanel extends Component<Props, State> {
 	}
 
 	exportNpcs(): void {
-		const el = document.createElement('textarea');
+		throw new Error('currently broken. Needs to load the full data from firebase.');
+		/*const el = document.createElement('textarea');
 		el.value = JSON.stringify(this.props.nonPlayerCharacters);
 		document.body.appendChild(el);
 		el.select();
 		document.execCommand('copy');
 		document.body.removeChild(el);
-		alert('NPC JSON copied to clipboard.');
+		alert('NPC JSON copied to clipboard.');*/
 	}
 
 	render(): ReactNode {

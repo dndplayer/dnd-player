@@ -2,11 +2,9 @@ import React, { Component, ReactNode } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import ChatContainer from '../chat/ChatContainer';
 import ImageUploaderContainer from './panels/imageUploader/ImageUploaderContainer';
 import AssetListContainer from '../assets/AssetListContainer';
 import CreateAssetContainer from '../assets/CreateAssetContainer';
-import SettingsContainer from '../settings/SettingsContainer';
 import UploadListContainer from './panels/uploadList/UploadListContainer';
 
 export default class Sidebar extends Component {
@@ -27,7 +25,6 @@ export default class Sidebar extends Component {
 						{/* <Tab value='chat' label="Chat" /> */}
 						<Tab value="upload" label="Upload" />
 						<Tab value="assets" label="Assets" />
-						<Tab value="settings" label="Settings" />
 					</Tabs>
 				</AppBar>
 				{/* {value === 'chat' && <ChatContainer />} */}
@@ -43,7 +40,6 @@ export default class Sidebar extends Component {
 						<AssetListContainer />
 					</div>
 				)}
-				{value === 'settings' && <SettingsContainer />}
 			</div>
 		);
 	}

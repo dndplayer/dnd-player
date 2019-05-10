@@ -3,8 +3,17 @@ import { connect } from 'react-redux';
 import PlayerCharacterSheetWrapper from './pc/PlayerCharacterSheetWrapper';
 
 import { saveNewMessage } from '../../../redux/actions/chat';
-import { Character, NonPlayerCharacter, PlayerCharacter } from '../../models/Character';
-import { updatePlayerCharacter, updateNonPlayerCharacter } from '../../../redux/actions/assets';
+import {
+	Character,
+	NonPlayerCharacterIndex,
+	PlayerCharacter,
+	NonPlayerCharacter
+} from '../../models/Character';
+import {
+	updatePlayerCharacter,
+	updateNonPlayerCharacter,
+	loadFullNonPlayerCharacter
+} from '../../../redux/actions/assets';
 import { Upload } from '../../../models/Upload';
 import NonPlayerCharacterSheetWrapper from './npc/NonPlayerCharacterSheetWrapper';
 import { ChatMessageData } from '../../../models/ChatMessage';
@@ -12,6 +21,7 @@ import { abortEditCharacterSheet, editCharacterSheet } from '../../../redux/acti
 
 const mapStateToProps = (state): any => ({
 	playerCharacters: state.assets.playerCharacters,
+	nonPlayerCharactersIndex: state.assets.nonPlayerCharactersIndex,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
 	editingCharacterSheets: state.characters.editingCharacterSheets,
 	images: state.images.images
@@ -26,6 +36,7 @@ const mapDispatchToProps = (dispatch): any => ({
 	updateNonPlayerCharacter: (characterId, character) =>
 		dispatch(updateNonPlayerCharacter(characterId, character)),
 	editNonPlayerCharacter: characterId => dispatch(editCharacterSheet(characterId)),
+	loadFullNonPlayerCharacter: characterId => dispatch(loadFullNonPlayerCharacter(characterId)),
 	abortEditNonPlayerCharacter: characterId => dispatch(abortEditCharacterSheet(characterId))
 });
 
@@ -36,12 +47,14 @@ interface DispatchFromProps {
 	abortEditPlayerCharacter: (characterId: string) => void;
 	updateNonPlayerCharacter: (characterId: string, character: Character) => void;
 	editNonPlayerCharacter: (characterId: string) => void;
+	loadFullNonPlayerCharacter: (characterId: string) => void;
 	abortEditNonPlayerCharacter: (characterId: string) => void;
 }
 
 interface StateFromProps {
 	editingCharacterSheets: string[];
 	playerCharacters: PlayerCharacter[];
+	nonPlayerCharactersIndex: NonPlayerCharacterIndex[];
 	nonPlayerCharacters: NonPlayerCharacter[];
 	images: Upload[];
 	popout?: string;
@@ -52,6 +65,20 @@ interface StateFromProps {
 type Props = DispatchFromProps & StateFromProps;
 
 export class CharacterSheetContainer extends Component<Props> {
+	componentDidMount(): void {
+		this.maybeFetchData();
+	}
+	componentDidUpdate(): void {
+		this.maybeFetchData();
+	}
+	maybeFetchData(): void {
+		if (
+			!this.props.playerCharacters.find(x => x.id === this.props.popout) &&
+			!this.props.nonPlayerCharacters[this.props.popout]
+		) {
+			this.props.loadFullNonPlayerCharacter(this.props.popout);
+		}
+	}
 	render(): ReactNode {
 		const {
 			popout,
@@ -77,16 +104,17 @@ export class CharacterSheetContainer extends Component<Props> {
 					/>
 				);
 			}
-			const npc = nonPlayerCharacters.find(x => x.id === this.props.popout);
+			const npc = nonPlayerCharacters[this.props.popout];
 			if (npc) {
 				const image = images.find(x => x.filePath === npc.imageRef);
 				return (
 					<NonPlayerCharacterSheetWrapper
 						key={popout}
 						character={npc}
+						characterId={this.props.popout}
 						popout="popout"
 						image={image}
-						editing={editingCharacterSheets.some(y => y === npc.id)}
+						editing={editingCharacterSheets.some(y => y === this.props.popout)}
 						{...this.props}
 					/>
 				);

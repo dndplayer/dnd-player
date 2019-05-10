@@ -2,7 +2,7 @@ import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import GeneralPanel from './GeneralPanel';
 import { setIsDm } from '../../../../redux/actions/auth';
-import { NonPlayerCharacter } from '../../../../5e/models/Character';
+import { NonPlayerCharacter, NonPlayerCharacterIndex } from '../../../../5e/models/Character';
 import {
 	updateNonPlayerCharacter,
 	saveNewNonPlayerCharacter
@@ -14,7 +14,7 @@ import { getCurrentMap, mapsUpdateBackgroundColour } from '../../../../redux/act
 interface StateProps {
 	isDm: boolean;
 	backgroundColour?: string;
-	nonPlayerCharacters: NonPlayerCharacter[];
+	nonPlayerCharactersIndex: NonPlayerCharacterIndex[];
 	maps: MapData[];
 	activeMapId: string;
 }
@@ -55,7 +55,7 @@ class GeneralPanelContainer extends Component<Props> {
 				stageBackground={backgroundColour}
 				updateStageBackground={updateStageBackground}
 				roomUrl={roomUrl}
-				nonPlayerCharacters={this.props.nonPlayerCharacters}
+				nonPlayerCharactersIndex={this.props.nonPlayerCharactersIndex}
 				updateNonPlayerCharacter={this.props.updateNonPlayerCharacter}
 				saveNewNonPlayerCharacter={this.props.saveNewNonPlayerCharacter}
 			/>
@@ -66,7 +66,7 @@ class GeneralPanelContainer extends Component<Props> {
 const mapStateToProps = (state): StateProps => ({
 	backgroundColour: getCurrentMap(state).backgroundColour,
 	isDm: state.auth.isDm,
-	nonPlayerCharacters: state.assets.nonPlayerCharacters,
+	nonPlayerCharactersIndex: state.assets.nonPlayerCharactersIndex,
 	maps: state.maps.maps,
 	activeMapId: state.globalState.state.activeMapId
 });

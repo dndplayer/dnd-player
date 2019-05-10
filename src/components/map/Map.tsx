@@ -30,7 +30,7 @@ interface OwnProps {
 	mapData?: MapData;
 	selectedObjects: string[];
 	playerCharacters: PlayerCharacter[];
-	nonPlayerCharacters: NonPlayerCharacter[];
+	nonPlayerCharacters: { [key: string]: NonPlayerCharacter };
 	onUpdateObject: (mapId, mapObjectId, newData) => void;
 	onAddAssetToMap: (mapId, assetType, assetId) => void;
 	onAddImageToMap: (mapId, imageRef) => void;
@@ -102,9 +102,7 @@ class Map extends Component<Props, State> {
 						const pc = o.pcId
 							? this.props.playerCharacters.find(y => y.id === o.pcId)
 							: null;
-						const npc = o.npcId
-							? this.props.nonPlayerCharacters.find(y => y.id === o.npcId)
-							: null;
+						const npc = o.npcId ? this.props.nonPlayerCharacters[o.npcId] : null;
 						const imgRef =
 							o && o.imageRef
 								? o.imageRef
@@ -299,9 +297,7 @@ class Map extends Component<Props, State> {
 														  )
 														: null;
 													const npcAsset = o.npcId
-														? nonPlayerCharacters.find(
-																x => x.id === o.npcId
-														  )
+														? nonPlayerCharacters[o.npcId]
 														: null;
 													const imageUrl =
 														pcAsset && pcAsset.imageRef
@@ -387,7 +383,11 @@ class Map extends Component<Props, State> {
 																	  }
 																	: undefined
 															}
-															ac={asset.ac || undefined}
+															ac={
+																asset
+																	? asset.ac || undefined
+																	: undefined
+															}
 															position={o.position}
 															scale={scale}
 															rotation={o.rotation}

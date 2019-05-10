@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import AssetList from './AssetList';
 import { editCharacterSheet } from '../../redux/actions/characters';
 import { Upload } from '../../models/Upload';
-import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
+import { PlayerCharacter, NonPlayerCharacterIndex } from '../../5e/models/Character';
 
 interface StateProps {
 	playerCharacters: PlayerCharacter[];
-	nonPlayerCharacters: NonPlayerCharacter[];
+	nonPlayerCharactersIndex: NonPlayerCharacterIndex[];
 	images: Upload[];
 }
 interface DispatchProps {
@@ -19,13 +19,18 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 class AssetListContainer extends Component<Props> {
 	render(): ReactNode {
-		const { playerCharacters, nonPlayerCharacters, editCharacterSheet, images } = this.props;
+		const {
+			playerCharacters,
+			nonPlayerCharactersIndex,
+			editCharacterSheet,
+			images
+		} = this.props;
 		return (
 			<div>
 				<h1>Asset List</h1>
 				<AssetList
 					playerCharacters={playerCharacters}
-					nonPlayerCharacters={nonPlayerCharacters}
+					nonPlayerCharactersIndex={nonPlayerCharactersIndex}
 					editCharacterSheet={editCharacterSheet}
 					images={images}
 				/>
@@ -36,7 +41,7 @@ class AssetListContainer extends Component<Props> {
 
 const mapStateToProps = (state): StateProps => ({
 	playerCharacters: state.assets.playerCharacters,
-	nonPlayerCharacters: state.assets.nonPlayerCharacters,
+	nonPlayerCharactersIndex: state.assets.nonPlayerCharactersIndex,
 	images: state.images.images
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({

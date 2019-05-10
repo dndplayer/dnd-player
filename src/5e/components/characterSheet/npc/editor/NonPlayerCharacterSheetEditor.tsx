@@ -7,7 +7,6 @@ import { Character, NonPlayerCharacter, CharacterSize } from '../../../../models
 import { Upload } from '../../../../../models/Upload';
 import CharacterImage from '../../CharacterImage';
 import SkillsEditor from './SkillsEditor';
-import Actions from '../Actions';
 import { Icon } from '@mdi/react';
 import { mdiCancel, mdiContentSave } from '@mdi/js';
 import AbilityScoreEditorContainer from './AbilityScoreEditorContainer';
@@ -22,6 +21,7 @@ interface Props {
 	updateNonPlayerCharacter: (characterId: string, character: Character) => void;
 	abortEditNonPlayerCharacter: (characterId: string) => void;
 	character: NonPlayerCharacter;
+	characterId: string;
 	popout?: string;
 	image: Upload;
 }
@@ -53,6 +53,7 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 									: newCharacter.imageRef
 							}
 							character={newCharacter}
+							characterId={this.props.characterId}
 							updateCharacter={this.props.updateNonPlayerCharacter}
 						/>
 					</div>
@@ -212,11 +213,11 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 	}
 
 	saveSheet(): void {
-		this.props.updateNonPlayerCharacter(this.props.character.id, this.state.newCharacter);
-		this.props.abortEditNonPlayerCharacter(this.props.character.id);
+		this.props.updateNonPlayerCharacter(this.props.characterId, this.state.newCharacter);
+		this.props.abortEditNonPlayerCharacter(this.props.characterId);
 	}
 
 	abortEditSheet(): void {
-		this.props.abortEditNonPlayerCharacter(this.props.character.id);
+		this.props.abortEditNonPlayerCharacter(this.props.characterId);
 	}
 }

@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import AssetListItem from './AssetListItem';
 import { AssetType } from '../../models/AssetType';
 import { Upload } from '../../models/Upload';
-import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
+import { PlayerCharacter, NonPlayerCharacterIndex } from '../../5e/models/Character';
 
 interface Props {
 	playerCharacters: PlayerCharacter[];
-	nonPlayerCharacters: NonPlayerCharacter[];
+	nonPlayerCharactersIndex: NonPlayerCharacterIndex[];
 	editCharacterSheet: (characterId: string) => void;
 	images: Upload[];
 }
 
 export default class AssetList extends Component<Props> {
 	render() {
-		const { playerCharacters, nonPlayerCharacters } = this.props;
+		const { playerCharacters, nonPlayerCharactersIndex } = this.props;
 		return (
 			<div>
 				<ul>
@@ -28,7 +28,7 @@ export default class AssetList extends Component<Props> {
 				</ul>
 				<hr />
 				<ul>
-					{nonPlayerCharacters.map(x => (
+					{nonPlayerCharactersIndex.map(x => (
 						<AssetListItem
 							asset={x}
 							assetType={AssetType.NonPlayerCharacter}
