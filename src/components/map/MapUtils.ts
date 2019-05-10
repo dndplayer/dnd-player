@@ -22,3 +22,15 @@ export const groupObjectsByLayer = (map: MapData): GroupedMapObjects => {
 		return prev;
 	}, {});
 };
+
+export const calculateDistance = (
+	start: PIXI.PointLike,
+	end: PIXI.PointLike,
+	scale: number
+): string => {
+	return (
+		Math.pow(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2), 0.5) /
+		scale /
+		25
+	).toFixed(1);
+};

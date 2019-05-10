@@ -12,7 +12,7 @@ import Token from './objects/Token';
 import { Upload } from '../../models/Upload';
 import { withStyles, WithStyles, LinearProgress } from '@material-ui/core';
 import Scenery from './objects/Scenery';
-import { groupObjectsByLayer } from './MapUtils';
+import { groupObjectsByLayer, calculateDistance } from './MapUtils';
 import { PlayerCharacter, NonPlayerCharacter, CharacterSize } from '../../5e/models/Character';
 import { MapObjectVisibility } from './objects/MapObject';
 import Ruler from './objects/Ruler';
@@ -110,6 +110,7 @@ interface State {
 	measuring: boolean;
 	measureStart: PIXI.PointLike;
 	measureEnd: PIXI.PointLike;
+	measuredDistance: string; // Probably should be a number ultimately
 }
 class Map extends Component<Props, State> {
 	state = {
@@ -118,7 +119,8 @@ class Map extends Component<Props, State> {
 		app: null,
 		measuring: false,
 		measureStart: null,
-		measureEnd: null
+		measureEnd: null,
+		measuredDistance: null
 	};
 
 	private app: any;
@@ -228,7 +230,8 @@ class Map extends Component<Props, State> {
 				if (this.state.measuring) {
 					this.setState({
 						measureStart: e.data.global.clone(),
-						measureEnd: e.data.global.clone()
+						measureEnd: e.data.global.clone(),
+						measuredDistance: '0'
 					});
 				}
 
@@ -239,7 +242,14 @@ class Map extends Component<Props, State> {
 			'mousemove',
 			(e): void => {
 				if (this.state.measuring && this.state.measureStart) {
-					this.setState({ measureEnd: e.data.global.clone() });
+					this.setState({
+						measureEnd: e.data.global.clone(),
+						measuredDistance: `${calculateDistance(
+							this.state.measureStart,
+							this.state.measureEnd,
+							this._viewport.scale.x
+						)} ft.`
+					});
 				}
 			}
 		);
@@ -247,7 +257,7 @@ class Map extends Component<Props, State> {
 			'mouseup',
 			(e): void => {
 				if (this.state.measuring) {
-					this.setState({ measureStart: null, measureEnd: null });
+					this.setState({ measureStart: null, measureEnd: null, measuredDistance: null });
 				}
 			}
 		);
@@ -302,22 +312,6 @@ class Map extends Component<Props, State> {
 					onChange={e => this.setState({ measuring: e.target.checked })}
 					style={{ position: 'absolute', top: 0, left: 0 }}
 				/>
-				{this.state.measureEnd && (
-					<div style={{ position: 'absolute', top: 0, left: '30px' }}>
-						{(
-							Math.pow(
-								Math.pow(this.state.measureEnd.x - this.state.measureStart.x, 2) +
-									Math.pow(
-										this.state.measureEnd.y - this.state.measureStart.y,
-										2
-									),
-								0.5
-							) /
-							this._viewport.scale.x /
-							25
-						).toFixed(1) + ' ft.'}
-					</div>
-				)}
 				<Stage
 					ref={c => (this._stage = c as any)}
 					onMount={this.onMapMount}
@@ -459,6 +453,7 @@ class Map extends Component<Props, State> {
 									measuring={this.state.measuring}
 									start={this.state.measureStart}
 									end={this.state.measureEnd}
+									distance={this.state.measuredDistance}
 									thickness={
 										this._viewport ? (1 / this._viewport.scale.x) * 15 : 20
 									}
