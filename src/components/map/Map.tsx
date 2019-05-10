@@ -111,7 +111,7 @@ class Map extends Component<Props, State> {
 								: pc
 								? pc.imageRef
 								: npc
-								? npc.imageRef
+								? npc.imageRef || '__missing__'
 								: '__missing__';
 						const alreadyExists = !!this.loader.resources[imgRef];
 						if (alreadyExists) return null;

@@ -31,6 +31,13 @@ export interface PlayerCharacter extends Character {
 	money: CharacterMoney;
 }
 
+export interface NonPlayerCharacterIndex {
+	id: string;
+	name: string;
+	cr: string;
+	environments: string[];
+}
+
 export interface NonPlayerCharacter extends Character {
 	class: string;
 	alignment: string;

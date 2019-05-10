@@ -73,6 +73,14 @@ function* syncPlayerCharactersSaga(): any {
 	);
 }
 
+function getNpcIndex(payload) {
+	return {
+		name: payload.name,
+		cr: payload.cr,
+		environments: payload.environments
+	};
+}
+
 function* updateNonPlayerCharacterSaga(action: AnyAction): any {
 	// TODO: Sort the payload
 	const currentUser: firebase.User = yield select(state => state.auth.user);
@@ -83,12 +91,17 @@ function* updateNonPlayerCharacterSaga(action: AnyAction): any {
 	};
 
 	yield call(rsf.database.update, '/nonPlayerCharacters/' + action.characterId, payload);
+	yield call(
+		rsf.database.update,
+		'/nonPlayerCharacterIds/' + action.characterId,
+		getNpcIndex(payload)
+	);
 }
 
 function* syncNonPlayerCharactersSaga(): any {
 	yield fork(
 		rsf.database.sync,
-		database(rsf.app).ref('/nonPlayerCharacters'),
+		database(rsf.app).ref('/nonPlayerCharacterIds'),
 		{
 			successActionCreator: syncNonPlayerCharacters,
 			failureActionCreator: syncNonPlayerCharactersFailed,
