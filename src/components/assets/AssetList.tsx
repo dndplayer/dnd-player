@@ -11,7 +11,18 @@ interface Props {
 	images: Upload[];
 }
 
-export default class AssetList extends Component<Props> {
+interface State {
+	search: string;
+}
+
+export default class AssetList extends Component<Props, State> {
+	constructor(props) {
+		super(props);
+		this.state = {
+			search: ''
+		};
+	}
+
 	render() {
 		const { playerCharacters, nonPlayerCharactersIndex } = this.props;
 		return (
@@ -27,15 +38,27 @@ export default class AssetList extends Component<Props> {
 					))}
 				</ul>
 				<hr />
+				<input
+					type="text"
+					value={this.state.search}
+					placeholder="Search"
+					onChange={e => this.setState({ search: e.target.value })}
+				/>
 				<ul>
-					{nonPlayerCharactersIndex.map(x => (
-						<AssetListItem
-							asset={x}
-							assetType={AssetType.NonPlayerCharacter}
-							key={x.id}
-							{...this.props}
-						/>
-					))}
+					{nonPlayerCharactersIndex
+						.filter(x =>
+							this.state.search
+								? x.name.toLowerCase().indexOf(this.state.search.toLowerCase()) > -1
+								: true
+						)
+						.map(x => (
+							<AssetListItem
+								asset={x}
+								assetType={AssetType.NonPlayerCharacter}
+								key={x.id}
+								{...this.props}
+							/>
+						))}
 				</ul>
 			</div>
 		);
