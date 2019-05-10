@@ -282,6 +282,7 @@ class Map extends Component<Props, State> {
 				{overlay}
 				<div className={styles.measureToolWrapper}>
 					<div className={styles.squaredOne}>
+						<span>Measure Tool</span>
 						<input
 							type="checkbox"
 							value="None"
