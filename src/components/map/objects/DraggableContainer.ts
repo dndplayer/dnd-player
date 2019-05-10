@@ -3,7 +3,7 @@ import MapObject, { MapObjectProps } from './MapObject';
 import { OutlineFilter } from '@pixi/filter-outline';
 
 export interface DraggableContainerProps extends MapObjectProps {
-	onSelected?: (data) => void;
+	onSelected?: (mapObjectId: string) => void;
 	isSelected: boolean;
 	isSelectable?: boolean;
 }
@@ -25,7 +25,7 @@ export default class DraggableContainer extends MapObject {
 	// Click selection handling
 	public isSelected: boolean = false;
 	public isSelectable: boolean = true;
-	public onSelected?: (data) => void;
+	public onSelected?: (mapObjectId: string) => void;
 	private dragStartPosition?: PIXI.PointLike;
 	private static clickThreshold: number = 0.1; // Tune this to account for shaky hands etc
 
@@ -86,7 +86,7 @@ export default class DraggableContainer extends MapObject {
 			if (this.isSelected) {
 				// this.onSelected({ mapObjectId: null }); // De-select
 			} else {
-				this.onSelected({ mapObjectId: this.mapObjectId });
+				this.onSelected(this.mapObjectId);
 			}
 		}
 
@@ -102,11 +102,8 @@ export default class DraggableContainer extends MapObject {
 		}
 
 		if (this.onUpdateObject) {
-			this.onUpdateObject({
-				mapObjectId: this.mapObjectId,
-				newData: {
-					position: lastPos
-				}
+			this.onUpdateObject(this.mapObjectId, {
+				position: lastPos
 			});
 		}
 	};

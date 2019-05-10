@@ -8,13 +8,18 @@ import {
 	updateNonPlayerCharacter,
 	saveNewNonPlayerCharacter
 } from '../../../../redux/actions/assets';
+import { MapData } from '../../../../models/Map';
+import { setActiveMap } from '../../../../redux/actions/globalState';
 
 interface StateProps {
 	isDm: boolean;
 	backgroundColour?: string;
 	nonPlayerCharacters: NonPlayerCharacter[];
+	maps: MapData[];
+	activeMapId: string;
 }
 interface DispatchProps {
+	setActiveMap: (mapId: string) => void;
 	updateStageBackground: (colour: string) => void;
 	setIsDm: (val: boolean) => void;
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) => void;
@@ -26,7 +31,15 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 class GeneralPanelContainer extends Component<Props> {
 	render(): ReactNode {
-		const { backgroundColour, updateStageBackground, isDm, setIsDm } = this.props;
+		const {
+			backgroundColour,
+			updateStageBackground,
+			isDm,
+			setIsDm,
+			maps,
+			setActiveMap,
+			activeMapId
+		} = this.props;
 
 		const settings = JSON.parse(localStorage.getItem('firebaseConfig'));
 		const roomUrl =
@@ -34,6 +47,9 @@ class GeneralPanelContainer extends Component<Props> {
 
 		return (
 			<GeneralPanel
+				maps={maps}
+				activeMapId={activeMapId}
+				setActiveMap={setActiveMap}
 				isDm={isDm}
 				setIsDm={setIsDm}
 				stageBackground={backgroundColour}
@@ -51,7 +67,9 @@ const mapStateToProps = (state): StateProps => ({
 	backgroundColour:
 		state.testMap && state.testMap.map ? state.testMap.map.backgroundColour : null,
 	isDm: state.auth.isDm,
-	nonPlayerCharacters: state.assets.nonPlayerCharacters
+	nonPlayerCharacters: state.assets.nonPlayerCharacters,
+	maps: state.maps.maps,
+	activeMapId: state.globalState.activeMapId
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	updateStageBackground: (colour: string) => dispatch(updateBackgroundColour(colour)),
@@ -59,7 +77,8 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) =>
 		dispatch(updateNonPlayerCharacter(characterId, character)),
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) =>
-		dispatch(saveNewNonPlayerCharacter(character))
+		dispatch(saveNewNonPlayerCharacter(character)),
+	setActiveMap: (mapId: string) => dispatch(setActiveMap(mapId))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

@@ -8,7 +8,7 @@ interface Props extends DraggableContainerProps {
 	// imageUrl: string;
 	resource: any;
 	anchor?: { x: number; y: number }; // Anchor is Sprite specific and not on container
-	onUpdateObject: (data) => void;
+	onUpdateObject: (mapObjectId, newData) => void;
 	layerName: string;
 	mapObjectId: string;
 }

@@ -20,7 +20,7 @@ export default class MapObject extends PIXI.Container {
 	layerName: string;
 	mapObjectId: string;
 
-	onUpdateObject: (data) => void; // An update callback to be used to update
+	onUpdateObject: (mapObjectId, newData) => void; // An update callback to be used to update
 
 	/**
 	 * Any common prop application should be done here, for example

@@ -1,19 +1,20 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import Map from './Map';
-import {
-	testMapUpdateObject,
-	addAssetToMap,
-	addImageToMap,
-	selectObject
-} from '../../redux/actions/testMap';
+
 import { Upload } from '../../models/Upload';
 import { MapData } from '../../models/Map';
 import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
+import {
+	mapsUpdateObject,
+	mapsAddAsset,
+	mapsAddImage,
+	mapsSelectObject
+} from '../../redux/actions/maps';
 
 interface StateProps {
-	zoom: number;
-	testMap: MapData;
+	maps: MapData[];
+	activeMapId: string;
 	selectedObjects: string[];
 	playerCharacters: PlayerCharacter[];
 	nonPlayerCharacters: NonPlayerCharacter[];
@@ -21,10 +22,10 @@ interface StateProps {
 	isUserDm: boolean;
 }
 interface DispatchProps {
-	onUpdateObject: (data) => void;
-	onAddAssetToMap: (data) => void;
-	onAddImageToMap: (data) => void;
-	onSelectObject: (data) => void;
+	onUpdateObject: (mapId, mapObjectId, newData) => void;
+	onAddAssetToMap: (mapId, assetType, assetId) => void;
+	onAddImageToMap: (mapId, imageRef) => void;
+	onSelectObject: (mapObjectId) => void;
 }
 interface OwnProps {}
 
@@ -33,8 +34,8 @@ type Props = StateProps & DispatchProps & OwnProps;
 class MapContainer extends Component<Props> {
 	render(): ReactNode {
 		const {
-			zoom,
-			testMap,
+			maps,
+			activeMapId,
 			selectedObjects,
 			onUpdateObject,
 			onSelectObject,
@@ -45,13 +46,18 @@ class MapContainer extends Component<Props> {
 			images,
 			isUserDm
 		} = this.props;
+
+		const map = maps ? maps.find(x => x.id === activeMapId) : null;
+
+		if (!map) {
+			return <div>No Map</div>;
+		}
+
 		return (
 			<Map
 				updateSpriteLocation={() => {}}
-				zoom={zoom}
-				mapData={testMap}
+				mapData={map}
 				selectedObjects={selectedObjects}
-				// testMap={testMap}
 				playerCharacters={playerCharacters}
 				nonPlayerCharacters={nonPlayerCharacters}
 				onUpdateObject={onUpdateObject}
@@ -66,19 +72,21 @@ class MapContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state): StateProps => ({
-	zoom: state.map.zoom,
-	testMap: state.testMap.map,
-	selectedObjects: state.testMap.selectedObjects,
+	selectedObjects: state.maps.selectedObjects,
 	images: state.images.images,
 	playerCharacters: state.assets.playerCharacters,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
-	isUserDm: state.auth.isDm
+	isUserDm: state.auth.isDm,
+	maps: state.maps.maps,
+	activeMapId: state.globalState.state ? state.globalState.state.activeMapId : null
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
-	onUpdateObject: data => dispatch(testMapUpdateObject(data)),
-	onAddAssetToMap: data => dispatch(addAssetToMap(data)),
-	onAddImageToMap: data => dispatch(addImageToMap(data)),
-	onSelectObject: data => dispatch(selectObject(data))
+	onUpdateObject: (mapId, mapObjectId, data) =>
+		dispatch(mapsUpdateObject(mapId, mapObjectId, data)),
+	onAddAssetToMap: (mapId, assetType, assetId) =>
+		dispatch(mapsAddAsset(mapId, assetType, assetId)),
+	onAddImageToMap: (mapId, imageRef) => dispatch(mapsAddImage(mapId, imageRef)),
+	onSelectObject: data => dispatch(mapsSelectObject(data))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

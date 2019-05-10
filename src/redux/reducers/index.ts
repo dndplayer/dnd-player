@@ -7,9 +7,10 @@ import AuthReducer from './auth';
 import StorageReducer from './storage';
 import ImageReducer from './images';
 import AssetReducer from './assets';
-import MapReducer from './map';
-import TestMapReducer from './testMap';
+import MapsReducer from './maps';
+// import TestMapReducer from './testMap';
 import UiReducer from './ui';
+import GlobalStateReducer from './globalState';
 
 export default history =>
 	combineReducers({
@@ -19,8 +20,9 @@ export default history =>
 		storage: StorageReducer,
 		images: ImageReducer,
 		assets: AssetReducer,
-		map: MapReducer,
+		maps: MapsReducer,
 		characters: CharactersReducer,
-		testMap: TestMapReducer,
-		ui: UiReducer
+		// testMap: TestMapReducer,
+		ui: UiReducer,
+		globalState: GlobalStateReducer
 	});

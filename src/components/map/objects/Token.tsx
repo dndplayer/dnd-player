@@ -10,7 +10,7 @@ interface Props extends DraggableContainerProps {
 	resource: any;
 	anchor?: { x: number; y: number };
 	hp: { value: number; max: number };
-	onUpdateObject: (data) => void;
+	onUpdateObject: (mapObjectId, newData) => void;
 	layerName: string;
 	mapObjectId: string;
 	isCircleHitarea?: boolean;

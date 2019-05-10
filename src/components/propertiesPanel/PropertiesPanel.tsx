@@ -25,8 +25,8 @@ interface Props {
 	selected: string[];
 	map: MapData;
 	isUserDm: boolean; // Hide certain props
-	onUpdateObject: (data) => void;
-	removeObject: (mapObjectId) => void;
+	onUpdateObject: (mapId, mapObjectId, data) => void;
+	removeObject: (mapId, mapObjectId) => void;
 	close: () => void;
 }
 
@@ -75,7 +75,7 @@ export default class PropertiesPanel extends Component<Props, State> {
 
 	removeObject = (): void => {
 		if (this.props.removeObject) {
-			this.props.removeObject(this.state.objectId);
+			this.props.removeObject(this.props.map.id, this.state.objectId);
 		}
 	};
 
@@ -85,18 +85,15 @@ export default class PropertiesPanel extends Component<Props, State> {
 				return;
 			}
 
-			this.props.onUpdateObject({
-				mapObjectId: this.state.objectId,
-				newData: {
-					name: this.state.name,
-					rotation: this.state.rotation,
-					layer: this.state.layer,
-					scale: {
-						x: this.state.scaleX,
-						y: this.state.scaleY
-					},
-					dmOnly: this.state.isDmOnly
-				}
+			this.props.onUpdateObject(this.props.map.id, this.state.objectId, {
+				name: this.state.name,
+				rotation: this.state.rotation,
+				layer: this.state.layer,
+				scale: {
+					x: this.state.scaleX,
+					y: this.state.scaleY
+				},
+				dmOnly: this.state.isDmOnly
 			});
 		}
 	};

@@ -3,15 +3,20 @@ import { Switch, FormControlLabel, Button, Tooltip } from '@material-ui/core';
 
 import styles from './GeneralPanel.module.css';
 import { NonPlayerCharacter } from '../../../../5e/models/Character';
+import { MapData } from '../../../../models/Map';
 
 interface State {
 	stageBackground: string;
+	activeMapId: string;
 	isDm: boolean;
 	roomUrlCopiedTooltipOpen: boolean;
 	roomUrlTooltipTimeout: any;
 }
 
 interface Props {
+	maps: MapData[];
+	activeMapId: string;
+	setActiveMap: (mapId: string) => void;
 	stageBackground: string;
 	isDm: boolean;
 	roomUrl: string;
@@ -31,6 +36,7 @@ export default class GeneralPanel extends Component<Props, State> {
 	}
 
 	state = {
+		activeMapId: this.props.activeMapId,
 		roomUrlCopiedTooltipOpen: false,
 		roomUrlTooltipTimeout: null,
 		isDm: this.props.isDm,
@@ -40,6 +46,9 @@ export default class GeneralPanel extends Component<Props, State> {
 	componentDidUpdate(prevProps, prevState): void {
 		if (prevProps.stageBackground !== this.props.stageBackground) {
 			this.setState({ stageBackground: this.props.stageBackground });
+		}
+		if (prevProps.activeMapId !== this.props.activeMapId) {
+			this.setState({ activeMapId: this.props.activeMapId });
 		}
 	}
 
@@ -56,6 +65,19 @@ export default class GeneralPanel extends Component<Props, State> {
 
 		if (this.props.setIsDm) {
 			this.props.setIsDm(!!e.target.checked);
+		}
+	};
+
+	onChangeActiveMap = (e): void => {
+		this.setState({
+			activeMapId: e.target.value
+		});
+	};
+
+	changeMap = (): void => {
+		console.log(`Changing Map to ${this.state.activeMapId}`);
+		if (this.props.setActiveMap) {
+			this.props.setActiveMap(this.state.activeMapId);
 		}
 	};
 
@@ -173,6 +195,27 @@ export default class GeneralPanel extends Component<Props, State> {
 							label="Is DM?"
 						/>
 					</div>
+
+					{this.state.isDm && (
+						<div className={styles.settingRow}>
+							<span>Active Map ID {this.props.activeMapId}</span>
+							<select
+								value={this.state.activeMapId}
+								onChange={this.onChangeActiveMap}
+							>
+								{this.props.maps.map(x => (
+									<option key={x.id} value={x.id}>
+										{x.id}
+									</option>
+								))}
+							</select>
+							<button onClick={this.changeMap}>Change!</button>
+							<div>
+								Warning: This is still a little buggy! E.g. You need to refresh once
+								changed
+							</div>
+						</div>
+					)}
 				</div>
 			</div>
 		);

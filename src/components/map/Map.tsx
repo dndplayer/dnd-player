@@ -62,15 +62,13 @@ interface CollectProps {
 interface OwnProps {
 	updateSpriteLocation: (sprite: Sprite) => void;
 	mapData?: MapData;
-	zoom?: number;
 	selectedObjects: string[];
-	// testMap: any;
 	playerCharacters: PlayerCharacter[];
 	nonPlayerCharacters: NonPlayerCharacter[];
-	onSelectObject: (data) => void;
-	onUpdateObject: (data) => void;
-	onAddAssetToMap: (data) => void;
-	onAddImageToMap: (data) => void;
+	onUpdateObject: (mapId, mapObjectId, newData) => void;
+	onAddAssetToMap: (mapId, assetType, assetId) => void;
+	onAddImageToMap: (mapId, imageRef) => void;
+	onSelectObject: (mapObjectId) => void;
 	images: Upload[];
 	isUserDm: boolean;
 }
@@ -106,10 +104,15 @@ class Map extends Component<Props, State> {
 
 	private loader: PIXI.loaders.Loader = PIXI.loader;
 
-	componentDidUpdate(prevProps: Props, prevState: State): void {
-		// This errors currently as it's run multiple times and tries to load the
-		// same asset multiple times.
+	componentDidMount() {
+		this.loadAssets(this.props, this.state, true);
+	}
 
+	componentDidUpdate(prevProps: Props, prevState: State): void {
+		this.loadAssets(prevProps, prevState, false);
+	}
+
+	loadAssets = (prevProps: Props, prevState: State, forceLoad: boolean): void => {
 		if (prevState.loadingAssets && !this.state.loadingAssets) {
 			if (this._viewport) {
 				this._viewport.fitWorld();
@@ -117,6 +120,7 @@ class Map extends Component<Props, State> {
 		}
 
 		if (
+			forceLoad ||
 			(this.props.mapData && !prevProps.mapData) ||
 			(this.props.mapData && this.props.mapData.objects !== prevProps.mapData.objects)
 		) {
@@ -176,7 +180,7 @@ class Map extends Component<Props, State> {
 
 			this.loader.onProgress.add(x => this.setState({ loadProgress: x.progress }));
 		}
-	}
+	};
 
 	onMapMount = (app: PIXI.Application): void => {
 		this.setState({ app: app });
@@ -388,8 +392,15 @@ class Map extends Component<Props, State> {
 															pivot={o.pivot}
 															anchor={o.anchor}
 															resource={res}
-															onUpdateObject={
-																this.props.onUpdateObject
+															onUpdateObject={(
+																mapObjectId,
+																newData
+															) =>
+																this.props.onUpdateObject(
+																	this.props.mapData.id,
+																	mapObjectId,
+																	newData
+																)
 															}
 															isSelected={isSelected}
 															isSelectable={!this.state.measuring}
@@ -415,8 +426,15 @@ class Map extends Component<Props, State> {
 															rotation={o.rotation}
 															pivot={o.pivot}
 															anchor={o.anchor}
-															onUpdateObject={
-																this.props.onUpdateObject
+															onUpdateObject={(
+																mapObjectId,
+																newData
+															) =>
+																this.props.onUpdateObject(
+																	this.props.mapData.id,
+																	mapObjectId,
+																	newData
+																)
 															}
 															isSelected={isSelected}
 															isSelectable={!this.state.measuring}
