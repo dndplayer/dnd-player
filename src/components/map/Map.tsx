@@ -10,12 +10,14 @@ import types from '../../constants/dragdroptypes';
 
 import Token from './objects/Token';
 import { Upload } from '../../models/Upload';
-import { withStyles, WithStyles, LinearProgress } from '@material-ui/core';
+import { LinearProgress } from '@material-ui/core';
 import Scenery from './objects/Scenery';
 import { groupObjectsByLayer, calculateDistance } from './MapUtils';
 import { PlayerCharacter, NonPlayerCharacter, CharacterSize } from '../../5e/models/Character';
 import { MapObjectVisibility } from './objects/MapObject';
 import Ruler from './objects/Ruler';
+
+import styles from './Map.module.scss';
 
 interface ViewportComponentProps {
 	app?: PIXI.Application;
@@ -51,41 +53,13 @@ const ViewportComponent = PixiComponent<ViewportComponentProps, Viewport>('Viewp
 	}
 });
 
-const styles = theme => ({
-	loadingWrapper: {
-		position: 'absolute' as 'absolute', // Avoid type widening
-		top: '50%',
-		left: '50%',
-		transform: 'translate(-50%, 0)'
-	},
-	loadingText: {
-		fontSize: '200%'
-	},
-	dragAddObjectWrapper: {
-		position: 'absolute' as 'absolute',
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-		background: 'rgba(0,0,0,0.4)'
-	},
-	dragAddObjectText: {
-		position: 'absolute' as 'absolute',
-		top: '50%',
-		left: '50%',
-		color: 'white',
-		transform: 'translate(-50%, -50%)',
-		fontSize: 120
-	}
-});
-
 interface CollectProps {
 	connectDropTarget: any;
 	itemType: typeof types;
 	isHovering: boolean;
 }
 
-interface OwnProps extends WithStyles<typeof styles> {
+interface OwnProps {
 	updateSpriteLocation: (sprite: Sprite) => void;
 	mapData?: MapData;
 	zoom?: number;
@@ -264,12 +238,12 @@ class Map extends Component<Props, State> {
 	};
 
 	render(): ReactNode {
-		const { classes, playerCharacters, nonPlayerCharacters, selectedObjects } = this.props;
+		const { playerCharacters, nonPlayerCharacters, selectedObjects } = this.props;
 
 		if (this.state.loadingAssets) {
 			return (
-				<div className={classes.loadingWrapper}>
-					<div className={classes.loadingText}>LOADING...</div>
+				<div className={styles.loadingWrapper}>
+					<div className={styles.loadingText}>LOADING...</div>
 					<LinearProgress variant="determinate" value={this.state.loadProgress} />
 				</div>
 			);
@@ -288,8 +262,8 @@ class Map extends Component<Props, State> {
 		let overlay = null;
 		if (isHovering) {
 			overlay = (
-				<div className={classes.dragAddObjectWrapper}>
-					<div className={classes.dragAddObjectText}>+</div>
+				<div className={styles.dragAddObjectWrapper}>
+					<div className={styles.dragAddObjectText}>+</div>
 				</div>
 			);
 		}
@@ -306,12 +280,19 @@ class Map extends Component<Props, State> {
 		return connectDropTarget(
 			<div ref={c => (this._mainWrapper = c)}>
 				{overlay}
-				<input
-					type="checkbox"
-					checked={this.state.measuring}
-					onChange={e => this.setState({ measuring: e.target.checked })}
-					style={{ position: 'absolute', top: 0, left: 0 }}
-				/>
+				<div className={styles.measureToolWrapper}>
+					<div className={styles.squaredOne}>
+						<input
+							type="checkbox"
+							value="None"
+							id="squaredOne"
+							name="check"
+							checked={this.state.measuring}
+							onChange={e => this.setState({ measuring: e.target.checked })}
+						/>
+						<label htmlFor="squaredOne" />
+					</div>
+				</div>
 				<Stage
 					ref={c => (this._stage = c as any)}
 					onMount={this.onMapMount}
@@ -505,4 +486,4 @@ export default DropTarget(
 	[types.PLAYER_CHARACTER_ASSET, types.UPLOAD_IMAGE],
 	mapTargetSpec,
 	collect
-)(withStyles(styles)(Map));
+)(Map);
