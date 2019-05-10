@@ -5,7 +5,6 @@ import auth from './auth';
 import storage from './storage';
 import images from './images';
 import assets from './assets';
-import testMap from './testMap';
 import maps from './maps';
 import globalState from './globalState';
 
@@ -16,7 +15,6 @@ export default function* rootSaga(): any {
 		fork(storage),
 		fork(images),
 		fork(assets),
-		fork(testMap),
 		fork(maps),
 		fork(globalState)
 	]);
