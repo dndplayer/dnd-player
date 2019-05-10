@@ -35,6 +35,7 @@ export default class DraggableContainer extends MapObject {
 		newProps: DraggableContainerProps
 	) {
 		this.isSelectable = newProps.isSelectable;
+		this.interactive = !!newProps.isSelectable;
 		super.innerApplyProps(instance, oldProps, newProps);
 	}
 	// Core functionality
