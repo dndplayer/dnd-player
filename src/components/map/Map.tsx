@@ -364,22 +364,22 @@ class Map extends Component<Props, State> {
 														const size = (asset.size || '').toString();
 														switch (parseInt(size)) {
 															case CharacterSize.Tiny:
-																scale = { x: 0.25, y: 0.25 };
+																scale = { x: 0.5, y: 0.5 };
 																break;
 															case CharacterSize.Small:
-																scale = { x: 0.5, y: 0.5 };
-																break;
-															case CharacterSize.Medium:
-																scale = { x: 0.5, y: 0.5 };
-																break;
-															case CharacterSize.Large:
 																scale = { x: 1, y: 1 };
 																break;
+															case CharacterSize.Medium:
+																scale = { x: 1, y: 1 };
+																break;
+															case CharacterSize.Large:
+																scale = { x: 2, y: 2 };
+																break;
 															case CharacterSize.Huge:
-																scale = { x: 1.5, y: 1.5 };
+																scale = { x: 3, y: 3 };
 																break;
 															case CharacterSize.Gargantuan:
-																scale = { x: 2, y: 2 };
+																scale = { x: 4, y: 4 };
 																break;
 														}
 													}
@@ -421,6 +421,7 @@ class Map extends Component<Props, State> {
 																	  }
 																	: undefined
 															}
+															ac={asset.ac || undefined}
 															position={o.position}
 															scale={scale}
 															rotation={o.rotation}

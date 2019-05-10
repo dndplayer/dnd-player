@@ -31,6 +31,6 @@ export const calculateDistance = (
 	return (
 		Math.pow(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2), 0.5) /
 		scale /
-		25
+		40
 	).toFixed(1);
 };

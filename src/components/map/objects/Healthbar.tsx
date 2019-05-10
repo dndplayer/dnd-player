@@ -5,12 +5,15 @@ export default class Healthbar extends PIXI.Container {
 	public hp: number;
 	/** Maximum HP level **/
 	public hpMax: number;
+	/** Armor class **/
+	public ac: number;
 
 	/** Should the HP level text always show or only on mouse over? **/
 	public alwaysShowText: boolean = false;
 
 	private _barGraphic: PIXI.Graphics;
 	private _barText: PIXI.Text;
+	private _barAc: PIXI.Text;
 
 	private _barWidth: number;
 	private _barHeight: number;
@@ -25,14 +28,23 @@ export default class Healthbar extends PIXI.Container {
 		this._barGraphic = new PIXI.Graphics();
 		this._barText = new PIXI.Text(
 			this.hpMax ? `${this.hp}/${this.hpMax}` : '',
-			new PIXI.TextStyle({ fontSize: 90, fontWeight: 'bold' })
+			new PIXI.TextStyle({ fontSize: 18, fontWeight: 'bold' })
+		);
+		this._barAc = new PIXI.Text(
+			this.ac ? `${this.ac}` : '',
+			new PIXI.TextStyle({
+				fill: '#fff',
+				fontSize: 30
+			})
 		);
 		this._barText.anchor.set(0.5, 0.5);
+		this._barAc.anchor.set(0.5, 1);
 
 		this.interactive = true; // Required for hover showing HP text
 
 		this.addChild(this._barGraphic);
 		this.addChild(this._barText);
+		this.addChild(this._barAc);
 
 		this.on('added', this.onAdded);
 		this.on('removed', this.onRemoved);
@@ -62,8 +74,10 @@ export default class Healthbar extends PIXI.Container {
 			return;
 		}
 
-		const healthbarMinWidth = 240;
-		const healthbarHeight = 100;
+		const healthbarMinWidth = 200;
+		const healthbarHeight = 20;
+		const healthbarMinorTick = 15;
+		const healthbarMajorTick = 60;
 		const healthbarPercent = this.hp / this.hpMax;
 
 		this._lastTargetWidth = targetWidth || this._lastTargetWidth;
@@ -73,13 +87,35 @@ export default class Healthbar extends PIXI.Container {
 		this._barWidth = hbWidth;
 		this._barHeight = healthbarHeight;
 
-		this._barGraphic.clear();
-		this._barGraphic.beginFill(0x761633);
-		this._barGraphic.drawRect(0, 0, hbWidth, healthbarHeight);
-		this._barGraphic.endFill();
+		this._barGraphic
+			.clear()
+			.beginFill(0)
+			.drawRect(0, 0, hbWidth, healthbarHeight)
+			.endFill();
 
-		this._barGraphic.beginFill(0xff0000);
-		this._barGraphic.drawRect(0, 0, hbWidth * healthbarPercent, healthbarHeight);
+		// Main bar
+		this._barGraphic
+			.beginFill(0x61c02d)
+			.drawRect(1, 1, hbWidth * healthbarPercent - 2, healthbarHeight - 2)
+			.endFill();
+
+		// Shading
+		this._barGraphic
+			.beginFill(0xffffff, 0.3)
+			.drawRect(1, 1, hbWidth * healthbarPercent - 2, 3)
+			.endFill()
+			.beginFill(0, 0.3)
+			.drawRect(1, healthbarHeight - 4, hbWidth * healthbarPercent - 2, 3)
+			.endFill();
+
+		this._barGraphic.beginFill(0, 0.9);
+		for (let i = healthbarMinorTick; i < this.hp; i += healthbarMinorTick) {
+			if (!(i % healthbarMajorTick)) {
+				this._barGraphic.drawRect((i / this.hpMax) * hbWidth - 1, 0, 2, healthbarHeight);
+			} else {
+				this._barGraphic.drawRect((i / this.hpMax) * hbWidth - 0.5, 0, 1, healthbarHeight);
+			}
+		}
 		this._barGraphic.endFill();
 
 		// Match hit area to bar graphic
@@ -92,6 +128,8 @@ export default class Healthbar extends PIXI.Container {
 		this._barText.style.fill = 'white';
 
 		this._barText.visible = this._showText;
+		this._barAc.position.set(hbWidth / 2, 0);
+		this._barAc.text = `${this.ac || ''}`;
 	};
 
 	onAdded = (): void => {

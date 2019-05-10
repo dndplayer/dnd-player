@@ -10,7 +10,8 @@ interface Props extends DraggableContainerProps {
 	resource: any;
 	anchor?: { x: number; y: number };
 	hp: { value: number; max: number };
-	onUpdateObject: (mapObjectId, newData) => void;
+	ac: number;
+	onUpdateObject: (mapObjectId, data) => void;
 	layerName: string;
 	mapObjectId: string;
 	isCircleHitarea?: boolean;
@@ -51,6 +52,8 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 			s.hitArea = props.customHitArea;
 		}
 		s.name = 'sprite';
+		s.width = 200;
+		s.height = 200;
 
 		// const g = new PIXI.Graphics();
 		const g = new Healthbar();
@@ -97,6 +100,15 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 					}
 				)
 			);
+		}
+
+		if (newProps.ac !== oldProps.ac) {
+			g.ac = newProps.ac;
+			g.redraw(s.width);
+
+			const healthBarMargin = 10;
+
+			g.position.set(-(g.barWidth / 2), -(s.height / 2) - g.barHeight - healthBarMargin);
 		}
 
 		if (newProps.hp !== oldProps.hp) {

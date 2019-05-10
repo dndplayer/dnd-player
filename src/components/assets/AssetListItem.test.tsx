@@ -1,7 +1,7 @@
 import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import AssetListItem from './AssetListItem';
+import { AssetListItem } from './AssetListItem';
 import { AssetType } from '../../models/AssetType';
 import css from './AssetListItem.module.css';
 
@@ -11,7 +11,8 @@ function setup() {
 	const props = {
 		asset: { id: 'testId', name: 'testAsset' },
 		assetType: AssetType.PlayerCharacter,
-		images: []
+		images: [],
+		connectDragSource: jest.fn(x => x)
 	};
 
 	const enzymeWrapper = shallow(<AssetListItem {...props} />);
