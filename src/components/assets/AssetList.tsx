@@ -9,20 +9,11 @@ interface Props {
 	nonPlayerCharactersIndex: NonPlayerCharacterIndex[];
 	editCharacterSheet: (characterId: string) => void;
 	images: Upload[];
+	nonPlayerCharacterFilter: string;
+	changeNonPlayerCharacterFilterText: (text: string) => void;
 }
 
-interface State {
-	search: string;
-}
-
-export default class AssetList extends Component<Props, State> {
-	constructor(props) {
-		super(props);
-		this.state = {
-			search: ''
-		};
-	}
-
+export default class AssetList extends Component<Props> {
 	render() {
 		const { playerCharacters, nonPlayerCharactersIndex } = this.props;
 		return (
@@ -40,26 +31,20 @@ export default class AssetList extends Component<Props, State> {
 				<hr />
 				<input
 					type="text"
-					value={this.state.search}
+					value={this.props.nonPlayerCharacterFilter}
 					placeholder="Search"
-					onChange={e => this.setState({ search: e.target.value })}
+					onChange={e => this.props.changeNonPlayerCharacterFilterText(e.target.value)}
 				/>
-				<ul>
-					{nonPlayerCharactersIndex
-						.filter(x =>
-							this.state.search
-								? x.name.toLowerCase().indexOf(this.state.search.toLowerCase()) > -1
-								: true
-						)
-						.map(x => (
-							<AssetListItem
-								asset={x}
-								assetType={AssetType.NonPlayerCharacter}
-								key={x.id}
-								{...this.props}
-							/>
-						))}
-				</ul>
+				<div>
+					{nonPlayerCharactersIndex.map(x => (
+						<AssetListItem
+							asset={x}
+							assetType={AssetType.NonPlayerCharacter}
+							key={x.id}
+							{...this.props}
+						/>
+					))}
+				</div>
 			</div>
 		);
 	}

@@ -15,6 +15,9 @@ export const types = {
 				SYNC: 'ASSETS.NONPLAYERCHARACTER.INDEX.SYNC',
 				SYNC_FAILED: 'ASSETS.NONPLAYERCHARACTER.INDEX.SYNC_FAILED'
 			},
+			FILTER: {
+				TEXT_CHANGE: 'ASSETS.NONPLAYERCHARACTER.FILTER.TEXT_CHANGE'
+			},
 			LOAD_FULL: 'ASSETS.NONPLAYERCHARACTER.LOAD_FULL',
 			LOAD_FULL_DONE: 'ASSETS.NONPLAYERCHARACTER.LOAD_FULL_DONE',
 			SYNC: 'ASSETS.NONPLAYERCHARACTER.SYNC',
@@ -81,6 +84,11 @@ export const loadFullNonPlayerCharacterDone = (characterId, character) => ({
 	type: types.ASSETS.NONPLAYERCHARACTER.LOAD_FULL_DONE,
 	characterId,
 	character
+});
+
+export const changeNonPlayerCharacterFilterText = text => ({
+	type: types.ASSETS.NONPLAYERCHARACTER.FILTER.TEXT_CHANGE,
+	text
 });
 
 export const updateNonPlayerCharacter = (characterId, character) => ({

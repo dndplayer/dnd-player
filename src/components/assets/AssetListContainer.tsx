@@ -4,14 +4,18 @@ import AssetList from './AssetList';
 import { editCharacterSheet } from '../../redux/actions/characters';
 import { Upload } from '../../models/Upload';
 import { PlayerCharacter, NonPlayerCharacterIndex } from '../../5e/models/Character';
+import { changeNonPlayerCharacterFilterText } from '../../redux/actions/assets';
+import { getFilteredNpcs } from '../../redux/selectors/assets';
 
 interface StateProps {
 	playerCharacters: PlayerCharacter[];
 	nonPlayerCharactersIndex: NonPlayerCharacterIndex[];
 	images: Upload[];
+	nonPlayerCharacterFilter: string;
 }
 interface DispatchProps {
 	editCharacterSheet: (characterId: string) => void;
+	changeNonPlayerCharacterFilterText: (text: string) => void;
 }
 interface OwnProps {}
 
@@ -23,7 +27,9 @@ class AssetListContainer extends Component<Props> {
 			playerCharacters,
 			nonPlayerCharactersIndex,
 			editCharacterSheet,
-			images
+			images,
+			changeNonPlayerCharacterFilterText,
+			nonPlayerCharacterFilter
 		} = this.props;
 		return (
 			<div>
@@ -32,6 +38,8 @@ class AssetListContainer extends Component<Props> {
 					playerCharacters={playerCharacters}
 					nonPlayerCharactersIndex={nonPlayerCharactersIndex}
 					editCharacterSheet={editCharacterSheet}
+					changeNonPlayerCharacterFilterText={changeNonPlayerCharacterFilterText}
+					nonPlayerCharacterFilter={nonPlayerCharacterFilter}
 					images={images}
 				/>
 			</div>
@@ -41,11 +49,14 @@ class AssetListContainer extends Component<Props> {
 
 const mapStateToProps = (state): StateProps => ({
 	playerCharacters: state.assets.playerCharacters,
-	nonPlayerCharactersIndex: state.assets.nonPlayerCharactersIndex,
-	images: state.images.images
+	nonPlayerCharactersIndex: getFilteredNpcs(state),
+	images: state.images.images,
+	nonPlayerCharacterFilter: state.assets.nonPlayerCharacterFilter
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
-	editCharacterSheet: (characterId: string) => dispatch(editCharacterSheet(characterId))
+	editCharacterSheet: (characterId: string) => dispatch(editCharacterSheet(characterId)),
+	changeNonPlayerCharacterFilterText: (text: string) =>
+		dispatch(changeNonPlayerCharacterFilterText(text))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

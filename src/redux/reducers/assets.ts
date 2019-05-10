@@ -17,6 +17,7 @@ interface AssetState {
 
 	pcSyncError?: string;
 	npcSyncError?: string;
+	nonPlayerCharacterFilter: string;
 }
 
 const initialState: AssetState = {
@@ -24,7 +25,8 @@ const initialState: AssetState = {
 	nonPlayerCharactersIndex: [],
 	nonPlayerCharacters: {},
 	pcSyncError: null,
-	npcSyncError: null
+	npcSyncError: null,
+	nonPlayerCharacterFilter: ''
 };
 
 export default function assetsReducer(state = initialState, action: any = {}): AssetState {
@@ -59,6 +61,11 @@ export default function assetsReducer(state = initialState, action: any = {}): A
 					...state.nonPlayerCharacters,
 					[action.characterId]: action.character
 				}
+			};
+		case types.ASSETS.NONPLAYERCHARACTER.FILTER.TEXT_CHANGE:
+			return {
+				...state,
+				nonPlayerCharacterFilter: action.text
 			};
 		case types.ASSETS.NONPLAYERCHARACTER.LOAD_FULL_DONE:
 			return {
