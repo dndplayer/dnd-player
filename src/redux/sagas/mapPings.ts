@@ -1,12 +1,16 @@
-import { all, fork, takeEvery, call } from 'redux-saga/effects';
+import { all, fork, takeEvery, call, put, delay } from 'redux-saga/effects';
 import { database } from 'firebase';
+
+import { v4 } from 'uuid';
 
 import {
 	mapPingsNewPing,
 	mapPingsSyncFailure,
 	types,
 	MapPingsSyncNewPingAction,
-	MapPingsSendPingAction
+	MapPingsSendPingAction,
+	mapPingsAddPing,
+	mapPingsRemovePing
 } from '../actions/mapPings';
 
 import rsf from '../rsf';
@@ -28,11 +32,21 @@ function* syncMapPingsSaga(): any {
 
 function* newPingSaga(action: MapPingsSyncNewPingAction): any {
 	// TODO: Show ping somehow
+	// Probably just raise an action which will show the ping on the map
+	// and then after a yield delay() remove said ping by sending another action
 	console.log(
 		`PING @ ${action.ping.position.x}, ${action.ping.position.y} by userId ${
 			action.ping.userId
 		}`
 	);
+
+	// TODO: Generate some unique ID to remove with later, so
+	// if multiple pings come from 1 person it works as they
+	// are all unique still
+	const uid = v4();
+	yield put(mapPingsAddPing(uid, action.ping));
+	yield delay(3000);
+	yield put(mapPingsRemovePing(uid));
 }
 
 function* sendPingSaga(action: MapPingsSendPingAction): any {

@@ -11,6 +11,7 @@ import MapsReducer from './maps';
 // import TestMapReducer from './testMap';
 import UiReducer from './ui';
 import GlobalStateReducer from './globalState';
+import MapPingsReducer from './mapPings';
 
 export default history =>
 	combineReducers({
@@ -24,5 +25,6 @@ export default history =>
 		characters: CharactersReducer,
 		// testMap: TestMapReducer,
 		ui: UiReducer,
-		globalState: GlobalStateReducer
+		globalState: GlobalStateReducer,
+		mapPings: MapPingsReducer
 	});

@@ -23,6 +23,7 @@ interface StateProps {
 	images: Upload[];
 	isUserDm: boolean;
 	user: firebase.User;
+	mapPings: MapPing[];
 }
 interface DispatchProps {
 	onUpdateObject: (mapId, mapObjectId, newData) => void;
@@ -50,7 +51,8 @@ class MapContainer extends Component<Props> {
 			images,
 			isUserDm,
 			user,
-			sendPing
+			sendPing,
+			mapPings
 		} = this.props;
 
 		const map = maps ? maps.find(x => x.id === activeMapId) : null;
@@ -74,6 +76,7 @@ class MapContainer extends Component<Props> {
 				isUserDm={isUserDm}
 				user={user}
 				sendPing={sendPing}
+				mapPings={mapPings}
 			/>
 		);
 	}
@@ -87,7 +90,8 @@ const mapStateToProps = (state): StateProps => ({
 	isUserDm: state.auth.isDm,
 	user: state.auth.user,
 	maps: state.maps.maps,
-	activeMapId: state.globalState.state ? state.globalState.state.activeMapId : null
+	activeMapId: state.globalState.state ? state.globalState.state.activeMapId : null,
+	mapPings: state.mapPings.pings
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	onUpdateObject: (mapId, mapObjectId, data) =>

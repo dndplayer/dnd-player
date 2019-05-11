@@ -19,6 +19,7 @@ import Ruler from './objects/Ruler';
 import styles from './Map.module.scss';
 import { ViewportComponent } from './Viewport';
 import { MapPing } from '../../models/MapPing';
+import Ping from './objects/Ping';
 
 interface CollectProps {
 	connectDropTarget: any;
@@ -40,6 +41,7 @@ interface OwnProps {
 	isUserDm: boolean;
 	user: firebase.User;
 	sendPing: (ping: MapPing) => void;
+	mapPings: MapPing[];
 }
 
 type Props = CollectProps & OwnProps;
@@ -295,6 +297,15 @@ class Map extends Component<Props, State> {
 								ref={c => (this._viewport = c as any)}
 								app={app}
 							>
+								{Object.keys(this.props.mapPings).map(x => {
+									const p = this.props.mapPings[x];
+									return (
+										<Ping
+											key={x}
+											position={new PIXI.Point(p.position.x, p.position.y)}
+										/>
+									);
+								})}
 								{Object.keys(groupedObjects)
 									.sort(layerSortFunc)
 									.reverse()

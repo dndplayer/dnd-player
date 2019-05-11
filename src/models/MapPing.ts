@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 
 export interface MapPing {
-	position: PIXI.PointLike;
+	position: PIXI.Point;
 	userId: string;
 }
