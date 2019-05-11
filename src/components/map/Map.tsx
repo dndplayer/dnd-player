@@ -165,7 +165,11 @@ class Map extends Component<Props, State> {
 				if (e.target.name !== this._viewport.name) {
 					return;
 				}
-				if (this.props.onSelectObject) {
+				if (
+					!this.state.measuring &&
+					this.props.onSelectObject &&
+					this.props.selectedObjects.length > 0
+				) {
 					this.props.onSelectObject({ mapObjectId: null });
 				}
 
