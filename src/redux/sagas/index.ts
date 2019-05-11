@@ -7,6 +7,7 @@ import images from './images';
 import assets from './assets';
 import maps from './maps';
 import globalState from './globalState';
+import mapPings from './mapPings';
 
 export default function* rootSaga(): any {
 	yield all([
@@ -16,6 +17,7 @@ export default function* rootSaga(): any {
 		fork(images),
 		fork(assets),
 		fork(maps),
-		fork(globalState)
+		fork(globalState),
+		fork(mapPings)
 	]);
 }

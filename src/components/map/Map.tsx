@@ -18,6 +18,7 @@ import Ruler from './objects/Ruler';
 
 import styles from './Map.module.scss';
 import { ViewportComponent } from './Viewport';
+import { MapPing } from '../../models/MapPing';
 
 interface CollectProps {
 	connectDropTarget: any;
@@ -37,6 +38,8 @@ interface OwnProps {
 	onSelectObject: (mapObjectId) => void;
 	images: Upload[];
 	isUserDm: boolean;
+	user: firebase.User;
+	sendPing: (ping: MapPing) => void;
 }
 
 type Props = CollectProps & OwnProps;
@@ -181,7 +184,14 @@ class Map extends Component<Props, State> {
 					});
 				}
 
-				// TODO: Possibly also trigger a close of the sidebar if it's open
+				// WIP Ping testing
+				if (!this.state.measuring) {
+					const localPos = this._viewport.toLocal(e.data.global);
+					this.props.sendPing({
+						position: localPos.clone(),
+						userId: this.props.user.uid
+					});
+				}
 			}
 		);
 		app.stage.on(

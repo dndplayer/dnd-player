@@ -11,6 +11,8 @@ import {
 	mapsAddImage,
 	mapsSelectObject
 } from '../../redux/actions/maps';
+import { MapPing } from '../../models/MapPing';
+import { mapPingsSendPing } from '../../redux/actions/mapPings';
 
 interface StateProps {
 	maps: MapData[];
@@ -20,12 +22,14 @@ interface StateProps {
 	nonPlayerCharacters: { [key: string]: NonPlayerCharacter };
 	images: Upload[];
 	isUserDm: boolean;
+	user: firebase.User;
 }
 interface DispatchProps {
 	onUpdateObject: (mapId, mapObjectId, newData) => void;
 	onAddAssetToMap: (mapId, assetType, assetId, initialData) => void;
 	onAddImageToMap: (mapId, imageRef, initialData) => void;
 	onSelectObject: (mapObjectId) => void;
+	sendPing: (ping: MapPing) => void;
 }
 interface OwnProps {}
 
@@ -44,7 +48,9 @@ class MapContainer extends Component<Props> {
 			playerCharacters,
 			nonPlayerCharacters,
 			images,
-			isUserDm
+			isUserDm,
+			user,
+			sendPing
 		} = this.props;
 
 		const map = maps ? maps.find(x => x.id === activeMapId) : null;
@@ -66,6 +72,8 @@ class MapContainer extends Component<Props> {
 				onSelectObject={onSelectObject}
 				images={images}
 				isUserDm={isUserDm}
+				user={user}
+				sendPing={sendPing}
 			/>
 		);
 	}
@@ -77,6 +85,7 @@ const mapStateToProps = (state): StateProps => ({
 	playerCharacters: state.assets.playerCharacters,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
 	isUserDm: state.auth.isDm,
+	user: state.auth.user,
 	maps: state.maps.maps,
 	activeMapId: state.globalState.state ? state.globalState.state.activeMapId : null
 });
@@ -87,7 +96,8 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 		dispatch(mapsAddAsset(mapId, assetType, assetId, initialData)),
 	onAddImageToMap: (mapId, imageRef, initialData) =>
 		dispatch(mapsAddImage(mapId, imageRef, initialData)),
-	onSelectObject: data => dispatch(mapsSelectObject(data))
+	onSelectObject: data => dispatch(mapsSelectObject(data)),
+	sendPing: (ping: MapPing) => dispatch(mapPingsSendPing(ping))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(
