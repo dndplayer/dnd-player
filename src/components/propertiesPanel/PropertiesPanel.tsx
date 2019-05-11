@@ -138,7 +138,7 @@ export default class PropertiesPanel extends Component<Props, State> {
 			layers: layersArr,
 			scaleX: object ? object.scale.x : 1.0,
 			scaleY: object ? object.scale.y : 1.0,
-			isDmOnly: object ? object.dmOnly : false
+			isDmOnly: object ? object.dmOnly || false : false
 		});
 	};
 
