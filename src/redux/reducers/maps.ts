@@ -34,12 +34,13 @@ export default function mapsReducer(state: State = initialState, action: any = {
 				error: a.error
 			};
 		}
-		case types.MAPS.SELECT.OBJECT:
+		case types.MAPS.SELECT.OBJECT: {
 			const a = action as MapsSelectObjectAction;
 			return {
 				...state,
 				selectedObjects: a.mapObjectId ? [a.mapObjectId] : []
 			};
+		}
 		default:
 			return state;
 	}
