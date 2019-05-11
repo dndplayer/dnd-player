@@ -19,7 +19,8 @@ import Ruler from './objects/Ruler';
 import styles from './Map.module.scss';
 import { ViewportComponent } from './Viewport';
 import { MapPing } from '../../models/MapPing';
-import Ping from './objects/Ping';
+import Ping from './objects/OldPing';
+// import Ping from './objects/NewPing';
 
 interface CollectProps {
 	connectDropTarget: any;
@@ -302,6 +303,7 @@ class Map extends Component<Props, State> {
 									return (
 										<Ping
 											key={x}
+											// app={app}
 											position={new PIXI.Point(p.position.x, p.position.y)}
 										/>
 									);
