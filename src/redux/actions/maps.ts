@@ -49,11 +49,13 @@ export interface MapsAddAssetAction extends Action {
 	mapId: string;
 	assetType: AssetType;
 	assetId: string;
+	initialData: any; // TODO: Formalize model
 }
 
 export interface MapsAddImageAction extends Action {
 	mapId: string;
 	imageRef: string;
+	initialData: any; // TODO: Formalize model
 }
 
 export interface MapsUpdateBackgroundColourAction extends Action {
@@ -85,17 +87,24 @@ export const mapsUpdateObject = (mapId, mapObjectId, newData): MapsUpdateObjectA
 	newData
 });
 
-export const mapsAddAsset = (mapId, assetType, assetId): MapsAddAssetAction => ({
+export const mapsAddAsset = (
+	mapId,
+	assetType,
+	assetId,
+	initialData = null
+): MapsAddAssetAction => ({
 	type: types.MAPS.ASSET.ADD,
 	mapId,
 	assetType,
-	assetId
+	assetId,
+	initialData
 });
 
-export const mapsAddImage = (mapId, imageRef): MapsAddImageAction => ({
+export const mapsAddImage = (mapId, imageRef, initialData = null): MapsAddImageAction => ({
 	type: types.MAPS.IMAGE.ADD,
 	mapId,
-	imageRef
+	imageRef,
+	initialData
 });
 
 export const mapsSelectObject = (mapObjectId): MapsSelectObjectAction => ({

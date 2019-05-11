@@ -32,8 +32,8 @@ interface OwnProps {
 	playerCharacters: PlayerCharacter[];
 	nonPlayerCharacters: { [key: string]: NonPlayerCharacter };
 	onUpdateObject: (mapId, mapObjectId, newData) => void;
-	onAddAssetToMap: (mapId, assetType, assetId) => void;
-	onAddImageToMap: (mapId, imageRef) => void;
+	onAddAssetToMap: (mapId, assetType, assetId, initialData) => void;
+	onAddImageToMap: (mapId, imageRef, initialData) => void;
 	onSelectObject: (mapObjectId) => void;
 	images: Upload[];
 	isUserDm: boolean;
@@ -64,7 +64,7 @@ class Map extends Component<Props, State> {
 	private app: any;
 	private root: PIXI.Container;
 
-	private _viewport: Viewport;
+	public _viewport: Viewport;
 	private _stage: any;
 	private _mainWrapper: HTMLElement;
 
@@ -440,21 +440,30 @@ const mapTargetSpec = {
 		return true;
 	},
 	hover(props, monitor, component) {},
-	drop(props, monitor: DropTargetMonitor, component) {
+	drop(props, monitor: DropTargetMonitor, component: Map) {
 		const item = monitor.getItem();
 		const type = monitor.getItemType();
 		// console.log(`dropped [DROPPER]:`);
 		// console.log(item);
 
+		const dropPos = monitor.getClientOffset();
+		const localCoords = component._viewport.toLocal(new PIXI.Point(dropPos.x, dropPos.y));
+
+		// console.log(`Drop World coords: ${JSON.stringify(localCoords)}`);
+
 		switch (type) {
 			case types.PLAYER_CHARACTER_ASSET:
 				if (props.onAddAssetToMap && props.mapData) {
-					props.onAddAssetToMap(props.mapData.id, item.assetType, item.id);
+					props.onAddAssetToMap(props.mapData.id, item.assetType, item.id, {
+						position: { x: localCoords.x, y: localCoords.y }
+					});
 				}
 				break;
 			case types.UPLOAD_IMAGE:
 				if (props.onAddImageToMap && props.mapData) {
-					props.onAddImageToMap(props.mapData.id, item.imageRef);
+					props.onAddImageToMap(props.mapData.id, item.imageRef, {
+						position: { x: localCoords.x, y: localCoords.y }
+					});
 				}
 		}
 	}

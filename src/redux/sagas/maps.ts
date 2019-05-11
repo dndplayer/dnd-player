@@ -39,7 +39,7 @@ function* updateMapBackgroundColourSaga(action: MapsUpdateBackgroundColourAction
 }
 
 function* addAssetToMap(action: MapsAddAssetAction): any {
-	const { mapId, assetType, assetId } = action;
+	const { mapId, assetType, assetId, initialData } = action;
 	let payload = {
 		anchor: { x: 0.5, y: 0.5 },
 		pivot: { x: 0.5, y: 0.5 },
@@ -47,10 +47,8 @@ function* addAssetToMap(action: MapsAddAssetAction): any {
 		position: { x: 0, y: 0 },
 		rotation: 0,
 		scale: { x: 1, y: 1 },
-		layer: 'token'
-		// TODO: TEMPORARILY REQUIRED UNTIL IT USES THE ASSET IMAGE!
-		// imageUrl:
-		// 	'https://firebasestorage.googleapis.com/v0/b/dnd-player-a7776.appspot.com/o/uploads%2F5e9a7b59-678a-477c-a18b-4739c9cb197a?alt=media&token=73ec57e9-87e2-44ca-9b08-4243d584cd91'
+		layer: 'token',
+		...(initialData || {}) // Override with initial data
 	};
 	if (assetType === AssetType.PlayerCharacter) {
 		payload['pcId'] = assetId;
@@ -61,7 +59,7 @@ function* addAssetToMap(action: MapsAddAssetAction): any {
 }
 
 function* addImageToMap(action: MapsAddImageAction): any {
-	const { mapId, imageRef } = action;
+	const { mapId, imageRef, initialData } = action;
 	let payload = {
 		anchor: { x: 0.5, y: 0.5 },
 		pivot: { x: 0.5, y: 0.5 },
@@ -70,7 +68,8 @@ function* addImageToMap(action: MapsAddImageAction): any {
 		rotation: 0,
 		scale: { x: 1, y: 1 },
 		imageRef,
-		layer: 'background'
+		layer: 'background',
+		...(initialData || {}) // Override with initial data
 	};
 	yield call(rsf.database.create, `/maps/${mapId}/objects`, payload);
 }

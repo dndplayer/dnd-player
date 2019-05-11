@@ -23,8 +23,8 @@ interface StateProps {
 }
 interface DispatchProps {
 	onUpdateObject: (mapId, mapObjectId, newData) => void;
-	onAddAssetToMap: (mapId, assetType, assetId) => void;
-	onAddImageToMap: (mapId, imageRef) => void;
+	onAddAssetToMap: (mapId, assetType, assetId, initialData) => void;
+	onAddImageToMap: (mapId, imageRef, initialData) => void;
 	onSelectObject: (mapObjectId) => void;
 }
 interface OwnProps {}
@@ -83,9 +83,10 @@ const mapStateToProps = (state): StateProps => ({
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	onUpdateObject: (mapId, mapObjectId, data) =>
 		dispatch(mapsUpdateObject(mapId, mapObjectId, data)),
-	onAddAssetToMap: (mapId, assetType, assetId) =>
-		dispatch(mapsAddAsset(mapId, assetType, assetId)),
-	onAddImageToMap: (mapId, imageRef) => dispatch(mapsAddImage(mapId, imageRef)),
+	onAddAssetToMap: (mapId, assetType, assetId, initialData) =>
+		dispatch(mapsAddAsset(mapId, assetType, assetId, initialData)),
+	onAddImageToMap: (mapId, imageRef, initialData) =>
+		dispatch(mapsAddImage(mapId, imageRef, initialData)),
 	onSelectObject: data => dispatch(mapsSelectObject(data))
 });
 
