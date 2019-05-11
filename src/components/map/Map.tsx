@@ -170,7 +170,7 @@ class Map extends Component<Props, State> {
 					this.props.onSelectObject &&
 					this.props.selectedObjects.length > 0
 				) {
-					this.props.onSelectObject({ mapObjectId: null });
+					this.props.onSelectObject(null);
 				}
 
 				if (this.state.measuring) {
