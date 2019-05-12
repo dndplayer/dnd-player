@@ -5,9 +5,8 @@ import CharacterSheet from './PlayerCharacterSheet';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-function setup(popout: boolean) {
+function setup() {
 	const props = {
-		popout: popout ? 'popout' : '',
 		character: {
 			id: 1,
 			name: 'Test',
@@ -31,14 +30,9 @@ function setup(popout: boolean) {
 }
 
 describe('CharacterSheet', () => {
-	it('should add the popout class if props.popout == "popout"', () => {
-		const { enzymeWrapper } = setup(true);
+	it('should add the popout class', () => {
+		const { enzymeWrapper } = setup();
 
 		expect(enzymeWrapper.find('div.character-sheet').hasClass('popout')).toBe(true);
-	});
-	it('should not add the popout class if props.popout != "popout"', () => {
-		const { enzymeWrapper } = setup(false);
-
-		expect(enzymeWrapper.find('div.character-sheet').hasClass('popout')).toBe(false);
 	});
 });

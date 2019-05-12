@@ -4,7 +4,7 @@ import AssetList from './AssetList';
 import { editCharacterSheet } from '../../redux/actions/characters';
 import { Upload } from '../../models/Upload';
 import { PlayerCharacter, NonPlayerCharacterIndex } from '../../5e/models/Character';
-import { changeNonPlayerCharacterFilterText } from '../../redux/actions/assets';
+import { changeNonPlayerCharacterFilterText, openCharacterSheet } from '../../redux/actions/assets';
 import { getFilteredNpcs } from '../../redux/selectors/assets';
 
 interface StateProps {
@@ -14,8 +14,8 @@ interface StateProps {
 	nonPlayerCharacterFilter: string;
 }
 interface DispatchProps {
-	editCharacterSheet: (characterId: string) => void;
 	changeNonPlayerCharacterFilterText: (text: string) => void;
+	openCharacterSheet: (characterId: string) => void;
 }
 interface OwnProps {}
 
@@ -26,7 +26,7 @@ class AssetListContainer extends Component<Props> {
 		const {
 			playerCharacters,
 			nonPlayerCharactersIndex,
-			editCharacterSheet,
+			openCharacterSheet,
 			images,
 			changeNonPlayerCharacterFilterText,
 			nonPlayerCharacterFilter
@@ -37,7 +37,7 @@ class AssetListContainer extends Component<Props> {
 				<AssetList
 					playerCharacters={playerCharacters}
 					nonPlayerCharactersIndex={nonPlayerCharactersIndex}
-					editCharacterSheet={editCharacterSheet}
+					openCharacterSheet={openCharacterSheet}
 					changeNonPlayerCharacterFilterText={changeNonPlayerCharacterFilterText}
 					nonPlayerCharacterFilter={nonPlayerCharacterFilter}
 					images={images}
@@ -54,9 +54,9 @@ const mapStateToProps = (state): StateProps => ({
 	nonPlayerCharacterFilter: state.assets.nonPlayerCharacterFilter
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
-	editCharacterSheet: (characterId: string) => dispatch(editCharacterSheet(characterId)),
 	changeNonPlayerCharacterFilterText: (text: string) =>
-		dispatch(changeNonPlayerCharacterFilterText(text))
+		dispatch(changeNonPlayerCharacterFilterText(text)),
+	openCharacterSheet: (characterId: string) => dispatch(openCharacterSheet(characterId))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

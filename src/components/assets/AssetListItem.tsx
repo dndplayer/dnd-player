@@ -24,7 +24,7 @@ interface OwnProps {
 	asset: any;
 	assetType: AssetType;
 	images: Upload[];
-	editCharacterSheet: (characterId: string) => void;
+	openCharacterSheet: (characterId: string) => void;
 	connectDragSource: any;
 }
 
@@ -48,19 +48,10 @@ export class AssetListItem extends Component<Props, {}> {
 		return connectDragSource(
 			<div className={css.item} style={s}>
 				{assetType === AssetType.PlayerCharacter && <AssetListImage {...this.props} />}
-				<div className={css.title} onClick={() => this.onClick(asset)}>
+				<div className={css.title} onClick={() => this.props.openCharacterSheet(asset.id)}>
 					{asset.name || 'unknown'}
 				</div>
 			</div>
-		);
-	}
-
-	onClick(asset): void {
-		window.open(
-			`/#/characterSheet/${asset.id}`,
-			'popupWindow',
-			'height=1000,width=800,toolbar=no,location=no,statusbar=no,titlebar=no,directories=no',
-			false
 		);
 	}
 }

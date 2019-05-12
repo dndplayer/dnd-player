@@ -23,7 +23,6 @@ interface Props {
 	editNonPlayerCharacter: (characterId: string) => void;
 	character: NonPlayerCharacter;
 	characterId: string;
-	popout?: string;
 	image: Upload;
 }
 
@@ -31,7 +30,7 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 	render(): ReactNode {
 		const { character, editNonPlayerCharacter, characterId } = this.props;
 		return (
-			<div className={`column ${css.characterSheet} ${this.props.popout ? 'popout' : ''}`}>
+			<div className={`column ${css.characterSheet} popout`}>
 				<div className={css.characterImageContainer}>
 					<CharacterImage
 						imageUrl={

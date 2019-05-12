@@ -1,4 +1,4 @@
-import { types } from '../actions/assets';
+import { types, openCharacterSheet } from '../actions/assets';
 import {
 	PlayerCharacter,
 	NonPlayerCharacterIndex,
@@ -18,6 +18,7 @@ interface AssetState {
 	pcSyncError?: string;
 	npcSyncError?: string;
 	nonPlayerCharacterFilter: string;
+	activeCharacterSheetId: string;
 }
 
 const initialState: AssetState = {
@@ -26,11 +27,17 @@ const initialState: AssetState = {
 	nonPlayerCharacters: {},
 	pcSyncError: null,
 	npcSyncError: null,
-	nonPlayerCharacterFilter: ''
+	nonPlayerCharacterFilter: '',
+	activeCharacterSheetId: null
 };
 
 export default function assetsReducer(state = initialState, action: any = {}): AssetState {
 	switch (action.type) {
+		case types.ASSETS.OPEN_SHEET:
+			return {
+				...state,
+				activeCharacterSheetId: action.characterId
+			};
 		case types.ASSETS.PLAYERCHARACTER.SYNC:
 			return {
 				...state,

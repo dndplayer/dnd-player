@@ -2,6 +2,7 @@ import { PlayerCharacter } from '../../5e/models/Character';
 
 export const types = {
 	ASSETS: {
+		OPEN_SHEET: 'ASSETS.OPEN_SHEET',
 		PLAYERCHARACTER: {
 			SYNC: 'ASSETS.PLAYERCHARACTER.SYNC',
 			SYNC_FAILED: 'ASSETS.PLAYERCHARACTER.SYNC_FAILED',
@@ -29,6 +30,11 @@ export const types = {
 		}
 	}
 };
+
+export const openCharacterSheet = characterId => ({
+	type: types.ASSETS.OPEN_SHEET,
+	characterId
+});
 
 // Player Characters
 

@@ -13,7 +13,6 @@ interface Props {
 	abortEditPlayerCharacter: (characterId: string) => void;
 	editPlayerCharacter: (characterId: string) => void;
 	character: PlayerCharacter;
-	popout?: string;
 	image: Upload;
 	editing: boolean;
 }

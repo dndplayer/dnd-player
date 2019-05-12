@@ -26,7 +26,6 @@ interface Props {
 	updatePlayerCharacter: (characterId: string, character: Character) => void;
 	editPlayerCharacter: (characterId: string) => void;
 	character: PlayerCharacter;
-	popout?: string;
 	image: Upload;
 }
 
@@ -50,7 +49,7 @@ export default class PlayerCharacterSheet extends React.Component<Props, {}> {
 		const { character, editPlayerCharacter } = this.props;
 
 		return (
-			<div className={`column character-sheet ${this.props.popout ? 'popout' : ''}`}>
+			<div className="column character-sheet popout">
 				<div className="character-edit" onClick={() => editPlayerCharacter(character.id)}>
 					EDIT
 				</div>

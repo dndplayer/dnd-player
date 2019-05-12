@@ -22,7 +22,6 @@ interface Props {
 	abortEditNonPlayerCharacter: (characterId: string) => void;
 	character: NonPlayerCharacter;
 	characterId: string;
-	popout?: string;
 	image: Upload;
 }
 interface State {
@@ -43,8 +42,8 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 		const update = this.update.bind(this);
 
 		return (
-			<div className={`column character-sheet ${this.props.popout ? 'popout' : ''}`}>
-				<div className={`column ${css.characterSheet} 'popout'}`}>
+			<div className="column character-sheet popout">
+				<div className={`column ${css.characterSheet} popout`}>
 					<div className={css.characterImageContainer}>
 						<CharacterImage
 							imageUrl={

@@ -12,18 +12,21 @@ import {
 import {
 	updatePlayerCharacter,
 	updateNonPlayerCharacter,
-	loadFullNonPlayerCharacter
+	loadFullNonPlayerCharacter,
+	openCharacterSheet
 } from '../../../redux/actions/assets';
 import { Upload } from '../../../models/Upload';
 import NonPlayerCharacterSheetWrapper from './npc/NonPlayerCharacterSheetWrapper';
 import { ChatMessageData } from '../../../models/ChatMessage';
 import { abortEditCharacterSheet, editCharacterSheet } from '../../../redux/actions/characters';
+import WindowPortal from '../../../components/util/WindowPortal';
 
 const mapStateToProps = (state): any => ({
 	playerCharacters: state.assets.playerCharacters,
 	nonPlayerCharactersIndex: state.assets.nonPlayerCharactersIndex,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
 	editingCharacterSheets: state.characters.editingCharacterSheets,
+	activeCharacterSheetId: state.assets.activeCharacterSheetId,
 	images: state.images.images
 });
 
@@ -37,7 +40,8 @@ const mapDispatchToProps = (dispatch): any => ({
 		dispatch(updateNonPlayerCharacter(characterId, character)),
 	editNonPlayerCharacter: characterId => dispatch(editCharacterSheet(characterId)),
 	loadFullNonPlayerCharacter: characterId => dispatch(loadFullNonPlayerCharacter(characterId)),
-	abortEditNonPlayerCharacter: characterId => dispatch(abortEditCharacterSheet(characterId))
+	abortEditNonPlayerCharacter: characterId => dispatch(abortEditCharacterSheet(characterId)),
+	openCharacterSheet: characterId => dispatch(openCharacterSheet(characterId))
 });
 
 interface DispatchFromProps {
@@ -49,6 +53,7 @@ interface DispatchFromProps {
 	editNonPlayerCharacter: (characterId: string) => void;
 	loadFullNonPlayerCharacter: (characterId: string) => void;
 	abortEditNonPlayerCharacter: (characterId: string) => void;
+	openCharacterSheet: (characterId: string) => void;
 }
 
 interface StateFromProps {
@@ -57,7 +62,7 @@ interface StateFromProps {
 	nonPlayerCharactersIndex: NonPlayerCharacterIndex[];
 	nonPlayerCharacters: NonPlayerCharacter[];
 	images: Upload[];
-	popout?: string;
+	activeCharacterSheetId: string;
 }
 
 // interface OwnProps {}
@@ -73,55 +78,64 @@ export class CharacterSheetContainer extends Component<Props> {
 	}
 	maybeFetchData(): void {
 		if (
-			!this.props.playerCharacters.find(x => x.id === this.props.popout) &&
-			!this.props.nonPlayerCharacters[this.props.popout]
+			this.props.activeCharacterSheetId &&
+			!this.props.playerCharacters.find(x => x.id === this.props.activeCharacterSheetId) &&
+			!this.props.nonPlayerCharacters[this.props.activeCharacterSheetId]
 		) {
-			this.props.loadFullNonPlayerCharacter(this.props.popout);
+			this.props.loadFullNonPlayerCharacter(this.props.activeCharacterSheetId);
 		}
 	}
 	render(): ReactNode {
 		const {
-			popout,
 			images,
 			playerCharacters,
 			nonPlayerCharacters,
-			editingCharacterSheets
+			editingCharacterSheets,
+			activeCharacterSheetId
 		} = this.props;
 
-		const characterSheets = [];
-		if (popout) {
-			const pc = playerCharacters.find(x => x.id === this.props.popout);
-			if (pc) {
-				const image = images.find(x => x.filePath === pc.imageRef);
-				return (
+		if (!activeCharacterSheetId) {
+			return null;
+		}
+		const pc = playerCharacters.find(x => x.id === this.props.activeCharacterSheetId);
+		if (pc) {
+			const image = images.find(x => x.filePath === pc.imageRef);
+			return (
+				<WindowPortal
+					title="Character Sheet"
+					onClose={() => this.props.openCharacterSheet(null)}
+				>
 					<PlayerCharacterSheetWrapper
-						key={popout}
 						character={pc}
-						popout="popout"
 						image={image}
 						editing={editingCharacterSheets.some(y => y === pc.id)}
 						{...this.props}
 					/>
-				);
-			}
-			const npc = nonPlayerCharacters[this.props.popout];
-			if (npc) {
-				const image = images.find(x => x.filePath === npc.imageRef);
-				return (
+				</WindowPortal>
+			);
+		}
+		const npc = nonPlayerCharacters[this.props.activeCharacterSheetId];
+		if (npc) {
+			const image = images.find(x => x.filePath === npc.imageRef);
+			return (
+				<WindowPortal
+					title="Character Sheet"
+					onClose={() => this.props.openCharacterSheet(null)}
+				>
 					<NonPlayerCharacterSheetWrapper
-						key={popout}
 						character={npc}
-						characterId={this.props.popout}
-						popout="popout"
+						characterId={this.props.activeCharacterSheetId}
 						image={image}
-						editing={editingCharacterSheets.some(y => y === this.props.popout)}
+						editing={editingCharacterSheets.some(
+							y => y === this.props.activeCharacterSheetId
+						)}
 						{...this.props}
 					/>
-				);
-			}
+				</WindowPortal>
+			);
 		}
 
-		return <div>{characterSheets}</div>;
+		return null;
 	}
 }
 

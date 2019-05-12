@@ -74,6 +74,9 @@ export class App extends Component<{}, State> {
 													<PropertiesPanelContainer />
 													<MapContainer />
 												</div>
+												<div>
+													<CharacterSheetContainer {...this.props} />
+												</div>
 											</div>
 										)}
 									/>
@@ -84,15 +87,6 @@ export class App extends Component<{}, State> {
 									<Route
 										path="/login"
 										render={(): ReactElement => <Authentication />}
-									/>
-									<Route
-										path="/characterSheet/:id"
-										render={(props): ReactElement => (
-											<CharacterSheetContainer
-												popout={props.match.params.id}
-												{...props}
-											/>
-										)}
 									/>
 								</Switch>
 							</MuiThemeProvider>

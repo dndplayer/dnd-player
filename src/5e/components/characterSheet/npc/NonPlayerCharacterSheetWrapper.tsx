@@ -14,7 +14,6 @@ interface Props {
 	editNonPlayerCharacter: (characterId: string) => void;
 	character: NonPlayerCharacter;
 	characterId: string;
-	popout?: string;
 	image: Upload;
 	editing: boolean;
 }

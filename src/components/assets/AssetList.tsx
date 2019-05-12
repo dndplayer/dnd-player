@@ -7,7 +7,7 @@ import { PlayerCharacter, NonPlayerCharacterIndex } from '../../5e/models/Charac
 interface Props {
 	playerCharacters: PlayerCharacter[];
 	nonPlayerCharactersIndex: NonPlayerCharacterIndex[];
-	editCharacterSheet: (characterId: string) => void;
+	openCharacterSheet: (characterId: string) => void;
 	images: Upload[];
 	nonPlayerCharacterFilter: string;
 	changeNonPlayerCharacterFilterText: (text: string) => void;

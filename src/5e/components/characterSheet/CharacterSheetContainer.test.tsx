@@ -7,7 +7,7 @@ Enzyme.configure({ adapter: new Adapter() });
 
 function getProps() {
 	return {
-		popout: '',
+		activeCharacterSheetId: null,
 		sendPlayerCharacterUpdate: jest.fn(),
 		sendNonPlayerCharacterUpdate: jest.fn(),
 		sendMessage: jest.fn(),
@@ -33,23 +33,21 @@ function setup(props?) {
 }
 
 describe('CharacterSheetContainer', () => {
-	it('should add a NonPlayerCharacterSheetWrapper for non player characters', () => {
+	it('should add a WindowPortal for non player characters', () => {
 		const props = getProps();
 		props.nonPlayerCharacters['test1'] = {};
 		props.nonPlayerCharactersIndex.push({ id: 'test1' });
-		props.popout = 'test1';
+		props.activeCharacterSheetId = 'test1';
 		const { enzymeWrapper } = setup(props);
 
-		expect(enzymeWrapper.find('NonPlayerCharacterSheetWrapper')).toHaveLength(1);
-		expect(enzymeWrapper.find('PlayerCharacterSheet')).toHaveLength(0);
+		expect(enzymeWrapper.find('WindowPortal')).toHaveLength(1);
 	});
-	it('should add a PlayerCharacterSheetWrapper for player characters', () => {
+	it('should add a WindowPortal for player characters', () => {
 		const props = getProps();
 		props.playerCharacters.push({ id: 'test2' });
-		props.popout = 'test2';
+		props.activeCharacterSheetId = 'test2';
 		const { enzymeWrapper } = setup(props);
 
-		expect(enzymeWrapper.find('PlayerCharacterSheetWrapper')).toHaveLength(1);
-		expect(enzymeWrapper.find('NonPlayerCharacterSheetWrapper')).toHaveLength(0);
+		expect(enzymeWrapper.find('WindowPortal')).toHaveLength(1);
 	});
 });
