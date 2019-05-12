@@ -1,15 +1,14 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import AssetList from './AssetList';
-import { editCharacterSheet } from '../../redux/actions/characters';
 import { Upload } from '../../models/Upload';
-import { PlayerCharacter, NonPlayerCharacterIndex } from '../../5e/models/Character';
+import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
 import { changeNonPlayerCharacterFilterText, openCharacterSheet } from '../../redux/actions/assets';
 import { getFilteredNpcs } from '../../redux/selectors/assets';
 
 interface StateProps {
 	playerCharacters: PlayerCharacter[];
-	nonPlayerCharactersIndex: NonPlayerCharacterIndex[];
+	nonPlayerCharacters: NonPlayerCharacter[];
 	images: Upload[];
 	nonPlayerCharacterFilter: string;
 }
@@ -25,7 +24,7 @@ class AssetListContainer extends Component<Props> {
 	render(): ReactNode {
 		const {
 			playerCharacters,
-			nonPlayerCharactersIndex,
+			nonPlayerCharacters,
 			openCharacterSheet,
 			images,
 			changeNonPlayerCharacterFilterText,
@@ -36,7 +35,7 @@ class AssetListContainer extends Component<Props> {
 				<h1>Asset List</h1>
 				<AssetList
 					playerCharacters={playerCharacters}
-					nonPlayerCharactersIndex={nonPlayerCharactersIndex}
+					nonPlayerCharacters={nonPlayerCharacters}
 					openCharacterSheet={openCharacterSheet}
 					changeNonPlayerCharacterFilterText={changeNonPlayerCharacterFilterText}
 					nonPlayerCharacterFilter={nonPlayerCharacterFilter}
@@ -49,7 +48,7 @@ class AssetListContainer extends Component<Props> {
 
 const mapStateToProps = (state): StateProps => ({
 	playerCharacters: state.assets.playerCharacters,
-	nonPlayerCharactersIndex: getFilteredNpcs(state),
+	nonPlayerCharacters: getFilteredNpcs(state),
 	images: state.images.images,
 	nonPlayerCharacterFilter: state.assets.nonPlayerCharacterFilter
 });

@@ -12,15 +12,12 @@ export const types = {
 			}
 		},
 		NONPLAYERCHARACTER: {
-			INDEX: {
-				SYNC: 'ASSETS.NONPLAYERCHARACTER.INDEX.SYNC',
-				SYNC_FAILED: 'ASSETS.NONPLAYERCHARACTER.INDEX.SYNC_FAILED'
-			},
 			FILTER: {
 				TEXT_CHANGE: 'ASSETS.NONPLAYERCHARACTER.FILTER.TEXT_CHANGE'
 			},
-			LOAD_FULL: 'ASSETS.NONPLAYERCHARACTER.LOAD_FULL',
-			LOAD_FULL_DONE: 'ASSETS.NONPLAYERCHARACTER.LOAD_FULL_DONE',
+			LAST_UPDATE: {
+				SYNC: 'ASSETS.NONPLAYERCHARACTER.LAST_UPDATE.SYNC'
+			},
 			SYNC: 'ASSETS.NONPLAYERCHARACTER.SYNC',
 			SYNC_FAILED: 'ASSETS.NONPLAYERCHARACTER.SYNC_FAILED',
 			UPDATE: 'ASSETS.NONPLAYERCHARACTER.UPDATE',
@@ -61,16 +58,6 @@ export const saveNewPlayerCharacter = playerCharacterData => ({
 
 // Non-Player Characters
 
-export const syncNonPlayerCharactersIndex = nonPlayerCharactersIndex => ({
-	type: types.ASSETS.NONPLAYERCHARACTER.INDEX.SYNC,
-	nonPlayerCharactersIndex
-});
-
-export const syncNonPlayerCharactersIndexFailed = error => ({
-	type: types.ASSETS.NONPLAYERCHARACTER.INDEX.SYNC_FAILED,
-	error
-});
-
 export const syncNonPlayerCharacters = nonPlayerCharacters => ({
 	type: types.ASSETS.NONPLAYERCHARACTER.SYNC,
 	nonPlayerCharacters
@@ -79,17 +66,6 @@ export const syncNonPlayerCharacters = nonPlayerCharacters => ({
 export const syncNonPlayerCharactersFailed = error => ({
 	type: types.ASSETS.NONPLAYERCHARACTER.SYNC_FAILED,
 	error
-});
-
-export const loadFullNonPlayerCharacter = characterId => ({
-	type: types.ASSETS.NONPLAYERCHARACTER.LOAD_FULL,
-	characterId
-});
-
-export const loadFullNonPlayerCharacterDone = (characterId, character) => ({
-	type: types.ASSETS.NONPLAYERCHARACTER.LOAD_FULL_DONE,
-	characterId,
-	character
 });
 
 export const changeNonPlayerCharacterFilterText = text => ({
@@ -106,4 +82,9 @@ export const updateNonPlayerCharacter = (characterId, character) => ({
 export const saveNewNonPlayerCharacter = nonPlayerCharacterData => ({
 	type: types.ASSETS.NONPLAYERCHARACTER.NEW.SAVE,
 	nonPlayerCharacterData
+});
+
+export const syncNonPlayerCharacterLastUpdate = lastUpdate => ({
+	type: types.ASSETS.NONPLAYERCHARACTER.LAST_UPDATE.SYNC,
+	lastUpdate
 });

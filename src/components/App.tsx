@@ -6,38 +6,19 @@ import { HashRouter } from 'react-router-dom';
 import CharacterSheetContainer from '../5e/components/characterSheet/CharacterSheetContainer';
 import ImageUploaderContainer from './sidebar/panels/imageUploader/ImageUploaderContainer';
 import Authentication from './authentication/Authentication';
-import Sidebar from './sidebar/Sidebar';
 import MapContainer from './map/MapContainer';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
 
 import { Provider } from 'react-redux';
-import store, { history } from '../redux/store';
+import store from '../redux/store';
 
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import PropertiesPanelContainer from './propertiesPanel/PropertiesPanelContainer';
 import ChatContainer from './chat/ChatContainer';
 import OverlayTabsContainer from './sidebar/OverlayTabsContainer';
-import { Rnd } from 'react-rnd';
 
-interface State {
-	projectName: string;
-	apiKey: string;
-}
-
-export class App extends Component<{}, State> {
-	constructor(props) {
-		super(props);
-		this.configLoaded = !!localStorage.getItem('firebaseConfig');
-
-		this.state = {
-			projectName: '',
-			apiKey: ''
-		};
-	}
-
-	configLoaded: boolean;
-
+export class App extends Component<{}, {}> {
 	render(): ReactNode {
 		const theme = createMuiTheme({
 			palette: {

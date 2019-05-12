@@ -1,12 +1,12 @@
-import { all, call, select, fork, takeEvery, put } from 'redux-saga/effects';
+import { all, call, select, fork, takeEvery, put, take, delay } from 'redux-saga/effects';
 
 import {
 	types,
-	syncNonPlayerCharactersIndex,
-	syncNonPlayerCharactersIndexFailed,
 	syncPlayerCharacters,
 	syncPlayerCharactersFailed,
-	loadFullNonPlayerCharacterDone
+	syncNonPlayerCharacters,
+	syncNonPlayerCharactersFailed,
+	syncNonPlayerCharacterLastUpdate
 } from '../actions/assets';
 
 import rsf from '../rsf';
@@ -74,14 +74,6 @@ function* syncPlayerCharactersSaga(): any {
 	);
 }
 
-function getNpcIndex(payload) {
-	return {
-		name: payload.name,
-		cr: payload.cr,
-		environments: payload.environments
-	};
-}
-
 function* updateNonPlayerCharacterSaga(action: AnyAction): any {
 	// TODO: Sort the payload
 	const currentUser: firebase.User = yield select(state => state.auth.user);
@@ -94,30 +86,36 @@ function* updateNonPlayerCharacterSaga(action: AnyAction): any {
 	yield call(rsf.database.update, '/nonPlayerCharacters/' + action.characterId, payload);
 	yield call(
 		rsf.database.update,
-		'/nonPlayerCharacterIds/' + action.characterId,
-		getNpcIndex(payload)
+		'/lastUpdates/nonPlayerCharacters',
+		database.ServerValue.TIMESTAMP
 	);
 }
 
 function* syncNonPlayerCharactersSaga(): any {
+	const currentLastUpdate = yield select();
 	yield fork(
 		rsf.database.sync,
-		database(rsf.app).ref('/nonPlayerCharacterIds'),
+		database(rsf.app).ref('/lastUpdates/nonPlayerCharacters'),
 		{
-			successActionCreator: syncNonPlayerCharactersIndex,
-			failureActionCreator: syncNonPlayerCharactersIndexFailed,
+			successActionCreator: syncNonPlayerCharacterLastUpdate
+		},
+		'value'
+	);
+	const action = yield take(types.ASSETS.NONPLAYERCHARACTER.LAST_UPDATE.SYNC);
+	if (currentLastUpdate === action.lastUpdate) {
+		// We were already up to date; wait for the next sync to tell us when something's changed.
+		yield take(types.ASSETS.NONPLAYERCHARACTER.LAST_UPDATE.SYNC);
+	}
+	yield fork(
+		rsf.database.sync,
+		database(rsf.app).ref('/nonPlayerCharacters'),
+		{
+			successActionCreator: syncNonPlayerCharacters,
+			failureActionCreator: syncNonPlayerCharactersFailed,
 			transform: nonPlayerCharacterTransformer
 		},
 		'value'
 	);
-}
-
-function* loadFullNonPlayerCharacterSaga(action: AnyAction): any {
-	const data = yield call(
-		rsf.database.read,
-		database(rsf.app).ref('/nonPlayerCharacters/' + action.characterId)
-	);
-	yield put(loadFullNonPlayerCharacterDone(action.characterId, data));
 }
 
 export default function* rootSaga(): any {
@@ -128,7 +126,6 @@ export default function* rootSaga(): any {
 		takeEvery(types.ASSETS.PLAYERCHARACTER.UPDATE, updatePlayerCharacterSaga),
 		takeEvery(types.ASSETS.PLAYERCHARACTER.NEW.SAVE, saveNewPlayerCharacterSaga),
 		takeEvery(types.ASSETS.NONPLAYERCHARACTER.UPDATE, updateNonPlayerCharacterSaga),
-		takeEvery(types.ASSETS.NONPLAYERCHARACTER.NEW.SAVE, saveNewNonPlayerCharacterSaga),
-		takeEvery(types.ASSETS.NONPLAYERCHARACTER.LOAD_FULL, loadFullNonPlayerCharacterSaga)
+		takeEvery(types.ASSETS.NONPLAYERCHARACTER.NEW.SAVE, saveNewNonPlayerCharacterSaga)
 	]);
 }

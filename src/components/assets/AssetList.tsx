@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import AssetListItem from './AssetListItem';
 import { AssetType } from '../../models/AssetType';
 import { Upload } from '../../models/Upload';
-import { PlayerCharacter, NonPlayerCharacterIndex } from '../../5e/models/Character';
+import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
 
 interface Props {
 	playerCharacters: PlayerCharacter[];
-	nonPlayerCharactersIndex: NonPlayerCharacterIndex[];
+	nonPlayerCharacters: NonPlayerCharacter[];
 	openCharacterSheet: (characterId: string) => void;
 	images: Upload[];
 	nonPlayerCharacterFilter: string;
@@ -15,7 +15,7 @@ interface Props {
 
 export default class AssetList extends Component<Props> {
 	render() {
-		const { playerCharacters, nonPlayerCharactersIndex } = this.props;
+		const { playerCharacters, nonPlayerCharacters } = this.props;
 		return (
 			<div>
 				<ul>
@@ -36,7 +36,7 @@ export default class AssetList extends Component<Props> {
 					onChange={e => this.props.changeNonPlayerCharacterFilterText(e.target.value)}
 				/>
 				<div>
-					{nonPlayerCharactersIndex.map(x => (
+					{nonPlayerCharacters.map(x => (
 						<AssetListItem
 							asset={x}
 							assetType={AssetType.NonPlayerCharacter}

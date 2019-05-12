@@ -1,16 +1,16 @@
 import { createSelector } from 'reselect';
 
-const npcIndex = state => state.assets.nonPlayerCharactersIndex;
+const npcs = state => state.assets.nonPlayerCharacters;
 const npcFilter = state => state.assets.nonPlayerCharacterFilter;
 
 export const getFilteredNpcs = createSelector(
-	npcIndex,
+	npcs,
 	npcFilter,
-	(npcIndex, npcFilter) =>
-		!npcIndex
-			? npcIndex
+	(npcs, npcFilter) =>
+		!npcs
+			? npcs
 			: []
-					.concat(npcIndex)
+					.concat(npcs)
 					.filter(x => x.name.toLowerCase().indexOf(npcFilter) > -1)
 					.sort((x, y) => x.name.localeCompare(y.name))
 );

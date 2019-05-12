@@ -1,9 +1,6 @@
-import { types, openCharacterSheet } from '../actions/assets';
-import {
-	PlayerCharacter,
-	NonPlayerCharacterIndex,
-	NonPlayerCharacter
-} from '../../5e/models/Character';
+import { types } from '../actions/assets';
+import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
+import { persistentReducer } from 'redux-pouchdb';
 
 interface AssetState {
 	// TODO: Perhaps these pc and npc collections should be object with
@@ -12,26 +9,26 @@ interface AssetState {
 	//       Object.keys() is good enough to handle when we do want to iterate.
 
 	playerCharacters: PlayerCharacter[];
-	nonPlayerCharactersIndex: NonPlayerCharacterIndex[];
-	nonPlayerCharacters: { [key: string]: NonPlayerCharacter };
+	nonPlayerCharacters: NonPlayerCharacter[];
 
 	pcSyncError?: string;
 	npcSyncError?: string;
 	nonPlayerCharacterFilter: string;
 	activeCharacterSheetId: string;
+	nonPlayerCharacterLastUpdate: string;
 }
 
 const initialState: AssetState = {
 	playerCharacters: [],
-	nonPlayerCharactersIndex: [],
-	nonPlayerCharacters: {},
+	nonPlayerCharacters: [],
 	pcSyncError: null,
 	npcSyncError: null,
 	nonPlayerCharacterFilter: '',
-	activeCharacterSheetId: null
+	activeCharacterSheetId: null,
+	nonPlayerCharacterLastUpdate: null
 };
 
-export default function assetsReducer(state = initialState, action: any = {}): AssetState {
+function assetsReducer(state = initialState, action: any = {}): AssetState {
 	switch (action.type) {
 		case types.ASSETS.OPEN_SHEET:
 			return {
@@ -43,56 +40,29 @@ export default function assetsReducer(state = initialState, action: any = {}): A
 				...state,
 				playerCharacters: action.playerCharacters
 			};
-		case types.ASSETS.PLAYERCHARACTER.UPDATE:
-			return {
-				...state,
-				playerCharacters: state.playerCharacters.map(item => {
-					if (item.id !== action.characterId) {
-						// This isn't the item we care about - keep it as-is
-						return item;
-					}
-
-					// Otherwise, this is the one we want - return an updated value
-					return action.character;
-				})
-			};
-		case types.ASSETS.NONPLAYERCHARACTER.INDEX.SYNC:
-			return {
-				...state,
-				nonPlayerCharactersIndex: action.nonPlayerCharactersIndex
-			};
-		case types.ASSETS.NONPLAYERCHARACTER.UPDATE:
-			return {
-				...state,
-				nonPlayerCharacters: {
-					...state.nonPlayerCharacters,
-					[action.characterId]: action.character
-				}
-			};
 		case types.ASSETS.NONPLAYERCHARACTER.FILTER.TEXT_CHANGE:
 			return {
 				...state,
 				nonPlayerCharacterFilter: action.text
 			};
-		case types.ASSETS.NONPLAYERCHARACTER.LOAD_FULL_DONE:
+		case types.ASSETS.NONPLAYERCHARACTER.SYNC:
 			return {
 				...state,
-				nonPlayerCharacters: {
-					...state.nonPlayerCharacters,
-					[action.characterId]: action.character
-				}
+				nonPlayerCharacters: action.nonPlayerCharacters
 			};
 		case types.ASSETS.PLAYERCHARACTER.SYNC_FAILED:
 			return {
 				...state,
 				pcSyncError: action.error
 			};
-		case types.ASSETS.NONPLAYERCHARACTER.INDEX.SYNC_FAILED:
+		case types.ASSETS.NONPLAYERCHARACTER.LAST_UPDATE.SYNC:
 			return {
 				...state,
-				npcSyncError: action.error
+				nonPlayerCharacterLastUpdate: action.lastUpdate
 			};
 		default:
 			return state;
 	}
 }
+
+export default persistentReducer(assetsReducer, 'assetsReducer');
