@@ -34,7 +34,7 @@ interface OwnProps {
 	mapData?: MapData;
 	selectedObjects: string[];
 	playerCharacters: PlayerCharacter[];
-	nonPlayerCharacters: { [key: string]: NonPlayerCharacter };
+	nonPlayerCharacters: NonPlayerCharacter[];
 	onUpdateObject: (mapId, mapObjectId, newData) => void;
 	onAddAssetToMap: (mapId, assetType, assetId, initialData) => void;
 	onAddImageToMap: (mapId, imageRef, initialData) => void;
@@ -109,7 +109,9 @@ class Map extends Component<Props, State> {
 						const pc = o.pcId
 							? this.props.playerCharacters.find(y => y.id === o.pcId)
 							: null;
-						const npc = o.npcId ? this.props.nonPlayerCharacters[o.npcId] : null;
+						const npc = o.npcId
+							? this.props.nonPlayerCharacters.find(x => x.id === o.npcId)
+							: null;
 						const imgRef =
 							o && o.imageRef
 								? o.imageRef
@@ -329,7 +331,9 @@ class Map extends Component<Props, State> {
 														  )
 														: null;
 													const npcAsset = o.npcId
-														? nonPlayerCharacters[o.npcId]
+														? nonPlayerCharacters.find(
+																x => x.id === o.npcId
+														  )
 														: null;
 													const imageUrl =
 														pcAsset && pcAsset.imageRef
@@ -486,9 +490,10 @@ const mapTargetSpec = {
 		switch (type) {
 			case types.PLAYER_CHARACTER_ASSET:
 				if (props.onAddAssetToMap && props.mapData) {
-					props.onAddAssetToMap(props.mapData.id, item.assetType, item.id, {
+					const initialData: any = {
 						position: { x: localCoords.x, y: localCoords.y }
-					});
+					};
+					props.onAddAssetToMap(props.mapData.id, item.assetType, item.id, initialData);
 				}
 				break;
 			case types.UPLOAD_IMAGE:

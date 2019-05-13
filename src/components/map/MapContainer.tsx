@@ -19,7 +19,7 @@ interface StateProps {
 	activeMapId: string;
 	selectedObjects: string[];
 	playerCharacters: PlayerCharacter[];
-	nonPlayerCharacters: { [key: string]: NonPlayerCharacter };
+	nonPlayerCharacters: NonPlayerCharacter[];
 	images: Upload[];
 	isUserDm: boolean;
 	user: firebase.User;
