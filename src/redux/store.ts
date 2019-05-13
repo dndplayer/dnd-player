@@ -5,17 +5,15 @@ import { createBrowserHistory } from 'history';
 
 import createRootReducer from './reducers/index';
 import rootSaga from './sagas/index';
-import { persistentStore } from 'redux-pouchdb';
-import PouchDB from 'pouchdb-browser';
+import { persistStore } from 'redux-persist';
 
 export const history = createBrowserHistory({
 	basename: process.env.PUBLIC_URL
 });
 
-const db = new PouchDB('dnd-player');
 const sagaMiddleware = createSagaMiddleware();
 
-const enhancers = [persistentStore(db)];
+const enhancers = [];
 const middleware = [sagaMiddleware];
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -24,6 +22,7 @@ const composedEnhancers = composeEnhancers(applyMiddleware(...middleware), ...en
 
 const store = createStore(createRootReducer(history), {}, composedEnhancers);
 
+const persistor = persistStore(store);
 sagaMiddleware.run(rootSaga);
 
-export default store;
+export default { store, persistor };

@@ -17,6 +17,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import PropertiesPanelContainer from './propertiesPanel/PropertiesPanelContainer';
 import ChatContainer from './chat/ChatContainer';
 import OverlayTabsContainer from './sidebar/OverlayTabsContainer';
+import { PersistGate } from 'redux-persist/integration/react';
 
 export class App extends Component<{}, {}> {
 	render(): ReactNode {
@@ -27,53 +28,55 @@ export class App extends Component<{}, {}> {
 		});
 
 		return (
-			<Provider store={store}>
-				<HashRouter>
-					<DragDropContextProvider backend={HTML5Backend}>
-						<div className="App">
-							<MuiThemeProvider theme={theme}>
-								<Switch>
-									<Route
-										exact
-										path="/"
-										render={(): ReactElement => (
-											<div>
-												<OverlayTabsContainer />
-												<div className={styles.overlayWrapper}>
-													<div
-														style={{
-															zIndex: 9999,
-															position: 'absolute',
-															bottom: 0,
-															left: 0
-														}}
-													>
-														<ChatContainer />
+			<Provider store={store.store}>
+				<PersistGate persistor={store.persistor}>
+					<HashRouter>
+						<DragDropContextProvider backend={HTML5Backend}>
+							<div className="App">
+								<MuiThemeProvider theme={theme}>
+									<Switch>
+										<Route
+											exact
+											path="/"
+											render={(): ReactElement => (
+												<div>
+													<OverlayTabsContainer />
+													<div className={styles.overlayWrapper}>
+														<div
+															style={{
+																zIndex: 9999,
+																position: 'absolute',
+																bottom: 0,
+																left: 0
+															}}
+														>
+															<ChatContainer />
+														</div>
+													</div>
+													<div className={styles.mapWrapper}>
+														<PropertiesPanelContainer />
+														<MapContainer />
+													</div>
+													<div>
+														<CharacterSheetContainer {...this.props} />
 													</div>
 												</div>
-												<div className={styles.mapWrapper}>
-													<PropertiesPanelContainer />
-													<MapContainer />
-												</div>
-												<div>
-													<CharacterSheetContainer {...this.props} />
-												</div>
-											</div>
-										)}
-									/>
-									<Route
-										path="/upload"
-										render={(): ReactElement => <ImageUploaderContainer />}
-									/>
-									<Route
-										path="/login"
-										render={(): ReactElement => <Authentication />}
-									/>
-								</Switch>
-							</MuiThemeProvider>
-						</div>
-					</DragDropContextProvider>
-				</HashRouter>
+											)}
+										/>
+										<Route
+											path="/upload"
+											render={(): ReactElement => <ImageUploaderContainer />}
+										/>
+										<Route
+											path="/login"
+											render={(): ReactElement => <Authentication />}
+										/>
+									</Switch>
+								</MuiThemeProvider>
+							</div>
+						</DragDropContextProvider>
+					</HashRouter>
+				</PersistGate>
 			</Provider>
 		);
 	}

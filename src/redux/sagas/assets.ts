@@ -92,7 +92,14 @@ function* updateNonPlayerCharacterSaga(action: AnyAction): any {
 }
 
 function* syncNonPlayerCharactersSaga(): any {
-	const currentLastUpdate = yield select();
+	while (true) {
+		yield delay(100);
+		if (yield select(state => state.assets._persist.rehydrated)) {
+			break;
+		}
+	}
+
+	const currentLastUpdate = yield select(state => state.assets.nonPlayerCharacterLastUpdate);
 	yield fork(
 		rsf.database.sync,
 		database(rsf.app).ref('/lastUpdates/nonPlayerCharacters'),

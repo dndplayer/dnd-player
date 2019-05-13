@@ -1,6 +1,7 @@
 import { types } from '../actions/assets';
 import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
-import { persistentReducer } from 'redux-pouchdb';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 interface AssetState {
 	// TODO: Perhaps these pc and npc collections should be object with
@@ -65,4 +66,8 @@ function assetsReducer(state = initialState, action: any = {}): AssetState {
 	}
 }
 
-export default persistentReducer(assetsReducer, 'assetsReducer');
+const persistConfig = {
+	key: 'assets',
+	storage
+};
+export default persistReducer(persistConfig, assetsReducer);

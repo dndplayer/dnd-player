@@ -13,7 +13,7 @@ function getProps() {
 		sendMessage: jest.fn(),
 		editingCharacterSheets: [],
 		playerCharacters: [],
-		nonPlayerCharacters: {},
+		nonPlayerCharacters: [],
 		nonPlayerCharactersIndex: [],
 		updatePlayerCharacter: jest.fn(),
 		updateNonPlayerCharacter: jest.fn(),
