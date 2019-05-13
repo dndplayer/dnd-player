@@ -20,6 +20,7 @@ import styles from './Map.module.scss';
 import { ViewportComponent } from './Viewport';
 import { MapPing } from '../../models/MapPing';
 import Ping from './objects/OldPing';
+import EditablePolygon from './objects/editable/EditablePolygon';
 // import Ping from './objects/NewPing';
 
 interface CollectProps {
@@ -298,6 +299,10 @@ class Map extends Component<Props, State> {
 								ref={c => (this._viewport = c as any)}
 								app={app}
 							>
+								<EditablePolygon
+									editMode={false}
+									updatePoly={d => console.log(d)}
+								/>
 								{Object.keys(this.props.mapPings).map(x => {
 									const p = this.props.mapPings[x];
 									return (
