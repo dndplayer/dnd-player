@@ -14,16 +14,23 @@ const copyStyles = (sourceDoc, targetDoc) => {
 				});
 
 				targetDoc.head.appendChild(newStyleEl);
-			} else if ((styleSheet as any).href) {
-				// for <link> elements loading CSS from a URL
-				const newLinkEl = sourceDoc.createElement('link');
-
-				newLinkEl.rel = 'stylesheet';
-				newLinkEl.href = (styleSheet as any).href;
-				targetDoc.head.appendChild(newLinkEl);
 			}
 		} catch (err) {}
 	});
+	Array.from(sourceDoc.getElementsByTagName('link'))
+		.filter(x => (x as any).rel === 'stylesheet')
+		.forEach(link => {
+			try {
+				if ((link as any).href) {
+					// for <link> elements loading CSS from a URL
+					const newLinkEl = sourceDoc.createElement('link');
+
+					newLinkEl.rel = 'stylesheet';
+					newLinkEl.href = (link as any).href;
+					targetDoc.head.appendChild(newLinkEl);
+				}
+			} catch (err) {}
+		});
 };
 
 interface Props {

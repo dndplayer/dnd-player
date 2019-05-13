@@ -35,7 +35,7 @@ function setup(props?) {
 describe('CharacterSheetContainer', () => {
 	it('should add a WindowPortal for non player characters', () => {
 		const props = getProps();
-		props.nonPlayerCharacters['test1'] = {};
+		props.nonPlayerCharacters.push({ id: 'test1' });
 		props.nonPlayerCharactersIndex.push({ id: 'test1' });
 		props.activeCharacterSheetId = 'test1';
 		const { enzymeWrapper } = setup(props);
