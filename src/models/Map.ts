@@ -14,6 +14,7 @@ export interface MapObject {
 	imageRef?: string; // Override the image used by an asset (if it has one)
 	pcId?: string; // References a PlayerCharacter asset
 	npcId?: string; // References a NonPlayerCharacter asset
+	hp?: { value: number; max: number };
 }
 
 export interface MapLayer {

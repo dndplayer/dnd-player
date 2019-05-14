@@ -12,7 +12,12 @@ import { Upload } from '../../models/Upload';
 import { LinearProgress } from '@material-ui/core';
 import Scenery from './objects/Scenery';
 import { groupObjectsByLayer, calculateDistance, GroupedMapObject } from './MapUtils';
-import { PlayerCharacter, NonPlayerCharacter, CharacterSize } from '../../5e/models/Character';
+import {
+	PlayerCharacter,
+	NonPlayerCharacter,
+	CharacterSize,
+	Character
+} from '../../5e/models/Character';
 import { MapObjectVisibility } from './objects/MapObject';
 import Ruler from './objects/Ruler';
 
@@ -21,6 +26,8 @@ import { ViewportComponent } from './Viewport';
 import { MapPing } from '../../models/MapPing';
 import Ping from './objects/OldPing';
 import EditablePolygon from './objects/editable/EditablePolygon';
+import DiceRoll from 'rpg-dice-roller';
+
 // import Ping from './objects/NewPing';
 
 interface CollectProps {
@@ -409,12 +416,13 @@ class Map extends Component<Props, State> {
 															key={o.id}
 															resource={res}
 															hp={
-																pcAsset
+																o.hp ||
+																(pcAsset
 																	? {
 																			value: pcAsset.hp,
 																			max: pcAsset.maxHp
 																	  }
-																	: undefined
+																	: undefined)
 															}
 															ac={
 																asset
@@ -473,7 +481,7 @@ const mapTargetSpec = {
 		return true;
 	},
 	hover(props, monitor, component) {},
-	drop(props, monitor: DropTargetMonitor, component: Map) {
+	drop(props: Props, monitor: DropTargetMonitor, component: Map) {
 		const item = monitor.getItem();
 		const type = monitor.getItemType();
 		// console.log(`dropped [DROPPER]:`);
@@ -490,6 +498,14 @@ const mapTargetSpec = {
 					const initialData: any = {
 						position: { x: localCoords.x, y: localCoords.y }
 					};
+					if (item.assetType === 1) {
+						const asset = props.nonPlayerCharacters.find(x => x.id === item.id);
+						if (asset.hpDice) {
+							const { DiceRoll } = require('rpg-dice-roller');
+							const roll = new DiceRoll(asset.hpDice);
+							initialData.hp = { value: roll.total, max: roll.total };
+						}
+					}
 					props.onAddAssetToMap(props.mapData.id, item.assetType, item.id, initialData);
 				}
 				break;
