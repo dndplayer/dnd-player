@@ -158,7 +158,7 @@ export class EditablePolygonContainer extends PIXI.Container {
 	private onMouseDown(e: PIXI.interaction.InteractionEvent): void {
 		this._dragging = true;
 		this._dragData = e.data;
-		const local = e.data.getLocalPosition(this.parent);
+		const local = e.data.getLocalPosition(this);
 		this._dragGrabOffset = new PIXI.Point(local.x * this.scale.x, local.y * this.scale.y);
 	}
 	private onMouseMove(e: PIXI.interaction.InteractionEvent): void {
