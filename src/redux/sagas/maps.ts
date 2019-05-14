@@ -47,7 +47,7 @@ function* addAssetToMap(action: MapsAddAssetAction): any {
 		position: { x: 0, y: 0 },
 		rotation: 0,
 		scale: { x: 1, y: 1 },
-		layer: 'token',
+		layer: 'tokens',
 		...(initialData || {}) // Override with initial data
 	};
 	if (assetType === AssetType.PlayerCharacter) {

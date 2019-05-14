@@ -11,7 +11,7 @@ import Token from './objects/Token';
 import { Upload } from '../../models/Upload';
 import { LinearProgress } from '@material-ui/core';
 import Scenery from './objects/Scenery';
-import { groupObjectsByLayer, calculateDistance } from './MapUtils';
+import { groupObjectsByLayer, calculateDistance, GroupedMapObject } from './MapUtils';
 import { PlayerCharacter, NonPlayerCharacter, CharacterSize } from '../../5e/models/Character';
 import { MapObjectVisibility } from './objects/MapObject';
 import Ruler from './objects/Ruler';
@@ -258,12 +258,7 @@ class Map extends Component<Props, State> {
 
 		// TODO: Order this (maybe make it an array not an object) so layer zIndex is obeyed.
 		const groupedObjects = groupObjectsByLayer(this.props.mapData);
-		const layerSortFunc = (a, b) =>
-			groupedObjects[a].zIndex < groupedObjects[b].zIndex
-				? -1
-				: groupedObjects[a].zIndex > groupedObjects[b].zIndex
-				? 1
-				: 0;
+		const layerSortFunc = (a: GroupedMapObject, b: GroupedMapObject) => a.zIndex - b.zIndex;
 
 		return connectDropTarget(
 			<div ref={c => (this._mainWrapper = c)}>
@@ -315,14 +310,15 @@ class Map extends Component<Props, State> {
 										/>
 									);
 								})}
-								{Object.keys(groupedObjects)
+								{groupedObjects
 									.sort(layerSortFunc)
-									.reverse()
-									.map((layerName: string) => {
-										const l = groupedObjects[layerName];
+									.map((layer: GroupedMapObject) => {
 										return (
-											<Container key={layerName} name={`layer-${layerName}`}>
-												{l.map(o => {
+											<Container
+												key={layer.name}
+												name={`layer-${layer.name}`}
+											>
+												{layer.objects.map(o => {
 													const isPc = !!o.pcId;
 													const isNpc = !!o.npcId;
 													const pcAsset = o.pcId
@@ -362,22 +358,22 @@ class Map extends Component<Props, State> {
 														const size = (asset.size || '').toString();
 														switch (parseInt(size)) {
 															case CharacterSize.Tiny:
-																scale = { x: 0.5, y: 0.5 };
+																scale = new PIXI.Point(0.5, 0.5);
 																break;
 															case CharacterSize.Small:
-																scale = { x: 1, y: 1 };
+																scale = new PIXI.Point(1, 1);
 																break;
 															case CharacterSize.Medium:
-																scale = { x: 1, y: 1 };
+																scale = new PIXI.Point(1, 1);
 																break;
 															case CharacterSize.Large:
-																scale = { x: 2, y: 2 };
+																scale = new PIXI.Point(2, 2);
 																break;
 															case CharacterSize.Huge:
-																scale = { x: 3, y: 3 };
+																scale = new PIXI.Point(3, 3);
 																break;
 															case CharacterSize.Gargantuan:
-																scale = { x: 4, y: 4 };
+																scale = new PIXI.Point(4, 4);
 																break;
 														}
 													}

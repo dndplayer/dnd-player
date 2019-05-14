@@ -2,35 +2,26 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 const copyStyles = (sourceDoc, targetDoc) => {
-	Array.from(sourceDoc.styleSheets).forEach(styleSheet => {
+	Array.from(sourceDoc.styleSheets).forEach((styleSheet: any) => {
 		try {
-			if ((styleSheet as any).cssRules) {
+			if (styleSheet.href) {
+				const newLinkEl = sourceDoc.createElement('link');
+				newLinkEl.href = styleSheet.href;
+				newLinkEl.rel = 'stylesheet';
+				targetDoc.head.appendChild(newLinkEl);
+			} else if (styleSheet.cssRules) {
 				// for <style> elements
 				const newStyleEl = sourceDoc.createElement('style');
 
-				Array.from((styleSheet as any).cssRules).forEach(cssRule => {
+				Array.from(styleSheet.cssRules).forEach((cssRule: any) => {
 					// write the text of each rule into the body of the style element
-					newStyleEl.appendChild(sourceDoc.createTextNode((cssRule as any).cssText));
+					newStyleEl.appendChild(sourceDoc.createTextNode(cssRule.cssText));
 				});
 
 				targetDoc.head.appendChild(newStyleEl);
 			}
 		} catch (err) {}
 	});
-	Array.from(sourceDoc.getElementsByTagName('link'))
-		.filter(x => (x as any).rel === 'stylesheet')
-		.forEach(link => {
-			try {
-				if ((link as any).href) {
-					// for <link> elements loading CSS from a URL
-					const newLinkEl = sourceDoc.createElement('link');
-
-					newLinkEl.rel = 'stylesheet';
-					newLinkEl.href = (link as any).href;
-					targetDoc.head.appendChild(newLinkEl);
-				}
-			} catch (err) {}
-		});
 };
 
 interface Props {

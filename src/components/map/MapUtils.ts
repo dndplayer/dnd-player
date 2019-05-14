@@ -1,26 +1,34 @@
 import { MapData } from '../../models/Map';
 import { MapObject } from '../../models/Map';
 
-interface GroupedMapObjects {
-	background?: MapObject[];
-	tokens?: MapObject[];
+export interface GroupedMapObject {
+	objects: MapObject[];
+	zIndex: number;
+	name: string;
 }
 
-export const groupObjectsByLayer = (map: MapData): GroupedMapObjects => {
+const zIndexes = {
+	background: 0,
+	tokens: 1
+};
+
+export const groupObjectsByLayer = (map: MapData): GroupedMapObject[] => {
 	if (!map || !map.objects) {
-		return {};
+		return [];
 	}
-	return Object.keys(map.objects).reduce((prev: GroupedMapObjects, curr: string): any => {
+	return Object.keys(map.objects).reduce((prev: GroupedMapObject[], curr: string): any => {
 		const l = map.objects[curr].layer;
-		if (!prev[l]) {
-			prev[l] = [];
+		let layer = prev.find(x => x.name === l);
+		if (!layer) {
+			layer = { objects: [], zIndex: zIndexes[l], name: l };
+			prev.push(layer);
 		}
-		prev[l].push({
+		layer.objects.push({
 			...map.objects[curr],
 			id: curr
 		});
 		return prev;
-	}, {});
+	}, []);
 };
 
 export const calculateDistance = (
