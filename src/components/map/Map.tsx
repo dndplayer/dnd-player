@@ -502,8 +502,12 @@ const mapTargetSpec = {
 						const asset = props.nonPlayerCharacters.find(x => x.id === item.id);
 						if (asset.hpDice) {
 							const { DiceRoll } = require('rpg-dice-roller');
-							const roll = new DiceRoll(asset.hpDice);
-							initialData.hp = { value: roll.total, max: roll.total };
+							const roll = Math.max(
+								new DiceRoll(asset.hpDice.replace(/ /g, '')).total,
+								1
+							);
+
+							initialData.hp = { value: roll, max: roll };
 						}
 					}
 					props.onAddAssetToMap(props.mapData.id, item.assetType, item.id, initialData);
