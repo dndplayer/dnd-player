@@ -18,6 +18,8 @@ export default class Handle extends PIXI.Graphics {
 		this.on('mousemove', this.onMouseMove);
 	}
 
+	public pointIndex: number;
+
 	private _handleRect: PIXI.Rectangle;
 	private _fill: boolean;
 
@@ -42,17 +44,21 @@ export default class Handle extends PIXI.Graphics {
 		this._dragData = null;
 
 		this.redraw();
-
-		const p = this.parent as EditablePolygonContainer;
-		if (p) {
-			// p.updatePoly();
-		}
 	}
 
 	onMouseMove(e: PIXI.interaction.InteractionEvent): void {
 		if (this._dragging) {
 			const newPos = this._dragData.getLocalPosition(e.currentTarget.parent);
 			this.position.set(newPos.x, newPos.y);
+
+			const p = this.parent as EditablePolygonContainer;
+			if (p) {
+				let points = [...p.localPoints]; // Copy
+				points.splice(this.pointIndex * 2, 2);
+				points.splice(this.pointIndex * 2, 0, newPos.x, newPos.y);
+				p.updateLocal(points);
+				console.log(points);
+			}
 		}
 	}
 

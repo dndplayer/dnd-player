@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import { EditablePolygonContainer } from './EditablePolygon';
 
 export default class Midpoint extends PIXI.Graphics {
 	constructor() {
@@ -11,8 +12,14 @@ export default class Midpoint extends PIXI.Graphics {
 		this.on('click', this.onMouseClick);
 	}
 
+	public midPointIndex: number;
+
 	onMouseClick() {
 		console.log(`Mouse Click Midpoint`);
+		const p = this.parent as EditablePolygonContainer;
+		if (p) {
+			p.addNewPoint(this.midPointIndex, this.position);
+		}
 	}
 
 	// onMouseDown() {

@@ -303,7 +303,7 @@ class Map extends Component<Props, State> {
 							>
 								<EditablePolygon
 									editMode={false}
-									updatePoly={d => console.log(d)}
+									polyPoints={[0, 0, 500, 500, 500, 0, 0, 0]}
 								/>
 								{Object.keys(this.props.mapPings).map(x => {
 									const p = this.props.mapPings[x];

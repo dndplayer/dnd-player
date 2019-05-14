@@ -3,37 +3,18 @@ import { PixiComponent } from '@inlet/react-pixi';
 import Midpoint from './Midpoint';
 import Handle from './Handle';
 
+/**
+ * TODO: This could all do with refactoring!
+ */
 export class EditablePolygonContainer extends PIXI.Container {
-	constructor(updatePoly: (data: PIXI.Polygon) => void) {
+	constructor(polyPoints: number[]) {
 		super();
 
-		this._updatePoly = updatePoly;
-	}
+		const poly = new PIXI.Polygon(polyPoints);
+		// poly.close();
 
-	updatePoly = (data: PIXI.Polygon) => {
-		this._updatePoly(data);
-	};
-
-	private _updatePoly: (data: PIXI.Polygon) => void;
-}
-
-interface Props {
-	editMode?: boolean;
-	updatePoly: (data: PIXI.Polygon) => void;
-}
-
-export default PixiComponent<Props, EditablePolygonContainer>('EditablePolygon', {
-	create: (props: Props): EditablePolygonContainer => {
-		const c = new EditablePolygonContainer(props.updatePoly);
-
-		const points: PIXI.Point[] = [
-			new PIXI.Point(0, 0),
-			new PIXI.Point(500, 500),
-			new PIXI.Point(500, 0)
-		];
-
-		const poly = new PIXI.Polygon(points);
-		poly.close();
+		this._localPoints = polyPoints;
+		const pPoints = this.convertToPoints(this._localPoints);
 
 		const g = new PIXI.Graphics();
 		g.lineStyle(8, 0x00ff00);
@@ -42,56 +23,137 @@ export default PixiComponent<Props, EditablePolygonContainer>('EditablePolygon',
 		g.name = 'poly';
 		g.hitArea = poly;
 
-		c.addChild(g);
+		this.addChild(g);
 
-		const handleSize = 64;
+		this.redrawHandles(pPoints);
+		this.redrawMidpoints(pPoints, 32);
+	}
+
+	get localPoints(): number[] {
+		return this._localPoints;
+	}
+
+	public updateLocal = (data: number[]): void => {
+		this._localPoints = data;
+		const pPoints = this.convertToPoints(this._localPoints);
+
+		const polyGraphic = this.getChildByName('poly') as PIXI.Graphics;
+		if (polyGraphic) {
+			const poly = new PIXI.Polygon(this._localPoints);
+			// poly.close();
+
+			polyGraphic.clear();
+			polyGraphic.lineStyle(8, 0x00ff00);
+			polyGraphic.drawPolygon(poly);
+			polyGraphic.endFill();
+			polyGraphic.hitArea = poly;
+		}
+
+		// Re-draw MidPoints
+		this._midPoints.forEach(x => this.removeChild(x));
+		this.redrawMidpoints(pPoints, 32);
+	};
+
+	public addNewPoint = (midPointIndex: number, point: PIXI.Point): void => {
+		const d = [...this._localPoints];
+		d.splice(midPointIndex * 2 + 2, 0, point.x, point.y);
+
+		this.updateLocal(d);
+
+		const pPoints = this.convertToPoints(this._localPoints); // TODO: This shouldn't need to be recalculated here
+		this.redrawHandles(pPoints);
+	};
+
+	private _localPoints: number[] = [];
+	private _handles: Handle[] = [];
+	private _midPoints: Midpoint[] = [];
+
+	private redrawHandles(pPoints: PIXI.Point[], handleSize: number = 64): void {
+		this._handles.forEach(x => this.removeChild(x));
+		this._handles = [];
 		let j = 0;
-		for (let p of points) {
+		for (let p of pPoints) {
 			const rect = new PIXI.Rectangle(
-				p.x - handleSize / 2,
-				p.y - handleSize / 2,
+				-(handleSize / 2),
+				-(handleSize / 2),
 				handleSize,
 				handleSize
 			);
 			const handle = new Handle(rect);
+			handle.position.set(p.x, p.y);
+			this._handles.push(handle);
+			handle.pointIndex = j;
 			handle.name = `handles-${j++}`;
 			handle.interactive = true;
 			handle.hitArea = rect;
 			handle.lineStyle(8, 0xff0000);
 			handle.drawShape(rect);
-			c.addChild(handle);
+			this.addChild(handle);
 		}
+	}
+
+	private redrawMidpoints(pPoints: PIXI.Point[], handleSize: number = 64): void {
+		this._midPoints.forEach(x => this.removeChild(x));
+		this._midPoints = [];
 
 		let halfwayPoints: PIXI.Point[] = [];
-		for (let i = 0; i < points.length; i++) {
-			const p1 = points[i];
-			const p2 = points[i === points.length - 1 ? 0 : i + 1];
+		for (let i = 0; i < pPoints.length - 1; i++) {
+			const p1 = pPoints[i];
+			// const p2 = pPoints[i === pPoints.length - 1 ? 0 : i + 1];
+			const p2 = pPoints[i + 1];
 			const midPoint = new PIXI.Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
 			halfwayPoints.push(midPoint);
 		}
 
-		const midPointsSize = 64;
 		let k = 0;
 		for (let p of halfwayPoints) {
 			const midPoint = new Midpoint();
+			midPoint.position.set(p.x, p.y);
+			this._midPoints.push(midPoint);
+			midPoint.midPointIndex = k;
 			midPoint.name = `midPoints-${k++}`;
 			midPoint.lineStyle(8, 0x0000ff);
 			const rect = new PIXI.Rectangle(
-				p.x - midPointsSize / 2,
-				p.y - midPointsSize / 2,
-				midPointsSize,
-				midPointsSize
+				-(handleSize / 2),
+				-(handleSize / 2),
+				handleSize,
+				handleSize
 			);
 			midPoint.drawShape(rect);
 			midPoint.interactive = true;
 			midPoint.hitArea = rect;
-			c.addChild(midPoint);
+			this.addChild(midPoint);
 		}
+	}
+
+	private convertToPoints(points: number[]): PIXI.Point[] {
+		// Convert the number[] to a PIXI.Point[]
+		let pPoints: PIXI.Point[] = [];
+		for (let i = 0; i < points.length; i += 2) {
+			const pp = new PIXI.Point(points[i], points[i + 1]);
+			pPoints.push(pp);
+		}
+		return pPoints;
+	}
+}
+
+interface Props {
+	editMode?: boolean;
+	polyPoints: number[];
+}
+
+export default PixiComponent<Props, EditablePolygonContainer>('EditablePolygon', {
+	create: (props: Props): EditablePolygonContainer => {
+		const c = new EditablePolygonContainer(props.polyPoints);
 
 		return c;
 	},
 	applyProps: (instance: EditablePolygonContainer, oldProps: Props, newProps: Props): void => {
 		const p = instance.getChildByName('poly') as PIXI.Graphics;
+
+		// TODO: Calc new poly from newProps
+		// Create a new PIXI.Polygon and pass into updateLocal
+		// instance.updateLocal(newPoly)
 	},
 	didMount: (instance: EditablePolygonContainer, parent: PIXI.Container): void => {
 		const onClick = (e: PIXI.interaction.InteractionEvent): void => {
