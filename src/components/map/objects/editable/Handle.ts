@@ -27,6 +27,8 @@ export default class Handle extends PIXI.Graphics {
 	private _dragData?: PIXI.interaction.InteractionData;
 
 	onMouseDown(e: PIXI.interaction.InteractionEvent): void {
+		e.stopPropagation();
+
 		this._fill = true;
 		console.log(`Mouse Down Handle`);
 
@@ -37,6 +39,8 @@ export default class Handle extends PIXI.Graphics {
 	}
 
 	onMouseUp(e: PIXI.interaction.InteractionEvent): void {
+		e.stopPropagation();
+
 		this._fill = false;
 		console.log(`Mouse Up Handle`);
 
@@ -48,6 +52,8 @@ export default class Handle extends PIXI.Graphics {
 
 	onMouseMove(e: PIXI.interaction.InteractionEvent): void {
 		if (this._dragging) {
+			e.stopPropagation();
+
 			const newPos = this._dragData.getLocalPosition(e.currentTarget.parent);
 			this.position.set(newPos.x, newPos.y);
 
@@ -57,7 +63,8 @@ export default class Handle extends PIXI.Graphics {
 				points.splice(this.pointIndex * 2, 2);
 				points.splice(this.pointIndex * 2, 0, newPos.x, newPos.y);
 				p.updateLocal(points);
-				console.log(points);
+				// DEBUG
+				// console.log(points);
 			}
 		}
 	}

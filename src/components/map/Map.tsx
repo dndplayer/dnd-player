@@ -296,10 +296,11 @@ class Map extends Component<Props, State> {
 								ref={c => (this._viewport = c as any)}
 								app={app}
 							>
-								<EditablePolygon
+								{/* <EditablePolygon
 									editMode={false}
 									polyPoints={[0, 0, 500, 500, 500, 0, 0, 0]}
-								/>
+								/> */}
+								<EditablePolygon editMode={false} polyPoints={[0, 0, 500, 500]} />
 								{Object.keys(this.props.mapPings).map(x => {
 									const p = this.props.mapPings[x];
 									return (

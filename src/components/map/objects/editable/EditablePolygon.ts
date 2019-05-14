@@ -22,6 +22,10 @@ export class EditablePolygonContainer extends PIXI.Container {
 		g.endFill();
 		g.name = 'poly';
 		g.hitArea = poly;
+		g.interactive = true;
+		g.on('mousedown', this.onMouseDown.bind(this));
+		g.on('mousemove', this.onMouseMove.bind(this));
+		g.on('mouseup', this.onMouseUp.bind(this));
 
 		this.addChild(g);
 
@@ -44,6 +48,7 @@ export class EditablePolygonContainer extends PIXI.Container {
 
 			polyGraphic.clear();
 			polyGraphic.lineStyle(8, 0x00ff00);
+			polyGraphic.beginFill(0x00ff00, 0.4);
 			polyGraphic.drawPolygon(poly);
 			polyGraphic.endFill();
 			polyGraphic.hitArea = poly;
@@ -63,6 +68,16 @@ export class EditablePolygonContainer extends PIXI.Container {
 		const pPoints = this.convertToPoints(this._localPoints); // TODO: This shouldn't need to be recalculated here
 		this.redrawHandles(pPoints);
 	};
+
+	public closePolygonIfPossible = (): void => {
+		// If the start and end handle points are within a threshold then close the polygon
+		// somehow and set a fill
+	};
+
+	// TODO: Support an EditablePoly that is just a line I.E. 2 points, 1 line and 1 midpoint
+	// I think it basically does already, what's really needed is the ability to handle
+	// closed polygons and also close them by dragging an end index marker ontop of the other end
+	// index marker
 
 	private _localPoints: number[] = [];
 	private _handles: Handle[] = [];
@@ -134,6 +149,36 @@ export class EditablePolygonContainer extends PIXI.Container {
 			pPoints.push(pp);
 		}
 		return pPoints;
+	}
+
+	private _dragging: boolean = false;
+	private _dragData?: PIXI.interaction.InteractionData = null;
+	private _dragGrabOffset?: PIXI.Point = null;
+
+	private onMouseDown(e: PIXI.interaction.InteractionEvent): void {
+		this._dragging = true;
+		this._dragData = e.data;
+		const local = e.data.getLocalPosition(this.parent);
+		this._dragGrabOffset = new PIXI.Point(local.x * this.scale.x, local.y * this.scale.y);
+	}
+	private onMouseMove(e: PIXI.interaction.InteractionEvent): void {
+		if (this._dragging) {
+			const newPos = this._dragData.getLocalPosition(this.parent);
+			// this.position.set(newPos.x, newPos.y);
+			this.x = newPos.x - (this._dragGrabOffset ? this._dragGrabOffset.x : 0);
+			this.y = newPos.y - (this._dragGrabOffset ? this._dragGrabOffset.y : 0);
+
+			console.log(`${this.position.x}, ${this.position.y}`);
+
+			const pPoints = this.convertToPoints(this._localPoints); // TODO: This shouldn't need to be recalculated here
+			this.redrawHandles(pPoints);
+			this.redrawMidpoints(pPoints, 32);
+		}
+	}
+	private onMouseUp(e: PIXI.interaction.InteractionEvent): void {
+		this._dragging = false;
+		this._dragData = null;
+		this._dragGrabOffset = null;
 	}
 }
 
