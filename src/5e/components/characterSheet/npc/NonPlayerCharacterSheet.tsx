@@ -20,32 +20,40 @@ import SavingThrows from './SavingThrows';
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	updateNonPlayerCharacter: (characterId: string, character: Character) => void;
-	editNonPlayerCharacter: (characterId: string) => void;
+	editNonPlayerCharacter?: (characterId: string) => void;
 	character: NonPlayerCharacter;
 	characterId: string;
 	image: Upload;
+	inline?: boolean;
 }
 
 export default class NonPlayerCharacterSheet extends React.Component<Props, {}> {
 	render(): ReactNode {
-		const { character, editNonPlayerCharacter, characterId } = this.props;
+		const { character, editNonPlayerCharacter, characterId, inline } = this.props;
 		return (
-			<div className={`column ${css.characterSheet} popout`}>
-				<div className={css.characterImageContainer}>
-					<CharacterImage
-						imageUrl={
-							this.props.image ? this.props.image.downloadUrl : character.imageRef
-						}
-						character={character}
-						characterId={characterId}
-						updateCharacter={this.props.updateNonPlayerCharacter}
-					/>
-				</div>
+			<div className={`column ${css.characterSheet} ${inline ? css.inline : ''} popout`}>
+				{!inline && (
+					<div className={css.characterImageContainer}>
+						<CharacterImage
+							imageUrl={
+								this.props.image ? this.props.image.downloadUrl : character.imageRef
+							}
+							character={character}
+							characterId={characterId}
+							updateCharacter={this.props.updateNonPlayerCharacter}
+						/>
+					</div>
+				)}
 				<div className={css.characterName + ' row'}>
 					<span>{character.name}</span>
-					<div onClick={() => editNonPlayerCharacter(characterId)} className={css.button}>
-						<Icon path={mdiFileDocumentEdit} size={1} color={'#a6792d'} />
-					</div>
+					{this.props.editNonPlayerCharacter && (
+						<div
+							onClick={() => editNonPlayerCharacter(characterId)}
+							className={css.button}
+						>
+							<Icon path={mdiFileDocumentEdit} size={1} color={'#a6792d'} />
+						</div>
+					)}
 				</div>
 				<div className={css.characterType}>
 					{Rules.getSizeName(character.size)} {character.class}, {character.alignment}

@@ -10,12 +10,13 @@ import NonPlayerCharacterSheetEditor from './editor/NonPlayerCharacterSheetEdito
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	updateNonPlayerCharacter: (characterId: string, character: Character) => void;
-	abortEditNonPlayerCharacter: (characterId: string) => void;
-	editNonPlayerCharacter: (characterId: string) => void;
+	abortEditNonPlayerCharacter?: (characterId: string) => void;
+	editNonPlayerCharacter?: (characterId: string) => void;
 	character: NonPlayerCharacter;
 	characterId: string;
 	image: Upload;
 	editing: boolean;
+	inline?: boolean;
 }
 
 export default class NonPlayerCharacterSheetWrapper extends React.Component<Props, {}> {
@@ -31,10 +32,17 @@ export default class NonPlayerCharacterSheetWrapper extends React.Component<Prop
 		const { editing } = this.props;
 
 		const inner = editing ? (
-			<NonPlayerCharacterSheetEditor {...this.props} />
+			<NonPlayerCharacterSheetEditor
+				abortEditNonPlayerCharacter={this.props.abortEditNonPlayerCharacter}
+				{...this.props}
+			/>
 		) : (
 			<NonPlayerCharacterSheet {...this.props} />
 		);
-		return <div className="character-sheet popout"> {inner} </div>;
+		return (
+			<div className={`character-sheet ${this.props.inline ? 'inline' : ''} popout`}>
+				{inner}
+			</div>
+		);
 	}
 }

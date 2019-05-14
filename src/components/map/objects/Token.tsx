@@ -125,6 +125,9 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 			if (s) {
 				s.tint = newProps.isSelected && !oldProps.isSelected ? 0x0000ff : 0xffffff;
 			}
+
+			g.showText = newProps.isSelected;
+			g.redraw(s.width);
 		}
 	},
 

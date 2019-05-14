@@ -8,8 +8,7 @@ export default class Healthbar extends PIXI.Container {
 	/** Armor class **/
 	public ac: number;
 
-	/** Should the HP level text always show or only on mouse over? **/
-	public alwaysShowText: boolean = false;
+	public showText: boolean = false;
 
 	private _barGraphic: PIXI.Graphics;
 	private _barText: PIXI.Text;
@@ -17,8 +16,6 @@ export default class Healthbar extends PIXI.Container {
 
 	private _barWidth: number;
 	private _barHeight: number;
-
-	private _showText: boolean = false;
 
 	private _lastTargetWidth: number = 0;
 
@@ -45,9 +42,6 @@ export default class Healthbar extends PIXI.Container {
 		this.addChild(this._barGraphic);
 		this.addChild(this._barText);
 		this.addChild(this._barAc);
-
-		this.on('added', this.onAdded);
-		this.on('removed', this.onRemoved);
 	}
 
 	/**
@@ -127,30 +121,8 @@ export default class Healthbar extends PIXI.Container {
 		this._barText.text = `${this.hp}/${this.hpMax}`;
 		this._barText.style.fill = 'white';
 
-		this._barText.visible = this._showText;
+		this._barText.visible = this.showText;
 		this._barAc.position.set(hbWidth / 2, 0);
 		this._barAc.text = `${this.ac || ''}`;
-	};
-
-	onAdded = (): void => {
-		this.on('mouseover', this.onMouseOver, this);
-		this.on('mouseout', this.onMouseOut, this);
-	};
-	onRemoved = (): void => {
-		this.off('mouseover');
-		this.off('mouseout');
-	};
-
-	onMouseOver = (e: PIXI.interaction.InteractionEvent): void => {
-		// TODO: Show HP text
-		this._showText = true;
-
-		this.redraw();
-	};
-	onMouseOut = (e: PIXI.interaction.InteractionEvent): void => {
-		// TODO: Hide HP text
-		this._showText = false;
-
-		this.redraw();
 	};
 }

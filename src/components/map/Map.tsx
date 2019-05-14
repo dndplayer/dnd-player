@@ -105,7 +105,7 @@ class Map extends Component<Props, State> {
 			(this.props.mapData && this.props.mapData.objects !== prevProps.mapData.objects)
 		) {
 			if (!this.loader.resources['__missing__']) {
-				this.loader.add('__missing__', 'http://placekitten.com/128/128');
+				this.loader.add('__missing__', 'https://placekitten.com/128/128');
 			}
 
 			const mapAssetsToLoad = Object.keys(this.props.mapData.objects)

@@ -24,9 +24,10 @@ import Resources from './Resources';
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	updatePlayerCharacter: (characterId: string, character: Character) => void;
-	editPlayerCharacter: (characterId: string) => void;
+	editPlayerCharacter?: (characterId: string) => void;
 	character: PlayerCharacter;
 	image: Upload;
+	inline?: boolean;
 }
 
 export const ProficiencyClassMap = {
@@ -46,13 +47,18 @@ export default class PlayerCharacterSheet extends React.Component<Props, {}> {
 	}
 
 	render(): ReactNode {
-		const { character, editPlayerCharacter } = this.props;
+		const { character, editPlayerCharacter, inline } = this.props;
 
 		return (
-			<div className="column character-sheet popout">
-				<div className="character-edit" onClick={() => editPlayerCharacter(character.id)}>
-					EDIT
-				</div>
+			<div className={`column character-sheet ${inline ? 'inline' : ''} popout`}>
+				{this.props.editPlayerCharacter && (
+					<div
+						className="character-edit"
+						onClick={() => editPlayerCharacter(character.id)}
+					>
+						EDIT
+					</div>
+				)}
 				<div className="row character-details">
 					<div className="character-name">{character.name}</div>
 					<div className="character-image">

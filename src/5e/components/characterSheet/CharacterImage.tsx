@@ -25,7 +25,7 @@ class CharacterImage extends Component<Props> {
 
 		return connectDropTarget(
 			<div className={css.wrapper}>
-				<img src={imageUrl || 'http://placekitten.com/128/128'} />
+				<img src={imageUrl || 'https://placekitten.com/128/128'} />
 			</div>
 		);
 	}

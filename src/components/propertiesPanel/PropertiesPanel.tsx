@@ -6,6 +6,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { MapData, MapObject } from '../../models/Map';
 import RotationSelector from './controls/RotationSelector';
+import InlineCharacterSheetContainer from '../../5e/components/characterSheet/InlineCharacterSheetContainer';
 
 const wrapperStyle = {
 	position: 'absolute' as 'absolute',
@@ -33,7 +34,6 @@ interface Props {
 interface State {
 	objectId?: string;
 	object?: MapObject;
-	name?: string;
 	rotation?: number;
 	layer?: string;
 	scaleX: number;
@@ -45,10 +45,9 @@ interface State {
 }
 
 export default class PropertiesPanel extends Component<Props, State> {
-	state = {
+	state: State = {
 		objectId: null,
 		object: null,
-		name: '',
 		rotation: 0.0,
 		layer: null,
 		isPcAsset: false,
@@ -86,7 +85,6 @@ export default class PropertiesPanel extends Component<Props, State> {
 			}
 
 			this.props.onUpdateObject(this.props.map.id, this.state.objectId, {
-				name: this.state.name,
 				rotation: this.state.rotation,
 				layer: this.state.layer,
 				scale: {
@@ -130,7 +128,6 @@ export default class PropertiesPanel extends Component<Props, State> {
 		this.setState({
 			objectId,
 			object,
-			name: object ? object.name : '',
 			rotation: object ? object.rotation : 0.0,
 			layer: object ? object.layer : null,
 			isPcAsset,
@@ -145,7 +142,7 @@ export default class PropertiesPanel extends Component<Props, State> {
 	render(): ReactNode {
 		const { visible } = this.props;
 
-		const { object, name, rotation, layers, scaleX, scaleY } = this.state;
+		const { object, rotation, layers, scaleX, scaleY } = this.state;
 
 		if (!visible) {
 			return <div />;
@@ -156,179 +153,126 @@ export default class PropertiesPanel extends Component<Props, State> {
 		}
 
 		return (
-			<Rnd
-				default={{
-					x: 5,
-					y: 5,
-					width: 250,
-					height: 510
-				}}
-				minWidth={250}
-				minHeight={510}
-				dragHandleClassName="dragBar"
-				bounds={'window'}
-				enableResizing={{
-					bottom: true,
-					bottomLeft: true,
-					bottomRight: true,
-					left: true,
-					right: false,
-					top: false,
-					topLeft: false,
-					topRight: false
+			<div
+				style={{
+					backgroundColor: '#222',
+					width: '400px',
+					height: '100%',
+					position: 'absolute',
+					top: 0,
+					left: 0,
+					overflow: 'hidden scroll'
 				}}
 			>
 				<div
 					style={{
-						backgroundColor: 'rgba(100, 100, 100, 0.8)',
-						border: '2px solid #444',
-						width: '100%',
-						height: '100%',
-						position: 'relative',
-						padding: '5px'
+						display: 'flex',
+						flexDirection: 'column'
 					}}
 				>
-					<div
-						className="dragBar"
+					<InlineCharacterSheetContainer characterSheetId={object.pcId || object.npcId} />
+					<PropertyRow>
+						Rotation
+						<input
+							type="number"
+							value={rotation}
+							onChange={this.handleChange('rotation')}
+						/>
+						<RotationSelector
+							diameter={64}
+							style={{
+								marginLeft: 'auto',
+								marginRight: 'auto'
+							}}
+							initialRotationRad={rotation}
+							rotationChanged={(rotDeg, rotRad) => {
+								this.setState({
+									rotation: rotRad
+								});
+							}}
+						/>
+					</PropertyRow>
+					<PropertyRow>
+						Layer = {object.layer}
+						<select value={object.layer} onChange={this.handleChange('layer')}>
+							<option value={null}>---</option>
+							{layers.map((x: any) => (
+								<option key={x.id} value={x.id}>
+									{x.id} ({x.zIndex})
+								</option>
+							))}
+						</select>
+					</PropertyRow>
+
+					<PropertyRow>
+						<span style={{ marginRight: 5 }}>Scale X</span>
+						<input
+							type="number"
+							value={scaleX}
+							onChange={this.handleChange('scaleX')}
+						/>
+					</PropertyRow>
+					<PropertyRow>
+						<span style={{ marginRight: 5 }}>Scale Y</span>
+						<input
+							type="number"
+							value={scaleY}
+							onChange={this.handleChange('scaleY')}
+						/>
+					</PropertyRow>
+
+					<PropertyRow>
+						<FormControlLabel
+							control={
+								<Switch value={this.state.isDmOnly} onChange={this.onChangeIsDm} />
+							}
+							label="DM Only"
+						/>
+					</PropertyRow>
+
+					<Button
+						fullWidth
+						color="primary"
+						variant="contained"
+						onClick={this.saveChanges}
 						style={{
-							cursor: 'grab',
-							backgroundColor: '#444',
-							height: '36px',
-							width: 'calc(100% + 10px)', // This weird sizing causes the resize handles to be slightly offset
-							margin: '-5px -5px'
+							marginTop: '15px'
 						}}
 					>
-						<h1
-							style={{
-								display: 'inline-block',
-								fontSize: '120%',
-								textDecoration: 'underline',
-								paddingLeft: '10px'
-							}}
-						>
-							Properties
-						</h1>
-						<div
-							style={{
-								padding: 2,
-								backgroundColor: 'red',
-								textAlign: 'center',
-								// position: 'absolute' as 'absolute',
-								// top: 0,
-								// left: -42,
-								float: 'right',
-								display: 'inline-block',
-								width: 24,
-								height: 24,
-								cursor: 'pointer'
-							}}
-							onClick={() => this.props.close()}
-						>
-							<span style={{}}>
-								<CloseIcon />
-							</span>
-						</div>
-					</div>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'column'
-						}}
+						Save
+						<SaveIcon />
+					</Button>
+
+					<Button
+						fullWidth
+						color="secondary"
+						variant="contained"
+						onClick={this.removeObject}
+						style={{ marginTop: '15px' }}
 					>
-						<PropertyRow>
-							<TextField value={name} onChange={this.handleChange('name')} />
-						</PropertyRow>
-						<PropertyRow>
-							Position = ({object.position.x}, {object.position.y})
-						</PropertyRow>
-						<PropertyRow>
-							Rotation
-							<input
-								type="number"
-								value={rotation}
-								onChange={this.handleChange('rotation')}
-							/>
-							<RotationSelector
-								diameter={64}
-								style={{
-									marginLeft: 'auto',
-									marginRight: 'auto'
-								}}
-								initialRotationRad={rotation}
-								rotationChanged={(rotDeg, rotRad) => {
-									this.setState({
-										rotation: rotRad
-									});
-								}}
-							/>
-						</PropertyRow>
-						<PropertyRow>
-							Layer = {object.layer}
-							<select onChange={this.handleChange('layer')}>
-								<option value={null}>---</option>
-								{layers.map(x => (
-									<option key={x.id} value={x.id}>
-										{x.id} ({x.zIndex})
-									</option>
-								))}
-							</select>
-						</PropertyRow>
-
-						<PropertyRow>
-							<span style={{ marginRight: 5 }}>Scale X</span>
-							<input
-								type="number"
-								value={scaleX}
-								onChange={this.handleChange('scaleX')}
-							/>
-						</PropertyRow>
-						<PropertyRow>
-							<span style={{ marginRight: 5 }}>Scale Y</span>
-							<input
-								type="number"
-								value={scaleY}
-								onChange={this.handleChange('scaleY')}
-							/>
-						</PropertyRow>
-
-						<PropertyRow>
-							<FormControlLabel
-								control={
-									<Switch
-										value={this.state.isDmOnly}
-										onChange={this.onChangeIsDm}
-									/>
-								}
-								label="DM Only"
-							/>
-						</PropertyRow>
-
-						<Button
-							fullWidth
-							color="primary"
-							variant="contained"
-							onClick={this.saveChanges}
-							style={{
-								marginTop: '15px'
-							}}
-						>
-							Save
-							<SaveIcon />
-						</Button>
-
-						<Button
-							fullWidth
-							color="secondary"
-							variant="contained"
-							onClick={this.removeObject}
-							style={{ marginTop: '15px' }}
-						>
-							Remove Object
-							<DeleteIcon />
-						</Button>
-					</div>
+						Remove Object
+						<DeleteIcon />
+					</Button>
 				</div>
-			</Rnd>
+				<div
+					style={{
+						padding: 2,
+						backgroundColor: 'red',
+						textAlign: 'center',
+						top: 0,
+						right: 0,
+						position: 'absolute',
+						width: 24,
+						height: 24,
+						cursor: 'pointer'
+					}}
+					onClick={() => this.props.close()}
+				>
+					<span style={{}}>
+						<CloseIcon />
+					</span>
+				</div>
+			</div>
 		);
 	}
 }

@@ -10,18 +10,16 @@
 
 .character-sheet {
 	background: #202020;
-	width: 1000px;
-	position: absolute;
-	top: 10vh;
-	left: 10vh;
-}
-
-.character-sheet.popout {
-	position: static;
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden auto;
 }
+
+.character-sheet.inline {
+	width: 100%;
+	height: auto;
+}
+
 .popout .character-close,
 .popout .character-popout {
 	display: none;

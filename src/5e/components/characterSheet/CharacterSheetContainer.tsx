@@ -17,7 +17,6 @@ import WindowPortal from '../../../components/util/WindowPortal';
 
 const mapStateToProps = (state): any => ({
 	playerCharacters: state.assets.playerCharacters,
-	nonPlayerCharactersIndex: state.assets.nonPlayerCharactersIndex,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
 	editingCharacterSheets: state.characters.editingCharacterSheets,
 	activeCharacterSheetId: state.assets.activeCharacterSheetId,

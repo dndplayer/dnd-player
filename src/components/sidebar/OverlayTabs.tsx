@@ -42,10 +42,11 @@ export default class OverlayTabs extends Component<Props> {
 					position: 'absolute' as 'absolute',
 					top: 0,
 					bottom: 0,
-					right: open ? 0 : -400,
+					right: 0,
+					transform: `translateX(${open ? 0 : '400px'})`,
 					display: 'flex',
 					flexDirection: 'row',
-					transition: 'right 500ms',
+					transition: 'transform 300ms',
 					transitionTimingFunction: 'cubic-bezier(0.4, 0.0, 0.2, 1)',
 					WebkitTransitionTimingFunction: 'cubic-bezier(0.4, 0.0, 0.2, 1)'
 				}}
