@@ -1,7 +1,6 @@
-import { Sprite, PixiComponent } from '@inlet/react-pixi';
+import { PixiComponent } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 import * as Ease from 'pixi-ease';
-import { OutlineFilter } from '@pixi/filter-outline';
 import DraggableContainer, { DraggableContainerProps } from './DraggableContainer';
 import Healthbar from './Healthbar';
 
@@ -56,17 +55,16 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 		s.height = 200;
 
 		// const g = new PIXI.Graphics();
-		const g = new Healthbar();
-		g.name = 'healthbar';
+		const hp = new Healthbar();
+		hp.name = 'healthbar';
 
 		cont.addChild(s);
-		cont.addChild(g);
+		cont.addChild(hp);
 
 		return cont;
 	},
 	applyProps: (instance: TokenContainer, oldProps: Props, newProps: Props): void => {
-		// const g = instance.getChildByName('healthbar') as PIXI.Graphics;
-		const g = instance.getChildByName('healthbar') as Healthbar;
+		const hp = instance.getChildByName('healthbar') as Healthbar;
 		const s = instance.getChildByName('sprite') as PIXI.Sprite;
 
 		instance.innerApplyProps(instance, oldProps, newProps);
@@ -103,22 +101,22 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 		}
 
 		if (newProps.ac !== oldProps.ac) {
-			g.ac = newProps.ac;
-			g.redraw(s.width);
+			hp.ac = newProps.ac;
+			hp.redraw(s.width);
 
 			const healthBarMargin = 10;
 
-			g.position.set(-(g.barWidth / 2), -(s.height / 2) - g.barHeight - healthBarMargin);
+			hp.position.set(-(hp.barWidth / 2), -(s.height / 2) - hp.barHeight - healthBarMargin);
 		}
 
 		if (newProps.hp !== oldProps.hp) {
-			g.hp = newProps.hp.value;
-			g.hpMax = newProps.hp.max;
-			g.redraw(s.width);
+			hp.hp = newProps.hp.value;
+			hp.hpMax = newProps.hp.max;
+			hp.redraw(s.width);
 
 			const healthBarMargin = 10;
 
-			g.position.set(-(g.barWidth / 2), -(s.height / 2) - g.barHeight - healthBarMargin);
+			hp.position.set(-(hp.barWidth / 2), -(s.height / 2) - hp.barHeight - healthBarMargin);
 		}
 
 		if (newProps.isSelected !== oldProps.isSelected) {
@@ -126,8 +124,8 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 				s.tint = newProps.isSelected && !oldProps.isSelected ? 0x0000ff : 0xffffff;
 			}
 
-			g.showText = newProps.isSelected;
-			g.redraw(s.width);
+			hp.showText = newProps.isSelected;
+			hp.redraw(s.width);
 		}
 	},
 

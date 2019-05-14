@@ -12,7 +12,6 @@ export default class Healthbar extends PIXI.Container {
 
 	private _barGraphic: PIXI.Graphics;
 	private _barText: PIXI.Text;
-	private _barAc: PIXI.Text;
 
 	private _barWidth: number;
 	private _barHeight: number;
@@ -27,21 +26,12 @@ export default class Healthbar extends PIXI.Container {
 			this.hpMax ? `${this.hp}/${this.hpMax}` : '',
 			new PIXI.TextStyle({ fontSize: 18, fontWeight: 'bold' })
 		);
-		this._barAc = new PIXI.Text(
-			this.ac ? `${this.ac}` : '',
-			new PIXI.TextStyle({
-				fill: '#fff',
-				fontSize: 30
-			})
-		);
 		this._barText.anchor.set(0.5, 0.5);
-		this._barAc.anchor.set(0.5, 1);
 
 		this.interactive = true; // Required for hover showing HP text
 
 		this.addChild(this._barGraphic);
 		this.addChild(this._barText);
-		this.addChild(this._barAc);
 	}
 
 	/**
@@ -122,7 +112,5 @@ export default class Healthbar extends PIXI.Container {
 		this._barText.style.fill = 'white';
 
 		this._barText.visible = this.showText;
-		this._barAc.position.set(hbWidth / 2, 0);
-		this._barAc.text = `${this.ac || ''}`;
 	};
 }

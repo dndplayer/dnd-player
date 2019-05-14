@@ -28,7 +28,7 @@ export default class DraggableContainer extends MapObject {
 	public isSelectable: boolean = true;
 	public onSelected?: (mapObjectId: string) => void;
 	private dragStartPosition?: PIXI.PointLike;
-	private static clickThreshold: number = 0.1; // Tune this to account for shaky hands etc
+	private static clickThreshold: number = 5; // Tune this to account for shaky hands etc
 
 	innerApplyProps(
 		instance: DraggableContainer,
@@ -71,7 +71,9 @@ export default class DraggableContainer extends MapObject {
 		if (!this.isSelectable) {
 			return;
 		}
-		e.stopPropagation(); // Prevent this triggering the stage.on('mouseup') which handles de-selects
+		if (!this.clickedAvailable) {
+			e.stopPropagation(); // Prevent this triggering the stage.on('mouseup') which handles de-selects
+		}
 
 		this.alpha = 1.0;
 		if (!this.dragData || !this.dragging) {
@@ -83,7 +85,9 @@ export default class DraggableContainer extends MapObject {
 			lastPos.y -= this.dragGrabOffset.y;
 		}
 
+		let dragged = true;
 		if (this.isSelectable && this.clickedAvailable && this.onSelected) {
+			dragged = false;
 			if (this.isSelected) {
 				// this.onSelected({ mapObjectId: null }); // De-select
 			} else {
@@ -102,7 +106,7 @@ export default class DraggableContainer extends MapObject {
 			this.filters = this.filters.filter(x => !(this.dragFilters.indexOf(x) >= 0));
 		}
 
-		if (this.onUpdateObject) {
+		if (dragged && this.onUpdateObject) {
 			this.onUpdateObject(this.mapObjectId, {
 				position: lastPos
 			});
@@ -111,18 +115,19 @@ export default class DraggableContainer extends MapObject {
 
 	onDragMove = (e: PIXI.interaction.InteractionEvent): void => {
 		if (this.dragging) {
-			const newPos = this.dragData.getLocalPosition(e.currentTarget.parent);
-			this.x = newPos.x - (this.dragGrabOffset ? this.dragGrabOffset.x : 0);
-			this.y = newPos.y - (this.dragGrabOffset ? this.dragGrabOffset.y : 0);
-
-			// TODO: Add back in a check so clicked is only unavailable beyond a threshold of movement
-			//       to allow for shaky hands etc.
-			// Prev use above:
-			// const globalLastPos = this.dragData.global;
-			// 	const dX = globalLastPos.x - this.dragStartPosition.x;
-			// 	const dY = globalLastPos.y - this.dragStartPosition.y;
-			// 	if (dX < DraggableContainer.clickThreshold && dY < DraggableContainer.clickThreshold)
-			this.clickedAvailable = false;
+			const globalLastPos = this.dragData.global;
+			const dX = Math.abs(globalLastPos.x - this.dragStartPosition.x);
+			const dY = Math.abs(globalLastPos.y - this.dragStartPosition.y);
+			if (
+				!this.clickedAvailable ||
+				dX > DraggableContainer.clickThreshold ||
+				dY > DraggableContainer.clickThreshold
+			) {
+				this.clickedAvailable = false;
+				const newPos = this.dragData.getLocalPosition(e.currentTarget.parent);
+				this.x = newPos.x - (this.dragGrabOffset ? this.dragGrabOffset.x : 0);
+				this.y = newPos.y - (this.dragGrabOffset ? this.dragGrabOffset.y : 0);
+			}
 		}
 	};
 
