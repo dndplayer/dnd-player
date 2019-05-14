@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js';
 import * as Ease from 'pixi-ease';
 import DraggableContainer, { DraggableContainerProps } from './DraggableContainer';
 import Healthbar from './Healthbar';
+import Ac from './Ac';
 
 interface Props extends DraggableContainerProps {
 	// imageUrl: string;
@@ -58,14 +59,19 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 		const hp = new Healthbar();
 		hp.name = 'healthbar';
 
+		const ac = new Ac();
+		ac.name = 'ac';
+
 		cont.addChild(s);
 		cont.addChild(hp);
+		cont.addChild(ac);
 
 		return cont;
 	},
 	applyProps: (instance: TokenContainer, oldProps: Props, newProps: Props): void => {
 		const hp = instance.getChildByName('healthbar') as Healthbar;
 		const s = instance.getChildByName('sprite') as PIXI.Sprite;
+		const ac = instance.getChildByName('ac') as Ac;
 
 		instance.innerApplyProps(instance, oldProps, newProps);
 
@@ -101,12 +107,9 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 		}
 
 		if (newProps.ac !== oldProps.ac) {
-			hp.ac = newProps.ac;
-			hp.redraw(s.width);
-
-			const healthBarMargin = 10;
-
-			hp.position.set(-(hp.barWidth / 2), -(s.height / 2) - hp.barHeight - healthBarMargin);
+			ac.ac = newProps.ac;
+			ac.position.set(0, s.height / 2 - 10);
+			ac.redraw();
 		}
 
 		if (newProps.hp !== oldProps.hp) {

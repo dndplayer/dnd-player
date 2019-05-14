@@ -75,6 +75,9 @@ export default class Healthbar extends PIXI.Container {
 			.clear()
 			.beginFill(0)
 			.drawRect(0, 0, hbWidth, healthbarHeight)
+			.endFill()
+			.beginFill(0x222222)
+			.drawRect(1, 1, hbWidth - 2, healthbarHeight - 2)
 			.endFill();
 
 		// Main bar

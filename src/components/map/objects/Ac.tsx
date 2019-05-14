@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import svg from './Ac.svg';
 
 export default class Ac extends PIXI.Container {
 	/** Armor class **/
@@ -12,12 +13,20 @@ export default class Ac extends PIXI.Container {
 		this._barAc = new PIXI.Text(
 			this.ac ? `${this.ac}` : '',
 			new PIXI.TextStyle({
-				fill: '#fff',
-				fontSize: 30
+				fill: '#222',
+				fontFamily:
+					"-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;",
+				fontSize: 200
 			})
 		);
+		var texture = PIXI.Texture.fromImage(svg, undefined, undefined, 1.0);
+		const sprite = new PIXI.Sprite(texture);
+		sprite.width = 128;
+		sprite.height = 96;
+		sprite.anchor.set(0.4, 0.5);
+		this.addChild(sprite);
+		sprite.addChild(this._barAc);
 		this._barAc.anchor.set(0.5, 0.5);
-		this.addChild(this._barAc);
 	}
 
 	redraw = (): void => {

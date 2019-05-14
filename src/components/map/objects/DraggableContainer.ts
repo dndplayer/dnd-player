@@ -1,7 +1,6 @@
 import * as PIXI from 'pixi.js';
 import MapObject, { MapObjectProps } from './MapObject';
 import { OutlineFilter } from '@pixi/filter-outline';
-import Healthbar from './Healthbar';
 
 export interface DraggableContainerProps extends MapObjectProps {
 	onSelected?: (mapObjectId: string) => void;
