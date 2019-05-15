@@ -7,7 +7,6 @@ import { mapsUpdateObject, mapsSelectObject, mapsRemoveObject } from '../../redu
 import { getCurrentMap } from '../../redux/selectors/maps';
 
 interface StateProps {
-	visible: boolean;
 	selected: string[];
 	map: MapData;
 	isUserDm: boolean;
@@ -23,21 +22,10 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 class PropertiesPanelContainer extends Component<Props> {
 	render(): ReactNode {
-		const {
-			visible,
-			map,
-			selected,
-			onUpdateObject,
-			removeObject,
-			close,
-			isUserDm
-		} = this.props;
+		const { map, selected, onUpdateObject, removeObject, close, isUserDm } = this.props;
 
-		// This cheats currently, until we have keyboard / hotkey support to open
-		// the property window, it will just show if there is anything selected.
 		return (
 			<PropertiesPanel
-				// visible={visible}
 				visible={selected && selected.length > 0}
 				selected={selected}
 				map={map}
@@ -51,7 +39,6 @@ class PropertiesPanelContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state): StateProps => ({
-	visible: state.ui.propertyPanel.visible,
 	selected: state.maps.selectedObjects,
 	map: getCurrentMap(state),
 	isUserDm: state.auth.isDm

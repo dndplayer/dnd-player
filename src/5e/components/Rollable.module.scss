@@ -27,16 +27,16 @@
 	transform: translate3d(0, -10px, 0);
 }
 
-div {
-	display: inline-block;
-}
-
 .rollable {
 	color: #3477bf;
 	cursor: pointer;
 	position: relative;
 	display: inline-block;
 	font-weight: 600;
+
+	&div {
+		display: inline-block;
+	}
 
 	&:hover {
 		.popupAdvantage,

@@ -30,6 +30,7 @@
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",
     "react-dom": "^16.8.6",
+    "react-hotkeys": "2.0.0-pre5",
     "react-redux": "^7.0.2",
     "react-rnd": "^9.1.2",
     "react-router": "^5.0.0",

@@ -12,23 +12,18 @@ export default class Rollable extends React.Component<Props, {}> {
 		const { showAdvantage } = this.props;
 
 		return (
-			<div onClick={e => this.onClick(e, 0)}>
-				<div className={css.rollable}>
-					{showAdvantage && (
-						<div>
-							<div className={css.popupAdvantage} onClick={e => this.onClick(e, 1)}>
-								A
-							</div>
-							<div
-								className={css.popupDisadvantage}
-								onClick={e => this.onClick(e, -1)}
-							>
-								D
-							</div>
+			<div onClick={e => this.onClick(e, 0)} className={css.rollable}>
+				{showAdvantage && (
+					<div>
+						<div className={css.popupAdvantage} onClick={e => this.onClick(e, 1)}>
+							A
 						</div>
-					)}
-					{this.props.children}
-				</div>
+						<div className={css.popupDisadvantage} onClick={e => this.onClick(e, -1)}>
+							D
+						</div>
+					</div>
+				)}
+				{this.props.children}
 			</div>
 		);
 	}

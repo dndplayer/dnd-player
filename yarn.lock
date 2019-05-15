@@ -10222,6 +10222,13 @@ react-hot-loader@^4.8.4:
     shallowequal "^1.0.2"
     source-map "^0.7.3"
 
+react-hotkeys@2.0.0-pre5:
+  version "2.0.0-pre5"
+  resolved "https://registry.yarnpkg.com/react-hotkeys/-/react-hotkeys-2.0.0-pre5.tgz#b9c828f689dff529627ff3f7289de3a4367837b9"
+  integrity sha512-uBIDTME3WUJjBHPUiDLnkmRKq3lk4IIsYGYcDentCyXFV4Sb3Iyxh6tyJQlG2taa87wYIB5tynPOnMFxV53+vg==
+  dependencies:
+    prop-types "^15.6.1"
+
 react-input-autosize@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-2.2.1.tgz#ec428fa15b1592994fb5f9aa15bb1eb6baf420f8"

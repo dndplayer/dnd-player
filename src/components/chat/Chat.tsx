@@ -1,18 +1,13 @@
 import React, { ReactNode, ReactElement, SyntheticEvent } from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 
 import { DiceRoll } from 'rpg-dice-roller';
 
-import styles from './Chat.module.css';
+import styles from './Chat.module.scss';
 import './Roll.css';
 import ChatMessageItem from './ChatMessageItem';
 import RollMessageItem from './RollMessageItem';
 import { ChatMessage, ChatMessageData, RollData } from '../../models/ChatMessage.js';
-import Authentication from '../authentication/Authentication';
 import CharacterAction from './characterActions/CharacterAction';
-import WindowPortal from '../util/WindowPortal';
-import { Icon, Fab } from '@material-ui/core';
 
 interface Props {
 	messages: ChatMessage[];
@@ -52,56 +47,39 @@ export default class Chat extends React.Component<Props, State> {
 	render(): ReactNode {
 		const { messages } = this.props;
 		const { messagesOpen } = this.state;
+		if (!messagesOpen) {
+			return null;
+		}
 
 		return (
-			<div
-				style={{
-					position: 'relative',
-					height: '100%',
-					marginTop: '24px'
-				}}
-			>
-				<div
-					style={{
-						height: '100%',
-						display: 'flex',
-						flexDirection: 'column'
-					}}
-				>
-					{messagesOpen && (
-						<div className={styles.messages} ref={cmpt => (this.scrollDiv = cmpt)}>
-							{messages.map(
-								(x, idx): ReactElement => {
-									switch (x.data && x.data.type) {
-										case 'roll':
-											return <RollMessageItem message={x} key={idx} />;
-										case 'action':
-											return <CharacterAction message={x} key={idx} />;
-										default:
-											return (
-												<ChatMessageItem
-													message={x}
-													key={idx}
-													isOwner={x.sender === this.props.user.email}
-												/>
-											);
-									}
-								}
-							)}
-						</div>
+			<div className={styles.chatContainer} ref={cmpt => (this.scrollDiv = cmpt)}>
+				<div className={styles.messages}>
+					{messages.map(
+						(x, idx): ReactElement => {
+							switch (x.data && x.data.type) {
+								case 'roll':
+									return <RollMessageItem message={x} key={idx} />;
+								case 'action':
+									return <CharacterAction message={x} key={idx} />;
+								default:
+									return (
+										<ChatMessageItem
+											message={x}
+											key={idx}
+											isOwner={x.sender === this.props.user.email}
+										/>
+									);
+							}
+						}
 					)}
-					{/* MarginBottom needed below to account for the popout button margin above */}
-					<div style={{ marginBottom: '24px' }}>
-						<TextField
-							fullWidth
-							placeholder="msg or d20+4 etc"
-							onChange={e => this.handleMsgChange(e)}
-							onKeyDown={e => this.handleKeyDown(e)}
-							value={this.state.msg}
-							variant="filled"
-							margin="dense"
-						/>
-					</div>
+				</div>
+				<div>
+					<input
+						onChange={e => this.handleMsgChange(e)}
+						onKeyDown={e => this.handleKeyDown(e)}
+						autoFocus
+						value={this.state.msg}
+					/>
 				</div>
 			</div>
 		);

@@ -18,6 +18,17 @@ import PropertiesPanelContainer from './propertiesPanel/PropertiesPanelContainer
 import ChatContainer from './chat/ChatContainer';
 import OverlayTabsContainer from './sidebar/OverlayTabsContainer';
 import { PersistGate } from 'redux-persist/integration/react';
+import { HotKeys } from 'react-hotkeys';
+
+const keyMap = {
+	OPEN_CHAT: 'enter',
+	CLOSE_CHAT: 'esc'
+};
+
+const handlers = {
+	OPEN_CHAT: event => console.log('enter pressed'),
+	CLOSE_CHAT: event => console.log('esc pressed')
+};
 
 export class App extends Component<{}, {}> {
 	render(): ReactNode {
@@ -33,46 +44,43 @@ export class App extends Component<{}, {}> {
 					<HashRouter>
 						<DragDropContextProvider backend={HTML5Backend}>
 							<div className="App">
-								<MuiThemeProvider theme={theme}>
-									<Switch>
-										<Route
-											exact
-											path="/"
-											render={(): ReactElement => (
-												<div>
-													<OverlayTabsContainer />
-													<div className={styles.overlayWrapper}>
-														<div
-															style={{
-																zIndex: 9999,
-																position: 'absolute',
-																bottom: 0,
-																left: 0
-															}}
-														>
+								<HotKeys keyMap={keyMap} handlers={handlers}>
+									<MuiThemeProvider theme={theme}>
+										<Switch>
+											<Route
+												exact
+												path="/"
+												render={(): ReactElement => (
+													<div>
+														<OverlayTabsContainer />
+														<div className={styles.mapWrapper}>
+															<PropertiesPanelContainer />
+															<MapContainer />
+														</div>
+														<div className={styles.overlayWrapper}>
 															<ChatContainer />
 														</div>
+														<div>
+															<CharacterSheetContainer
+																{...this.props}
+															/>
+														</div>
 													</div>
-													<div className={styles.mapWrapper}>
-														<PropertiesPanelContainer />
-														<MapContainer />
-													</div>
-													<div>
-														<CharacterSheetContainer {...this.props} />
-													</div>
-												</div>
-											)}
-										/>
-										<Route
-											path="/upload"
-											render={(): ReactElement => <ImageUploaderContainer />}
-										/>
-										<Route
-											path="/login"
-											render={(): ReactElement => <Authentication />}
-										/>
-									</Switch>
-								</MuiThemeProvider>
+												)}
+											/>
+											<Route
+												path="/upload"
+												render={(): ReactElement => (
+													<ImageUploaderContainer />
+												)}
+											/>
+											<Route
+												path="/login"
+												render={(): ReactElement => <Authentication />}
+											/>
+										</Switch>
+									</MuiThemeProvider>
+								</HotKeys>
 							</div>
 						</DragDropContextProvider>
 					</HashRouter>

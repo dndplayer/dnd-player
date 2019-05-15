@@ -1,0 +1,50 @@
+.chatContainer {
+	position: absolute;
+	bottom: 40px;
+	left: 410px;
+	right: 410px;
+	height: 300px;
+	overflow: hidden auto;
+	background: rgba(0, 0, 0, 0.4);
+
+	.messages {
+		flex-grow: 1;
+		flex-direction: column;
+		display: flex;
+		margin: 5px;
+	}
+
+	.rollButton {
+		width: 100%;
+		border: 1px solid #000;
+		background-color: rgb(52, 131, 45);
+		padding: 10px 20px;
+	}
+
+	.chat {
+		height: 80vh;
+	}
+
+	.chatHeader {
+		font-size: 12px;
+		text-align: center;
+		margin-bottom: 20px;
+		text-decoration: underline;
+	}
+
+	.username {
+		font-weight: bold;
+	}
+
+	input {
+		background: none;
+		color: #d29a38;
+		min-width: 100%;
+		font-size: 16px;
+		font-weight: 600;
+		&:active,
+		&:focus {
+			outline: none;
+		}
+	}
+}

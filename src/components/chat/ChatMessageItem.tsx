@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { ChatMessage } from '../../models/ChatMessage';
 
-import styles from './Chat.module.css';
+import styles from './Chat.module.scss';
 
 interface Props {
 	message: ChatMessage;
