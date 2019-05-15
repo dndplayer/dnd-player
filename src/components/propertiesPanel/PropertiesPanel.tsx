@@ -170,7 +170,9 @@ export default class PropertiesPanel extends Component<Props, State> {
 						flexDirection: 'column'
 					}}
 				>
-					<InlineCharacterSheetContainer characterSheetId={object.pcId || object.npcId} />
+					{object.npcId && (
+						<InlineCharacterSheetContainer characterSheetId={object.npcId} />
+					)}
 					<PropertyRow>
 						Rotation
 						<input
@@ -204,22 +206,26 @@ export default class PropertiesPanel extends Component<Props, State> {
 						</select>
 					</PropertyRow>
 
-					<PropertyRow>
-						<span style={{ marginRight: 5 }}>Scale X</span>
-						<input
-							type="number"
-							value={scaleX}
-							onChange={this.handleChange('scaleX')}
-						/>
-					</PropertyRow>
-					<PropertyRow>
-						<span style={{ marginRight: 5 }}>Scale Y</span>
-						<input
-							type="number"
-							value={scaleY}
-							onChange={this.handleChange('scaleY')}
-						/>
-					</PropertyRow>
+					{!this.state.isNpcAsset && !this.state.isPcAsset && (
+						<div>
+							<PropertyRow>
+								<span style={{ marginRight: 5 }}>Scale X</span>
+								<input
+									type="number"
+									value={scaleX}
+									onChange={this.handleChange('scaleX')}
+								/>
+							</PropertyRow>
+							<PropertyRow>
+								<span style={{ marginRight: 5 }}>Scale Y</span>
+								<input
+									type="number"
+									value={scaleY}
+									onChange={this.handleChange('scaleY')}
+								/>
+							</PropertyRow>
+						</div>
+					)}
 
 					<PropertyRow>
 						<FormControlLabel

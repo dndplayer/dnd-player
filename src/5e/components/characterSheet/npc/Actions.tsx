@@ -11,6 +11,7 @@ import {
 	DamageAttackEffect
 } from '../../../5eRules';
 import CharacterActionHelper from '../../../CharacterActionHelper';
+import Rollable from '../../Rollable';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -27,6 +28,7 @@ export default class Actions extends React.Component<Props, {}> {
 		}
 
 		const actions = [];
+		let showAdvantage = false;
 		for (const actionIdx in character[actionProperty]) {
 			const action = character[actionProperty][actionIdx];
 			const effects = action.effects.map((effect, idx) => {
@@ -36,6 +38,7 @@ export default class Actions extends React.Component<Props, {}> {
 						return <span key={idx}>{textEffect.text}</span>;
 					case AttackEffectType.ToHit:
 						const toHitEffect = effect as ToHitAttackEffect;
+						showAdvantage = true;
 						return (
 							<span key={idx}>
 								{toHitEffect.modifier} to hit, range {action.range} ft.
@@ -54,12 +57,13 @@ export default class Actions extends React.Component<Props, {}> {
 				}
 			});
 			actions.push(
-				<div
-					className={css.action}
-					onClick={() => this.doAction(action, 0)}
-					key={actionIdx}
-				>
-					<span className={css.italicHeading}>{action.name}.</span>
+				<div className={css.action} key={actionIdx}>
+					<Rollable
+						showAdvantage={showAdvantage}
+						onClick={(advantage: number) => this.doAction(action, advantage)}
+					>
+						<span className={css.italicHeading}>{action.name}.</span>
+					</Rollable>
 					<span>{effects}</span>
 				</div>
 			);

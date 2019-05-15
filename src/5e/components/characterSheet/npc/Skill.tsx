@@ -6,6 +6,7 @@ import { RollData, ChatMessageData } from '../../../../models/ChatMessage';
 import css from './NonPlayerCharacterSheet.module.css';
 import { NonPlayerCharacterSkill, NonPlayerCharacter } from '../../../models/Character';
 import Rules from '../../../5eRules';
+import Rollable from '../../Rollable';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -20,26 +21,20 @@ export default class Skill extends React.Component<Props, {}> {
 	}
 
 	render(): ReactNode {
-		const { skill, character } = this.props;
+		const { skill } = this.props;
 		const skillName = Rules.getLongSkillName(skill.skill);
 
 		return (
-			<div className={css.skill} onClick={e => this.handleClick(e, 0)}>
-				<span>{skillName}</span>
-				<div className={css.rollable}>
-					<div className={css.popupAdvantage} onClick={e => this.handleClick(e, 1)}>
-						A
-					</div>
-					<div className={css.popupDisadvantage} onClick={e => this.handleClick(e, -1)}>
-						D
-					</div>
+			<div className={css.skill}>
+				<span style={{ marginRight: '4px' }}>{skillName}</span>
+				<Rollable showAdvantage onClick={this.handleClick}>
 					{skill.modifier >= 0 ? `+${skill.modifier}` : skill.modifier}
-				</div>
+				</Rollable>
 			</div>
 		);
 	}
 
-	handleClick(e, advantage: number): void {
+	handleClick(advantage: number): void {
 		const modifier = this.props.skill.modifier;
 		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
 		const roll = new DiceRoll('d20' + modifierStr);
@@ -64,7 +59,6 @@ export default class Skill extends React.Component<Props, {}> {
 			data.roll2Details = roll2.toString().match(/.*?: (.*?) =/)[1];
 			data.roll2CritSuccess = roll2.rolls[0][0] === 20;
 			data.roll2CritFail = roll2.rolls[0][0] === 1;
-			e.stopPropagation();
 		}
 
 		this.props.sendMessage('', data);

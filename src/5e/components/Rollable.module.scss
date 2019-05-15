@@ -1,0 +1,54 @@
+.popupAdvantage,
+.popupDisadvantage {
+	height: 35px;
+	width: 35px;
+	color: #202020;
+	font-size: 25px;
+	text-align: center;
+	line-height: 35px;
+	font-weight: 600;
+	left: 50%;
+	margin-left: -15px;
+	position: absolute;
+	z-index: 1;
+	opacity: 0;
+	visibility: collapse;
+	transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+		opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms, visibility 300ms;
+}
+.popupAdvantage {
+	background: url(../../components/chat/advantage.svg);
+	top: -35px;
+	transform: translate3d(0, 10px, 0);
+}
+.popupDisadvantage {
+	background: url(../../components/chat/disadvantage.svg);
+	bottom: -35px;
+	transform: translate3d(0, -10px, 0);
+}
+
+div {
+	display: inline-block;
+}
+
+.rollable {
+	color: #3477bf;
+	cursor: pointer;
+	position: relative;
+	display: inline-block;
+	font-weight: 600;
+
+	&:hover {
+		.popupAdvantage,
+		.popupDisadvantage {
+			transform: translate3d(0, 0, 0);
+			opacity: 1;
+			visibility: visible;
+
+			&:hover {
+				color: #ccc;
+				transform: scale(1.25);
+			}
+		}
+	}
+}

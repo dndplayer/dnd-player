@@ -62,7 +62,7 @@ class ChatContainer extends Component<Props> {
 					// Containers are for Data, so move all this into a view based component.
 					<Rnd
 						default={{
-							x: 0,
+							x: 400,
 							y: -300, // TODO: -300px if messages open and -100px if not
 							width: '400px',
 							height: '300px' // TODO: 300px if messages open and 100px if not
