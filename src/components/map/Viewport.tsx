@@ -31,7 +31,7 @@ export const ViewportComponent = PixiComponent<ViewportComponentProps, Viewport>
 			.wheel({ smooth: 5 })
 			.decelerate();
 
-		v.on('zoomed-end', () => {
+		v.on('zoomed', () => {
 			if (props.onZoom) {
 				props.onZoom(v.scale.x);
 			}
