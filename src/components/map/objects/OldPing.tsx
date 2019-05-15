@@ -10,6 +10,7 @@ import PingFrame6 from '../images/PingFrame6.png';
 
 interface Props {
 	position: PIXI.PointLike;
+	viewportZoom: number;
 }
 
 /**
@@ -22,6 +23,10 @@ export default PixiComponent<Props, PIXI.Container>('Ping', {
 
 		c.pivot.set(0.5, 0.5);
 		c.position.set(props.position.x, props.position.y);
+
+		if (props.viewportZoom) {
+			c.scale.set(0.6 * (1 / props.viewportZoom), 0.6 * (1 / props.viewportZoom));
+		}
 
 		// const g = new PIXI.Graphics();
 		// g.beginFill(0xff0000);
@@ -47,7 +52,14 @@ export default PixiComponent<Props, PIXI.Container>('Ping', {
 
 		return c;
 	},
-	applyProps: (instance: PIXI.Container, oldProps: Props, newProps: Props): void => {},
+	applyProps: (instance: PIXI.Container, oldProps: Props, newProps: Props): void => {
+		if (oldProps.viewportZoom !== newProps.viewportZoom) {
+			instance.scale.set(
+				0.6 * (1 / newProps.viewportZoom),
+				0.6 * (1 / newProps.viewportZoom)
+			);
+		}
+	},
 	didMount: (instance: PIXI.Container, parent: PIXI.Container): void => {},
 	willUnmount: (instance: PIXI.Container, parent: PIXI.Container): void => {}
 });

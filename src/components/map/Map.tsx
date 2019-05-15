@@ -337,6 +337,7 @@ class Map extends Component<Props, State> {
 											key={x}
 											// app={app}
 											position={new PIXI.Point(p.position.x, p.position.y)}
+											viewportZoom={this.state.viewportZoom}
 										/>
 									);
 								})}
