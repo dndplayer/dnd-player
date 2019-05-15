@@ -14,7 +14,7 @@ export class EditablePolygonContainer extends PIXI.Container {
 		// poly.close();
 
 		this._localPoints = polyPoints;
-		const pPoints = this.convertToPoints(this._localPoints);
+		this._pPoints = this.convertToPoints(this._localPoints);
 
 		const g = new PIXI.Graphics();
 		g.lineStyle(8, 0x00ff00);
@@ -29,8 +29,8 @@ export class EditablePolygonContainer extends PIXI.Container {
 
 		this.addChild(g);
 
-		this.redrawHandles(pPoints);
-		this.redrawMidpoints(pPoints, 32);
+		this.redrawHandles();
+		this.redrawMidpoints();
 	}
 
 	get localPoints(): number[] {
@@ -39,7 +39,7 @@ export class EditablePolygonContainer extends PIXI.Container {
 
 	public updateLocal = (data: number[]): void => {
 		this._localPoints = data;
-		const pPoints = this.convertToPoints(this._localPoints);
+		this._pPoints = this.convertToPoints(this._localPoints);
 
 		const polyGraphic = this.getChildByName('poly') as PIXI.Graphics;
 		if (polyGraphic) {
@@ -56,7 +56,7 @@ export class EditablePolygonContainer extends PIXI.Container {
 
 		// Re-draw MidPoints
 		this._midPoints.forEach(x => this.removeChild(x));
-		this.redrawMidpoints(pPoints, 32);
+		this.redrawMidpoints();
 	};
 
 	public addNewPoint = (midPointIndex: number, point: PIXI.Point): void => {
@@ -65,8 +65,7 @@ export class EditablePolygonContainer extends PIXI.Container {
 
 		this.updateLocal(d);
 
-		const pPoints = this.convertToPoints(this._localPoints); // TODO: This shouldn't need to be recalculated here
-		this.redrawHandles(pPoints);
+		this.redrawHandles();
 	};
 
 	public closePolygonIfPossible = (): void => {
@@ -79,15 +78,30 @@ export class EditablePolygonContainer extends PIXI.Container {
 	// closed polygons and also close them by dragging an end index marker ontop of the other end
 	// index marker
 
+	set viewportZoom(val: number) {
+		if (val !== this._viewportZoom) {
+			this._viewportZoom = val || 1;
+			this.redrawHandles();
+			this.redrawMidpoints();
+		}
+	}
+
+	private _viewportZoom: number = 1;
+
+	private _pPoints: PIXI.Point[] = [];
 	private _localPoints: number[] = [];
 	private _handles: Handle[] = [];
 	private _midPoints: Midpoint[] = [];
 
-	private redrawHandles(pPoints: PIXI.Point[], handleSize: number = 64): void {
+	private redrawHandles(handleSize: number = 32): void {
 		this._handles.forEach(x => this.removeChild(x));
 		this._handles = [];
+
+		handleSize = handleSize * (1 / this._viewportZoom);
+		const lineThickness = 4 * (1 / this._viewportZoom);
+
 		let j = 0;
-		for (let p of pPoints) {
+		for (let p of this._pPoints) {
 			const rect = new PIXI.Rectangle(
 				-(handleSize / 2),
 				-(handleSize / 2),
@@ -101,21 +115,24 @@ export class EditablePolygonContainer extends PIXI.Container {
 			handle.name = `handles-${j++}`;
 			handle.interactive = true;
 			handle.hitArea = rect;
-			handle.lineStyle(8, 0xff0000);
+			handle.lineStyle(lineThickness, 0xff0000);
 			handle.drawShape(rect);
 			this.addChild(handle);
 		}
 	}
 
-	private redrawMidpoints(pPoints: PIXI.Point[], handleSize: number = 64): void {
+	private redrawMidpoints(handleSize: number = 16): void {
 		this._midPoints.forEach(x => this.removeChild(x));
 		this._midPoints = [];
 
+		handleSize = handleSize * (1 / this._viewportZoom);
+		const lineThickness = 3 * (1 / this._viewportZoom);
+
 		let halfwayPoints: PIXI.Point[] = [];
-		for (let i = 0; i < pPoints.length - 1; i++) {
-			const p1 = pPoints[i];
-			// const p2 = pPoints[i === pPoints.length - 1 ? 0 : i + 1];
-			const p2 = pPoints[i + 1];
+		for (let i = 0; i < this._pPoints.length - 1; i++) {
+			const p1 = this._pPoints[i];
+			// const p2 = this._pPoints[i === this._pPoints.length - 1 ? 0 : i + 1];
+			const p2 = this._pPoints[i + 1];
 			const midPoint = new PIXI.Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
 			halfwayPoints.push(midPoint);
 		}
@@ -127,7 +144,7 @@ export class EditablePolygonContainer extends PIXI.Container {
 			this._midPoints.push(midPoint);
 			midPoint.midPointIndex = k;
 			midPoint.name = `midPoints-${k++}`;
-			midPoint.lineStyle(8, 0x0000ff);
+			midPoint.lineStyle(lineThickness, 0x0000ff);
 			const rect = new PIXI.Rectangle(
 				-(handleSize / 2),
 				-(handleSize / 2),
@@ -171,8 +188,8 @@ export class EditablePolygonContainer extends PIXI.Container {
 			console.log(`${this.position.x}, ${this.position.y}`);
 
 			const pPoints = this.convertToPoints(this._localPoints); // TODO: This shouldn't need to be recalculated here
-			this.redrawHandles(pPoints);
-			this.redrawMidpoints(pPoints, 32);
+			this.redrawHandles();
+			this.redrawMidpoints();
 		}
 	}
 	private onMouseUp(e: PIXI.interaction.InteractionEvent): void {
@@ -185,16 +202,21 @@ export class EditablePolygonContainer extends PIXI.Container {
 interface Props {
 	editMode?: boolean;
 	polyPoints: number[];
+	viewportZoom: number;
 }
 
 export default PixiComponent<Props, EditablePolygonContainer>('EditablePolygon', {
 	create: (props: Props): EditablePolygonContainer => {
 		const c = new EditablePolygonContainer(props.polyPoints);
 
+		c.viewportZoom = props.viewportZoom;
+
 		return c;
 	},
 	applyProps: (instance: EditablePolygonContainer, oldProps: Props, newProps: Props): void => {
 		const p = instance.getChildByName('poly') as PIXI.Graphics;
+
+		instance.viewportZoom = newProps.viewportZoom;
 
 		// TODO: Calc new poly from newProps
 		// Create a new PIXI.Polygon and pass into updateLocal

@@ -35,7 +35,7 @@ export default class Handle extends PIXI.Graphics {
 		this._dragging = true;
 		this._dragData = e.data;
 
-		this.redraw();
+		// this.redraw();
 	}
 
 	onMouseUp(e: PIXI.interaction.InteractionEvent): void {
@@ -47,7 +47,7 @@ export default class Handle extends PIXI.Graphics {
 		this._dragging = false;
 		this._dragData = null;
 
-		this.redraw();
+		// this.redraw();
 	}
 
 	onMouseMove(e: PIXI.interaction.InteractionEvent): void {
@@ -73,7 +73,7 @@ export default class Handle extends PIXI.Graphics {
 		console.log(`Mouse Over Handle`);
 		this.alpha = 0.7;
 
-		this.redraw();
+		// this.redraw();
 	}
 
 	onMouseOut(e: PIXI.interaction.InteractionEvent): void {
@@ -81,19 +81,19 @@ export default class Handle extends PIXI.Graphics {
 		console.log(`Mouse Out Handle`);
 		this.alpha = 1;
 
-		this.redraw();
+		// this.redraw();
 	}
 
-	redraw(): void {
-		this.clear();
+	// redraw(): void {
+	// 	this.clear();
 
-		if (this._fill) {
-			this.beginFill(0xff0000, 0.8);
-		}
-		this.lineStyle(8, 0xff0000);
-		this.drawShape(this._handleRect);
-		if (this._fill) {
-			this.endFill();
-		}
-	}
+	// 	if (this._fill) {
+	// 		this.beginFill(0xff0000, 0.8);
+	// 	}
+	// 	this.lineStyle(8, 0xff0000);
+	// 	this.drawShape(this._handleRect);
+	// 	if (this._fill) {
+	// 		this.endFill();
+	// 	}
+	// }
 }

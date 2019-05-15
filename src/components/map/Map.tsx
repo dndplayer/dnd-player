@@ -65,6 +65,7 @@ interface State {
 	measureStart: PIXI.PointLike;
 	measureEnd: PIXI.PointLike;
 	measuredDistance: string; // Probably should be a number ultimately
+	viewportZoom: number;
 }
 class Map extends Component<Props, State> {
 	state = {
@@ -76,7 +77,8 @@ class Map extends Component<Props, State> {
 		measuring: false,
 		measureStart: null,
 		measureEnd: null,
-		measuredDistance: null
+		measuredDistance: null,
+		viewportZoom: 1
 	};
 
 	private app: any;
@@ -321,12 +323,13 @@ class Map extends Component<Props, State> {
 								app={app}
 								screenWidth={this.state.windowWidth}
 								screenHeight={this.state.windowHeight}
+								onZoom={x => this.setState({ viewportZoom: x })}
 							>
-								{/* <EditablePolygon
+								<EditablePolygon
 									editMode={false}
-									polyPoints={[0, 0, 500, 500, 500, 0, 0, 0]}
-								/> */}
-								<EditablePolygon editMode={false} polyPoints={[0, 0, 500, 500]} />
+									polyPoints={[0, 0, 500, 500]}
+									viewportZoom={this.state.viewportZoom}
+								/>
 								{Object.keys(this.props.mapPings).map(x => {
 									const p = this.props.mapPings[x];
 									return (

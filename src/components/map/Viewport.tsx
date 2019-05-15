@@ -7,6 +7,7 @@ interface ViewportComponentProps {
 	name?: string;
 	screenWidth: number;
 	screenHeight: number;
+	onZoom: (x: number) => void;
 }
 export const ViewportComponent = PixiComponent<ViewportComponentProps, Viewport>('Viewport', {
 	create: props => {
@@ -29,6 +30,12 @@ export const ViewportComponent = PixiComponent<ViewportComponentProps, Viewport>
 			.pinch()
 			.wheel({ smooth: 5 })
 			.decelerate();
+
+		v.on('zoomed-end', () => {
+			if (props.onZoom) {
+				props.onZoom(v.scale.x);
+			}
+		});
 
 		return v;
 	},
