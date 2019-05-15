@@ -1,6 +1,6 @@
-import { all, call, fork, select, takeEvery } from 'redux-saga/effects';
+import { all, call, fork, select, takeEvery, put } from 'redux-saga/effects';
 
-import { types, syncChatMessages, syncChatFailed } from '../actions/chat';
+import { types, syncChatMessages, syncChatFailed, closeChat } from '../actions/chat';
 
 import rsf from '../rsf';
 import { database } from 'firebase';
@@ -11,6 +11,7 @@ function* saveNewChatMessage(action): any {
 	const msg = action.message || '';
 	const data = action.data || {};
 
+	yield put(closeChat());
 	yield call(rsf.database.create, '/chatroom', {
 		sender: currentUser.email,
 		// timestamp: firestore.Timestamp.now(), // Firestore way

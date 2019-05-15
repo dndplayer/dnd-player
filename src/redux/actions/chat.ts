@@ -8,7 +8,9 @@ export const types = {
 		NEW: {
 			// CHANGE: 'CHAT.NEW.CHANGE',
 			SAVE: 'CHAT.NEW.SAVE'
-		}
+		},
+		OPEN: 'CHAT.OPEN',
+		CLOSE: 'CHAT.CLOSE'
 	}
 };
 
@@ -51,4 +53,12 @@ export const saveNewMessage = (message, data): SaveNewMessageAction => ({
 export const syncChatFailed = (error): SyncChatMessagesFailedAction => ({
 	type: types.CHAT.SYNC_FAILED,
 	error
+});
+
+export const openChat = (): Action => ({
+	type: types.CHAT.OPEN
+});
+
+export const closeChat = (): Action => ({
+	type: types.CHAT.CLOSE
 });

@@ -1,36 +1,40 @@
 .chatContainer {
 	position: absolute;
 	bottom: 40px;
+	height: calc(100vh - 80px);
 	left: 410px;
 	right: 410px;
-	height: 300px;
-	overflow: hidden auto;
-	background: rgba(0, 0, 0, 0.4);
 	opacity: 0.9;
+	background: rgba(0, 0, 0, 0.4);
+
+	&.enter {
+		opacity: 0;
+	}
+
+	&.enterActive {
+		opacity: 0.9;
+		transition: opacity 200ms;
+	}
+
+	&.exit {
+		opacity: 0.9;
+	}
+
+	&.exitActive {
+		opacity: 0;
+		transition: opacity 200ms;
+	}
+	&.exitDone {
+		opacity: 0;
+	}
 
 	.messages {
 		flex-grow: 1;
 		flex-direction: column;
 		display: flex;
-		margin: 5px;
-	}
-
-	.rollButton {
-		width: 100%;
-		border: 1px solid #000;
-		background-color: rgb(52, 131, 45);
-		padding: 10px 20px;
-	}
-
-	.chat {
-		height: 80vh;
-	}
-
-	.chatHeader {
-		font-size: 12px;
-		text-align: center;
-		margin-bottom: 20px;
-		text-decoration: underline;
+		padding: 5px;
+		height: calc(100vh - 120px);
+		overflow: hidden auto;
 	}
 
 	.username {
@@ -39,6 +43,7 @@
 
 	input {
 		background: none;
+		border-top: 1px solid #000;
 		color: #d29a38;
 		min-width: 100%;
 		font-size: 16px;

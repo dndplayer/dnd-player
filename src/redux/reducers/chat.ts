@@ -3,7 +3,8 @@ import { types } from '../actions/chat';
 const initialState = {
 	messages: [],
 	new: {},
-	syncError: null
+	syncError: null,
+	messagesOpen: false
 };
 
 export default function reducer(state = initialState, action: any = {}) {
@@ -17,6 +18,16 @@ export default function reducer(state = initialState, action: any = {}) {
 			return {
 				...state,
 				syncError: action.error
+			};
+		case types.CHAT.OPEN:
+			return {
+				...state,
+				messagesOpen: true
+			};
+		case types.CHAT.CLOSE:
+			return {
+				...state,
+				messagesOpen: false
 			};
 		default:
 			return state;
