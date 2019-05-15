@@ -53,12 +53,12 @@ export class App extends Component<{}, {}> {
 												render={(): ReactElement => (
 													<div>
 														<OverlayTabsContainer />
+														<div className={styles.overlayWrapper}>
+															<ChatContainer />
+														</div>
 														<div className={styles.mapWrapper}>
 															<PropertiesPanelContainer />
 															<MapContainer />
-														</div>
-														<div className={styles.overlayWrapper}>
-															<ChatContainer />
 														</div>
 														<div>
 															<CharacterSheetContainer

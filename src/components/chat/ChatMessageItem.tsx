@@ -13,7 +13,7 @@ export default class ChatMessageItem extends React.Component<Props> {
 		const username = message.sender || 'unknown';
 
 		return (
-			<div className="message" key={message.id}>
+			<div className={styles.message} key={message.id}>
 				<div className={styles.username}>{username} :</div>
 				<div>{message.msg}</div>
 			</div>

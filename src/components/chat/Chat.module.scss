@@ -6,6 +6,7 @@
 	height: 300px;
 	overflow: hidden auto;
 	background: rgba(0, 0, 0, 0.4);
+	opacity: 0.9;
 
 	.messages {
 		flex-grow: 1;
@@ -33,7 +34,7 @@
 	}
 
 	.username {
-		font-weight: bold;
+		margin-right: 8px;
 	}
 
 	input {
@@ -46,5 +47,13 @@
 		&:focus {
 			outline: none;
 		}
+	}
+
+	.message {
+		color: #d29a38;
+		display: flex;
+		flex-direction: row;
+		font-weight: 600;
+		letter-spacing: 0.4px;
 	}
 }
