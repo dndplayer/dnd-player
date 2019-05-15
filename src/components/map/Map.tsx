@@ -56,6 +56,8 @@ interface OwnProps {
 type Props = CollectProps & OwnProps;
 
 interface State {
+	windowWidth: number;
+	windowHeight: number;
 	loadingAssets: boolean;
 	loadProgress: number;
 	app?: PIXI.Application;
@@ -66,6 +68,8 @@ interface State {
 }
 class Map extends Component<Props, State> {
 	state = {
+		windowWidth: window.innerWidth,
+		windowHeight: window.innerHeight,
 		loadingAssets: true,
 		loadProgress: 0,
 		app: null,
@@ -86,11 +90,24 @@ class Map extends Component<Props, State> {
 
 	componentDidMount() {
 		this.loadAssets(this.props, this.state, true);
+
+		window.addEventListener('resize', this.handleWindowResize);
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener('resize', this.handleWindowResize);
 	}
 
 	componentDidUpdate(prevProps: Props, prevState: State): void {
 		this.loadAssets(prevProps, prevState, false);
 	}
+
+	handleWindowResize = () => {
+		this.setState({
+			windowWidth: window.innerWidth,
+			windowHeight: window.innerHeight
+		});
+	};
 
 	loadAssets = (prevProps: Props, prevState: State, forceLoad: boolean): void => {
 		if (prevState.loadingAssets && !this.state.loadingAssets) {
@@ -164,12 +181,12 @@ class Map extends Component<Props, State> {
 
 	onMapMount = (app: PIXI.Application): void => {
 		this.setState({ app: app });
-		app.stage.hitArea = new PIXI.Rectangle(
-			0,
-			0,
-			app.renderer.width / app.renderer.resolution,
-			app.renderer.height / app.renderer.resolution
-		);
+		// app.stage.hitArea = new PIXI.Rectangle(
+		// 	0,
+		// 	0,
+		// 	app.renderer.width / app.renderer.resolution,
+		// 	app.renderer.height / app.renderer.resolution
+		// );
 		app.stage.interactive = true;
 		// Any free space click should de-select the currently selected object.
 		// for this to work any objects on the stage the implement .on('mouseup')
@@ -287,8 +304,8 @@ class Map extends Component<Props, State> {
 				<Stage
 					ref={c => (this._stage = c as any)}
 					onMount={this.onMapMount}
-					width={window.innerWidth}
-					height={window.innerHeight}
+					width={this.state.windowWidth}
+					height={this.state.windowHeight}
 					options={{
 						antialias: true,
 						backgroundColor: backgroundColour
@@ -302,6 +319,8 @@ class Map extends Component<Props, State> {
 								name="viewport"
 								ref={c => (this._viewport = c as any)}
 								app={app}
+								screenWidth={this.state.windowWidth}
+								screenHeight={this.state.windowHeight}
 							>
 								{/* <EditablePolygon
 									editMode={false}

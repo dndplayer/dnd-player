@@ -5,12 +5,14 @@ import Viewport from 'pixi-viewport';
 interface ViewportComponentProps {
 	app?: PIXI.Application;
 	name?: string;
+	screenWidth: number;
+	screenHeight: number;
 }
 export const ViewportComponent = PixiComponent<ViewportComponentProps, Viewport>('Viewport', {
 	create: props => {
 		const v = new Viewport({
-			screenWidth: window.innerWidth,
-			screenHeight: window.innerHeight,
+			screenWidth: props.screenWidth,
+			screenHeight: props.screenHeight,
 			worldWidth: 1000,
 			worldHeight: 1000,
 			divWheel: props.app
@@ -31,7 +33,12 @@ export const ViewportComponent = PixiComponent<ViewportComponentProps, Viewport>
 		return v;
 	},
 	applyProps: (instance, oldProps, newProps) => {
-		if (oldProps.app !== newProps.app) {
+		// Handle resizes correctly for movement etc
+		if (
+			oldProps.screenWidth !== newProps.screenWidth ||
+			oldProps.screenHeight !== newProps.screenHeight
+		) {
+			instance.resize(newProps.screenWidth, newProps.screenHeight);
 		}
 	}
 });
