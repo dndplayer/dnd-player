@@ -53,6 +53,7 @@ export interface CharacterActionDiceRollResultRoll {
 	critSuccess: boolean;
 	critFail: boolean;
 	ignore: boolean;
+	suffix: string;
 }
 
 export interface RollData extends ChatMessageData {

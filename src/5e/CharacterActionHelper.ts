@@ -84,24 +84,30 @@ export default class CharacterActionHelper {
 						? roll1CritSuccess || roll2CritSuccess
 						: roll1CritSuccess && roll2CritSuccess;
 
+				const ignore1 =
+					(roll2 || false) &&
+					((advantage > 0 && roll1.total < roll2.total) ||
+						(advantage < 0 && roll1.total > roll2.total));
+
 				result.rolls.push({
 					total: roll1.total,
 					critFail: roll1CritFail,
 					critSuccess: roll1CritSuccess,
 					details: roll1Details,
-					ignore:
-						(roll2 || false) &&
-						((advantage > 0 && roll1.total < roll2.total) || roll1.total > roll2.total)
+					suffix: ignore1 ? '' : 'to hit',
+					ignore: ignore1
 				});
 				if (roll2) {
+					const ignore2 =
+						(advantage > 0 && roll1.total >= roll2.total) ||
+						(advantage < 0 && roll1.total <= roll2.total);
 					result.rolls.push({
 						total: roll2.total,
 						critFail: roll2CritFail,
 						critSuccess: roll2CritSuccess,
 						details: roll2Details,
-						ignore:
-							(advantage > 0 && roll1.total >= roll2.total) ||
-							roll1.total <= roll2.total
+						suffix: ignore2 ? '' : 'to hit',
+						ignore: ignore2
 					});
 				}
 				return { result, crit };
@@ -125,7 +131,8 @@ export default class CharacterActionHelper {
 					critSuccess: false,
 					details: damageRollDetails,
 					ignore: false,
-					total: damageRoll.total
+					total: damageRoll.total,
+					suffix: damageEffect.damageType
 				});
 				return { result: result2, crit };
 			case AttackEffectType.SavingThrow:

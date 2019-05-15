@@ -9,6 +9,10 @@ export default class TextBlock extends React.Component<Props> {
 	render(): ReactNode {
 		const { result } = this.props;
 
-		return <div className={`text`}>{result.text}</div>;
+		return (
+			<div className={`text`} style={{ marginTop: '4px' }}>
+				{result.text}
+			</div>
+		);
 	}
 }

@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { CharacterActionDiceRollResult, AdvantageType } from '../../../models/ChatMessage';
+import css from './CharacterAction.module.scss';
 
 interface Props {
 	result: CharacterActionDiceRollResult;
@@ -13,7 +14,7 @@ export default class DiceRoll extends React.Component<Props> {
 		let i = 0;
 		for (const roll of result.rolls) {
 			rolls.push(
-				<div key={i++} className={`roll ${roll.ignore ? 'ignore' : ''}`}>
+				<div key={i++} className={`${css.roll} ${roll.ignore ? 'ignore' : ''}`}>
 					<span
 						className={
 							'summary ' +
@@ -21,12 +22,15 @@ export default class DiceRoll extends React.Component<Props> {
 						}
 					>
 						<span className="roll-total">{roll.total}</span>
+						<span className="roll-suffix" style={{ paddingLeft: '2px' }}>
+							{roll.suffix}
+						</span>
 					</span>
 					<span className="details">{roll.details}</span>
 				</div>
 			);
 
-			if (result.advantage) {
+			if (result.advantage && roll != result.rolls[result.rolls.length - 1]) {
 				rolls.push(
 					<div
 						key={i++}

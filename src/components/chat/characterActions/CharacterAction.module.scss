@@ -1,0 +1,45 @@
+.characterActionContainer {
+	margin: 4px 1px 0 1px;
+	border-radius: 4px;
+	border: 2px solid #000;
+	background: #222;
+	padding: 8px;
+	color: #ccc;
+}
+
+.actionHeader {
+	font-family: 'Libre Baskerville', serif;
+	font-size: 12px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.actionUser {
+}
+
+.actionType,
+.actionTitle {
+	color: #b65757;
+	font-variant: small-caps;
+	font-size: 14px;
+}
+
+.actionTitle {
+	text-align: center;
+	font-family: 'Libre Baskerville', serif;
+	font-size: 16px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	font-weight: 600;
+}
+
+.roll {
+	margin-top: 4px;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}

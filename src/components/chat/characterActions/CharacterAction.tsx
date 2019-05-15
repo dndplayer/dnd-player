@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { ChatMessage, CharacterActionData } from '../../../models/ChatMessage';
 import Result from './Result';
+import css from './CharacterAction.module.scss';
 
 interface Props {
 	message: ChatMessage;
@@ -18,12 +19,13 @@ export default class CharacterAction extends React.Component<Props> {
 		}
 
 		return (
-			<div className={`character-action-container`}>
-				<div className="action-header">
-					<span className="action-user">{data.characterName || message.sender}</span>
+			<div className={css.characterActionContainer}>
+				<div className={css.actionHeader}>
+					<span className={css.actionUser}>{data.characterName || message.sender}</span>
+					<span className={css.actionType}>Action</span>
 				</div>
-				<div className="action-title">
-					<span className="action-name">{data.title}</span>
+				<div className={css.actionTitle}>
+					<span className={css.actionName}>{data.title}</span>
 				</div>
 				{data.results.map((x, i) => (
 					<Result key={i} action={x} />
