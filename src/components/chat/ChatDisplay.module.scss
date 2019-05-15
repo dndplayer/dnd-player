@@ -1,0 +1,25 @@
+.chatContainer {
+	position: absolute;
+	bottom: 70px;
+	left: 410px;
+	right: 413px;
+	opacity: 0.9;
+
+	.messages {
+		flex-direction: column;
+		display: flex;
+		padding: 5px;
+	}
+
+	.username {
+		margin-right: 8px;
+	}
+
+	.message {
+		color: #d29a38;
+		display: flex;
+		flex-direction: row;
+		font-weight: 600;
+		letter-spacing: 0.4px;
+	}
+}

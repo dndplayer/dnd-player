@@ -8,11 +8,13 @@ import {
 interface State {
 	state: any; // TODO: Define this with a proper model
 	syncError?: any;
+	currentTime: number;
 }
 
 const initialState: State = {
 	state: null,
-	syncError: null
+	syncError: null,
+	currentTime: new Date().getTime()
 };
 
 export default function globalStateReducer(state: State = initialState, action: any = {}): State {
@@ -26,7 +28,8 @@ export default function globalStateReducer(state: State = initialState, action: 
 						...state.state,
 						activeMapId: a.mapId
 					}
-				}
+				},
+				currentTime: state.currentTime
 			};
 		}
 		case types.GLOBAL_STATE.SYNC.SUCCESS: {
@@ -41,6 +44,12 @@ export default function globalStateReducer(state: State = initialState, action: 
 			return {
 				...state,
 				syncError: a.error
+			};
+		}
+		case types.GLOBAL_STATE.UPDATE_TIME: {
+			return {
+				...state,
+				currentTime: new Date().getTime()
 			};
 		}
 		default:

@@ -6,6 +6,7 @@ export const types = {
 			SUCCESS: 'GLOBAL_STATE.SYNC.SUCCESS',
 			FAILURE: 'GLOBAL_STATE.SYNC.FAILURE'
 		},
+		UPDATE_TIME: 'GLOBAL_STATE.UPDATE_TIME',
 		SET_ACTIVE_MAP: 'GLOBAL_STATE.SET_ACTIVE_MAP'
 	}
 };
@@ -39,4 +40,8 @@ export const syncGlobalStateSuccess = (state: any): GlobalStateSyncSuccessAction
 export const syncGlobalStateFailure = (error: any): GlobalStateSyncFailureAction => ({
 	type: types.GLOBAL_STATE.SYNC.SUCCESS,
 	error
+});
+
+export const updateTime = (): Action => ({
+	type: types.GLOBAL_STATE.UPDATE_TIME
 });

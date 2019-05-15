@@ -1,9 +1,10 @@
-import { all, call, fork, select, takeEvery, put } from 'redux-saga/effects';
+import { all, call, fork, select, takeEvery, put, delay } from 'redux-saga/effects';
 
 import { types, syncChatMessages, syncChatFailed, closeChat } from '../actions/chat';
 
 import rsf from '../rsf';
 import { database } from 'firebase';
+import { updateTime } from '../actions/globalState';
 
 function* saveNewChatMessage(action): any {
 	// const msg = yield select(state => state.chat.newMessage);
@@ -42,7 +43,15 @@ function* syncMessagesSaga(): any {
 		'value'
 	);
 }
+function* updateCurrentTimeSaga(): any {
+	yield delay(7000);
+	yield put(updateTime());
+}
 
 export default function* rootSaga() {
-	yield all([fork(syncMessagesSaga), takeEvery(types.CHAT.NEW.SAVE, saveNewChatMessage)]);
+	yield all([
+		fork(syncMessagesSaga),
+		takeEvery(types.CHAT.NEW.SAVE, saveNewChatMessage),
+		takeEvery(types.CHAT.SYNC, updateCurrentTimeSaga)
+	]);
 }

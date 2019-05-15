@@ -1,15 +1,14 @@
 import React, { ReactNode } from 'react';
 import { ChatMessage } from '../../models/ChatMessage';
 
-import styles from './Chat.module.scss';
-
 interface Props {
 	message: ChatMessage;
 	isOwner: boolean;
+	styles: any;
 }
 export default class ChatMessageItem extends React.Component<Props> {
 	render(): ReactNode {
-		const { message, isOwner } = this.props;
+		const { message, isOwner, styles } = this.props;
 		const username = message.sender || 'unknown';
 
 		return (

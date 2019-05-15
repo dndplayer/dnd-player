@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactElement, SyntheticEvent } from 'react';
+import React, { ReactNode, ReactElement } from 'react';
 
 import { DiceRoll } from 'rpg-dice-roller';
 
@@ -9,16 +9,14 @@ import RollMessageItem from './RollMessageItem';
 import { ChatMessage, ChatMessageData, RollData } from '../../models/ChatMessage.js';
 import CharacterAction from './characterActions/CharacterAction';
 import { HotKeys, ObserveKeys } from 'react-hotkeys';
-import { CSSTransition } from 'react-transition-group';
 
 interface Props {
 	messages: ChatMessage[];
 	sendMessage: (message: string, data?: ChatMessageData) => void;
-	login: (username: string, password: string) => void;
-	loggedIn: boolean;
 	user: firebase.User;
 	messagesOpen: boolean;
 	closeChat: () => void;
+	openChat: () => void;
 }
 interface State {
 	msg: string;
@@ -29,16 +27,6 @@ export default class Chat extends React.Component<Props, State> {
 	};
 
 	private scrollDiv: HTMLElement;
-
-	keyMap = {
-		SEND_MESSAGE: 'enter',
-		CLOSE_CHAT: 'esc'
-	};
-
-	handlers = {
-		SEND_MESSAGE: event => this.handleEnter(),
-		CLOSE_CHAT: event => this.props.closeChat()
-	};
 
 	componentDidUpdate(): void {
 		this.scrollToBottomOfChat();
@@ -56,52 +44,41 @@ export default class Chat extends React.Component<Props, State> {
 
 	render(): ReactNode {
 		const { messages, messagesOpen } = this.props;
+		if (!messagesOpen) {
+			return null;
+		}
 
 		return (
-			<CSSTransition
-				in={messagesOpen}
-				unmountOnExit
-				timeout={200}
-				classNames={{
-					enter: styles.enter,
-					enterActive: styles.enterActive,
-					exit: styles.exit,
-					exitActive: styles.exitActive
-				}}
-			>
-				<div className={styles.chatContainer}>
-					<div className={styles.messages} ref={cmpt => (this.scrollDiv = cmpt)}>
-						{messages.map(
-							(x, idx): ReactElement => {
-								switch (x.data && x.data.type) {
-									case 'roll':
-										return <RollMessageItem message={x} key={idx} />;
-									case 'action':
-										return <CharacterAction message={x} key={idx} />;
-									default:
-										return (
-											<ChatMessageItem
-												message={x}
-												key={idx}
-												isOwner={x.sender === this.props.user.email}
-											/>
-										);
-								}
+			<div className={styles.chatContainer}>
+				<div className={styles.messages} ref={cmpt => (this.scrollDiv = cmpt)}>
+					{messages.map(
+						(x, idx): ReactElement => {
+							switch (x.data && x.data.type) {
+								case 'roll':
+									return <RollMessageItem message={x} key={idx} />;
+								case 'action':
+									return <CharacterAction message={x} key={idx} />;
+								default:
+									return (
+										<ChatMessageItem
+											message={x}
+											key={idx}
+											styles={styles}
+											isOwner={x.sender === this.props.user.email}
+										/>
+									);
 							}
-						)}
-					</div>
-					<HotKeys keyMap={this.keyMap} handlers={this.handlers}>
-						<ObserveKeys only={undefined} except={undefined}>
-							<input
-								onChange={e => this.handleMsgChange(e)}
-								autoFocus
-								disabled={!messagesOpen}
-								value={this.state.msg}
-							/>
-						</ObserveKeys>
-					</HotKeys>
+						}
+					)}
 				</div>
-			</CSSTransition>
+				<input
+					onChange={e => this.handleMsgChange(e)}
+					onKeyDown={e => this.handleEnter(e)}
+					autoFocus
+					disabled={!messagesOpen}
+					value={this.state.msg}
+				/>
+			</div>
 		);
 	}
 
@@ -109,7 +86,27 @@ export default class Chat extends React.Component<Props, State> {
 		this.setState({ msg: e.target.value });
 	};
 
-	handleEnter = (): void => {
+	handleEnter = (e: React.KeyboardEvent): void => {
+		if (e.keyCode === 27) {
+			// esc
+			this.props.closeChat();
+			return;
+		}
+
+		if (e.keyCode !== 13) {
+			// enter
+			return;
+		}
+
+		if (!this.props.messagesOpen) {
+			this.props.openChat();
+			return;
+		}
+
+		if (!this.state.msg) {
+			return;
+		}
+
 		if (this.state.msg.match(/^\d*?d(\d+|%)/)) {
 			const roll = new DiceRoll(this.state.msg);
 			const data: RollData = {
