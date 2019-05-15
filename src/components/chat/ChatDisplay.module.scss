@@ -1,8 +1,7 @@
 .chatContainer {
 	position: absolute;
-	bottom: 70px;
-	left: 410px;
-	right: 413px;
+	bottom: 35px;
+	width: calc(100% - 3px);
 	opacity: 0.9;
 
 	.messages {
