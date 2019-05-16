@@ -8,7 +8,6 @@ import { MapData } from '../../../../models/Map';
 interface State {
 	stageBackground: string;
 	activeMapId: string;
-	isDm: boolean;
 	roomUrlCopiedTooltipOpen: boolean;
 	roomUrlTooltipTimeout: any;
 }
@@ -18,11 +17,11 @@ interface Props {
 	activeMapId: string;
 	setActiveMap: (mapId: string) => void;
 	stageBackground: string;
-	isDm: boolean;
+	dm: boolean;
 	roomUrl: string;
 	nonPlayerCharacters: NonPlayerCharacter[];
 	updateStageBackground: (mapId: string, colour: string) => void;
-	setIsDm: (val: boolean) => void;
+	setDm: (val: boolean) => void;
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) => void;
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) => void;
 }
@@ -32,14 +31,13 @@ export default class GeneralPanel extends Component<Props, State> {
 		super(props);
 
 		this.onChangeStageBackground = this.onChangeStageBackground.bind(this);
-		this.onChangeIsDm = this.onChangeIsDm.bind(this);
+		this.onChangeDm = this.onChangeDm.bind(this);
 	}
 
 	state = {
 		activeMapId: this.props.activeMapId,
 		roomUrlCopiedTooltipOpen: false,
 		roomUrlTooltipTimeout: null,
-		isDm: this.props.isDm,
 		stageBackground: this.props.stageBackground || '#ffffff'
 	};
 
@@ -60,12 +58,8 @@ export default class GeneralPanel extends Component<Props, State> {
 		}
 	};
 
-	onChangeIsDm = (e): void => {
-		this.setState({ isDm: !!e.target.checked });
-
-		if (this.props.setIsDm) {
-			this.props.setIsDm(!!e.target.checked);
-		}
+	onChangeDm = (e): void => {
+		this.props.setDm(!!e.target.checked);
 	};
 
 	onChangeActiveMap = (e): void => {
@@ -146,77 +140,83 @@ export default class GeneralPanel extends Component<Props, State> {
 					<li>Logout button</li>
 				</ul>
 
-				<div className={styles.settingWrapper}>
-					<div className={styles.settingRow}>
-						<Tooltip
-							PopperProps={{
-								disablePortal: true
-							}}
-							placement="top"
-							open={this.state.roomUrlCopiedTooltipOpen}
-							disableFocusListener
-							disableHoverListener
-							disableTouchListener
-							title="Copied!"
-						>
-							<Button variant="contained" fullWidth onClick={this.copyRoomUrl}>
-								Copy Room URL
-							</Button>
-						</Tooltip>
-					</div>
-
-					<div className={styles.settingRow}>
-						<input
-							type="color"
-							id="stageBackground"
-							name="stageBackground"
-							onChange={this.onChangeStageBackground}
-							value={this.state.stageBackground}
-							style={{
-								margin: '.4rem'
-							}}
-						/>
-						<label
-							htmlFor="stageBackground"
-							style={{ font: '1rem "Fira Sans", sans-serif' }}
-						>
-							Map Background Colour
-						</label>
-					</div>
-
-					<Button onClick={() => this.importNpcs()}>Import NPCs</Button>
-					<Button onClick={() => this.exportNpcs()}>Export NPCs</Button>
-
-					<div className={styles.settingRow}>
-						<FormControlLabel
-							control={
-								<Switch value={this.state.isDm} onChange={this.onChangeIsDm} />
-							}
-							label="Is DM?"
-						/>
-					</div>
-
-					{this.state.isDm && (
+				{this.props.dm && (
+					<div className={styles.settingWrapper}>
 						<div className={styles.settingRow}>
-							<span>Active Map ID {this.props.activeMapId}</span>
-							<select
-								value={this.state.activeMapId}
-								onChange={this.onChangeActiveMap}
+							<Tooltip
+								PopperProps={{
+									disablePortal: true
+								}}
+								placement="top"
+								open={this.state.roomUrlCopiedTooltipOpen}
+								disableFocusListener
+								disableHoverListener
+								disableTouchListener
+								title="Copied!"
 							>
-								{this.props.maps.map(x => (
-									<option key={x.id} value={x.id}>
-										{x.id}
-									</option>
-								))}
-							</select>
-							<button onClick={this.changeMap}>Change!</button>
-							<div>
-								Warning: This is still a little buggy! E.g. You need to refresh once
-								changed
-							</div>
+								<Button variant="contained" fullWidth onClick={this.copyRoomUrl}>
+									Copy Room URL
+								</Button>
+							</Tooltip>
 						</div>
-					)}
-				</div>
+
+						<div className={styles.settingRow}>
+							<input
+								type="color"
+								id="stageBackground"
+								name="stageBackground"
+								onChange={this.onChangeStageBackground}
+								value={this.state.stageBackground}
+								style={{
+									margin: '.4rem'
+								}}
+							/>
+							<label
+								htmlFor="stageBackground"
+								style={{ font: '1rem "Fira Sans", sans-serif' }}
+							>
+								Map Background Colour
+							</label>
+						</div>
+
+						<Button onClick={() => this.importNpcs()}>Import NPCs</Button>
+						<Button onClick={() => this.exportNpcs()}>Export NPCs</Button>
+
+						<div className={styles.settingRow}>
+							<FormControlLabel
+								control={
+									<Switch
+										disabled
+										checked={this.props.dm}
+										onChange={this.onChangeDm}
+									/>
+								}
+								label="Is DM?"
+							/>
+						</div>
+
+						{this.props.dm && (
+							<div className={styles.settingRow}>
+								<span>Active Map ID {this.props.activeMapId}</span>
+								<select
+									value={this.state.activeMapId}
+									onChange={this.onChangeActiveMap}
+								>
+									{this.props.maps.map(x => (
+										<option key={x.id} value={x.id}>
+											{x.id}
+										</option>
+									))}
+								</select>
+								<button onClick={this.changeMap}>Change!</button>
+								<div>
+									Warning: This is still a little buggy! E.g. You need to refresh
+									once changed
+								</div>
+							</div>
+						)}
+					</div>
+				)}
 			</div>
 		);
 	}

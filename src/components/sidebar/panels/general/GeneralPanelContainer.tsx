@@ -1,7 +1,7 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import GeneralPanel from './GeneralPanel';
-import { setIsDm } from '../../../../redux/actions/auth';
+import { setDm } from '../../../../redux/actions/auth';
 import { NonPlayerCharacter } from '../../../../5e/models/Character';
 import {
 	updateNonPlayerCharacter,
@@ -13,7 +13,7 @@ import { mapsUpdateBackgroundColour } from '../../../../redux/actions/maps';
 import { getCurrentMapBackgroundColour } from '../../../../redux/selectors/maps';
 
 interface StateProps {
-	isDm: boolean;
+	dm: boolean;
 	backgroundColour?: string;
 	nonPlayerCharacters: NonPlayerCharacter[];
 	maps: MapData[];
@@ -22,7 +22,7 @@ interface StateProps {
 interface DispatchProps {
 	setActiveMap: (mapId: string) => void;
 	updateStageBackground: (mapId: string, colour: string) => void;
-	setIsDm: (val: boolean) => void;
+	setDm: (val: boolean) => void;
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) => void;
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) => void;
 }
@@ -35,8 +35,8 @@ class GeneralPanelContainer extends Component<Props> {
 		const {
 			backgroundColour,
 			updateStageBackground,
-			isDm,
-			setIsDm,
+			dm,
+			setDm,
 			maps,
 			setActiveMap,
 			activeMapId
@@ -51,8 +51,8 @@ class GeneralPanelContainer extends Component<Props> {
 				maps={maps}
 				activeMapId={activeMapId}
 				setActiveMap={setActiveMap}
-				isDm={isDm}
-				setIsDm={setIsDm}
+				dm={dm}
+				setDm={setDm}
 				stageBackground={backgroundColour}
 				updateStageBackground={updateStageBackground}
 				roomUrl={roomUrl}
@@ -66,7 +66,7 @@ class GeneralPanelContainer extends Component<Props> {
 
 const mapStateToProps = (state): StateProps => ({
 	backgroundColour: getCurrentMapBackgroundColour(state),
-	isDm: state.auth.isDm,
+	dm: state.auth.dm,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
 	maps: state.maps.maps,
 	activeMapId: state.globalState.state.activeMapId
@@ -74,7 +74,7 @@ const mapStateToProps = (state): StateProps => ({
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	updateStageBackground: (mapId: string, colour: string) =>
 		dispatch(mapsUpdateBackgroundColour(mapId, colour)),
-	setIsDm: (val: boolean) => dispatch(setIsDm(val)),
+	setDm: (val: boolean) => dispatch(setDm(val)),
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) =>
 		dispatch(updateNonPlayerCharacter(characterId, character)),
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) =>

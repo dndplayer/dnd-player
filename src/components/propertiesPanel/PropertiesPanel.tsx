@@ -1,12 +1,11 @@
 import React, { Component, ReactNode } from 'react';
-import { Rnd } from 'react-rnd';
-import { Button, TextField, FormControlLabel, Switch } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { MapData, MapObject } from '../../models/Map';
 import RotationSelector from './controls/RotationSelector';
 import InlineCharacterSheetContainer from '../../5e/components/characterSheet/InlineCharacterSheetContainer';
+import { FormControlLabel, Switch, Button } from '@material-ui/core';
 
 const wrapperStyle = {
 	position: 'absolute' as 'absolute',
@@ -25,7 +24,7 @@ interface Props {
 	visible?: boolean;
 	selected: string[];
 	map: MapData;
-	isUserDm: boolean; // Hide certain props
+	dm: boolean; // Hide certain props
 	onUpdateObject: (mapId, mapObjectId, data) => void;
 	removeObject: (mapId, mapObjectId) => void;
 	close: () => void;
@@ -41,7 +40,7 @@ interface State {
 	isPcAsset: boolean;
 	isNpcAsset: boolean;
 	layers: object[];
-	isDmOnly: boolean;
+	dmOnly: boolean;
 }
 
 export default class PropertiesPanel extends Component<Props, State> {
@@ -55,7 +54,7 @@ export default class PropertiesPanel extends Component<Props, State> {
 		layers: [],
 		scaleX: 1.0,
 		scaleY: 1.0,
-		isDmOnly: false
+		dmOnly: false
 	};
 
 	handleChange = (propName): ((e) => void) => (e): void => {
@@ -68,8 +67,8 @@ export default class PropertiesPanel extends Component<Props, State> {
 		} as any);
 	};
 
-	onChangeIsDm = (e): void => {
-		this.setState({ isDmOnly: !!e.target.checked });
+	onChangeDmOnly = (e): void => {
+		this.setState({ dmOnly: !!e.target.checked });
 	};
 
 	removeObject = (): void => {
@@ -91,7 +90,7 @@ export default class PropertiesPanel extends Component<Props, State> {
 					x: this.state.scaleX,
 					y: this.state.scaleY
 				},
-				dmOnly: this.state.isDmOnly
+				dmOnly: this.state.dmOnly
 			});
 		}
 	};
@@ -135,12 +134,12 @@ export default class PropertiesPanel extends Component<Props, State> {
 			layers: layersArr,
 			scaleX: object ? object.scale.x : 1.0,
 			scaleY: object ? object.scale.y : 1.0,
-			isDmOnly: object ? object.dmOnly || false : false
+			dmOnly: object ? object.dmOnly || false : false
 		});
 	};
 
 	render(): ReactNode {
-		const { visible } = this.props;
+		const { visible, dm } = this.props;
 
 		const { object, rotation, layers, scaleX, scaleY } = this.state;
 
@@ -194,17 +193,19 @@ export default class PropertiesPanel extends Component<Props, State> {
 							}}
 						/>
 					</PropertyRow>
-					<PropertyRow>
-						Layer = {object.layer}
-						<select value={object.layer} onChange={this.handleChange('layer')}>
-							<option value={null}>---</option>
-							{layers.map((x: any) => (
-								<option key={x.id} value={x.id}>
-									{x.id} ({x.zIndex})
-								</option>
-							))}
-						</select>
-					</PropertyRow>
+					{dm && (
+						<PropertyRow>
+							Layer = {object.layer}
+							<select value={object.layer} onChange={this.handleChange('layer')}>
+								<option value={null}>---</option>
+								{layers.map((x: any) => (
+									<option key={x.id} value={x.id}>
+										{x.id} ({x.zIndex})
+									</option>
+								))}
+							</select>
+						</PropertyRow>
+					)}
 
 					{!this.state.isNpcAsset && !this.state.isPcAsset && (
 						<div>
@@ -227,14 +228,19 @@ export default class PropertiesPanel extends Component<Props, State> {
 						</div>
 					)}
 
-					<PropertyRow>
-						<FormControlLabel
-							control={
-								<Switch value={this.state.isDmOnly} onChange={this.onChangeIsDm} />
-							}
-							label="DM Only"
-						/>
-					</PropertyRow>
+					{dm && (
+						<PropertyRow>
+							<FormControlLabel
+								control={
+									<Switch
+										checked={this.state.dmOnly}
+										onChange={this.onChangeDmOnly}
+									/>
+								}
+								label="DM Only"
+							/>
+						</PropertyRow>
+					)}
 
 					<Button
 						fullWidth

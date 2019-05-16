@@ -16,7 +16,7 @@ export const types = {
 	}
 };
 
-export interface SetIsDmAction extends Action {
+export interface SetDmAction extends Action {
 	value: boolean;
 }
 
@@ -49,7 +49,7 @@ export const logoutFailure = error => ({
 	error
 });
 
-export const setIsDm = (val: boolean): SetIsDmAction => ({
+export const setDm = (val: boolean): SetDmAction => ({
 	type: types.DM.SET,
 	value: val
 });

@@ -22,7 +22,7 @@ interface StateProps {
 	playerCharacters: PlayerCharacter[];
 	nonPlayerCharacters: NonPlayerCharacter[];
 	images: Upload[];
-	isUserDm: boolean;
+	dm: boolean;
 	user: firebase.User;
 	mapPings: MapPing[];
 	measureModeEnabled: boolean;
@@ -52,7 +52,7 @@ class MapContainer extends Component<Props> {
 			playerCharacters,
 			nonPlayerCharacters,
 			images,
-			isUserDm,
+			dm,
 			user,
 			sendPing,
 			mapPings,
@@ -78,7 +78,7 @@ class MapContainer extends Component<Props> {
 				onAddImageToMap={onAddImageToMap}
 				onSelectObject={onSelectObject}
 				images={images}
-				isUserDm={isUserDm}
+				dm={dm}
 				user={user}
 				sendPing={sendPing}
 				mapPings={mapPings}
@@ -94,7 +94,7 @@ const mapStateToProps = (state): StateProps => ({
 	images: state.images.images,
 	playerCharacters: state.assets.playerCharacters,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
-	isUserDm: state.auth.isDm,
+	dm: state.auth.dm,
 	user: state.auth.user,
 	maps: state.maps.maps,
 	activeMapId: state.globalState.state ? state.globalState.state.activeMapId : null,

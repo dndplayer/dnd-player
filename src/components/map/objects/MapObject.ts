@@ -78,6 +78,7 @@ export default class MapObject extends PIXI.Container {
 					break;
 				default:
 					instance.visible = true;
+					instance.alpha = 1;
 					break;
 			}
 		}

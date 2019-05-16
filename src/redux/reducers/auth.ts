@@ -1,11 +1,11 @@
-import { types, SetIsDmAction } from '../actions/auth';
+import { types, SetDmAction } from '../actions/auth';
 
 interface AuthState {
 	loading: boolean;
 	loggedIn: boolean;
 	user?: firebase.User;
 	loginError?: any;
-	isDm: boolean;
+	dm: boolean;
 }
 
 const initialState: AuthState = {
@@ -13,7 +13,7 @@ const initialState: AuthState = {
 	loggedIn: false,
 	user: null,
 	loginError: null,
-	isDm: false
+	dm: false
 };
 
 export default function authReducer(state: AuthState = initialState, action: any = {}) {
@@ -46,10 +46,10 @@ export default function authReducer(state: AuthState = initialState, action: any
 				loading: false
 			};
 		case types.DM.SET:
-			const a = action as SetIsDmAction;
+			const a = action as SetDmAction;
 			return {
 				...state,
-				isDm: a.value
+				dm: a.value
 			};
 		default:
 			return state;

@@ -17,7 +17,7 @@ export default class DraggableContainer extends MapObject {
 	public clickedAvailable: boolean; // When a drag starts this is true until it can no longer be considered a click I.E. Movement has occurred.
 
 	public hoverFilters: any[] = [new OutlineFilter(4, 0xff0000)]; // Filters to be applied when hovering over this token
-	public dragFilters: any[] = []; // Filters to be applied when dragging this token
+	public dragFilters: any[] = [new PIXI.filters.AlphaFilter(0.7)]; // Filters to be applied when dragging this token
 
 	public interactive: boolean = true;
 	public buttonMode: boolean = true;
@@ -43,7 +43,6 @@ export default class DraggableContainer extends MapObject {
 		if (!this.isSelectable) {
 			return;
 		}
-		this.alpha = 0.7;
 		this.dragging = true;
 		this.dragData = e.data;
 		this.dragGrabOffset = new PIXI.Point(
@@ -67,6 +66,10 @@ export default class DraggableContainer extends MapObject {
 	};
 
 	onDragEnd = (e: PIXI.interaction.InteractionEvent): void => {
+		const sprite = this.getChildByName('sprite') as PIXI.Sprite;
+		if (sprite) {
+			sprite.filters = sprite.filters.filter(x => !(this.dragFilters.indexOf(x) >= 0));
+		}
 		if (!this.isSelectable) {
 			return;
 		}
@@ -74,7 +77,6 @@ export default class DraggableContainer extends MapObject {
 			e.stopPropagation(); // Prevent this triggering the stage.on('mouseup') which handles de-selects
 		}
 
-		this.alpha = 1.0;
 		if (!this.dragData || !this.dragging) {
 			return;
 		}
@@ -99,11 +101,6 @@ export default class DraggableContainer extends MapObject {
 		this.dragGrabOffset = null;
 		this.dragStartPosition = null;
 		this.clickedAvailable = false;
-
-		// Remove the drag filters
-		if (this.filters) {
-			this.filters = this.filters.filter(x => !(this.dragFilters.indexOf(x) >= 0));
-		}
 
 		if (dragged && this.onUpdateObject) {
 			this.onUpdateObject(this.mapObjectId, {

@@ -47,7 +47,7 @@ interface OwnProps {
 	onAddImageToMap: (mapId, imageRef, initialData) => void;
 	onSelectObject: (mapObjectId) => void;
 	images: Upload[];
-	isUserDm: boolean;
+	dm: boolean;
 	user: firebase.User;
 	sendPing: (ping: MapPing) => void;
 	mapPings: MapPing[];
@@ -277,7 +277,7 @@ class Map extends Component<Props, State> {
 
 		const { objects, backgroundColour } = this.props.mapData;
 		const { background, tokens } = this.props.mapData.layers;
-		const { isUserDm } = this.props;
+		const { dm } = this.props;
 
 		const { connectDropTarget, isHovering } = this.props;
 
@@ -372,11 +372,10 @@ class Map extends Component<Props, State> {
 													const isSelected = !!selectedObjects.find(
 														x => x === o.id
 													);
-													const isDmOnly = o.dmOnly || false;
-													const userIsDm = isUserDm || false;
+													const dmOnly = o.dmOnly || false;
 													const layer = o.layer;
-													const visibility = isDmOnly
-														? userIsDm
+													const visibility = dmOnly
+														? dm
 															? MapObjectVisibility.DM_VISIBLE
 															: MapObjectVisibility.HIDDEN
 														: MapObjectVisibility.VISIBLE;
@@ -426,7 +425,9 @@ class Map extends Component<Props, State> {
 																)
 															}
 															isSelected={isSelected}
-															isSelectable={!this.state.measuring}
+															isSelectable={
+																dm && !this.state.measuring
+															}
 															onSelected={this.props.onSelectObject}
 															mapObjectId={o.id}
 															layerName={layer}
@@ -466,7 +467,10 @@ class Map extends Component<Props, State> {
 																)
 															}
 															isSelected={isSelected}
-															isSelectable={!this.state.measuring}
+															isSelectable={
+																(pcAsset || dm) &&
+																!this.state.measuring
+															}
 															onSelected={this.props.onSelectObject}
 															mapObjectId={o.id}
 															layerName={layer}
@@ -486,7 +490,7 @@ class Map extends Component<Props, State> {
 									thickness={
 										this._viewport ? (1 / this._viewport.scale.x) * 15 : 20
 									}
-									color={0xff0000}
+									color={0xde7031}
 								/>
 								{Object.keys(this.props.mapPings).map(x => {
 									const p = this.props.mapPings[x];
