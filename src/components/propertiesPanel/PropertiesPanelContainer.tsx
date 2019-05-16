@@ -4,6 +4,7 @@ import PropertiesPanel from './PropertiesPanel';
 import { MapData } from '../../models/Map';
 import { mapsUpdateObject, mapsSelectObject, mapsRemoveObject } from '../../redux/actions/maps';
 import { getCurrentMap } from '../../redux/selectors/maps';
+import { State } from '../../redux/reducers';
 
 interface StateProps {
 	selected: string[];
@@ -37,7 +38,7 @@ class PropertiesPanelContainer extends Component<Props> {
 	}
 }
 
-const mapStateToProps = (state): StateProps => ({
+const mapStateToProps = (state: State): StateProps => ({
 	selected: state.maps.selectedObjects,
 	map: getCurrentMap(state),
 	dm: state.auth.dm

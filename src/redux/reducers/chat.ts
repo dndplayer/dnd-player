@@ -1,13 +1,21 @@
 import { types } from '../actions/chat';
+import { ChatMessage } from '../../models/ChatMessage';
 
-const initialState = {
+interface State {
+	messages: ChatMessage[];
+	new: any;
+	syncError: Error;
+	messagesOpen: boolean;
+}
+
+const initialState: State = {
 	messages: [],
 	new: {},
 	syncError: null,
 	messagesOpen: false
 };
 
-export default function reducer(state = initialState, action: any = {}) {
+export default function reducer(state = initialState, action: any = {}): State {
 	switch (action.type) {
 		case types.CHAT.SYNC:
 			return {

@@ -3,14 +3,12 @@ import { connect } from 'react-redux';
 import GeneralPanel from './GeneralPanel';
 import { setDm } from '../../../../redux/actions/auth';
 import { NonPlayerCharacter } from '../../../../5e/models/Character';
-import {
-	updateNonPlayerCharacter,
-	saveNewNonPlayerCharacter
-} from '../../../../redux/actions/assets';
+import { Actions } from '../../../../redux/actions/assets';
 import { MapData } from '../../../../models/Map';
 import { setActiveMap } from '../../../../redux/actions/globalState';
 import { mapsUpdateBackgroundColour } from '../../../../redux/actions/maps';
 import { getCurrentMapBackgroundColour } from '../../../../redux/selectors/maps';
+import { State } from '../../../../redux/reducers';
 
 interface StateProps {
 	dm: boolean;
@@ -64,7 +62,7 @@ class GeneralPanelContainer extends Component<Props> {
 	}
 }
 
-const mapStateToProps = (state): StateProps => ({
+const mapStateToProps = (state: State): StateProps => ({
 	backgroundColour: getCurrentMapBackgroundColour(state),
 	dm: state.auth.dm,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
@@ -76,9 +74,9 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 		dispatch(mapsUpdateBackgroundColour(mapId, colour)),
 	setDm: (val: boolean) => dispatch(setDm(val)),
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) =>
-		dispatch(updateNonPlayerCharacter(characterId, character)),
+		dispatch(Actions.updateNonPlayerCharacter(characterId, character)),
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) =>
-		dispatch(saveNewNonPlayerCharacter(character)),
+		dispatch(Actions.saveNewNonPlayerCharacter(character)),
 	setActiveMap: (mapId: string) => dispatch(setActiveMap(mapId))
 });
 

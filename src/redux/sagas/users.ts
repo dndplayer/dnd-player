@@ -2,14 +2,7 @@ import { all, fork, delay, takeEvery, put } from 'redux-saga/effects';
 
 import rsf from '../rsf';
 import { database, auth } from 'firebase';
-import {
-	syncUserPresence,
-	syncUserPresenceFailed,
-	syncUsers,
-	syncUsersFailed,
-	SyncUsersAction,
-	USERS_SYNC
-} from '../actions/users';
+import { USERS_SYNC, Actions } from '../actions/users';
 import { setDm } from '../actions/auth';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -35,8 +28,8 @@ function* updatePresenceSaga(): any {
 		rsf.database.sync,
 		database(rsf.app).ref('/userPresence'),
 		{
-			successActionCreator: syncUserPresence,
-			failureActionCreator: syncUserPresenceFailed
+			successActionCreator: Actions.syncUserPresence,
+			failureActionCreator: Actions.syncUserPresenceFailed
 		},
 		'value'
 	);
@@ -48,21 +41,21 @@ function* updateUsersSaga(): any {
 		rsf.database.sync,
 		database(rsf.app).ref('/users'),
 		{
-			successActionCreator: syncUsers,
-			failureActionCreator: syncUsersFailed
+			successActionCreator: Actions.syncUsers,
+			failureActionCreator: Actions.syncUsersFailed
 		},
 		'value'
 	);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function* checkDmStateSaga(action: SyncUsersAction): any {
+function* checkDmStateSaga(action: ReturnType<typeof Actions.syncUsers>): any {
 	const me = auth().currentUser;
 	if (!me) {
 		return;
 	}
 
-	yield put(setDm(action.users && action.users[me.uid] && action.users[me.uid].dm));
+	yield put(setDm(action.payload && action.payload[me.uid] && action.payload[me.uid].dm));
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

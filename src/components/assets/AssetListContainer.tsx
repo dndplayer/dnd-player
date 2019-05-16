@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import AssetList from './AssetList';
 import { Upload } from '../../models/Upload';
 import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
-import { changeNonPlayerCharacterFilterText, openCharacterSheet } from '../../redux/actions/assets';
+import { Actions } from '../../redux/actions/assets';
 import { getFilteredNpcs } from '../../redux/selectors/assets';
+import { State } from '../../redux/reducers';
 
 interface StateProps {
 	playerCharacters: PlayerCharacter[];
@@ -46,7 +47,7 @@ class AssetListContainer extends Component<Props> {
 	}
 }
 
-const mapStateToProps = (state): StateProps => ({
+const mapStateToProps = (state: State): StateProps => ({
 	playerCharacters: state.assets.playerCharacters,
 	nonPlayerCharacters: getFilteredNpcs(state),
 	images: state.images.images,
@@ -54,8 +55,8 @@ const mapStateToProps = (state): StateProps => ({
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	changeNonPlayerCharacterFilterText: (text: string) =>
-		dispatch(changeNonPlayerCharacterFilterText(text)),
-	openCharacterSheet: (characterId: string) => dispatch(openCharacterSheet(characterId))
+		dispatch(Actions.changeNonPlayerCharacterFilterText(text)),
+	openCharacterSheet: (characterId: string) => dispatch(Actions.openCharacterSheet(characterId))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

@@ -1,46 +1,47 @@
 import {
-	UserActionTypes,
 	USERS_PRESENCE_SYNC,
 	USERS_SYNC_FAILED,
 	USERS_PRESENCE_SYNC_FAILED,
-	USERS_SYNC
+	USERS_SYNC,
+	Actions
 } from '../actions/users';
 import { User } from '../../models/User';
 
-export interface UsersState {
+interface State {
 	onlineUsers: string[];
 	users: { [key: string]: User };
 	userPresenceSyncError: Error;
 	usersSyncError: Error;
 }
-const initialState: UsersState = {
+
+const initialState: State = {
 	onlineUsers: [],
 	users: {},
 	userPresenceSyncError: null,
 	usersSyncError: null
 };
 
-export default function reducer(state = initialState, action: UserActionTypes): UsersState {
+export default function reducer(state = initialState, action: Actions): State {
 	switch (action.type) {
 		case USERS_PRESENCE_SYNC:
 			return {
 				...state,
-				onlineUsers: action.onlineUsers
+				onlineUsers: Object.keys(action.payload)
 			};
 		case USERS_PRESENCE_SYNC_FAILED:
 			return {
 				...state,
-				userPresenceSyncError: action.error
+				userPresenceSyncError: action.payload
 			};
 		case USERS_SYNC:
 			return {
 				...state,
-				users: action.users
+				users: action.payload
 			};
 		case USERS_SYNC_FAILED:
 			return {
 				...state,
-				usersSyncError: action.error
+				usersSyncError: action.payload
 			};
 		default:
 			return state;

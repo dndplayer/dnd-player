@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import CreateAsset from './CreateAsset';
 import { Upload } from '../../models/Upload';
 import { AssetType } from '../../models/AssetType';
-import { saveNewPlayerCharacter, saveNewNonPlayerCharacter } from '../../redux/actions/assets';
+import { Actions } from '../../redux/actions/assets';
 // import { saveNewAsset } from '../../redux/actions/assets';
 
 interface StateProps {
@@ -35,8 +35,8 @@ const mapStateToProps = (state): StateProps => ({
 	assets: state.assets.assets
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
-	saveNewPlayerCharacter: data => dispatch(saveNewPlayerCharacter(data)),
-	saveNewNonPlayerCharacter: data => dispatch(saveNewNonPlayerCharacter(data))
+	saveNewPlayerCharacter: data => dispatch(Actions.saveNewPlayerCharacter(data)),
+	saveNewNonPlayerCharacter: data => dispatch(Actions.saveNewNonPlayerCharacter(data))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

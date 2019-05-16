@@ -1,6 +1,6 @@
 import { types, SetDmAction } from '../actions/auth';
 
-interface AuthState {
+export interface AuthState {
 	loading: boolean;
 	loggedIn: boolean;
 	user?: firebase.User;
