@@ -19,7 +19,7 @@ export default class Ac extends PIXI.Container {
 				fontSize: 200
 			})
 		);
-		var texture = PIXI.Texture.fromImage(svg, undefined, undefined, 1.0);
+		var texture = PIXI.Texture.from(svg);
 		const sprite = new PIXI.Sprite(texture);
 		sprite.width = 128;
 		sprite.height = 96;

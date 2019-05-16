@@ -20,8 +20,7 @@ interface Props extends DraggableContainerProps {
 		| PIXI.Circle
 		| PIXI.Ellipse
 		| PIXI.Polygon
-		| PIXI.RoundedRectangle
-		| PIXI.HitArea;
+		| PIXI.RoundedRectangle;
 }
 
 class TokenContainer extends DraggableContainer {}

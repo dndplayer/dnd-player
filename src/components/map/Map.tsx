@@ -88,7 +88,7 @@ class Map extends Component<Props, State> {
 	private _stage: any;
 	private _mainWrapper: HTMLElement;
 
-	private loader: PIXI.loaders.Loader = PIXI.loader;
+	private loader: PIXI.Loader = PIXI.loader;
 
 	componentDidMount() {
 		this.loadAssets(this.props, this.state, true);
