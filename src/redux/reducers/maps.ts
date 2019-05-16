@@ -2,7 +2,8 @@ import {
 	types,
 	MapsSyncSuccessAction,
 	MapsSyncErrorAction,
-	MapsSelectObjectAction
+	MapsSelectObjectAction,
+	MapsToggleMeasureModeAction
 } from '../actions/maps';
 import { MapData } from '../../models/Map';
 
@@ -10,12 +11,14 @@ interface State {
 	maps?: MapData[];
 	error?: any;
 	selectedObjects: string[];
+	measureModeEnabled: boolean;
 }
 
 const initialState: State = {
 	maps: null,
 	error: null,
-	selectedObjects: []
+	selectedObjects: [],
+	measureModeEnabled: false
 };
 
 export default function mapsReducer(state: State = initialState, action: any = {}): State {
@@ -39,6 +42,14 @@ export default function mapsReducer(state: State = initialState, action: any = {
 			return {
 				...state,
 				selectedObjects: a.mapObjectId ? [a.mapObjectId] : []
+			};
+		}
+		case types.MAPS.MEASURE_MODE.TOGGLE: {
+			const a = action as MapsToggleMeasureModeAction;
+			return {
+				...state,
+				measureModeEnabled:
+					a.val !== undefined && a.val !== null ? a.val : !state.measureModeEnabled
 			};
 		}
 		default:

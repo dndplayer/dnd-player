@@ -23,6 +23,9 @@ export const types = {
 		},
 		SELECT: {
 			OBJECT: 'MAPS.SELECT.OBJECT'
+		},
+		MEASURE_MODE: {
+			TOGGLE: 'MAPS.MEASURE_MODE.TOGGLE'
 		}
 	}
 };
@@ -66,6 +69,10 @@ export interface MapsUpdateBackgroundColourAction extends Action {
 export interface MapsRemoveObjectAction extends Action {
 	mapId: string;
 	mapObjectId: string;
+}
+
+export interface MapsToggleMeasureModeAction extends Action {
+	val?: boolean;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -122,4 +129,9 @@ export const mapsRemoveObject = (mapId, mapObjectId): MapsRemoveObjectAction => 
 	type: types.MAPS.REMOVE.OBJECT,
 	mapId,
 	mapObjectId
+});
+
+export const mapsToggleMeasureMode = (val?: boolean): MapsToggleMeasureModeAction => ({
+	type: types.MAPS.MEASURE_MODE.TOGGLE,
+	val
 });

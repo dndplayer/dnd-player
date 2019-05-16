@@ -9,7 +9,8 @@ import {
 	mapsUpdateObject,
 	mapsAddAsset,
 	mapsAddImage,
-	mapsSelectObject
+	mapsSelectObject,
+	mapsToggleMeasureMode
 } from '../../redux/actions/maps';
 import { MapPing } from '../../models/MapPing';
 import { mapPingsSendPing } from '../../redux/actions/mapPings';
@@ -24,6 +25,7 @@ interface StateProps {
 	isUserDm: boolean;
 	user: firebase.User;
 	mapPings: MapPing[];
+	measureModeEnabled: boolean;
 }
 interface DispatchProps {
 	onUpdateObject: (mapId, mapObjectId, newData) => void;
@@ -31,6 +33,7 @@ interface DispatchProps {
 	onAddImageToMap: (mapId, imageRef, initialData) => void;
 	onSelectObject: (mapObjectId) => void;
 	sendPing: (ping: MapPing) => void;
+	toggleMeasureMode: (val?: boolean) => void;
 }
 interface OwnProps {}
 
@@ -52,7 +55,9 @@ class MapContainer extends Component<Props> {
 			isUserDm,
 			user,
 			sendPing,
-			mapPings
+			mapPings,
+			toggleMeasureMode,
+			measureModeEnabled
 		} = this.props;
 
 		const map = maps ? maps.find(x => x.id === activeMapId) : null;
@@ -77,6 +82,8 @@ class MapContainer extends Component<Props> {
 				user={user}
 				sendPing={sendPing}
 				mapPings={mapPings}
+				toggleMeasureMode={toggleMeasureMode}
+				measureModeEnabled={measureModeEnabled}
 			/>
 		);
 	}
@@ -91,7 +98,8 @@ const mapStateToProps = (state): StateProps => ({
 	user: state.auth.user,
 	maps: state.maps.maps,
 	activeMapId: state.globalState.state ? state.globalState.state.activeMapId : null,
-	mapPings: state.mapPings.pings
+	mapPings: state.mapPings.pings,
+	measureModeEnabled: state.maps.measureModeEnabled
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	onUpdateObject: (mapId, mapObjectId, data) =>
@@ -101,7 +109,8 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 	onAddImageToMap: (mapId, imageRef, initialData) =>
 		dispatch(mapsAddImage(mapId, imageRef, initialData)),
 	onSelectObject: data => dispatch(mapsSelectObject(data)),
-	sendPing: (ping: MapPing) => dispatch(mapPingsSendPing(ping))
+	sendPing: (ping: MapPing) => dispatch(mapPingsSendPing(ping)),
+	toggleMeasureMode: (val?: boolean) => dispatch(mapsToggleMeasureMode(val))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

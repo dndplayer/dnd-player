@@ -51,6 +51,8 @@ interface OwnProps {
 	user: firebase.User;
 	sendPing: (ping: MapPing) => void;
 	mapPings: MapPing[];
+	toggleMeasureMode: (val?: boolean) => void;
+	measureModeEnabled: boolean;
 }
 
 type Props = CollectProps & OwnProps;
@@ -102,6 +104,12 @@ class Map extends Component<Props, State> {
 
 	componentDidUpdate(prevProps: Props, prevState: State): void {
 		this.loadAssets(prevProps, prevState, false);
+
+		if (this.props.measureModeEnabled !== prevProps.measureModeEnabled) {
+			this.setState({
+				measuring: this.props.measureModeEnabled
+			});
+		}
 	}
 
 	handleWindowResize = () => {
@@ -298,7 +306,8 @@ class Map extends Component<Props, State> {
 							id="squaredOne"
 							name="check"
 							checked={this.state.measuring}
-							onChange={e => this.setState({ measuring: e.target.checked })}
+							// onChange={e => this.setState({ measuring: e.target.checked })}
+							onChange={e => this.props.toggleMeasureMode(e.target.checked)}
 						/>
 						<label htmlFor="squaredOne" />
 					</div>

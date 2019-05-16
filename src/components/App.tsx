@@ -20,15 +20,18 @@ import OverlayTabsContainer from './sidebar/OverlayTabsContainer';
 import { PersistGate } from 'redux-persist/integration/react';
 import { HotKeys, GlobalHotKeys } from 'react-hotkeys';
 import { openChat, closeChat } from '../redux/actions/chat';
+import { mapsToggleMeasureMode } from '../redux/actions/maps';
 
 const keyMap = {
 	OPEN_CHAT: 'enter',
-	CLOSE_CHAT: 'esc'
+	CLOSE_CHAT: 'esc',
+	TOGGLE_MEASURE_MODE: 'm'
 };
 
 const handlers = {
 	OPEN_CHAT: event => store.store.dispatch(openChat()),
-	CLOSE_CHAT: event => store.store.dispatch(closeChat())
+	CLOSE_CHAT: event => store.store.dispatch(closeChat()),
+	TOGGLE_MEASURE_MODE: event => store.store.dispatch(mapsToggleMeasureMode())
 };
 
 export class App extends Component<{}, {}> {
