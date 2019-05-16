@@ -80,45 +80,38 @@ class ChatContainer extends Component<Props, State> {
 				{!this.state.showWindowPortal ? (
 					// TODO: All this view specific code e.g. RND shouldn't be in the container!
 					// Containers are for Data, so move all this into a view based component.
-					<Rnd
-						default={{
-							x: 440,
-							y: -640,
-							width: '500px',
-							height: '600px'
-						}}
-						minWidth={200}
-						minHeight={100}
-						disableDragging={true}
-						style={{
-							zIndex: 1
-						}}
-					>
-						<div
-							style={{
-								height: '100%',
-								position: 'relative',
-								overflow: 'hidden'
-							}}
-						>
-							{this.props.messagesOpen && chat}
-							<ChatDisplay {...this.props} />
-							{this.props.messagesOpen && (
-								<Icon
-									style={{
-										position: 'absolute',
-										top: 5,
-										right: 5,
-										cursor: 'pointer',
-										fontSize: 18
-									}}
-									onClick={() => this.setState({ showWindowPortal: true })}
-								>
-									open_in_new
-								</Icon>
-							)}
-						</div>
-					</Rnd>
+					<div>
+						<ChatDisplay {...this.props} />
+						{this.props.messagesOpen && (
+							<Rnd
+								default={{
+									x: 440,
+									y: -640,
+									width: '500px',
+									height: '600px'
+								}}
+								minWidth={200}
+								minHeight={100}
+								disableDragging={true}
+							>
+								{this.props.messagesOpen && chat}
+								{this.props.messagesOpen && (
+									<Icon
+										style={{
+											position: 'absolute',
+											top: 5,
+											right: 5,
+											cursor: 'pointer',
+											fontSize: 18
+										}}
+										onClick={() => this.setState({ showWindowPortal: true })}
+									>
+										open_in_new
+									</Icon>
+								)}
+							</Rnd>
+						)}
+					</div>
 				) : (
 					<WindowPortal
 						title="Chat"
