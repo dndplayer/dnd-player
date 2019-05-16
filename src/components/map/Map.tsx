@@ -330,17 +330,6 @@ class Map extends Component<Props, State> {
 									polyPoints={[0, 0, 500, 500]}
 									viewportZoom={this.state.viewportZoom}
 								/>
-								{Object.keys(this.props.mapPings).map(x => {
-									const p = this.props.mapPings[x];
-									return (
-										<Ping
-											key={x}
-											// app={app}
-											position={new PIXI.Point(p.position.x, p.position.y)}
-											viewportZoom={this.state.viewportZoom}
-										/>
-									);
-								})}
 								{groupedObjects
 									.sort(layerSortFunc)
 									.map((layer: GroupedMapObject) => {
@@ -490,6 +479,17 @@ class Map extends Component<Props, State> {
 									}
 									color={0xff0000}
 								/>
+								{Object.keys(this.props.mapPings).map(x => {
+									const p = this.props.mapPings[x];
+									return (
+										<Ping
+											key={x}
+											// app={app}
+											position={new PIXI.Point(p.position.x, p.position.y)}
+											viewportZoom={this.state.viewportZoom}
+										/>
+									);
+								})}
 							</ViewportComponent>
 						)}
 					</AppConsumer>
