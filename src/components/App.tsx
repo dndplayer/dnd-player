@@ -18,23 +18,42 @@ import PropertiesPanelContainer from './propertiesPanel/PropertiesPanelContainer
 import ChatContainer from './chat/ChatContainer';
 import OverlayTabsContainer from './sidebar/OverlayTabsContainer';
 import { PersistGate } from 'redux-persist/integration/react';
-import { HotKeys, GlobalHotKeys } from 'react-hotkeys';
+import { HotKeys, configure as HotkeysConfigure, GlobalHotKeys } from 'react-hotkeys';
 import { openChat, closeChat } from '../redux/actions/chat';
 import { mapsToggleMeasureMode } from '../redux/actions/maps';
+import { keyUpShiftAction, keyDownShiftAction } from '../redux/actions/keys';
 
 const keyMap = {
 	OPEN_CHAT: 'enter',
 	CLOSE_CHAT: 'esc',
-	TOGGLE_MEASURE_MODE: 'm'
+	TOGGLE_MEASURE_MODE: 'm',
+	SHIFT_DOWN: { sequence: 'shift', action: 'keydown' },
+	SHIFT_UP: { sequence: 'shift', action: 'keyup' }
 };
 
 const handlers = {
 	OPEN_CHAT: event => store.store.dispatch(openChat()),
 	CLOSE_CHAT: event => store.store.dispatch(closeChat()),
-	TOGGLE_MEASURE_MODE: event => store.store.dispatch(mapsToggleMeasureMode())
+	TOGGLE_MEASURE_MODE: event => store.store.dispatch(mapsToggleMeasureMode()),
+	SHIFT_DOWN: event => {
+		console.log(event);
+		store.store.dispatch(keyDownShiftAction());
+	},
+	SHIFT_UP: event => {
+		console.log(event);
+		store.store.dispatch(keyUpShiftAction());
+	}
 };
 
 export class App extends Component<{}, {}> {
+	constructor(props) {
+		super(props);
+
+		HotkeysConfigure({
+			// logLevel: 'verbose'
+		});
+	}
+
 	render(): ReactNode {
 		const theme = createMuiTheme({
 			palette: {
@@ -45,7 +64,7 @@ export class App extends Component<{}, {}> {
 		return (
 			<Provider store={store.store}>
 				<PersistGate persistor={store.persistor}>
-					<GlobalHotKeys keyMap={keyMap} handlers={handlers} />
+					<GlobalHotKeys keyMap={keyMap as any} handlers={handlers} />
 					<HashRouter>
 						<DragDropContextProvider backend={HTML5Backend}>
 							<div className="App">
