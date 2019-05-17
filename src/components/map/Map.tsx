@@ -49,6 +49,12 @@ interface OwnProps {
 	toggleMeasureMode: (val?: boolean) => void;
 	measureModeEnabled: boolean;
 	fogEditMode: boolean;
+	onUpdateFogPolygon: (
+		mapId: string,
+		fogPolygonId: string,
+		position: PIXI.Point,
+		points?: number[]
+	) => void;
 }
 
 type Props = CollectProps & OwnProps;
@@ -330,11 +336,11 @@ class Map extends Component<Props, State> {
 								screenHeight={this.state.windowHeight}
 								onZoom={x => this.setState({ viewportZoom: x })}
 							>
-								<EditablePolygon
+								{/* <EditablePolygon
 									editMode={false}
 									polyPoints={[0, 0, 500, 500]}
 									viewportZoom={this.state.viewportZoom}
-								/>
+								/> */}
 								{groupedObjects
 									.sort(layerSortFunc)
 									.map((layer: GroupedMapObject) => {
@@ -478,13 +484,30 @@ class Map extends Component<Props, State> {
 										);
 									})}
 								<BasicFogLayer
-									visiblePolys={[
-										[-2000, -2000, 2000, -2000, 2000, 2000, -2000, 2000],
-										[-2000, -2000, -5880, 9990, 8920, 8830]
-									]}
+									fogData={this.props.mapData && this.props.mapData.fog}
 									dm={dm}
 									editing={this.props.fogEditMode}
 								/>
+								{dm &&
+									this.props.fogEditMode &&
+									this.props.mapData &&
+									this.props.mapData.fog.maskPolygons.length > 0 &&
+									this.props.mapData.fog.maskPolygons.map((x, idx) => (
+										<EditablePolygon
+											onUpdate={(position, points) => {
+												this.props.onUpdateFogPolygon(
+													this.props.mapData.id,
+													String(idx),
+													position,
+													points
+												);
+											}}
+											position={new PIXI.Point(x.position.x, x.position.y)}
+											editMode={this.props.fogEditMode}
+											polyPoints={x.points}
+											viewportZoom={this.state.viewportZoom}
+										/>
+									))}
 								<Ruler
 									visible={this.state.measuring}
 									measuring={this.state.measuring}

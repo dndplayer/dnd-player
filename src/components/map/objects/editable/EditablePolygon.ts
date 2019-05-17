@@ -7,17 +7,20 @@ import Handle from './Handle';
  * TODO: This could all do with refactoring!
  */
 export class EditablePolygonContainer extends PIXI.Container {
-	constructor(polyPoints: number[]) {
+	constructor(polyPoints: number[], onUpdate: (position: PIXI.Point, points: number[]) => void) {
 		super();
 
 		const poly = new PIXI.Polygon(polyPoints);
 		// poly.close();
+
+		this._onUpdate = onUpdate;
 
 		this._localPoints = polyPoints;
 		this._pPoints = this.convertToPoints(this._localPoints);
 
 		const g = new PIXI.Graphics();
 		g.lineStyle(8, 0x00ff00);
+		g.beginFill(0x00ff00, 0.4);
 		g.drawPolygon(poly);
 		g.endFill();
 		g.name = 'poly';
@@ -85,6 +88,14 @@ export class EditablePolygonContainer extends PIXI.Container {
 			this.redrawMidpoints();
 		}
 	}
+
+	public triggerUpdate(): void {
+		if (this._onUpdate) {
+			this._onUpdate(this.position, this._localPoints);
+		}
+	}
+
+	private _onUpdate: (position: PIXI.Point, points: number[]) => void;
 
 	private _viewportZoom: number = 1;
 
@@ -196,18 +207,24 @@ export class EditablePolygonContainer extends PIXI.Container {
 		this._dragging = false;
 		this._dragData = null;
 		this._dragGrabOffset = null;
+
+		this.triggerUpdate();
 	}
 }
 
 interface Props {
+	position: PIXI.Point;
 	editMode?: boolean;
 	polyPoints: number[];
 	viewportZoom: number;
+	onUpdate: (position: PIXI.Point, points: number[]) => void;
 }
 
 export default PixiComponent<Props, EditablePolygonContainer>('EditablePolygon', {
 	create: (props: Props): EditablePolygonContainer => {
-		const c = new EditablePolygonContainer(props.polyPoints);
+		const c = new EditablePolygonContainer(props.polyPoints, props.onUpdate);
+
+		c.position = props.position;
 
 		c.viewportZoom = props.viewportZoom;
 

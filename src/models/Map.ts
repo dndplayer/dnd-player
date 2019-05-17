@@ -33,10 +33,21 @@ export interface MapLayers {
 	// all: MapLayer;
 }
 
+export interface MaskPolygon {
+	points: number[];
+	position: { x: number; y: number };
+}
+
+export interface FogData {
+	colour?: string; // Possibly support different coloured fog e.g. swamp = green
+	maskPolygons?: MaskPolygon[];
+}
+
 export interface MapData {
 	id: string;
 	layers: MapLayers;
 	// objects: MapObject[];
 	objects: object;
 	backgroundColour?: string;
+	fog: FogData;
 }

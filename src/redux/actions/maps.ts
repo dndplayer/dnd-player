@@ -31,6 +31,10 @@ export const types = {
 			EDIT: {
 				ENABLE: 'MAPS.FOG.EDIT.ENABLE',
 				DISABLE: 'MAPS.FOG.EDIT.DISABLE'
+			},
+			UPDATE: {
+				POLYGON: 'MAPS.FOG.UPDATE.POLYGON',
+				COLOUR: 'MAPS.FOG.UPDATE.COLOUR'
 			}
 		}
 	}
@@ -83,6 +87,18 @@ export interface MapsToggleMeasureModeAction extends Action {
 
 export interface EnableFogEditModeAction extends Action {}
 export interface DisableFogEditModeAction extends Action {}
+
+export interface UpdateFogPolygonAction extends Action {
+	mapId: string;
+	fogPolygonId: string;
+	position: PIXI.Point;
+	points?: number[];
+}
+
+export interface UpdateFogColourAction extends Action {
+	mapId: string;
+	colour: string;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -151,4 +167,23 @@ export const enableFogEditMode = (): EnableFogEditModeAction => ({
 
 export const disableFogEditMode = (): DisableFogEditModeAction => ({
 	type: types.MAPS.FOG.EDIT.DISABLE
+});
+
+export const mapsUpdateFogPolygon = (
+	mapId: string,
+	fogPolygonId: string,
+	position: PIXI.Point,
+	points?: number[]
+): UpdateFogPolygonAction => ({
+	type: types.MAPS.FOG.UPDATE.POLYGON,
+	mapId,
+	fogPolygonId,
+	position,
+	points
+});
+
+export const mapsUpdateFogColour = (mapId: string, colour: string): UpdateFogColourAction => ({
+	type: types.MAPS.FOG.UPDATE.COLOUR,
+	mapId,
+	colour
 });

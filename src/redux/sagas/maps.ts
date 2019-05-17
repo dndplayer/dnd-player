@@ -10,7 +10,9 @@ import {
 	MapsAddAssetAction,
 	MapsAddImageAction,
 	MapsUpdateObjectAction,
-	MapsRemoveObjectAction
+	MapsRemoveObjectAction,
+	UpdateFogPolygonAction,
+	UpdateFogColourAction
 } from '../actions/maps';
 import { AssetType } from '../../models/AssetType';
 
@@ -84,6 +86,29 @@ function* removeObject(action: MapsRemoveObjectAction): any {
 	yield call(rsf.database.delete, `/maps/${mapId}/objects/${mapObjectId}`);
 }
 
+function* updateFogPolygon(action: UpdateFogPolygonAction): any {
+	const { mapId, fogPolygonId, position, points } = action;
+	if (!points || points.length === 0) {
+		yield call(rsf.database.delete, `/maps/${mapId}/fog/maskPolygons/${fogPolygonId}`);
+	} else {
+		yield call(
+			rsf.database.update,
+			`/maps/${mapId}/fog/maskPolygons/${fogPolygonId}/points`,
+			points
+		);
+		yield call(
+			rsf.database.update,
+			`/maps/${mapId}/fog/maskPolygons/${fogPolygonId}/position`,
+			{ x: position.x, y: position.y }
+		);
+	}
+}
+
+function* updateFogColour(action: UpdateFogColourAction): any {
+	const { mapId, colour } = action;
+	yield call(rsf.database.patch, `/maps/${mapId}/fog/colour`, colour);
+}
+
 export default function* rootSaga() {
 	yield all([
 		fork(syncMapsSaga),
@@ -91,6 +116,8 @@ export default function* rootSaga() {
 		takeEvery(types.MAPS.ASSET.ADD, addAssetToMap),
 		takeEvery(types.MAPS.IMAGE.ADD, addImageToMap),
 		takeEvery(types.MAPS.REMOVE.OBJECT, removeObject),
-		takeEvery(types.MAPS.UPDATE.OBJECT, updateObject)
+		takeEvery(types.MAPS.UPDATE.OBJECT, updateObject),
+		takeEvery(types.MAPS.FOG.UPDATE.POLYGON, updateFogPolygon),
+		takeEvery(types.MAPS.FOG.UPDATE.COLOUR, updateFogColour)
 	]);
 }

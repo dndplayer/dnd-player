@@ -10,7 +10,8 @@ import {
 	mapsAddAsset,
 	mapsAddImage,
 	mapsSelectObject,
-	mapsToggleMeasureMode
+	mapsToggleMeasureMode,
+	mapsUpdateFogPolygon
 } from '../../redux/actions/maps';
 import { MapPing } from '../../models/MapPing';
 import { mapPingsSendPing } from '../../redux/actions/mapPings';
@@ -35,6 +36,12 @@ interface DispatchProps {
 	onSelectObject: (mapObjectId) => void;
 	sendPing: (ping: MapPing) => void;
 	toggleMeasureMode: (val?: boolean) => void;
+	onUpdateFogPolygon: (
+		mapId: string,
+		fogPolygonId: string,
+		position: PIXI.Point,
+		points?: number[]
+	) => void;
 }
 interface OwnProps {}
 
@@ -59,7 +66,8 @@ class MapContainer extends Component<Props> {
 			mapPings,
 			toggleMeasureMode,
 			measureModeEnabled,
-			fogEditMode
+			fogEditMode,
+			onUpdateFogPolygon
 		} = this.props;
 
 		const map = maps ? maps.find(x => x.id === activeMapId) : null;
@@ -87,6 +95,7 @@ class MapContainer extends Component<Props> {
 				toggleMeasureMode={toggleMeasureMode}
 				measureModeEnabled={measureModeEnabled}
 				fogEditMode={fogEditMode}
+				onUpdateFogPolygon={onUpdateFogPolygon}
 			/>
 		);
 	}
@@ -114,7 +123,13 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 		dispatch(mapsAddImage(mapId, imageRef, initialData)),
 	onSelectObject: data => dispatch(mapsSelectObject(data)),
 	sendPing: (ping: MapPing) => dispatch(mapPingsSendPing(ping)),
-	toggleMeasureMode: (val?: boolean) => dispatch(mapsToggleMeasureMode(val))
+	toggleMeasureMode: (val?: boolean) => dispatch(mapsToggleMeasureMode(val)),
+	onUpdateFogPolygon: (
+		mapId: string,
+		fogPolygonId: string,
+		position: PIXI.Point,
+		points?: number[]
+	) => dispatch(mapsUpdateFogPolygon(mapId, fogPolygonId, position, points))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

@@ -47,6 +47,12 @@ export default class Handle extends PIXI.Graphics {
 		this._dragging = false;
 		this._dragData = null;
 
+		// Trigger updates only on mouse up, not mouse move to save keep hitting the DB
+		const p = this.parent as EditablePolygonContainer;
+		if (p) {
+			p.triggerUpdate();
+		}
+
 		// this.redraw();
 	}
 

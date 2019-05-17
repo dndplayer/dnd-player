@@ -1,8 +1,9 @@
 import * as PIXI from 'pixi.js';
 import { PixiComponent } from '@inlet/react-pixi';
+import { FogData } from '../../models/Map';
 
 interface Props {
-	visiblePolys: number[][];
+	fogData?: FogData;
 	dm: boolean;
 	editing: boolean;
 }
@@ -13,37 +14,57 @@ export default PixiComponent<Props, PIXI.Container>('BasicFogLayer', {
 		c.position.set(0, 0);
 		c.pivot.set(0.5, 0.5);
 
+		const curtain = new PIXI.Graphics();
+		curtain.name = 'curtain';
+		c.addChild(curtain);
+
+		const mask = new PIXI.Graphics();
+		mask.name = 'mask';
+		c.addChild(mask);
+
 		return c;
 	},
 	applyProps: (instance: PIXI.Container, oldProps: Props, newProps: Props): void => {
 		instance.interactive = newProps.editing;
 
-		if (
-			newProps.dm === oldProps.dm &&
-			newProps.visiblePolys &&
-			oldProps.visiblePolys &&
-			newProps.visiblePolys.flat(2).toString() === oldProps.visiblePolys.flat(2).toString()
-		) {
+		if (!oldProps.fogData && !newProps.fogData) {
 			return;
 		}
 
-		instance.interactive = false; //newProps.dm;
-		const g = new PIXI.Graphics();
-		g.beginFill(0x000000, newProps.dm ? 0.5 : 1)
-			.drawRect(-10000000, -10000000, 20000000, 20000000)
-			.endFill();
-		const g2 = new PIXI.Graphics();
-		g2.beginFill(0xffffff);
-		for (const poly of newProps.visiblePolys) {
-			g2.drawPolygon(poly);
+		if (!newProps.fogData.maskPolygons || newProps.fogData.maskPolygons.length === 0) {
+			return;
 		}
-		g2.endFill();
 
-		instance.removeChildren();
-		instance.addChild(g);
-		instance.addChild(g2);
+		const mask = instance.getChildByName('mask') as PIXI.Graphics;
+		const curtain = instance.getChildByName('curtain') as PIXI.Graphics;
+		if (!mask || !curtain) {
+			return;
+		}
+
+		curtain.clear();
+		curtain.beginFill(0x0, newProps.dm ? 0.5 : 1);
+		curtain.drawRect(-10000000, -10000000, 20000000, 20000000);
+		curtain.endFill();
+
+		mask.clear();
+		mask.beginFill(0xffffff);
+		for (const poly of newProps.fogData.maskPolygons) {
+			if (poly.points.length % 2 !== 0) {
+				// We require an even number
+				continue;
+			}
+			// mask.moveTo(poly.position.x, poly.position.y)
+			// mask.drawPolygon(poly.points);
+			const mappedPoints = poly.points.map((x, idx) =>
+				idx % 2 === 0 ? x + poly.position.x : x + poly.position.y
+			);
+			mask.drawPolygon(mappedPoints);
+		}
+		mask.endFill();
+
 		instance.filters = [new PIXI.filters.BlurFilter(16), new PIXI.filters.AlphaFilter()];
 		instance.filters[1].blendMode = PIXI.BLEND_MODES.MULTIPLY;
+
 		/*
 		if (oldProps.viewportZoom !== newProps.viewportZoom) {
 			instance.scale.set(
