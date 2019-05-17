@@ -6,6 +6,7 @@ interface Props {
 	fogData?: FogData;
 	dm: boolean;
 	editing: boolean;
+	viewportZoom: number;
 }
 
 export default PixiComponent<Props, PIXI.Container>('BasicFogLayer', {
@@ -62,7 +63,12 @@ export default PixiComponent<Props, PIXI.Container>('BasicFogLayer', {
 		}
 		mask.endFill();
 
-		instance.filters = [new PIXI.filters.BlurFilter(16), new PIXI.filters.AlphaFilter()];
+		const blurRadius = 64 * newProps.viewportZoom;
+
+		instance.filters = [
+			new PIXI.filters.BlurFilter(blurRadius),
+			new PIXI.filters.AlphaFilter()
+		];
 		instance.filters[1].blendMode = PIXI.BLEND_MODES.MULTIPLY;
 
 		/*

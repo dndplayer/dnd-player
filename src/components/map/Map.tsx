@@ -487,6 +487,7 @@ class Map extends Component<Props, State> {
 									fogData={this.props.mapData && this.props.mapData.fog}
 									dm={dm}
 									editing={this.props.fogEditMode}
+									viewportZoom={this.state.viewportZoom}
 								/>
 								{dm &&
 									this.props.fogEditMode &&
