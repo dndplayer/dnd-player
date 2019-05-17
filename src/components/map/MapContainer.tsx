@@ -26,6 +26,7 @@ interface StateProps {
 	user: firebase.User;
 	mapPings: MapPing[];
 	measureModeEnabled: boolean;
+	fogEditMode: boolean;
 }
 interface DispatchProps {
 	onUpdateObject: (mapId, mapObjectId, newData) => void;
@@ -57,7 +58,8 @@ class MapContainer extends Component<Props> {
 			sendPing,
 			mapPings,
 			toggleMeasureMode,
-			measureModeEnabled
+			measureModeEnabled,
+			fogEditMode
 		} = this.props;
 
 		const map = maps ? maps.find(x => x.id === activeMapId) : null;
@@ -84,6 +86,7 @@ class MapContainer extends Component<Props> {
 				mapPings={mapPings}
 				toggleMeasureMode={toggleMeasureMode}
 				measureModeEnabled={measureModeEnabled}
+				fogEditMode={fogEditMode}
 			/>
 		);
 	}
@@ -99,7 +102,8 @@ const mapStateToProps = (state): StateProps => ({
 	maps: state.maps.maps,
 	activeMapId: state.globalState.state ? state.globalState.state.activeMapId : null,
 	mapPings: state.mapPings.pings,
-	measureModeEnabled: state.maps.measureModeEnabled
+	measureModeEnabled: state.maps.measureModeEnabled,
+	fogEditMode: state.maps.fogEditMode
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	onUpdateObject: (mapId, mapObjectId, data) =>

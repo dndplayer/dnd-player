@@ -48,6 +48,7 @@ interface OwnProps {
 	mapPings: MapPing[];
 	toggleMeasureMode: (val?: boolean) => void;
 	measureModeEnabled: boolean;
+	fogEditMode: boolean;
 }
 
 type Props = CollectProps & OwnProps;
@@ -482,7 +483,7 @@ class Map extends Component<Props, State> {
 										[-2000, -2000, -5880, 9990, 8920, 8830]
 									]}
 									dm={dm}
-									editing={false}
+									editing={this.props.fogEditMode}
 								/>
 								<Ruler
 									visible={this.state.measuring}
