@@ -1,4 +1,4 @@
-import { all, fork, delay, takeEvery, put } from 'redux-saga/effects';
+import { all, fork, delay, takeEvery, put, select } from 'redux-saga/effects';
 
 import rsf from '../rsf';
 import { database, auth } from 'firebase';
@@ -10,7 +10,7 @@ import {
 	SyncUsersAction,
 	types
 } from '../actions/users';
-import { setDm } from '../actions/auth';
+import { setCanBeDm, setDm } from '../actions/auth';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function* updatePresenceSaga(): any {
@@ -62,7 +62,11 @@ function* checkDmStateSaga(action: SyncUsersAction): any {
 		return;
 	}
 
-	yield put(setDm(action.users && action.users[me.uid] && action.users[me.uid].dm));
+	const isDm = action.users && action.users[me.uid] && action.users[me.uid].dm;
+	const wasDm = yield select(state => state.auth.canBeDm);
+	if (isDm !== wasDm) {
+		yield put(setCanBeDm(isDm));
+	}
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

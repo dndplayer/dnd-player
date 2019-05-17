@@ -12,11 +12,20 @@ export const types = {
 		FAILURE: 'LOGOUT.FAILURE'
 	},
 	DM: {
-		SET: 'AUTH.DM.SET'
+		SET: 'AUTH.DM.SET' as 'AUTH.DM.SET'
+	},
+	CAN_BE_DM: {
+		SET: 'AUTH.CAN_BE_DM.SET' as 'AUTH.CAN_BE_DM.SET'
 	}
 };
 
+export type AuthActions = SetDmAction | SetCanBeDmAction;
+
 export interface SetDmAction extends Action {
+	value: boolean;
+}
+
+export interface SetCanBeDmAction extends Action {
 	value: boolean;
 }
 
@@ -51,5 +60,9 @@ export const logoutFailure = error => ({
 
 export const setDm = (val: boolean): SetDmAction => ({
 	type: types.DM.SET,
+	value: val
+});
+export const setCanBeDm = (val: boolean): SetCanBeDmAction => ({
+	type: types.CAN_BE_DM.SET,
 	value: val
 });

@@ -18,6 +18,7 @@ interface Props {
 	setActiveMap: (mapId: string) => void;
 	stageBackground: string;
 	dm: boolean;
+	canBeDm: boolean;
 	roomUrl: string;
 	nonPlayerCharacters: NonPlayerCharacter[];
 	updateStageBackground: (mapId: string, colour: string) => void;
@@ -59,7 +60,7 @@ export default class GeneralPanel extends Component<Props, State> {
 	};
 
 	onChangeDm = (e): void => {
-		this.props.setDm(!!e.target.checked);
+		this.props.setDm(!e.target.checked);
 	};
 
 	onChangeActiveMap = (e): void => {
@@ -134,89 +135,87 @@ export default class GeneralPanel extends Component<Props, State> {
 		return (
 			<div className={styles.generalPanel}>
 				<h1>General</h1>
-
 				<h2>TODO:</h2>
 				<ul style={{ marginBottom: '50px' }}>
 					<li>Logout button</li>
 				</ul>
-
-				{this.props.dm && (
-					<div className={styles.settingWrapper}>
-						<div className={styles.settingRow}>
-							<Tooltip
-								PopperProps={{
-									disablePortal: true
-								}}
-								placement="top"
-								open={this.state.roomUrlCopiedTooltipOpen}
-								disableFocusListener
-								disableHoverListener
-								disableTouchListener
-								title="Copied!"
-							>
-								<Button variant="contained" fullWidth onClick={this.copyRoomUrl}>
-									Copy Room URL
-								</Button>
-							</Tooltip>
+				<div className={styles.settingWrapper}>
+					{this.props.dm && (
+						<div>
+							<div className={styles.settingRow}>
+								<Tooltip
+									PopperProps={{
+										disablePortal: true
+									}}
+									placement="top"
+									open={this.state.roomUrlCopiedTooltipOpen}
+									disableFocusListener
+									disableHoverListener
+									disableTouchListener
+									title="Copied!"
+								>
+									<Button
+										variant="contained"
+										fullWidth
+										onClick={this.copyRoomUrl}
+									>
+										Copy Room URL
+									</Button>
+								</Tooltip>
+							</div>
+							<div className={styles.settingRow}>
+								<input
+									type="color"
+									id="stageBackground"
+									name="stageBackground"
+									onChange={this.onChangeStageBackground}
+									value={this.state.stageBackground}
+									style={{
+										margin: '.4rem'
+									}}
+								/>
+								<label
+									htmlFor="stageBackground"
+									style={{ font: '1rem "Fira Sans", sans-serif' }}
+								>
+									Map Background Colour
+								</label>
+							</div>
+							<Button onClick={() => this.importNpcs()}>Import NPCs</Button>
+							<Button onClick={() => this.exportNpcs()}>Export NPCs</Button>
 						</div>
-
-						<div className={styles.settingRow}>
-							<input
-								type="color"
-								id="stageBackground"
-								name="stageBackground"
-								onChange={this.onChangeStageBackground}
-								value={this.state.stageBackground}
-								style={{
-									margin: '.4rem'
-								}}
-							/>
-							<label
-								htmlFor="stageBackground"
-								style={{ font: '1rem "Fira Sans", sans-serif' }}
-							>
-								Map Background Colour
-							</label>
-						</div>
-
-						<Button onClick={() => this.importNpcs()}>Import NPCs</Button>
-						<Button onClick={() => this.exportNpcs()}>Export NPCs</Button>
-
+					)}
+					{this.props.canBeDm && (
 						<div className={styles.settingRow}>
 							<FormControlLabel
 								control={
-									<Switch
-										disabled
-										checked={this.props.dm}
-										onChange={this.onChangeDm}
-									/>
+									<Switch checked={!this.props.dm} onChange={this.onChangeDm} />
 								}
-								label="Is DM?"
+								label="View as Player?"
 							/>
 						</div>
-
-						{this.props.dm && (
-							<div className={styles.settingRow}>
-								<span>Active Map ID {this.props.activeMapId}</span>
-								<select
-									value={this.state.activeMapId}
-									onChange={this.onChangeActiveMap}
-								>
-									{this.props.maps.map(x => (
-										<option key={x.id} value={x.id}>
-											{x.id}
-										</option>
-									))}
-								</select>
-								<button onClick={this.changeMap}>Change!</button>
-								<div>
-									Warning: This is still a little buggy! E.g. You need to refresh
-									once changed
-								</div>
+					)}
+					{this.props.dm && (
+						<div className={styles.settingRow}>
+							<span>Active Map ID {this.props.activeMapId}</span>
+							<select
+								value={this.state.activeMapId}
+								onChange={this.onChangeActiveMap}
+							>
+								{this.props.maps.map(x => (
+									<option key={x.id} value={x.id}>
+										{x.id}
+									</option>
+								))}
+							</select>
+							<button onClick={this.changeMap}>Change!</button>
+							<div>
+								Warning: This is still a little buggy! E.g. You need to refresh once
+								changed
 							</div>
-						)}
-					</div>
-				)}
+						</div>
+					)}
+				</div>
 			</div>
 		);
 	}

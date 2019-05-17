@@ -1,7 +1,6 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import GeneralPanel from './GeneralPanel';
-import { setDm } from '../../../../redux/actions/auth';
 import { NonPlayerCharacter } from '../../../../5e/models/Character';
 import {
 	updateNonPlayerCharacter,
@@ -11,9 +10,11 @@ import { MapData } from '../../../../models/Map';
 import { setActiveMap } from '../../../../redux/actions/globalState';
 import { mapsUpdateBackgroundColour } from '../../../../redux/actions/maps';
 import { getCurrentMapBackgroundColour } from '../../../../redux/selectors/maps';
+import { setDm } from '../../../../redux/actions/auth';
 
 interface StateProps {
 	dm: boolean;
+	canBeDm: boolean;
 	backgroundColour?: string;
 	nonPlayerCharacters: NonPlayerCharacter[];
 	maps: MapData[];
@@ -36,6 +37,7 @@ class GeneralPanelContainer extends Component<Props> {
 			backgroundColour,
 			updateStageBackground,
 			dm,
+			canBeDm,
 			setDm,
 			maps,
 			setActiveMap,
@@ -52,6 +54,7 @@ class GeneralPanelContainer extends Component<Props> {
 				activeMapId={activeMapId}
 				setActiveMap={setActiveMap}
 				dm={dm}
+				canBeDm={canBeDm}
 				setDm={setDm}
 				stageBackground={backgroundColour}
 				updateStageBackground={updateStageBackground}
@@ -67,6 +70,7 @@ class GeneralPanelContainer extends Component<Props> {
 const mapStateToProps = (state): StateProps => ({
 	backgroundColour: getCurrentMapBackgroundColour(state),
 	dm: state.auth.dm,
+	canBeDm: state.auth.canBeDm,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
 	maps: state.maps.maps,
 	activeMapId: state.globalState.state.activeMapId
