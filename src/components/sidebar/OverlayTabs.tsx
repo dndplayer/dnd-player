@@ -8,6 +8,7 @@ import AssetListContainer from '../assets/AssetListContainer';
 import CreateAssetContainer from '../assets/CreateAssetContainer';
 import ImageUploaderContainer from './panels/imageUploader/ImageUploaderContainer';
 import GeneralPanelContainer from './panels/general/GeneralPanelContainer';
+import MapPanelContainer from './panels/map/MapPanelContainer';
 
 interface Props {
 	open: boolean;
@@ -80,6 +81,12 @@ export default class OverlayTabs extends Component<Props> {
 						active={this.props.currentPanel === OverlayPanelTypes.GENERAL}
 						onClick={this.onClickTab(OverlayPanelTypes.GENERAL)}
 					/>
+					<OverlayTab
+						text="Map"
+						name="map"
+						active={this.props.currentPanel === OverlayPanelTypes.MAP}
+						onClick={this.onClickTab(OverlayPanelTypes.MAP)}
+					/>
 				</div>
 				<div
 					style={{
@@ -131,6 +138,11 @@ export default class OverlayTabs extends Component<Props> {
 					{this.props.currentPanel === OverlayPanelTypes.GENERAL && (
 						<OverlayPanel>
 							<GeneralPanelContainer />
+						</OverlayPanel>
+					)}
+					{this.props.currentPanel === OverlayPanelTypes.MAP && (
+						<OverlayPanel>
+							<MapPanelContainer />
 						</OverlayPanel>
 					)}
 				</div>
