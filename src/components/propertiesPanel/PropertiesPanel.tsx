@@ -4,8 +4,9 @@ import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { MapData, MapObject } from '../../models/Map';
 import RotationSelector from './controls/RotationSelector';
-import InlineCharacterSheetContainer from '../../5e/components/characterSheet/InlineCharacterSheetContainer';
+import TokenCharacterSheetContainer from '../../5e/components/characterSheet/TokenCharacterSheetContainer';
 import { FormControlLabel, Switch, Button } from '@material-ui/core';
+import Token from '../map/objects/Token';
 
 const wrapperStyle = {
 	position: 'absolute' as 'absolute',
@@ -170,7 +171,12 @@ export default class PropertiesPanel extends Component<Props, State> {
 					}}
 				>
 					{object.npcId && (
-						<InlineCharacterSheetContainer characterSheetId={object.npcId} />
+						<TokenCharacterSheetContainer
+							characterSheetId={object.npcId}
+							token={object}
+							tokenId={this.state.objectId}
+							mapId={this.props.map.id}
+						/>
 					)}
 					<PropertyRow>
 						Rotation

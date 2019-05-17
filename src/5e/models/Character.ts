@@ -39,6 +39,8 @@ export interface NonPlayerCharacter extends Character {
 	cr: number;
 	ac: number;
 	acType: string;
+	hp?: number;
+	maxHp?: number;
 	hpDice: string;
 	actions: Attack[];
 	reactions: Attack[];

@@ -4,29 +4,29 @@ import PlayerCharacterSheetWrapper from './pc/PlayerCharacterSheetWrapper';
 
 import { saveNewMessage } from '../../../redux/actions/chat';
 import { Character, PlayerCharacter, NonPlayerCharacter } from '../../models/Character';
-import { updatePlayerCharacter, updateNonPlayerCharacter } from '../../../redux/actions/assets';
+import { updateNonPlayerCharacter } from '../../../redux/actions/assets';
 import { Upload } from '../../../models/Upload';
 import NonPlayerCharacterSheetWrapper from './npc/NonPlayerCharacterSheetWrapper';
 import { ChatMessageData } from '../../../models/ChatMessage';
+import { MapObject } from '../../../models/Map';
+import { mapsUpdateObject } from '../../../redux/actions/maps';
 
 const mapStateToProps = (state): any => ({
-	playerCharacters: state.assets.playerCharacters,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
 	images: state.images.images
 });
 
 const mapDispatchToProps = (dispatch): any => ({
 	sendMessage: (message, data?) => dispatch(saveNewMessage(message, data)),
-	updatePlayerCharacter: (characterId, character) =>
-		dispatch(updatePlayerCharacter(characterId, character)),
 	updateNonPlayerCharacter: (characterId, character) =>
-		dispatch(updateNonPlayerCharacter(characterId, character))
+		dispatch(updateNonPlayerCharacter(characterId, character)),
+	updateToken: (mapId, tokenId, token) => dispatch(mapsUpdateObject(mapId, tokenId, token))
 });
 
 interface DispatchFromProps {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
-	updatePlayerCharacter: (characterId: string, character: Character) => void;
 	updateNonPlayerCharacter: (characterId: string, character: Character) => void;
+	updateToken: (mapId: string, tokenId: string, token: MapObject) => void;
 }
 
 interface StateFromProps {
@@ -37,50 +37,53 @@ interface StateFromProps {
 
 interface OwnProps {
 	characterSheetId: string;
+	token: MapObject;
+	tokenId: string;
+	mapId: string;
 }
 
 type Props = DispatchFromProps & StateFromProps & OwnProps;
 
-export class InlineCharacterSheetContainer extends Component<Props> {
+export class TokenCharacterSheetContainer extends Component<Props> {
 	render(): ReactNode {
-		const { images, playerCharacters, nonPlayerCharacters, characterSheetId } = this.props;
+		const { images, nonPlayerCharacters, characterSheetId, token } = this.props;
+		const updateCharacter = this.updateCharacter.bind(this);
 
 		if (!characterSheetId) {
 			return null;
-		}
-		const pc = playerCharacters.find(x => x.id === characterSheetId);
-		if (pc) {
-			const image = images.find(x => x.filePath === pc.imageRef);
-			return (
-				<PlayerCharacterSheetWrapper
-					character={pc}
-					image={image}
-					editing={false}
-					inline={true}
-					{...this.props}
-				/>
-			);
 		}
 		const npc = nonPlayerCharacters.find(x => x.id === characterSheetId);
 		if (npc) {
 			const image = images.find(x => x.filePath === npc.imageRef);
 			return (
 				<NonPlayerCharacterSheetWrapper
-					character={npc}
+					{...this.props}
+					character={{
+						...npc,
+						hp: token.hp && token.hp.value,
+						maxHp: token.hp && token.hp.max
+					}}
 					characterId={this.props.characterSheetId}
 					image={image}
 					editing={false}
 					inline={true}
-					{...this.props}
+					updateNonPlayerCharacter={updateCharacter}
 				/>
 			);
 		}
 
 		return null;
 	}
+
+	updateCharacter(characterId, character) {
+		this.props.updateToken(this.props.mapId, this.props.tokenId, {
+			...this.props.token,
+			hp: { value: character.hp, max: character.maxHp }
+		});
+	}
 }
 
 export default connect<StateFromProps, DispatchFromProps, OwnProps>(
 	mapStateToProps,
 	mapDispatchToProps
-)(InlineCharacterSheetContainer);
+)(TokenCharacterSheetContainer);

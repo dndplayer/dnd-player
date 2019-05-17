@@ -16,10 +16,11 @@ import { mdiFileDocumentEdit } from '@mdi/js';
 import Rules from '../../../5eRules';
 import Speeds from './Speeds';
 import SavingThrows from './SavingThrows';
+import InlineCalculator from '../../../../components/util/InlineCalculator';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
-	updateNonPlayerCharacter: (characterId: string, character: Character) => void;
+	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) => void;
 	editNonPlayerCharacter?: (characterId: string) => void;
 	character: NonPlayerCharacter;
 	characterId: string;
@@ -67,7 +68,29 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 				</div>
 				<div>
 					<span className={css.boldHeading}>Hit Points</span>
-					<span>{character.hpDice}</span>
+					{(character.maxHp && (
+						<span className="row">
+							<InlineCalculator
+								value={character.hp}
+								onEnter={v =>
+									this.props.updateNonPlayerCharacter(this.props.characterId, {
+										...this.props.character,
+										hp: v
+									})
+								}
+							/>{' '}
+							/{' '}
+							<InlineCalculator
+								value={character.maxHp}
+								onEnter={v =>
+									this.props.updateNonPlayerCharacter(this.props.characterId, {
+										...this.props.character,
+										maxHp: v
+									})
+								}
+							/>
+						</span>
+					)) || <span>{character.hpDice}</span>}
 				</div>
 				<Speeds {...this.props} />
 				<hr className={css.divider} />
