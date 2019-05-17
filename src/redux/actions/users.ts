@@ -1,9 +1,15 @@
 import { User } from '../../models/User';
 
-export const USERS_PRESENCE_SYNC = 'USERS.PRESENCE.SYNC';
-export const USERS_PRESENCE_SYNC_FAILED = 'USERS.PRESENCE.SYNC_FAILED';
-export const USERS_SYNC = 'USERS.SYNC';
-export const USERS_SYNC_FAILED = 'USERS.SYNC_FAILED';
+export const types = {
+	USERS: {
+		PRESENCE: {
+			SYNC: 'USERS.PRESENCE.SYNC' as 'USERS.PRESENCE.SYNC',
+			SYNC_FAILED: 'USERS.PRESENCE.SYNC_FAILED' as 'USERS.PRESENCE.SYNC_FAILED'
+		},
+		SYNC: 'USERS.SYNC' as 'USERS.SYNC',
+		SYNC_FAILED: 'USERS.SYNC_FAILED' as 'USERS.SYNC_FAILED'
+	}
+};
 
 // --------------------------------------------------------
 // Action type interfaces
@@ -16,22 +22,22 @@ export type UserActionTypes =
 	| SyncUsersFailedAction;
 
 export interface SyncUserPresenceAction {
-	type: typeof USERS_PRESENCE_SYNC;
+	type: typeof types.USERS.PRESENCE.SYNC;
 	onlineUsers: string[];
 }
 
 export interface SyncUserPresenceFailedAction {
-	type: typeof USERS_PRESENCE_SYNC_FAILED;
+	type: typeof types.USERS.PRESENCE.SYNC_FAILED;
 	error: Error;
 }
 
 export interface SyncUsersAction {
-	type: typeof USERS_SYNC;
+	type: typeof types.USERS.SYNC;
 	users: { [key: string]: User };
 }
 
 export interface SyncUsersFailedAction {
-	type: typeof USERS_SYNC_FAILED;
+	type: typeof types.USERS.SYNC_FAILED;
 	error: Error;
 }
 
@@ -39,21 +45,21 @@ export interface SyncUsersFailedAction {
 // Action creators
 // --------------------------------------------------------
 export const syncUserPresence = (onlineUsers: object): SyncUserPresenceAction => ({
-	type: USERS_PRESENCE_SYNC,
+	type: types.USERS.PRESENCE.SYNC,
 	onlineUsers: Object.keys(onlineUsers)
 });
 
 export const syncUserPresenceFailed = (error: Error): SyncUserPresenceFailedAction => ({
-	type: USERS_PRESENCE_SYNC_FAILED,
+	type: types.USERS.PRESENCE.SYNC_FAILED,
 	error
 });
 
 export const syncUsers = (users: { [key: string]: User }): SyncUsersAction => ({
-	type: USERS_SYNC,
+	type: types.USERS.SYNC,
 	users: users
 });
 
 export const syncUsersFailed = (error: Error): SyncUsersFailedAction => ({
-	type: USERS_SYNC_FAILED,
+	type: types.USERS.SYNC_FAILED,
 	error
 });

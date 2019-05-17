@@ -8,7 +8,7 @@ import {
 	syncUsers,
 	syncUsersFailed,
 	SyncUsersAction,
-	USERS_SYNC
+	types
 } from '../actions/users';
 import { setDm } from '../actions/auth';
 
@@ -70,6 +70,6 @@ export default function* rootSaga(): any {
 	yield all([
 		fork(updatePresenceSaga),
 		fork(updateUsersSaga),
-		takeEvery(USERS_SYNC, checkDmStateSaga)
+		takeEvery(types.USERS.SYNC, checkDmStateSaga)
 	]);
 }
