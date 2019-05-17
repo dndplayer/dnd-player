@@ -3,7 +3,9 @@ import {
 	MapsSyncSuccessAction,
 	MapsSyncErrorAction,
 	MapsSelectObjectAction,
-	MapsToggleMeasureModeAction
+	MapsToggleMeasureModeAction,
+	EnableFogEditModeAction,
+	DisableFogEditModeAction
 } from '../actions/maps';
 import { MapData } from '../../models/Map';
 
@@ -12,13 +14,15 @@ interface State {
 	error?: any;
 	selectedObjects: string[];
 	measureModeEnabled: boolean;
+	fogEditMode: boolean;
 }
 
 const initialState: State = {
 	maps: null,
 	error: null,
 	selectedObjects: [],
-	measureModeEnabled: false
+	measureModeEnabled: false,
+	fogEditMode: false
 };
 
 export default function mapsReducer(state: State = initialState, action: any = {}): State {
@@ -50,6 +54,18 @@ export default function mapsReducer(state: State = initialState, action: any = {
 				...state,
 				measureModeEnabled:
 					a.val !== undefined && a.val !== null ? a.val : !state.measureModeEnabled
+			};
+		}
+		case types.MAPS.FOG.EDIT.DISABLE: {
+			return {
+				...state,
+				fogEditMode: false
+			};
+		}
+		case types.MAPS.FOG.EDIT.ENABLE: {
+			return {
+				...state,
+				fogEditMode: true
 			};
 		}
 		default:

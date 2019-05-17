@@ -26,6 +26,12 @@ export const types = {
 		},
 		MEASURE_MODE: {
 			TOGGLE: 'MAPS.MEASURE_MODE.TOGGLE'
+		},
+		FOG: {
+			EDIT: {
+				ENABLE: 'MAPS.FOG.EDIT.ENABLE',
+				DISABLE: 'MAPS.FOG.EDIT.DISABLE'
+			}
 		}
 	}
 };
@@ -74,6 +80,9 @@ export interface MapsRemoveObjectAction extends Action {
 export interface MapsToggleMeasureModeAction extends Action {
 	val?: boolean;
 }
+
+export interface EnableFogEditModeAction extends Action {}
+export interface DisableFogEditModeAction extends Action {}
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -134,4 +143,12 @@ export const mapsRemoveObject = (mapId, mapObjectId): MapsRemoveObjectAction => 
 export const mapsToggleMeasureMode = (val?: boolean): MapsToggleMeasureModeAction => ({
 	type: types.MAPS.MEASURE_MODE.TOGGLE,
 	val
+});
+
+export const enableFogEditMode = (): EnableFogEditModeAction => ({
+	type: types.MAPS.FOG.EDIT.ENABLE
+});
+
+export const disableFogEditMode = (): DisableFogEditModeAction => ({
+	type: types.MAPS.FOG.EDIT.DISABLE
 });

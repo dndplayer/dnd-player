@@ -1,8 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component, ReactNode, ChangeEvent } from 'react';
 import { Button, Switch, Paper, Typography, FormControlLabel, FormGroup } from '@material-ui/core';
 
-export default class MapPanel extends Component {
-	render() {
+interface Props {
+	enableFogEditMode: () => void;
+	disableFogEditMode: () => void;
+	fogEditMode: boolean;
+}
+
+export default class MapPanel extends Component<Props> {
+	onFogEditToggle = (e: ChangeEvent<HTMLInputElement>, checked: boolean): void => {
+		if (checked) {
+			this.props.enableFogEditMode();
+		} else {
+			this.props.disableFogEditMode();
+		}
+	};
+
+	render(): ReactNode {
 		return (
 			<div>
 				<Typography variant="h4" component="h1">
@@ -15,7 +29,15 @@ export default class MapPanel extends Component {
 					</Typography>
 
 					<FormGroup row>
-						<FormControlLabel control={<Switch />} label="Fog Edit Mode" />
+						<FormControlLabel
+							control={
+								<Switch
+									value={this.props.fogEditMode}
+									onChange={this.onFogEditToggle}
+								/>
+							}
+							label="Fog Edit Mode"
+						/>
 					</FormGroup>
 
 					<Button fullWidth variant="contained">
