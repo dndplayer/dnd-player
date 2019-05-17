@@ -68,6 +68,12 @@ export default function mapsReducer(state: State = initialState, action: any = {
 				fogEditMode: true
 			};
 		}
+		case types.MAPS.FOG.EDIT.TOGGLE: {
+			return {
+				...state,
+				fogEditMode: !state.fogEditMode
+			};
+		}
 		default:
 			return state;
 	}

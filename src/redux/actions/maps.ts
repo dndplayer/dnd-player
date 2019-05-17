@@ -30,7 +30,8 @@ export const types = {
 		FOG: {
 			EDIT: {
 				ENABLE: 'MAPS.FOG.EDIT.ENABLE',
-				DISABLE: 'MAPS.FOG.EDIT.DISABLE'
+				DISABLE: 'MAPS.FOG.EDIT.DISABLE',
+				TOGGLE: 'MAPS.FOG.EDIT.TOGGLE'
 			},
 			UPDATE: {
 				POLYGON: 'MAPS.FOG.UPDATE.POLYGON',
@@ -87,6 +88,7 @@ export interface MapsToggleMeasureModeAction extends Action {
 
 export interface EnableFogEditModeAction extends Action {}
 export interface DisableFogEditModeAction extends Action {}
+export interface ToggleFogEditModeAction extends Action {}
 
 export interface UpdateFogPolygonAction extends Action {
 	mapId: string;
@@ -167,6 +169,10 @@ export const enableFogEditMode = (): EnableFogEditModeAction => ({
 
 export const disableFogEditMode = (): DisableFogEditModeAction => ({
 	type: types.MAPS.FOG.EDIT.DISABLE
+});
+
+export const toggleFogEditMode = (): ToggleFogEditModeAction => ({
+	type: types.MAPS.FOG.EDIT.TOGGLE
 });
 
 export const mapsUpdateFogPolygon = (
