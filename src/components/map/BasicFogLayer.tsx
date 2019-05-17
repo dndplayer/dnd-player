@@ -63,7 +63,7 @@ export default PixiComponent<Props, PIXI.Container>('BasicFogLayer', {
 		}
 		mask.endFill();
 
-		const blurRadius = 64 * newProps.viewportZoom;
+		const blurRadius = 32 * newProps.viewportZoom;
 
 		instance.filters = [
 			new PIXI.filters.BlurFilter(blurRadius),
