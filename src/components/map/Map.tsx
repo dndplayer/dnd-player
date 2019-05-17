@@ -12,21 +12,16 @@ import { Upload } from '../../models/Upload';
 import { LinearProgress } from '@material-ui/core';
 import Scenery from './objects/Scenery';
 import { groupObjectsByLayer, calculateDistance, GroupedMapObject } from './MapUtils';
-import {
-	PlayerCharacter,
-	NonPlayerCharacter,
-	CharacterSize,
-	Character
-} from '../../5e/models/Character';
+import { PlayerCharacter, NonPlayerCharacter, CharacterSize } from '../../5e/models/Character';
 import { MapObjectVisibility } from './objects/MapObject';
 import Ruler from './objects/Ruler';
+import BasicFogLayer from './BasicFogLayer';
 
 import styles from './Map.module.scss';
 import { ViewportComponent } from './Viewport';
 import { MapPing } from '../../models/MapPing';
 import Ping from './objects/OldPing';
 import EditablePolygon from './objects/editable/EditablePolygon';
-import DiceRoll from 'rpg-dice-roller';
 
 // import Ping from './objects/NewPing';
 
@@ -481,6 +476,14 @@ class Map extends Component<Props, State> {
 											</Container>
 										);
 									})}
+								<BasicFogLayer
+									visiblePolys={[
+										[-2000, -2000, 2000, -2000, 2000, 2000, -2000, 2000],
+										[-2000, -2000, -5880, 9990, 8920, 8830]
+									]}
+									dm={dm}
+									editing={false}
+								/>
 								<Ruler
 									visible={this.state.measuring}
 									measuring={this.state.measuring}
