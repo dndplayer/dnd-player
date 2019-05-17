@@ -44,6 +44,7 @@
     "redux-saga-firebase": "^0.15.0",
     "reselect": "^4.0.0",
     "rpg-dice-roller": "^3.0.1",
+    "string-math": "^1.2.1",
     "typescript": "^3.4.3",
     "uuid": "^3.3.2"
   },

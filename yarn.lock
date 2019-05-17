@@ -11543,6 +11543,11 @@ string-length@^2.0.0:
     astral-regex "^1.0.0"
     strip-ansi "^4.0.0"
 
+string-math@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/string-math/-/string-math-1.2.1.tgz#3abe7ce4225ee14f8ddf10037e7a44ab2aa79c1c"
+  integrity sha512-r5ouWjy+qzWW4UsKSa8Annd5w6n1Z+7LyN3NySTW5UDBG9oeM3aq2+IL7yy+XkCpQIaEK8AcDyIdwI2B2td5Aw==
+
 string-width@^1.0.1, string-width@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-1.0.2.tgz#118bdf5b8cdc51a2a7e70d211e07e2b0b9b107d3"
