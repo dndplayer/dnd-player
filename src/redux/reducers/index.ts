@@ -14,10 +14,7 @@ import GlobalStateReducer from './globalState';
 import MapPingsReducer from './mapPings';
 import UsersReducer from './users';
 
-export type State = ReturnType<ReturnType<typeof reducer>>;
-
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const reducer = (history: any) =>
+export default history =>
 	combineReducers({
 		router: connectRouter(history),
 		chat: ChatReducer,
@@ -27,10 +24,9 @@ const reducer = (history: any) =>
 		assets: AssetReducer,
 		maps: MapsReducer,
 		characters: CharactersReducer,
+		// testMap: TestMapReducer,
 		ui: UiReducer,
 		globalState: GlobalStateReducer,
 		mapPings: MapPingsReducer,
 		users: UsersReducer
 	});
-
-export default reducer;

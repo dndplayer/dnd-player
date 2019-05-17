@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { sendFile } from '../../../../redux/actions/storage';
 import ImageUploader from './ImageUploader';
 import { UploadHitAreaTypes } from '../../../../models/UploadHitAreaTypes';
-import { State } from '../../../../redux/reducers';
 
 interface StateProps {
 	uploadProgress: number;
@@ -27,7 +26,7 @@ class ImageUploaderContainer extends Component<Props> {
 	}
 }
 
-const mapStateToProps = (state: State): StateProps => ({
+const mapStateToProps = (state): StateProps => ({
 	uploadProgress: state.storage.uploadProgress,
 	uploading: state.storage.uploading
 });

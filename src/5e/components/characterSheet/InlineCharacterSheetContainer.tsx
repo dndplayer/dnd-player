@@ -4,7 +4,7 @@ import PlayerCharacterSheetWrapper from './pc/PlayerCharacterSheetWrapper';
 
 import { saveNewMessage } from '../../../redux/actions/chat';
 import { Character, PlayerCharacter, NonPlayerCharacter } from '../../models/Character';
-import { Actions } from '../../../redux/actions/assets';
+import { updatePlayerCharacter, updateNonPlayerCharacter } from '../../../redux/actions/assets';
 import { Upload } from '../../../models/Upload';
 import NonPlayerCharacterSheetWrapper from './npc/NonPlayerCharacterSheetWrapper';
 import { ChatMessageData } from '../../../models/ChatMessage';
@@ -18,9 +18,9 @@ const mapStateToProps = (state): any => ({
 const mapDispatchToProps = (dispatch): any => ({
 	sendMessage: (message, data?) => dispatch(saveNewMessage(message, data)),
 	updatePlayerCharacter: (characterId, character) =>
-		dispatch(Actions.updatePlayerCharacter(characterId, character)),
+		dispatch(updatePlayerCharacter(characterId, character)),
 	updateNonPlayerCharacter: (characterId, character) =>
-		dispatch(Actions.updateNonPlayerCharacter(characterId, character))
+		dispatch(updateNonPlayerCharacter(characterId, character))
 });
 
 interface DispatchFromProps {

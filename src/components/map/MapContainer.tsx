@@ -14,7 +14,6 @@ import {
 } from '../../redux/actions/maps';
 import { MapPing } from '../../models/MapPing';
 import { mapPingsSendPing } from '../../redux/actions/mapPings';
-import { State } from '../../redux/reducers';
 
 interface StateProps {
 	maps: MapData[];
@@ -90,7 +89,7 @@ class MapContainer extends Component<Props> {
 	}
 }
 
-const mapStateToProps = (state: State): StateProps => ({
+const mapStateToProps = (state): StateProps => ({
 	selectedObjects: state.maps.selectedObjects,
 	images: state.images.images,
 	playerCharacters: state.assets.playerCharacters,
@@ -99,7 +98,7 @@ const mapStateToProps = (state: State): StateProps => ({
 	user: state.auth.user,
 	maps: state.maps.maps,
 	activeMapId: state.globalState.state ? state.globalState.state.activeMapId : null,
-	mapPings: state.mapPings.pings as any,
+	mapPings: state.mapPings.pings,
 	measureModeEnabled: state.maps.measureModeEnabled
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({

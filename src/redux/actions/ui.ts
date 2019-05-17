@@ -1,21 +1,58 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import { Action } from 'redux';
 import { OverlayPanelTypes } from '../../models/OverlayPanelTypes';
-import { ActionsUnion } from '../types';
-import { createAction } from '../actionHelper';
 
-export const UI_PROPERTY_PANEL_VISIBILITY = 'UI.PROPERTY_PANEL.VISIBILITY';
-export const UI_SIDEBAR_CLOSE = 'UI.SIDEBAR.CLOSE';
-export const UI_SIDEBAR_OPEN = 'UI.SIDEBAR.OPEN';
-export const UI_SIDEBAR_TOGGLE = 'UI.SIDEBAR.TOGGLE';
-export const UI_SIDEBAR_OPEN_PANEL = 'UI.SIDEBAR.OPEN_PANEL';
-
-export const Actions = {
-	setPropertyPanelVisibility: (visible: boolean) =>
-		createAction(UI_PROPERTY_PANEL_VISIBILITY, visible),
-	openSidebar: () => createAction(UI_SIDEBAR_OPEN),
-	closeSidebar: () => createAction(UI_SIDEBAR_CLOSE),
-	toggleSidebar: () => createAction(UI_SIDEBAR_TOGGLE),
-	openPanel: (panel: OverlayPanelTypes) => createAction(UI_SIDEBAR_OPEN_PANEL, panel)
+export const types = {
+	UI: {
+		PROPERTY_PANEL: {
+			VISIBILITY: 'UI.PROPERTY_PANEL.VISIBILITY'
+		},
+		SIDEBAR: {
+			OPEN: 'UI.SIDEBAR.OPEN',
+			CLOSE: 'UI.SIDEBAR.CLOSE',
+			TOGGLE: 'UI.SIDEBAR.TOGGLE',
+			OPEN_PANEL: 'UI.SIDEBAR.OPEN_PANEL'
+		}
+	}
 };
 
-export type Actions = ActionsUnion<typeof Actions>;
+// -------------------------------------------------------------
+// Action interfaces
+// -------------------------------------------------------------
+
+export interface PropertyPanelVisibilityAction extends Action {
+	visible: boolean;
+}
+
+export interface SidebarOpenAction extends Action {}
+export interface SidebarCloseAction extends Action {}
+export interface SidebarToggleAction extends Action {}
+
+export interface SidebarOpenPanelAction extends Action {
+	panel: OverlayPanelTypes;
+}
+
+// -------------------------------------------------------------
+// Action creators
+// -------------------------------------------------------------
+
+export const setPropertyPanelVisibility = (visible): PropertyPanelVisibilityAction => ({
+	type: types.UI.PROPERTY_PANEL.VISIBILITY,
+	visible
+});
+
+export const openSidebar = (): SidebarOpenAction => ({
+	type: types.UI.SIDEBAR.OPEN
+});
+
+export const closeSidebar = (): SidebarCloseAction => ({
+	type: types.UI.SIDEBAR.CLOSE
+});
+
+export const toggleSidebar = (): SidebarToggleAction => ({
+	type: types.UI.SIDEBAR.TOGGLE
+});
+
+export const openPanel = (panel: OverlayPanelTypes): SidebarOpenPanelAction => ({
+	type: types.UI.SIDEBAR.OPEN_PANEL,
+	panel
+});

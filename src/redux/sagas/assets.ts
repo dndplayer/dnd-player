@@ -1,12 +1,12 @@
 import { all, call, select, fork, takeEvery, put, take, delay } from 'redux-saga/effects';
 
 import {
-	Actions,
-	ASSETS_NONPLAYERCHARACTER_LAST_UPDATE_SYNC,
-	ASSETS_PLAYERCHARACTER_UPDATE,
-	ASSETS_PLAYERCHARACTER_NEW_SAVE,
-	ASSETS_NONPLAYERCHARACTER_NEW_SAVE,
-	ASSETS_NONPLAYERCHARACTER_UPDATE
+	types,
+	syncPlayerCharacters,
+	syncPlayerCharactersFailed,
+	syncNonPlayerCharacters,
+	syncNonPlayerCharactersFailed,
+	syncNonPlayerCharacterLastUpdate
 } from '../actions/assets';
 
 import rsf from '../rsf';
@@ -66,8 +66,8 @@ function* syncPlayerCharactersSaga(): any {
 		rsf.database.sync,
 		database(rsf.app).ref('/playerCharacters'),
 		{
-			successActionCreator: Actions.syncPlayerCharacters,
-			failureActionCreator: Actions.syncPlayerCharactersFailed,
+			successActionCreator: syncPlayerCharacters,
+			failureActionCreator: syncPlayerCharactersFailed,
 			transform: playerCharacterTransformer
 		},
 		'value'
@@ -104,21 +104,21 @@ function* syncNonPlayerCharactersSaga(): any {
 		rsf.database.sync,
 		database(rsf.app).ref('/lastUpdates/nonPlayerCharacters'),
 		{
-			successActionCreator: Actions.syncNonPlayerCharacterLastUpdate
+			successActionCreator: syncNonPlayerCharacterLastUpdate
 		},
 		'value'
 	);
-	const action = yield take(ASSETS_NONPLAYERCHARACTER_LAST_UPDATE_SYNC);
+	const action = yield take(types.ASSETS.NONPLAYERCHARACTER.LAST_UPDATE.SYNC);
 	if (currentLastUpdate === action.lastUpdate) {
 		// We were already up to date; wait for the next sync to tell us when something's changed.
-		yield take(ASSETS_NONPLAYERCHARACTER_LAST_UPDATE_SYNC);
+		yield take(types.ASSETS.NONPLAYERCHARACTER.LAST_UPDATE.SYNC);
 	}
 	yield fork(
 		rsf.database.sync,
 		database(rsf.app).ref('/nonPlayerCharacters'),
 		{
-			successActionCreator: Actions.syncNonPlayerCharacters,
-			failureActionCreator: Actions.syncNonPlayerCharactersFailed,
+			successActionCreator: syncNonPlayerCharacters,
+			failureActionCreator: syncNonPlayerCharactersFailed,
 			transform: nonPlayerCharacterTransformer
 		},
 		'value'
@@ -130,9 +130,9 @@ export default function* rootSaga(): any {
 		// fork(syncAssetsSaga),
 		fork(syncPlayerCharactersSaga),
 		fork(syncNonPlayerCharactersSaga),
-		takeEvery(ASSETS_PLAYERCHARACTER_UPDATE, updatePlayerCharacterSaga),
-		takeEvery(ASSETS_PLAYERCHARACTER_NEW_SAVE, saveNewPlayerCharacterSaga),
-		takeEvery(ASSETS_NONPLAYERCHARACTER_UPDATE, updateNonPlayerCharacterSaga),
-		takeEvery(ASSETS_NONPLAYERCHARACTER_NEW_SAVE, saveNewNonPlayerCharacterSaga)
+		takeEvery(types.ASSETS.PLAYERCHARACTER.UPDATE, updatePlayerCharacterSaga),
+		takeEvery(types.ASSETS.PLAYERCHARACTER.NEW.SAVE, saveNewPlayerCharacterSaga),
+		takeEvery(types.ASSETS.NONPLAYERCHARACTER.UPDATE, updateNonPlayerCharacterSaga),
+		takeEvery(types.ASSETS.NONPLAYERCHARACTER.NEW.SAVE, saveNewNonPlayerCharacterSaga)
 	]);
 }

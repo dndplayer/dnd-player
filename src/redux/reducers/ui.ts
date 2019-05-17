@@ -1,12 +1,5 @@
+import { types, PropertyPanelVisibilityAction, SidebarOpenPanelAction } from '../actions/ui';
 import { OverlayPanelTypes } from '../../models/OverlayPanelTypes';
-import {
-	UI_PROPERTY_PANEL_VISIBILITY,
-	Actions,
-	UI_SIDEBAR_OPEN,
-	UI_SIDEBAR_CLOSE,
-	UI_SIDEBAR_TOGGLE,
-	UI_SIDEBAR_OPEN_PANEL
-} from '../actions/ui';
 
 interface PropertyPanelState {
 	visible: boolean;
@@ -15,7 +8,7 @@ interface PropertyPanelState {
 interface State {
 	propertyPanel: PropertyPanelState;
 	sidebarOpen: boolean;
-	sidebarPanel: OverlayPanelTypes;
+	sidebarPanel?: OverlayPanelTypes;
 }
 
 const initialState: State = {
@@ -26,35 +19,37 @@ const initialState: State = {
 	sidebarPanel: null
 };
 
-export default function uiReducer(state = initialState, action: Actions): State {
+export default function uiReducer(state = initialState, action: any = {}) {
 	switch (action.type) {
-		case UI_PROPERTY_PANEL_VISIBILITY:
+		case types.UI.PROPERTY_PANEL.VISIBILITY:
+			const a = action as PropertyPanelVisibilityAction;
 			return {
 				...state,
 				propertyPanel: {
 					...state.propertyPanel,
-					visible: action.payload
+					visible: a.visible
 				}
 			};
-		case UI_SIDEBAR_OPEN:
+		case types.UI.SIDEBAR.OPEN:
 			return {
 				...state,
 				sidebarOpen: true
 			};
-		case UI_SIDEBAR_CLOSE:
+		case types.UI.SIDEBAR.CLOSE:
 			return {
 				...state,
 				sidebarOpen: false
 			};
-		case UI_SIDEBAR_TOGGLE:
+		case types.UI.SIDEBAR.TOGGLE:
 			return {
 				...state,
 				sidebarOpen: !state.sidebarOpen
 			};
-		case UI_SIDEBAR_OPEN_PANEL: {
+		case types.UI.SIDEBAR.OPEN_PANEL: {
+			const a = action as SidebarOpenPanelAction;
 			return {
 				...state,
-				sidebarPanel: action.payload
+				sidebarPanel: a.panel
 			};
 		}
 		default:

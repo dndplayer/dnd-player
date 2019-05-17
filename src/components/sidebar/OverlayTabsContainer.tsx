@@ -1,9 +1,8 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import OverlayTabs from './OverlayTabs';
-import { Actions } from '../../redux/actions/ui';
+import { openSidebar, closeSidebar, openPanel } from '../../redux/actions/ui';
 import { OverlayPanelTypes } from '../../models/OverlayPanelTypes';
-import { State } from '../../redux/reducers';
 
 interface StateProps {
 	sidebarOpen: boolean;
@@ -32,14 +31,14 @@ class OverlayTabsContainer extends Component<Props> {
 	}
 }
 
-const mapStateToProps = (state: State): StateProps => ({
+const mapStateToProps = (state): StateProps => ({
 	sidebarOpen: state.ui.sidebarOpen,
 	sidebarPanel: state.ui.sidebarPanel
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
-	openTab: () => dispatch(Actions.openSidebar()),
-	closeTabs: () => dispatch(Actions.closeSidebar()),
-	openPanel: (panel: OverlayPanelTypes) => dispatch(Actions.openPanel(panel))
+	openTab: () => dispatch(openSidebar()),
+	closeTabs: () => dispatch(closeSidebar()),
+	openPanel: (panel: OverlayPanelTypes) => dispatch(openPanel(panel))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(
