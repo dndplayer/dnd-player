@@ -20,6 +20,8 @@ export default PixiComponent<Props, PIXI.Container>('BasicFogLayer', {
 
 		if (
 			newProps.dm === oldProps.dm &&
+			newProps.visiblePolys &&
+			oldProps.visiblePolys &&
 			newProps.visiblePolys.flat(2).toString() === oldProps.visiblePolys.flat(2).toString()
 		) {
 			return;
