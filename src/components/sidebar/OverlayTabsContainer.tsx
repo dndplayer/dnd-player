@@ -5,6 +5,7 @@ import { openSidebar, closeSidebar, openPanel } from '../../redux/actions/ui';
 import { OverlayPanelTypes } from '../../models/OverlayPanelTypes';
 
 interface StateProps {
+	dm: boolean;
 	sidebarOpen: boolean;
 	sidebarPanel?: OverlayPanelTypes;
 }
@@ -21,6 +22,7 @@ class OverlayTabsContainer extends Component<Props> {
 	render(): ReactNode {
 		return (
 			<OverlayTabs
+				dm={this.props.dm}
 				open={this.props.sidebarOpen}
 				openTab={this.props.openTab}
 				closeTabs={this.props.closeTabs}
@@ -32,6 +34,7 @@ class OverlayTabsContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state): StateProps => ({
+	dm: state.auth.dm,
 	sidebarOpen: state.ui.sidebarOpen,
 	sidebarPanel: state.ui.sidebarPanel
 });

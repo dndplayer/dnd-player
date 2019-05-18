@@ -11,6 +11,7 @@ import GeneralPanelContainer from './panels/general/GeneralPanelContainer';
 import MapPanelContainer from './panels/map/MapPanelContainer';
 
 interface Props {
+	dm: boolean;
 	open: boolean;
 	openTab: () => void;
 	closeTabs: () => void;
@@ -81,12 +82,14 @@ export default class OverlayTabs extends Component<Props> {
 						active={this.props.currentPanel === OverlayPanelTypes.GENERAL}
 						onClick={this.onClickTab(OverlayPanelTypes.GENERAL)}
 					/>
-					<OverlayTab
-						text="Map"
-						name="map"
-						active={this.props.currentPanel === OverlayPanelTypes.MAP}
-						onClick={this.onClickTab(OverlayPanelTypes.MAP)}
-					/>
+					{this.props.dm && (
+						<OverlayTab
+							text="Map"
+							name="map"
+							active={this.props.currentPanel === OverlayPanelTypes.MAP}
+							onClick={this.onClickTab(OverlayPanelTypes.MAP)}
+						/>
+					)}
 				</div>
 				<div
 					style={{
