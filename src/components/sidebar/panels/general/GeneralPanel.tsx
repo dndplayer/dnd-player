@@ -6,7 +6,6 @@ import { NonPlayerCharacter } from '../../../../5e/models/Character';
 import { MapData } from '../../../../models/Map';
 
 interface State {
-	stageBackground: string;
 	activeMapId: string;
 	roomUrlCopiedTooltipOpen: boolean;
 	roomUrlTooltipTimeout: any;
@@ -16,12 +15,10 @@ interface Props {
 	maps: MapData[];
 	activeMapId: string;
 	setActiveMap: (mapId: string) => void;
-	stageBackground: string;
 	dm: boolean;
 	canBeDm: boolean;
 	roomUrl: string;
 	nonPlayerCharacters: NonPlayerCharacter[];
-	updateStageBackground: (mapId: string, colour: string) => void;
 	setDm: (val: boolean) => void;
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) => void;
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) => void;
@@ -31,33 +28,20 @@ export default class GeneralPanel extends Component<Props, State> {
 	constructor(props) {
 		super(props);
 
-		this.onChangeStageBackground = this.onChangeStageBackground.bind(this);
 		this.onChangeDm = this.onChangeDm.bind(this);
 	}
 
 	state = {
 		activeMapId: this.props.activeMapId,
 		roomUrlCopiedTooltipOpen: false,
-		roomUrlTooltipTimeout: null,
-		stageBackground: this.props.stageBackground || '#ffffff'
+		roomUrlTooltipTimeout: null
 	};
 
 	componentDidUpdate(prevProps, prevState): void {
-		if (prevProps.stageBackground !== this.props.stageBackground) {
-			this.setState({ stageBackground: this.props.stageBackground });
-		}
 		if (prevProps.activeMapId !== this.props.activeMapId) {
 			this.setState({ activeMapId: this.props.activeMapId });
 		}
 	}
-
-	onChangeStageBackground = (e): void => {
-		this.setState({ onChangeStageBackground: e.target.value } as any);
-
-		if (this.props.updateStageBackground) {
-			this.props.updateStageBackground(this.props.activeMapId, e.target.value);
-		}
-	};
 
 	onChangeDm = (e): void => {
 		this.props.setDm(!e.target.checked);
@@ -162,24 +146,6 @@ export default class GeneralPanel extends Component<Props, State> {
 										Copy Room URL
 									</Button>
 								</Tooltip>
-							</div>
-							<div className={styles.settingRow}>
-								<input
-									type="color"
-									id="stageBackground"
-									name="stageBackground"
-									onChange={this.onChangeStageBackground}
-									value={this.state.stageBackground}
-									style={{
-										margin: '.4rem'
-									}}
-								/>
-								<label
-									htmlFor="stageBackground"
-									style={{ font: '1rem "Fira Sans", sans-serif' }}
-								>
-									Map Background Colour
-								</label>
 							</div>
 							<Button onClick={() => this.importNpcs()}>Import NPCs</Button>
 							<Button onClick={() => this.exportNpcs()}>Export NPCs</Button>

@@ -15,14 +15,12 @@ import { setDm } from '../../../../redux/actions/auth';
 interface StateProps {
 	dm: boolean;
 	canBeDm: boolean;
-	backgroundColour?: string;
 	nonPlayerCharacters: NonPlayerCharacter[];
 	maps: MapData[];
 	activeMapId: string;
 }
 interface DispatchProps {
 	setActiveMap: (mapId: string) => void;
-	updateStageBackground: (mapId: string, colour: string) => void;
 	setDm: (val: boolean) => void;
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) => void;
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) => void;
@@ -33,16 +31,7 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 class GeneralPanelContainer extends Component<Props> {
 	render(): ReactNode {
-		const {
-			backgroundColour,
-			updateStageBackground,
-			dm,
-			canBeDm,
-			setDm,
-			maps,
-			setActiveMap,
-			activeMapId
-		} = this.props;
+		const { dm, canBeDm, setDm, maps, setActiveMap, activeMapId } = this.props;
 
 		const settings = JSON.parse(localStorage.getItem('firebaseConfig'));
 		const roomUrl =
@@ -56,8 +45,6 @@ class GeneralPanelContainer extends Component<Props> {
 				dm={dm}
 				canBeDm={canBeDm}
 				setDm={setDm}
-				stageBackground={backgroundColour}
-				updateStageBackground={updateStageBackground}
 				roomUrl={roomUrl}
 				nonPlayerCharacters={this.props.nonPlayerCharacters}
 				updateNonPlayerCharacter={this.props.updateNonPlayerCharacter}
@@ -68,7 +55,6 @@ class GeneralPanelContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state): StateProps => ({
-	backgroundColour: getCurrentMapBackgroundColour(state),
 	dm: state.auth.dm,
 	canBeDm: state.auth.canBeDm,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
@@ -76,8 +62,6 @@ const mapStateToProps = (state): StateProps => ({
 	activeMapId: state.globalState.state.activeMapId
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
-	updateStageBackground: (mapId: string, colour: string) =>
-		dispatch(mapsUpdateBackgroundColour(mapId, colour)),
 	setDm: (val: boolean) => dispatch(setDm(val)),
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) =>
 		dispatch(updateNonPlayerCharacter(characterId, character)),

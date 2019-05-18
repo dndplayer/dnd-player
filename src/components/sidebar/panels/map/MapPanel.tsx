@@ -1,10 +1,27 @@
 import React, { Component, ReactNode, ChangeEvent } from 'react';
-import { Button, Switch, Paper, Typography, FormControlLabel, FormGroup } from '@material-ui/core';
+import {
+	Button,
+	Switch,
+	Paper,
+	Typography,
+	FormControlLabel,
+	FormGroup,
+	Input
+} from '@material-ui/core';
+import ColorPicker from 'material-ui-color-picker';
+
+import { MapData } from '../../../../models/Map';
+
+import styles from './MapPanel.module.css';
 
 interface Props {
 	enableFogEditMode: () => void;
 	disableFogEditMode: () => void;
 	fogEditMode: boolean;
+	activeMapId: string;
+	activeMap?: MapData;
+	updateFogColour: (mapId: string, colour: string) => void;
+	updateStageBackground: (mapId: string, colour: string) => void;
 }
 
 export default class MapPanel extends Component<Props> {
@@ -13,6 +30,24 @@ export default class MapPanel extends Component<Props> {
 			this.props.enableFogEditMode();
 		} else {
 			this.props.disableFogEditMode();
+		}
+	};
+
+	onChangeStageBackground = (colour: string): void => {
+		if (!this.props.activeMapId || !colour) {
+			return;
+		}
+		if (this.props.updateStageBackground) {
+			this.props.updateStageBackground(this.props.activeMapId, colour);
+		}
+	};
+
+	onChangeFogColour = (colour: string): void => {
+		if (!this.props.activeMapId || !colour) {
+			return;
+		}
+		if (this.props.updateFogColour) {
+			this.props.updateFogColour(this.props.activeMapId, colour);
 		}
 	};
 
@@ -43,6 +78,56 @@ export default class MapPanel extends Component<Props> {
 					<Button fullWidth variant="contained">
 						Add Fog Polygon
 					</Button>
+
+					{/* Old Pure HTML colour picker way, for reference */}
+					{/* <div className={styles.settingRow}>
+						<input
+							type="color"
+							id="stageBackground"
+							name="stageBackground"
+							onChange={this.onChangeStageBackground}
+							value={this.state.stageBackground}
+							style={{
+								margin: '.4rem'
+							}}
+						/>
+						<label
+							htmlFor="stageBackground"
+							style={{ font: '1rem "Fira Sans", sans-serif' }}
+						>
+							Map Background Colour
+						</label>
+					</div> */}
+
+					<FormGroup row>
+						<ColorPicker
+							fullWidth
+							label="Background Colour"
+							name="stageColor"
+							defaultValue={
+								this.props.activeMap
+									? this.props.activeMap.backgroundColour
+									: '#000000'
+							}
+							// value={this.state.color} - for controlled component
+							onChange={this.onChangeStageBackground}
+						/>
+					</FormGroup>
+
+					<FormGroup row>
+						<ColorPicker
+							fullWidth
+							label="Fog Colour"
+							name="fogColor"
+							defaultValue={
+								this.props.activeMap
+									? this.props.activeMap.fog.colour || '#000000'
+									: '#000000'
+							}
+							// value={this.state.color} - for controlled component
+							onChange={this.onChangeFogColour}
+						/>
+					</FormGroup>
 				</Paper>
 
 				<Typography variant="body1" component="p">

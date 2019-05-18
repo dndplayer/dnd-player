@@ -42,8 +42,13 @@ export default PixiComponent<Props, PIXI.Container>('BasicFogLayer', {
 			return;
 		}
 
+		const fCol = newProps.fogData.colour.startsWith('#')
+			? newProps.fogData.colour.replace('#', '0x')
+			: newProps.fogData.colour;
+		const fogColour = (fCol as any) || 0x0;
+
 		curtain.clear();
-		curtain.beginFill(0x0, newProps.dm ? 0.5 : 1);
+		curtain.beginFill(fogColour, newProps.dm ? 0.5 : 1);
 		curtain.drawRect(-10000000, -10000000, 20000000, 20000000);
 		curtain.endFill();
 

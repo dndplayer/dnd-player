@@ -39,7 +39,7 @@ export interface MaskPolygon {
 }
 
 export interface FogData {
-	colour?: string; // Possibly support different coloured fog e.g. swamp = green
+	colour?: string;
 	maskPolygons?: MaskPolygon[];
 }
 

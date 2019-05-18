@@ -106,7 +106,7 @@ function* updateFogPolygon(action: UpdateFogPolygonAction): any {
 
 function* updateFogColour(action: UpdateFogColourAction): any {
 	const { mapId, colour } = action;
-	yield call(rsf.database.patch, `/maps/${mapId}/fog/colour`, colour);
+	yield call(rsf.database.update, `/maps/${mapId}/fog/colour`, colour);
 }
 
 export default function* rootSaga() {
