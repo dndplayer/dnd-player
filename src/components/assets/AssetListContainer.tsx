@@ -11,6 +11,7 @@ interface StateProps {
 	nonPlayerCharacters: NonPlayerCharacter[];
 	images: Upload[];
 	nonPlayerCharacterFilter: string;
+	dm: boolean;
 }
 interface DispatchProps {
 	changeNonPlayerCharacterFilterText: (text: string) => void;
@@ -28,7 +29,8 @@ class AssetListContainer extends Component<Props> {
 			openCharacterSheet,
 			images,
 			changeNonPlayerCharacterFilterText,
-			nonPlayerCharacterFilter
+			nonPlayerCharacterFilter,
+			dm
 		} = this.props;
 		return (
 			<div>
@@ -40,6 +42,7 @@ class AssetListContainer extends Component<Props> {
 					changeNonPlayerCharacterFilterText={changeNonPlayerCharacterFilterText}
 					nonPlayerCharacterFilter={nonPlayerCharacterFilter}
 					images={images}
+					dm={dm}
 				/>
 			</div>
 		);
@@ -50,7 +53,8 @@ const mapStateToProps = (state): StateProps => ({
 	playerCharacters: state.assets.playerCharacters,
 	nonPlayerCharacters: getFilteredNpcs(state),
 	images: state.images.images,
-	nonPlayerCharacterFilter: state.assets.nonPlayerCharacterFilter
+	nonPlayerCharacterFilter: state.assets.nonPlayerCharacterFilter,
+	dm: state.auth.dm
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	changeNonPlayerCharacterFilterText: (text: string) =>

@@ -64,12 +64,14 @@ export default class OverlayTabs extends Component<Props> {
 						left: '-43px' // 40px for alignment then 3px for the margin in Tab
 					}}
 				>
-					<OverlayTab
-						text="Uploads"
-						name="uploads"
-						active={this.props.currentPanel === OverlayPanelTypes.UPLOAD}
-						onClick={this.onClickTab(OverlayPanelTypes.UPLOAD)}
-					/>
+					{this.props.dm && (
+						<OverlayTab
+							text="Uploads"
+							name="uploads"
+							active={this.props.currentPanel === OverlayPanelTypes.UPLOAD}
+							onClick={this.onClickTab(OverlayPanelTypes.UPLOAD)}
+						/>
+					)}
 					<OverlayTab
 						text="Assets"
 						name="assets"
@@ -134,7 +136,7 @@ export default class OverlayTabs extends Component<Props> {
 					)}
 					{this.props.currentPanel === OverlayPanelTypes.ASSETS && (
 						<OverlayPanel>
-							<CreateAssetContainer />
+							{this.props.dm && <CreateAssetContainer />}
 							<AssetListContainer />
 						</OverlayPanel>
 					)}
