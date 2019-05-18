@@ -334,7 +334,7 @@ class Map extends Component<Props, State> {
 					}}
 				>
 					<AppConsumer>
-						{app => (
+						{(app): ReactNode => (
 							<ViewportComponent
 								name="viewport"
 								ref={c => (this._viewport = c as any)}
@@ -348,9 +348,8 @@ class Map extends Component<Props, State> {
 									polyPoints={[0, 0, 500, 500]}
 									viewportZoom={this.state.viewportZoom}
 								/> */}
-								{groupedObjects
-									.sort(layerSortFunc)
-									.map((layer: GroupedMapObject) => {
+								{groupedObjects.sort(layerSortFunc).map(
+									(layer: GroupedMapObject): ReactNode => {
 										return (
 											<Container
 												key={layer.name}
@@ -492,7 +491,8 @@ class Map extends Component<Props, State> {
 												})}
 											</Container>
 										);
-									})}
+									}
+								)}
 								<BasicFogLayer
 									fogData={this.props.mapData && this.props.mapData.fog}
 									dm={dm}
@@ -526,10 +526,8 @@ class Map extends Component<Props, State> {
 									start={this.state.measureStart}
 									end={this.state.measureEnd}
 									distance={this.state.measuredDistance}
-									thickness={
-										this._viewport ? (1 / this._viewport.scale.x) * 15 : 20
-									}
-									color={0xde7031}
+									scale={this._viewport ? 1 / this._viewport.scale.x : 1}
+									thickness={3}
 								/>
 								{Object.keys(this.props.mapPings).map(x => {
 									const p = this.props.mapPings[x];

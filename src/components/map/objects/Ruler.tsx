@@ -10,6 +10,7 @@ interface Props {
 	thickness?: number;
 	color?: number;
 	distance?: string;
+	scale: number;
 }
 
 export default PixiComponent<Props, PIXI.Container>('Ruler', {
@@ -17,17 +18,6 @@ export default PixiComponent<Props, PIXI.Container>('Ruler', {
 		const c = new PIXI.Container();
 		const g = new PIXI.Graphics();
 		g.name = 'ruler';
-		const col = props.color || 0xff0000;
-
-		if (props.measuring) {
-			g.lineStyle(props.thickness || 20, col)
-				.moveTo(props.start.x, props.start.y)
-				.lineTo(props.end.x, props.end.y);
-			g.beginFill(col);
-			g.drawCircle(props.start.x, props.start.y, props.thickness * 3);
-			g.endFill();
-		}
-
 		c.visible = props.visible;
 
 		const t = new PIXI.Text(props.distance || '', { fill: 'white' });
@@ -44,22 +34,43 @@ export default PixiComponent<Props, PIXI.Container>('Ruler', {
 
 		g.clear();
 
-		const col = newProps.color || 0xff0000;
+		const col = newProps.color || 0xd29a38;
 
 		if (newProps.measuring && newProps.start && newProps.end) {
 			const s = g.toLocal(newProps.start);
 			const e = g.toLocal(newProps.end);
 
+			const theta = Math.atan2(
+				newProps.end.y - newProps.start.y,
+				newProps.end.x - newProps.start.x
+			);
+
 			g.beginFill(col, 0.8);
-			g.drawCircle(s.x, s.y, newProps.thickness);
+			g.drawCircle(s.x, s.y, newProps.thickness * newProps.scale);
 			g.endFill();
 
-			g.lineStyle(newProps.thickness || 20, col)
+			const arrowSize = 15 * newProps.scale;
+			g.lineStyle(newProps.thickness * newProps.scale || 20, col)
 				.moveTo(s.x, s.y)
-				.lineTo(e.x, e.y);
+				.lineTo(e.x, e.y)
+				.beginFill(col)
+				//.drawStar(e.x - arrowSize * Math.cos(theta), e.y - arrowSize * Math.sin(theta), 3, newProps.thickness * newProps.scale * 2, undefined, theta + Math.PI / 2)
+				.drawPolygon([
+					e.x,
+					e.y,
+					e.x - arrowSize * Math.cos(theta) - (arrowSize * Math.sin(theta)) / 3,
+					e.y - arrowSize * Math.sin(theta) + (arrowSize * Math.cos(theta)) / 3,
+					e.x - (arrowSize / 2) * Math.cos(theta),
+					e.y - (arrowSize / 2) * Math.sin(theta),
+					e.x - arrowSize * Math.cos(theta) + (arrowSize * Math.sin(theta)) / 3,
+					e.y - arrowSize * Math.sin(theta) - (arrowSize * Math.cos(theta)) / 3,
+					e.x,
+					e.y
+				])
+				.endFill();
 
-			t.position.set(e.x, e.y);
-			t.style.fontSize = newProps.thickness * 2;
+			t.position.set(e.x + 10 * newProps.scale, e.y + 10 * newProps.scale);
+			t.style.fontSize = 25 * newProps.scale;
 		}
 
 		if (newProps.distance !== oldProps.distance) {
