@@ -495,6 +495,7 @@ class Map extends Component<Props, State> {
 									this.props.mapData.fog.maskPolygons.length > 0 &&
 									this.props.mapData.fog.maskPolygons.map((x, idx) => (
 										<EditablePolygon
+											key={idx}
 											onUpdate={(position, points) => {
 												this.props.onUpdateFogPolygon(
 													this.props.mapData.id,
