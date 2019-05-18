@@ -42,9 +42,10 @@ export default PixiComponent<Props, PIXI.Container>('BasicFogLayer', {
 			return;
 		}
 
-		const fCol = newProps.fogData.colour.startsWith('#')
-			? newProps.fogData.colour.replace('#', '0x')
-			: newProps.fogData.colour;
+		const fCol =
+			typeof newProps.fogData.colour === 'string' && newProps.fogData.colour.startsWith('#')
+				? newProps.fogData.colour.replace('#', '0x')
+				: newProps.fogData.colour;
 		const fogColour = (fCol as any) || 0x0;
 
 		curtain.clear();
