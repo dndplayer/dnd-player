@@ -1,5 +1,6 @@
 import { Sprite, PixiComponent } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
+import { OutlineFilter } from '@pixi/filter-outline';
 // import * as Ease from 'pixi-ease';
 
 interface Props {
@@ -13,24 +14,25 @@ interface Props {
 	scale: number;
 }
 
-export default PixiComponent<Props, PIXI.Container>('Ruler', {
-	create: (props: Props): any => {
-		const c = new PIXI.Container();
+export class Ruler extends PIXI.Container {
+	constructor(props: Props) {
+		super();
 		const g = new PIXI.Graphics();
+		g.filters = [new OutlineFilter(1, 0x202020)];
 		g.name = 'ruler';
-		c.visible = props.visible;
+		this.visible = props.visible;
 
-		const t = new PIXI.Text(props.distance || '', { fill: 'white' });
+		const t = new PIXI.Text(props.distance || '', { fill: '#ccc' });
+		t.filters = [new OutlineFilter(1, 0x202020)];
 		t.name = 'distanceText';
 
-		c.addChild(g);
-		c.addChild(t);
+		this.addChild(g);
+		this.addChild(t);
+	}
 
-		return c;
-	},
-	applyProps: (instance: PIXI.Container, oldProps: Props, newProps: Props): void => {
-		const g = instance.getChildByName('ruler') as PIXI.Graphics;
-		const t = instance.getChildByName('distanceText') as PIXI.Text;
+	redraw(oldProps: Props, newProps: Props): void {
+		const g = this.getChildByName('ruler') as PIXI.Graphics;
+		const t = this.getChildByName('distanceText') as PIXI.Text;
 
 		g.clear();
 
@@ -46,7 +48,7 @@ export default PixiComponent<Props, PIXI.Container>('Ruler', {
 			);
 
 			g.beginFill(col, 0.8);
-			g.drawCircle(s.x, s.y, newProps.thickness * newProps.scale);
+			g.drawCircle(s.x, s.y, newProps.thickness * newProps.scale || 20);
 			g.endFill();
 
 			const arrowSize = 15 * newProps.scale;
@@ -54,7 +56,6 @@ export default PixiComponent<Props, PIXI.Container>('Ruler', {
 				.moveTo(s.x, s.y)
 				.lineTo(e.x, e.y)
 				.beginFill(col)
-				//.drawStar(e.x - arrowSize * Math.cos(theta), e.y - arrowSize * Math.sin(theta), 3, newProps.thickness * newProps.scale * 2, undefined, theta + Math.PI / 2)
 				.drawPolygon([
 					e.x,
 					e.y,
@@ -77,7 +78,16 @@ export default PixiComponent<Props, PIXI.Container>('Ruler', {
 			t.text = newProps.distance || '';
 		}
 
-		instance.visible = newProps.visible;
+		this.visible = newProps.visible;
+	}
+}
+export default PixiComponent<Props, PIXI.Container>('Ruler', {
+	create: (props: Props): any => {
+		const ruler = new Ruler(props);
+		return ruler;
+	},
+	applyProps: (instance: PIXI.Container, oldProps: Props, newProps: Props): void => {
+		(instance as Ruler).redraw(oldProps, newProps);
 	},
 
 	didMount: (instance: PIXI.Container, parent: PIXI.Container): void => {},

@@ -442,6 +442,7 @@ class Map extends Component<Props, State> {
 															mapObjectId={o.id}
 															layerName={layer}
 															visibility={visibility}
+															viewportZoom={this.state.viewportZoom}
 														/>
 													) : (
 														<Token
@@ -486,6 +487,7 @@ class Map extends Component<Props, State> {
 															mapObjectId={o.id}
 															layerName={layer}
 															visibility={visibility}
+															viewportZoom={this.state.viewportZoom}
 														/>
 													);
 												})}

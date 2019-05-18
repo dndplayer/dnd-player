@@ -1,11 +1,14 @@
 import * as PIXI from 'pixi.js';
 import MapObject, { MapObjectProps } from './MapObject';
 import { OutlineFilter } from '@pixi/filter-outline';
+import { Ruler } from './Ruler';
+import { calculateDistance } from '../MapUtils';
 
 export interface DraggableContainerProps extends MapObjectProps {
 	onSelected?: (mapObjectId: string) => void;
 	isSelected: boolean;
 	isSelectable?: boolean;
+	viewportZoom: number;
 }
 
 export default class DraggableContainer extends MapObject {
@@ -21,6 +24,7 @@ export default class DraggableContainer extends MapObject {
 
 	public interactive: boolean = true;
 	public buttonMode: boolean = true;
+	public viewportZoom: number = 1;
 
 	// Click selection handling
 	public isSelected: boolean = false;
@@ -28,6 +32,7 @@ export default class DraggableContainer extends MapObject {
 	public onSelected?: (mapObjectId: string) => void;
 	private dragStartPosition?: PIXI.PointLike;
 	private static clickThreshold: number = 5; // Tune this to account for shaky hands etc
+	private _ruler: Ruler;
 
 	innerApplyProps(
 		instance: DraggableContainer,
@@ -36,6 +41,7 @@ export default class DraggableContainer extends MapObject {
 	) {
 		this.isSelectable = newProps.isSelectable;
 		this.interactive = !!newProps.isSelectable;
+		this.viewportZoom = newProps.viewportZoom;
 		super.innerApplyProps(instance, oldProps, newProps);
 	}
 	// Core functionality
@@ -59,6 +65,16 @@ export default class DraggableContainer extends MapObject {
 			sprite.filters = [...(sprite.filters || []), ...this.dragFilters];
 		}
 
+		this._ruler = new Ruler({
+			start: new PIXI.Point(0, 0),
+			end: new PIXI.Point(0, 0),
+			measuring: false,
+			scale: 1 / this.viewportZoom,
+			visible: false,
+			distance: ''
+		});
+		this.parent.addChild(this._ruler);
+
 		// TODO: Move this sprite to a DragLayer that has the highest Z index
 		//       when dragging starts to keep it on-top, then when it ends
 		//       put it back on it's proper layer.
@@ -70,6 +86,13 @@ export default class DraggableContainer extends MapObject {
 		if (sprite) {
 			sprite.filters = sprite.filters.filter(x => !(this.dragFilters.indexOf(x) >= 0));
 		}
+
+		if (this._ruler) {
+			this.parent.removeChild(this._ruler);
+			this._ruler.destroy();
+			this._ruler = null;
+		}
+
 		if (!this.isSelectable) {
 			return;
 		}
@@ -123,6 +146,37 @@ export default class DraggableContainer extends MapObject {
 				const newPos = this.dragData.getLocalPosition(e.currentTarget.parent);
 				this.x = newPos.x - (this.dragGrabOffset ? this.dragGrabOffset.x : 0);
 				this.y = newPos.y - (this.dragGrabOffset ? this.dragGrabOffset.y : 0);
+				if (this._ruler) {
+					const start = new PIXI.Point(
+						this.dragStartPosition.x - this.dragGrabOffset.x * this.viewportZoom,
+						this.dragStartPosition.y - this.dragGrabOffset.y * this.viewportZoom
+					);
+					const end = new PIXI.Point(
+						globalLastPos.x - this.dragGrabOffset.x * this.viewportZoom,
+						globalLastPos.y - this.dragGrabOffset.y * this.viewportZoom
+					);
+
+					this._ruler.redraw(
+						{
+							scale: 1 / this.viewportZoom,
+							start: this.dragStartPosition,
+							end: this.dragStartPosition,
+							measuring: true,
+							visible: true,
+							distance: null,
+							thickness: 3
+						},
+						{
+							scale: 1 / this.viewportZoom,
+							start: start,
+							end: end,
+							measuring: true,
+							visible: true,
+							distance: `${calculateDistance(start, end, this.viewportZoom)} ft.`,
+							thickness: 3
+						}
+					);
+				}
 			}
 		}
 	};
