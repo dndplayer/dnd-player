@@ -28,6 +28,7 @@ interface StateProps {
 	mapPings: MapPing[];
 	measureModeEnabled: boolean;
 	fogEditMode: boolean;
+	fogAddMode: boolean;
 }
 interface DispatchProps {
 	onUpdateObject: (mapId, mapObjectId, newData) => void;
@@ -67,6 +68,7 @@ class MapContainer extends Component<Props> {
 			toggleMeasureMode,
 			measureModeEnabled,
 			fogEditMode,
+			fogAddMode,
 			onUpdateFogPolygon
 		} = this.props;
 
@@ -95,6 +97,7 @@ class MapContainer extends Component<Props> {
 				toggleMeasureMode={toggleMeasureMode}
 				measureModeEnabled={measureModeEnabled}
 				fogEditMode={fogEditMode}
+				fogAddMode={fogAddMode}
 				onUpdateFogPolygon={onUpdateFogPolygon}
 			/>
 		);
@@ -112,7 +115,8 @@ const mapStateToProps = (state): StateProps => ({
 	activeMapId: state.globalState.state ? state.globalState.state.activeMapId : null,
 	mapPings: state.mapPings.pings,
 	measureModeEnabled: state.maps.measureModeEnabled,
-	fogEditMode: state.maps.fogEditMode
+	fogEditMode: state.maps.fogEditMode,
+	fogAddMode: state.maps.fogAddMode
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	onUpdateObject: (mapId, mapObjectId, data) =>

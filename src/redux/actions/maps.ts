@@ -28,6 +28,10 @@ export const types = {
 			TOGGLE: 'MAPS.MEASURE_MODE.TOGGLE'
 		},
 		FOG: {
+			ADD: {
+				ENABLE: 'MAPS.FOG.ADD.ENABLE',
+				DISABLE: 'MAPS.FOG.ADD.DISABLE'
+			},
 			EDIT: {
 				ENABLE: 'MAPS.FOG.EDIT.ENABLE',
 				DISABLE: 'MAPS.FOG.EDIT.DISABLE',
@@ -101,6 +105,9 @@ export interface UpdateFogColourAction extends Action {
 	mapId: string;
 	colour: string;
 }
+
+export interface EnableFogAddModeAction extends Action {}
+export interface DisableFogAddModeAction extends Action {}
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -192,4 +199,12 @@ export const mapsUpdateFogColour = (mapId: string, colour: string): UpdateFogCol
 	type: types.MAPS.FOG.UPDATE.COLOUR,
 	mapId,
 	colour
+});
+
+export const enableFogAddMode = (): EnableFogAddModeAction => ({
+	type: types.MAPS.FOG.ADD.ENABLE
+});
+
+export const disableFogAddMode = (): DisableFogAddModeAction => ({
+	type: types.MAPS.FOG.ADD.DISABLE
 });

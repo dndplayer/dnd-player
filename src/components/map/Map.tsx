@@ -49,6 +49,7 @@ interface OwnProps {
 	toggleMeasureMode: (val?: boolean) => void;
 	measureModeEnabled: boolean;
 	fogEditMode: boolean;
+	fogAddMode: boolean;
 	onUpdateFogPolygon: (
 		mapId: string,
 		fogPolygonId: string,
@@ -226,8 +227,14 @@ class Map extends Component<Props, State> {
 					});
 				}
 
+				if (this.props.fogAddMode) {
+					// TODO: Add a point to a new Polygon here
+					const localPos = this._viewport.toLocal(e.data.global);
+					console.log(`TODO: Add new poly point @ ${localPos.x}, ${localPos.y}`);
+				}
+
 				// WIP Ping testing
-				if (!this.state.measuring) {
+				if (!this.state.measuring && !this.props.fogAddMode) {
 					const localPos = this._viewport.toLocal(e.data.global);
 					this.props.sendPing({
 						position: localPos.clone(),
@@ -428,7 +435,9 @@ class Map extends Component<Props, State> {
 															}
 															isSelected={isSelected}
 															isSelectable={
-																dm && !this.state.measuring
+																dm &&
+																!this.state.measuring &&
+																!this.props.fogAddMode
 															}
 															onSelected={this.props.onSelectObject}
 															mapObjectId={o.id}
@@ -471,7 +480,8 @@ class Map extends Component<Props, State> {
 															isSelected={isSelected}
 															isSelectable={
 																(pcAsset || dm) &&
-																!this.state.measuring
+																!this.state.measuring &&
+																!this.props.fogAddMode
 															}
 															onSelected={this.props.onSelectObject}
 															mapObjectId={o.id}

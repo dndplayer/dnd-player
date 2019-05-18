@@ -17,7 +17,10 @@ import styles from './MapPanel.module.css';
 interface Props {
 	enableFogEditMode: () => void;
 	disableFogEditMode: () => void;
+	enableFogAddMode: () => void;
+	disableFogAddMode: () => void;
 	fogEditMode: boolean;
+	fogAddMode: boolean;
 	activeMapId: string;
 	activeMap?: MapData;
 	updateFogColour: (mapId: string, colour: string) => void;
@@ -30,6 +33,14 @@ export default class MapPanel extends Component<Props> {
 			this.props.enableFogEditMode();
 		} else {
 			this.props.disableFogEditMode();
+		}
+	};
+
+	onFogAddToggle = (e: ChangeEvent<HTMLInputElement>, checked: boolean): void => {
+		if (checked) {
+			this.props.enableFogAddMode();
+		} else {
+			this.props.disableFogAddMode();
 		}
 	};
 
@@ -75,9 +86,17 @@ export default class MapPanel extends Component<Props> {
 						/>
 					</FormGroup>
 
-					<Button fullWidth variant="contained">
-						Add Fog Polygon
-					</Button>
+					<FormGroup row>
+						<FormControlLabel
+							control={
+								<Switch
+									value={this.props.fogAddMode}
+									onChange={this.onFogAddToggle}
+								/>
+							}
+							label="Fog Add Mode"
+						/>
+					</FormGroup>
 
 					{/* Old Pure HTML colour picker way, for reference */}
 					{/* <div className={styles.settingRow}>

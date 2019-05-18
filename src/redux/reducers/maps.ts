@@ -15,6 +15,7 @@ interface State {
 	selectedObjects: string[];
 	measureModeEnabled: boolean;
 	fogEditMode: boolean;
+	fogAddMode: boolean;
 }
 
 const initialState: State = {
@@ -22,7 +23,8 @@ const initialState: State = {
 	error: null,
 	selectedObjects: [],
 	measureModeEnabled: false,
-	fogEditMode: false
+	fogEditMode: false,
+	fogAddMode: false
 };
 
 export default function mapsReducer(state: State = initialState, action: any = {}): State {
@@ -72,6 +74,18 @@ export default function mapsReducer(state: State = initialState, action: any = {
 			return {
 				...state,
 				fogEditMode: !state.fogEditMode
+			};
+		}
+		case types.MAPS.FOG.ADD.DISABLE: {
+			return {
+				...state,
+				fogAddMode: false
+			};
+		}
+		case types.MAPS.FOG.ADD.ENABLE: {
+			return {
+				...state,
+				fogAddMode: true
 			};
 		}
 		default:
