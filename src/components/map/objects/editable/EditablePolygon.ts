@@ -59,11 +59,14 @@ export class EditablePolygonContainer extends PIXI.Container {
 
 		const mp = getMidpointOfPoints(this._localPoints);
 		d.position.set(mp[0], mp[1]);
+		// const spriteScale = 0.12 * (1 / this._viewportZoom);
+		// d.scale.set(spriteScale, spriteScale);
 
 		this.addChild(d);
 
 		this.redrawHandles();
 		this.redrawMidpoints();
+		this.redrawDeleteHandle();
 	}
 
 	get localPoints(): number[] {
@@ -89,13 +92,8 @@ export class EditablePolygonContainer extends PIXI.Container {
 			polyGraphic.hitArea = poly;
 		}
 
-		const deleteSprite = this.getChildByName('delete') as PIXI.Sprite;
-		if (deleteSprite) {
-			// This may be unneccessarily process intensive, moving the icon each re-draw
-			// while dragging.
-			const m = getMidpointOfPoints(this._localPoints);
-			deleteSprite.position.set(m[0], m[1]);
-		}
+		// Re-draw Delete icon
+		this.redrawDeleteHandle();
 
 		// Re-draw MidPoints
 		this._midPoints.forEach(x => this.removeChild(x));
@@ -126,6 +124,7 @@ export class EditablePolygonContainer extends PIXI.Container {
 			this._viewportZoom = val || 1;
 			this.redrawHandles();
 			this.redrawMidpoints();
+			this.redrawDeleteHandle();
 		}
 	}
 
@@ -151,6 +150,18 @@ export class EditablePolygonContainer extends PIXI.Container {
 	private _localPoints: number[] = [];
 	private _handles: Handle[] = [];
 	private _midPoints: Midpoint[] = [];
+
+	private redrawDeleteHandle(): void {
+		const deleteSprite = this.getChildByName('delete') as PIXI.Sprite;
+		if (deleteSprite) {
+			// This may be unneccessarily process intensive, moving the icon each re-draw
+			// while dragging.
+			const m = getMidpointOfPoints(this._localPoints);
+			const spriteScale = 0.12 * (1 / this._viewportZoom);
+			deleteSprite.position.set(m[0], m[1]);
+			deleteSprite.scale.set(spriteScale, spriteScale);
+		}
+	}
 
 	private redrawHandles(handleSize: number = 32): void {
 		this._handles.forEach(x => this.removeChild(x));
