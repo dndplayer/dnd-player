@@ -183,17 +183,15 @@ export default class DraggableContainer extends MapObject {
 
 	onMouseOver = (e: PIXI.interaction.InteractionEvent): void => {
 		const sprite = this.getChildByName('sprite') as PIXI.Sprite;
-		if (sprite && this.isSelectable) {
-			// inst.tint = 0x4ef125;
-			sprite.filters = this.hoverFilters;
+		if (sprite && this.isSelectable && !this.isSelected) {
+			sprite.filters = [...(sprite.filters || []), ...this.hoverFilters];
 		}
 	};
 
 	onMouseOut = (e: PIXI.interaction.InteractionEvent): void => {
 		const sprite = this.getChildByName('sprite') as PIXI.Sprite;
 		if (sprite && this.isSelectable) {
-			// inst.tint = 0xffffff;
-			sprite.filters = null;
+			sprite.filters = sprite.filters.filter(x => !(this.hoverFilters.indexOf(x) >= 0));
 		}
 	};
 }

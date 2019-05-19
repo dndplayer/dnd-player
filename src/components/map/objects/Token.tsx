@@ -4,6 +4,7 @@ import * as Ease from 'pixi-ease';
 import DraggableContainer, { DraggableContainerProps } from './DraggableContainer';
 import Healthbar from './Healthbar';
 import Ac from './Ac';
+import { OutlineFilter } from '@pixi/filter-outline';
 
 interface Props extends DraggableContainerProps {
 	// imageUrl: string;
@@ -54,6 +55,9 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 		s.name = 'sprite';
 		s.width = 200;
 		s.height = 200;
+		const filter = new OutlineFilter(4, 0xcccccc);
+		filter.padding = 6;
+		s.filters = [filter];
 
 		// const g = new PIXI.Graphics();
 		const hp = new Healthbar();
@@ -123,8 +127,10 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 		}
 
 		if (newProps.isSelected !== oldProps.isSelected) {
-			if (s) {
-				s.tint = newProps.isSelected && !oldProps.isSelected ? 0x0000ff : 0xffffff;
+			instance.isSelected = newProps.isSelected;
+			if (s && s.filters) {
+				s.filters = s.filters.filter(x => !(instance.hoverFilters.indexOf(x) >= 0));
+				(s.filters[0] as OutlineFilter).enabled = instance.isSelected;
 			}
 
 			hp.showText = newProps.isSelected;
