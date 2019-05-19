@@ -62,6 +62,9 @@ export class App extends Component<{}, {}> {
 		const theme = createMuiTheme({
 			palette: {
 				type: 'dark'
+			},
+			typography: {
+				useNextVariants: true
 			}
 		});
 
