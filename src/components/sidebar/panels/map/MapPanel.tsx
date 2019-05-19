@@ -63,6 +63,8 @@ export default class MapPanel extends Component<Props> {
 	};
 
 	render(): ReactNode {
+		const { fogEditMode, fogAddMode } = this.props;
+
 		return (
 			<div>
 				<Typography variant="h4" component="h1">
@@ -77,10 +79,7 @@ export default class MapPanel extends Component<Props> {
 					<FormGroup row>
 						<FormControlLabel
 							control={
-								<Switch
-									value={this.props.fogEditMode}
-									onChange={this.onFogEditToggle}
-								/>
+								<Switch checked={fogEditMode} onChange={this.onFogEditToggle} />
 							}
 							label="Fog Edit Mode"
 						/>
@@ -88,12 +87,7 @@ export default class MapPanel extends Component<Props> {
 
 					<FormGroup row>
 						<FormControlLabel
-							control={
-								<Switch
-									value={this.props.fogAddMode}
-									onChange={this.onFogAddToggle}
-								/>
-							}
+							control={<Switch checked={fogAddMode} onChange={this.onFogAddToggle} />}
 							label="Fog Add Mode"
 						/>
 					</FormGroup>
