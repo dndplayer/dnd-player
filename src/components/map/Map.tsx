@@ -131,7 +131,8 @@ class Map extends Component<Props, State> {
 		}
 		if (!this.props.fogAddMode && prevProps.fogAddMode) {
 			// Fog add disabled, cleanup local state and persist the new poly ?
-			if (this.state.newFogPoints.length > 0) {
+			if (this.state.newFogPoints.length >= 4) {
+				// Minimum of 2 points (4 nums) to create a fog poly
 				this.props.onUpdateFogPolygon(
 					this.props.mapData.id,
 					this.state.newFogIndex,
