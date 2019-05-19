@@ -38,6 +38,8 @@ const copyStyles = (sourceDoc: Document, targetDoc: Document): void => {
 interface Props {
 	title?: string;
 	onClose?: () => void;
+	width?: number;
+	height?: number;
 }
 
 interface State {
@@ -67,7 +69,8 @@ export default class WindowPortal extends Component<Props, State> {
 		let win = window.open(
 			'',
 			'',
-			'width=600,height=400,left=200,top=200,toolbar=no,menubar=no,scrollbars=yes,resizable=yes'
+			`width=${this.props.width || 600},height=${this.props.height ||
+				400},left=200,top=200,toolbar=no,menubar=no,scrollbars=yes,resizable=yes`
 		);
 
 		let el = document.createElement('div');

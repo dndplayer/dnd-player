@@ -102,7 +102,8 @@ class ChatContainer extends Component<Props, State> {
 											top: 5,
 											right: 5,
 											cursor: 'pointer',
-											fontSize: 18
+											fontSize: 18,
+											color: '#d29a38'
 										}}
 										onClick={() => this.setState({ showWindowPortal: true })}
 									>
@@ -115,6 +116,8 @@ class ChatContainer extends Component<Props, State> {
 				) : (
 					<WindowPortal
 						title="Chat"
+						width={440}
+						height={600}
 						onClose={() => this.setState({ showWindowPortal: false })}
 					>
 						{chat}

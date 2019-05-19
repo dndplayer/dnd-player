@@ -78,6 +78,8 @@ export class CharacterSheetContainer extends Component<Props> {
 			return (
 				<WindowPortal
 					title="Character Sheet"
+					width={1024}
+					height={768}
 					onClose={() => this.props.openCharacterSheet(null)}
 				>
 					<PlayerCharacterSheetWrapper
@@ -95,6 +97,8 @@ export class CharacterSheetContainer extends Component<Props> {
 			return (
 				<WindowPortal
 					title="Character Sheet"
+					width={800}
+					height={600}
 					onClose={() => this.props.openCharacterSheet(null)}
 				>
 					<NonPlayerCharacterSheetWrapper
