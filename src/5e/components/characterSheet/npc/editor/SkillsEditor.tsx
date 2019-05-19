@@ -23,8 +23,8 @@ export default class SkillsEditor extends React.Component<Props, {}> {
 				<SkillEditor
 					key={idx}
 					skill={skill}
-					updateSkillProperty={(p, v) => this.updateSkillProperty(idx, p, v)}
-					removeSkill={() => this.removeSkill(idx)}
+					updateSkillProperty={(p, v): void => this.updateSkillProperty(idx, p, v)}
+					removeSkill={(): void => this.removeSkill(idx)}
 				/>
 			);
 		}
@@ -34,7 +34,7 @@ export default class SkillsEditor extends React.Component<Props, {}> {
 				<span className={css.boldHeading}>Skills</span>
 				<div className={`${css.column} ${css.center}`}>
 					{skills}
-					<div className={css.button} onClick={() => this.addSkill()}>
+					<div className={css.button} onClick={(): void => this.addSkill()}>
 						<Icon path={mdiPlus} size={1} color={'#ccc'} />
 					</div>
 				</div>

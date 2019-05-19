@@ -23,8 +23,8 @@ export default class TraitsEditor extends React.Component<Props, {}> {
 				<TraitEditor
 					key={idx}
 					trait={trait}
-					updateTraitProperty={(p, v) => this.updateTraitProperty(idx, p, v)}
-					removeTrait={() => this.removeTrait(idx)}
+					updateTraitProperty={(p, v): void => this.updateTraitProperty(idx, p, v)}
+					removeTrait={(): void => this.removeTrait(idx)}
 				/>
 			);
 		}
@@ -34,7 +34,7 @@ export default class TraitsEditor extends React.Component<Props, {}> {
 				<span className={css.subheading}>Traits</span>
 				<div className={`${css.column} ${css.center}`}>
 					{traits}
-					<div className={css.button} onClick={() => this.addTrait()}>
+					<div className={css.button} onClick={(): void => this.addTrait()}>
 						<Icon path={mdiPlus} size={1} color={'#ccc'} />
 					</div>
 				</div>

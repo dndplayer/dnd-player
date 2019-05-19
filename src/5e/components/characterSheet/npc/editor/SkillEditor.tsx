@@ -35,7 +35,7 @@ export default class SkillEditor extends React.Component<Props, {}> {
 				</div>
 				<select
 					value={skill.skill}
-					onChange={e => this.props.updateSkillProperty('skill', e.target.value)}
+					onChange={(e): void => this.props.updateSkillProperty('skill', e.target.value)}
 				>
 					{options}
 				</select>
@@ -44,7 +44,9 @@ export default class SkillEditor extends React.Component<Props, {}> {
 					min="-30"
 					max="+30"
 					value={skill.modifier}
-					onChange={e => this.props.updateSkillProperty('modifier', e.target.value)}
+					onChange={(e): void =>
+						this.props.updateSkillProperty('modifier', e.target.value)
+					}
 				/>
 			</div>
 		);

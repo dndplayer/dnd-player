@@ -72,7 +72,7 @@ export default class Actions extends React.Component<Props, {}> {
 		return <div>{actions}</div>;
 	}
 
-	doAction(action, advantage) {
+	doAction(action, advantage: number): void {
 		CharacterActionHelper.doAction(
 			this.props.character,
 			action,

@@ -54,7 +54,7 @@ export default class EffectEditor extends React.Component<Props, {}> {
 				</div>
 				<select
 					value={effect.type}
-					onChange={e =>
+					onChange={(e): void =>
 						this.props.updateEffectProperty('type', parseInt(e.target.value))
 					}
 				>
@@ -79,7 +79,7 @@ class ToHitEffectEditor extends React.Component<ToHitProps, {}> {
 			<div className={css.effect}>
 				<input
 					value={toHitEffect.modifier}
-					onChange={e => updateEffectProperty('modifier', e.target.value)}
+					onChange={(e): void => updateEffectProperty('modifier', e.target.value)}
 				/>
 			</div>
 		);

@@ -13,8 +13,6 @@ interface Props {
 
 export default class AbilityScoreContainer extends React.Component<Props, {}> {
 	render(): ReactNode {
-		const { character } = this.props;
-
 		return (
 			<div className={css.abilityContainer}>
 				<AbilityScore ability="strength" {...this.props} />

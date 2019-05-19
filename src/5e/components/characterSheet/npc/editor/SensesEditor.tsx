@@ -23,7 +23,7 @@ export default class SensesEditor extends React.Component<Props, {}> {
 							type="checkbox"
 							name="blind"
 							checked={(character.senses && character.senses.blind) || false}
-							onChange={e => this.update('blind', e.target.checked)}
+							onChange={(e): void => this.update('blind', e.target.checked)}
 						/>
 					</div>
 					<SenseEditor

@@ -61,12 +61,12 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 						<input
 							value={newCharacter.name}
 							placeholder="Name"
-							onChange={e => this.update('name', e.target.value)}
+							onChange={(e): void => this.update('name', e.target.value)}
 						/>
-						<div onClick={() => this.abortEditSheet()} className={css.button}>
+						<div onClick={(): void => this.abortEditSheet()} className={css.button}>
 							<Icon path={mdiCancel} size={1} color={'#a6792d'} />
 						</div>
-						<div onClick={() => this.saveSheet()} className={css.button}>
+						<div onClick={(): void => this.saveSheet()} className={css.button}>
 							<Icon path={mdiContentSave} size={1} color={'#a6792d'} />
 						</div>
 					</div>
@@ -74,7 +74,7 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 						<select
 							value={newCharacter.size}
 							placeholder="Class"
-							onChange={e => this.update('size', e.target.value)}
+							onChange={(e): void => this.update('size', e.target.value)}
 						>
 							<option value={CharacterSize.Tiny}>Tiny</option>
 							<option value={CharacterSize.Small}>Small</option>
@@ -86,12 +86,12 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 						<input
 							value={newCharacter.class}
 							placeholder="Class"
-							onChange={e => this.update('class', e.target.value)}
+							onChange={(e): void => this.update('class', e.target.value)}
 						/>
 						<input
 							value={newCharacter.alignment}
 							placeholder="Alignment"
-							onChange={e => this.update('alignment', e.target.value)}
+							onChange={(e): void => this.update('alignment', e.target.value)}
 						/>
 					</div>
 					<hr className={css.divider} />
@@ -102,12 +102,12 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 								value={newCharacter.ac}
 								type="number"
 								min="0"
-								onChange={e => this.update('ac', e.target.value || 0)}
+								onChange={(e): void => this.update('ac', e.target.value || 0)}
 							/>
 							<input
 								value={newCharacter.acType}
 								placeholder="natural armor"
-								onChange={e => this.update('acType', e.target.value)}
+								onChange={(e): void => this.update('acType', e.target.value)}
 							/>
 						</span>
 					</div>
@@ -117,7 +117,7 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 							<input
 								value={newCharacter.hpDice}
 								placeholder="8d10 + 40"
-								onChange={e => this.update('hpDice', e.target.value)}
+								onChange={(e): void => this.update('hpDice', e.target.value)}
 							/>
 						</span>
 					</div>
@@ -135,7 +135,7 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 						<input
 							value={newCharacter.damageResistances}
 							placeholder="cold"
-							onChange={e => this.update('damageResistances', e.target.value)}
+							onChange={(e): void => this.update('damageResistances', e.target.value)}
 						/>
 					</div>
 					<div>
@@ -143,7 +143,7 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 						<input
 							value={newCharacter.damageImmunities}
 							placeholder="cold"
-							onChange={e => this.update('damageImmunities', e.target.value)}
+							onChange={(e): void => this.update('damageImmunities', e.target.value)}
 						/>
 					</div>
 					<div>
@@ -151,7 +151,9 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 						<input
 							value={newCharacter.conditionImmunities}
 							placeholder="poisoned"
-							onChange={e => this.update('conditionImmunities', e.target.value)}
+							onChange={(e): void =>
+								this.update('conditionImmunities', e.target.value)
+							}
 						/>
 					</div>
 					<SensesEditor updateCharacterProperty={update} character={newCharacter} />
@@ -160,7 +162,7 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 						<input
 							value={newCharacter.languages}
 							placeholder="Common"
-							onChange={e => this.update('languages', e.target.value)}
+							onChange={(e): void => this.update('languages', e.target.value)}
 						/>
 					</div>
 					<div>
@@ -168,7 +170,7 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 						<input
 							value={newCharacter.cr}
 							placeholder="1/2"
-							onChange={e => this.update('cr', e.target.value)}
+							onChange={(e): void => this.update('cr', e.target.value)}
 						/>
 					</div>
 					<hr className={css.divider} />
@@ -191,7 +193,7 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 						value={newCharacter.legendaryActionCount}
 						type="number"
 						min={1}
-						onChange={e => this.update('legendaryActionCount', e.target.value)}
+						onChange={(e): void => this.update('legendaryActionCount', e.target.value)}
 					/>
 					<ActionsEditor
 						updateCharacterProperty={update}

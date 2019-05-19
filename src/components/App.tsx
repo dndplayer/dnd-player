@@ -18,7 +18,7 @@ import PropertiesPanelContainer from './propertiesPanel/PropertiesPanelContainer
 import ChatContainer from './chat/ChatContainer';
 import OverlayTabsContainer from './sidebar/OverlayTabsContainer';
 import { PersistGate } from 'redux-persist/integration/react';
-import { HotKeys, configure as HotkeysConfigure, GlobalHotKeys } from 'react-hotkeys';
+import { configure as HotkeysConfigure, GlobalHotKeys } from 'react-hotkeys';
 import { openChat, closeChat } from '../redux/actions/chat';
 import { mapsToggleMeasureMode, toggleFogEditMode, toggleFogAddMode } from '../redux/actions/maps';
 import { keyUpShiftAction, keyDownShiftAction } from '../redux/actions/keys';

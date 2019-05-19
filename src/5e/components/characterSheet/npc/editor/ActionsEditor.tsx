@@ -24,8 +24,8 @@ export default class ActionsEditor extends React.Component<Props, {}> {
 				<ActionEditor
 					key={idx}
 					action={action}
-					updateActionProperty={(p, v) => this.updateActionProperty(idx, p, v)}
-					removeAction={() => this.removeAction(idx)}
+					updateActionProperty={(p, v): void => this.updateActionProperty(idx, p, v)}
+					removeAction={(): void => this.removeAction(idx)}
 				/>
 			);
 		}
@@ -34,7 +34,7 @@ export default class ActionsEditor extends React.Component<Props, {}> {
 			<div className="column">
 				<div className={`${css.column} ${css.center}`}>
 					{actions}
-					<div className={css.button} onClick={() => this.addAction()}>
+					<div className={css.button} onClick={(): void => this.addAction()}>
 						<Icon path={mdiPlus} size={1} color={'#ccc'} />
 					</div>
 				</div>

@@ -25,11 +25,11 @@ export default class ActionEditor extends React.Component<Props, {}> {
 					className={css.italicHeading}
 					value={action.name}
 					placeholder="Name"
-					onChange={e => this.props.updateActionProperty('name', e.target.value)}
+					onChange={(e): void => this.props.updateActionProperty('name', e.target.value)}
 				/>
 				<EffectsEditor
 					effects={action.effects}
-					updateEffects={e => this.props.updateActionProperty('effects', [...e])}
+					updateEffects={(e): void => this.props.updateActionProperty('effects', [...e])}
 				/>
 			</div>
 		);

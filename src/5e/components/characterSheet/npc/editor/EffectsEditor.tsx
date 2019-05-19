@@ -18,15 +18,19 @@ export default class EffectsEditor extends React.Component<Props, {}> {
 		return (
 			<div className="column">
 				<div className={`${css.column} ${css.center}`}>
-					{(effects || []).map((effect, idx) => (
-						<EffectEditor
-							key={idx}
-							effect={effect}
-							updateEffectProperty={(p, v) => this.updateEffectProperty(idx, p, v)}
-							removeEffect={() => this.removeEffect(idx)}
-						/>
-					))}
-					<div className={css.button} onClick={() => this.addEffect()}>
+					{(effects || []).map(
+						(effect, idx): ReactNode => (
+							<EffectEditor
+								key={idx}
+								effect={effect}
+								updateEffectProperty={(p, v): void =>
+									this.updateEffectProperty(idx, p, v)
+								}
+								removeEffect={(): void => this.removeEffect(idx)}
+							/>
+						)
+					)}
+					<div className={css.button} onClick={(): void => this.addEffect()}>
 						<Icon path={mdiPlus} size={1} color={'#ccc'} />
 					</div>
 				</div>

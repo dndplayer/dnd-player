@@ -23,7 +23,7 @@ export default class SaveEditor extends React.Component<Props, {}> {
 					type="number"
 					min={0}
 					placeholder={'10'}
-					onChange={e => this.props.updateSaveProperty(type, e.target.value)}
+					onChange={(e): void => this.props.updateSaveProperty(type, e.target.value)}
 				/>
 			</div>
 		);

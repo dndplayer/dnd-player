@@ -23,7 +23,9 @@ export default class AbilityScoreEditor extends React.Component<Props, {}> {
 					min={0}
 					max={30}
 					placeholder={'10'}
-					onChange={e => this.props.updateCharacterProperty(ability, e.target.value)}
+					onChange={(e): void =>
+						this.props.updateCharacterProperty(ability, e.target.value)
+					}
 				/>
 			</div>
 		);

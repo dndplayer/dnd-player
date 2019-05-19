@@ -47,7 +47,7 @@ export default class InlineCalculator extends React.Component<Props, State> {
 			<HotKeys keyMap={keyMap} handlers={this.handlers}>
 				<ObserveKeys only={Object.values(keyMap)} except={undefined}>
 					<input
-						ref={i => (this._input = i)}
+						ref={(i): HTMLInputElement => (this._input = i)}
 						value={this.state.newValue}
 						onChange={onChange}
 						onBlur={onCancel}

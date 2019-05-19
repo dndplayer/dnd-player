@@ -22,7 +22,7 @@ export default class SenseEditor extends React.Component<Props, {}> {
 					type="number"
 					min={0}
 					placeholder={'10'}
-					onChange={e => this.props.updateSenseProperty(type, e.target.value)}
+					onChange={(e): void => this.props.updateSenseProperty(type, e.target.value)}
 				/>
 			</div>
 		);

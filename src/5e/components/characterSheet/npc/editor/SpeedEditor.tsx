@@ -22,7 +22,7 @@ export default class SpeedEditor extends React.Component<Props, {}> {
 					type="number"
 					min={0}
 					placeholder={'10'}
-					onChange={e => this.props.updateSpeedProperty(type, e.target.value)}
+					onChange={(e): void => this.props.updateSpeedProperty(type, e.target.value)}
 				/>
 			</div>
 		);

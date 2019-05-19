@@ -24,12 +24,14 @@ export default class TraitEditor extends React.Component<Props, {}> {
 					className={css.italicHeading}
 					value={trait.title}
 					placeholder="Title"
-					onChange={e => this.props.updateTraitProperty('title', e.target.value)}
+					onChange={(e): void => this.props.updateTraitProperty('title', e.target.value)}
 				/>
 				<textarea
 					value={trait.description}
 					placeholder="Description"
-					onChange={e => this.props.updateTraitProperty('description', e.target.value)}
+					onChange={(e): void =>
+						this.props.updateTraitProperty('description', e.target.value)
+					}
 				/>
 			</div>
 		);
