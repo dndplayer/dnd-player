@@ -87,3 +87,18 @@ $darkenColor: darken($activeColor, 20%);
 		white-space: nowrap;
 	}
 }
+
+.controlStateOverlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.controlState {
+	display: block;
+	background-color: rgb(102, 75, 40);
+	border-radius: 3px;
+	padding: 3px 5px;
+	margin-top: 5px;
+	margin-left: 5px;
+}

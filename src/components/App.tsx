@@ -20,7 +20,7 @@ import OverlayTabsContainer from './sidebar/OverlayTabsContainer';
 import { PersistGate } from 'redux-persist/integration/react';
 import { HotKeys, configure as HotkeysConfigure, GlobalHotKeys } from 'react-hotkeys';
 import { openChat, closeChat } from '../redux/actions/chat';
-import { mapsToggleMeasureMode, toggleFogEditMode } from '../redux/actions/maps';
+import { mapsToggleMeasureMode, toggleFogEditMode, toggleFogAddMode } from '../redux/actions/maps';
 import { keyUpShiftAction, keyDownShiftAction } from '../redux/actions/keys';
 
 const keyMap = {
@@ -28,6 +28,7 @@ const keyMap = {
 	CLOSE_CHAT: 'esc',
 	TOGGLE_MEASURE_MODE: 'm',
 	TOGGLE_FOG_EDIT_MODE: 'f',
+	TOGGLE_FOG_ADD_MODE: 'a',
 	SHIFT_DOWN: { sequence: 'shift', action: 'keydown' },
 	SHIFT_UP: { sequence: 'shift', action: 'keyup' }
 };
@@ -44,7 +45,8 @@ const handlers = {
 		console.log(event);
 		store.store.dispatch(keyUpShiftAction());
 	},
-	TOGGLE_FOG_EDIT_MODE: event => store.store.dispatch(toggleFogEditMode())
+	TOGGLE_FOG_EDIT_MODE: event => store.store.dispatch(toggleFogEditMode()),
+	TOGGLE_FOG_ADD_MODE: event => store.store.dispatch(toggleFogAddMode())
 };
 
 export class App extends Component<{}, {}> {

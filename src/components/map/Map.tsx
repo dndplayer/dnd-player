@@ -131,12 +131,14 @@ class Map extends Component<Props, State> {
 		}
 		if (!this.props.fogAddMode && prevProps.fogAddMode) {
 			// Fog add disabled, cleanup local state and persist the new poly ?
-			this.props.onUpdateFogPolygon(
-				this.props.mapData.id,
-				this.state.newFogIndex,
-				this.state.newFogPosition,
-				this.state.newFogPoints
-			);
+			if (this.state.newFogPoints.length > 0) {
+				this.props.onUpdateFogPolygon(
+					this.props.mapData.id,
+					this.state.newFogIndex,
+					this.state.newFogPosition,
+					this.state.newFogPoints
+				);
+			}
 
 			this.setState({
 				newFogIndex: null,
@@ -372,6 +374,14 @@ class Map extends Component<Props, State> {
 						/>
 						<label htmlFor="squaredOne" />
 					</div>
+				</div>
+				<div className={styles.controlStateOverlay}>
+					{this.props.fogEditMode && (
+						<span className={styles.controlState}>FOG EDIT MODE</span>
+					)}
+					{this.props.fogAddMode && (
+						<span className={styles.controlState}>FOG ADD MODE</span>
+					)}
 				</div>
 				<Stage
 					ref={c => (this._stage = c as any)}

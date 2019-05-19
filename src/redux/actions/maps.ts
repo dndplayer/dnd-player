@@ -30,7 +30,8 @@ export const types = {
 		FOG: {
 			ADD: {
 				ENABLE: 'MAPS.FOG.ADD.ENABLE',
-				DISABLE: 'MAPS.FOG.ADD.DISABLE'
+				DISABLE: 'MAPS.FOG.ADD.DISABLE',
+				TOGGLE: 'MAPS.FOG.ADD.TOGGLE'
 			},
 			EDIT: {
 				ENABLE: 'MAPS.FOG.EDIT.ENABLE',
@@ -108,6 +109,7 @@ export interface UpdateFogColourAction extends Action {
 
 export interface EnableFogAddModeAction extends Action {}
 export interface DisableFogAddModeAction extends Action {}
+export interface ToggleFogAddModeAction extends Action {}
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -207,4 +209,8 @@ export const enableFogAddMode = (): EnableFogAddModeAction => ({
 
 export const disableFogAddMode = (): DisableFogAddModeAction => ({
 	type: types.MAPS.FOG.ADD.DISABLE
+});
+
+export const toggleFogAddMode = (): ToggleFogAddModeAction => ({
+	type: types.MAPS.FOG.ADD.TOGGLE
 });
