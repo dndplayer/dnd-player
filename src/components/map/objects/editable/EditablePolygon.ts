@@ -36,6 +36,7 @@ export class EditablePolygonContainer extends PIXI.Container {
 
 		// const t = PIXI.Texture.fromImage(DeleteImage, undefined, undefined, 1.0);
 		const d = PIXI.Sprite.fromImage(DeleteImage, undefined, 1.0);
+		d.name = 'delete';
 		d.width = 142 * 4;
 		d.height = 256 * 4;
 		d.anchor.set(0.5, 0.5);
@@ -86,6 +87,14 @@ export class EditablePolygonContainer extends PIXI.Container {
 			polyGraphic.drawPolygon(poly);
 			polyGraphic.endFill();
 			polyGraphic.hitArea = poly;
+		}
+
+		const deleteSprite = this.getChildByName('delete') as PIXI.Sprite;
+		if (deleteSprite) {
+			// This may be unneccessarily process intensive, moving the icon each re-draw
+			// while dragging.
+			const m = getMidpointOfPoints(this._localPoints);
+			deleteSprite.position.set(m[0], m[1]);
 		}
 
 		// Re-draw MidPoints
