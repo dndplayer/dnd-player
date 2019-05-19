@@ -1,24 +1,32 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, ReactElement } from 'react';
 
 import styles from './Equipment.module.css';
-import { PlayerCharacter } from '../../../models/Character';
+import { PlayerCharacter, CharacterResource } from '../../../models/Character';
+import InlineCalculator from '../../../../components/util/InlineCalculator';
 
 interface Props {
 	character: PlayerCharacter;
+	updatePlayerCharacter: (characterId: string, character: PlayerCharacter) => void;
 }
 
 export default class Resources extends React.Component<Props, {}> {
 	render(): ReactNode {
 		const { character } = this.props;
 
-		const resources = (character.resources || []).map((item, idx) => (
-			<div key={idx}>
-				<div>{item.name}</div>
-				<div>
-					{item.quantity} / {item.max}
+		const resources = (character.resources || []).map(
+			(item, idx): ReactElement => (
+				<div key={idx}>
+					<div>{item.name}</div>
+					<div>
+						<InlineCalculator
+							value={item.quantity}
+							onEnter={(val): void => this.updateResource(item, val)}
+						/>
+						<span>/ {item.max}</span>
+					</div>
 				</div>
-			</div>
-		));
+			)
+		);
 
 		return (
 			<div className={styles.resources}>
@@ -26,5 +34,16 @@ export default class Resources extends React.Component<Props, {}> {
 				<div className={styles.title}>Resources</div>
 			</div>
 		);
+	}
+
+	updateResource(item: CharacterResource, val: number): void {
+		const { character, updatePlayerCharacter } = this.props;
+		const resources = character.resources.map(x => ({ ...x }));
+		resources.find(x => x.name === item.name).quantity = val;
+
+		updatePlayerCharacter(character.id, {
+			...character,
+			resources: resources
+		});
 	}
 }

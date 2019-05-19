@@ -2,9 +2,11 @@ import React, { ReactNode } from 'react';
 
 import './PlayerCharacterSheet.css';
 import { PlayerCharacter } from '../../../models/Character';
+import InlineCalculator from '../../../../components/util/InlineCalculator';
 
 interface Props {
 	character: PlayerCharacter;
+	updatePlayerCharacter: (characterId: string, character: PlayerCharacter) => void;
 }
 
 export default class HitPoints extends React.Component<Props, {}> {
@@ -15,7 +17,15 @@ export default class HitPoints extends React.Component<Props, {}> {
 			<div className="hp">
 				<div className="hp-title">Hit Points</div>
 				<div className="hp-current">
-					<span>{character.hp}</span>
+					<InlineCalculator
+						value={character.hp}
+						onEnter={(val): void =>
+							this.props.updatePlayerCharacter(character.id, {
+								...character,
+								hp: val
+							})
+						}
+					/>
 					<span className="hp-header">Current</span>
 				</div>
 				<div className="hp-divider">/</div>
