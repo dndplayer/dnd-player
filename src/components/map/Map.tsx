@@ -376,6 +376,9 @@ class Map extends Component<Props, State> {
 					</div>
 				</div>
 				<div className={styles.controlStateOverlay}>
+					{this.props.measureModeEnabled && (
+						<span className={styles.controlState}>MEASURING MODE</span>
+					)}
 					{this.props.fogEditMode && (
 						<span className={styles.controlState}>FOG EDIT MODE</span>
 					)}
