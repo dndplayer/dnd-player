@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import { ChatMessageData } from '../../../../models/ChatMessage';
+import { ChatMessageData, RollData } from '../../../../models/ChatMessage';
 
 import css from './NonPlayerCharacterSheet.module.css';
 import { NonPlayerCharacter } from '../../../models/Character';
@@ -12,11 +12,12 @@ import Traits from './Traits';
 import Actions from './Actions';
 import Senses from './Senses';
 import { Icon } from '@mdi/react';
-import { mdiFileDocumentEdit } from '@mdi/js';
+import { mdiFileDocumentEdit, mdiSwordCross } from '@mdi/js';
 import Rules from '../../../5eRules';
 import Speeds from './Speeds';
 import SavingThrows from './SavingThrows';
 import InlineCalculator from '../../../../components/util/InlineCalculator';
+import { DiceRoll } from 'rpg-dice-roller';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -47,6 +48,9 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 				)}
 				<div className={css.characterName + ' row'}>
 					<span>{character.name}</span>
+					<div onClick={(): void => this.rollInitiative(0)} className={css.button}>
+						<Icon path={mdiSwordCross} size={1} color={'#a6792d'} />
+					</div>
 					{this.props.editNonPlayerCharacter && (
 						<div
 							onClick={() => editNonPlayerCharacter(characterId)}
@@ -153,5 +157,34 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 				)}
 			</div>
 		);
+	}
+
+	rollInitiative(advantage: number): void {
+		const modifier = Rules.getInitiativeModifier(this.props.character);
+		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
+		const roll = new DiceRoll('d20' + modifierStr);
+
+		const data: RollData = {
+			type: 'roll',
+			characterName: this.props.character.name,
+			rollType: 'Initiative',
+			rollName: 'Initiative',
+			modifier: modifierStr,
+			roll1Total: roll.total,
+			roll1Details: roll.toString().match(/.*?: (.*?) =/)[1],
+			roll1CritSuccess: roll.rolls[0][0] === 20,
+			roll1CritFail: roll.rolls[0][0] === 1
+		};
+
+		if (advantage) {
+			const roll2 = new DiceRoll('d20' + modifierStr);
+			data.rollAdvantageType = advantage;
+			data.roll2Total = roll2.total;
+			data.roll2Details = roll2.toString().match(/.*?: (.*?) =/)[1];
+			data.roll2CritSuccess = roll2.rolls[0][0] === 20;
+			data.roll2CritFail = roll2.rolls[0][0] === 1;
+		}
+
+		this.props.sendMessage('', data);
 	}
 }
