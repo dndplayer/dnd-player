@@ -120,7 +120,7 @@ export default class CharacterActionHelper {
 				);
 				const result2: CharacterActionDiceRollResult = {
 					advantage: AdvantageType.None,
-					modifier: damageEffect.bonus,
+					modifier: damageEffect.bonus || 0,
 					type: CharacterActionResultType.DiceRoll,
 					rolls: []
 				};
