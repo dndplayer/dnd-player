@@ -11,12 +11,14 @@ import {
 } from '../../../../redux/actions/maps';
 import { MapData } from '../../../../models/Map';
 import { getCurrentMap } from '../../../../redux/selectors/maps';
+import { setActiveMap } from '../../../../redux/actions/globalState';
 
 interface StateProps {
 	fogEditMode: boolean;
 	fogAddMode: boolean;
 	activeMapId: string;
 	activeMap: MapData;
+	maps: MapData[];
 }
 interface DispatchProps {
 	enableFogEditMode: () => void;
@@ -25,6 +27,7 @@ interface DispatchProps {
 	disableFogAddMode: () => void;
 	updateFogColour: (mapId: string, colour: string) => void;
 	updateStageBackground: (mapId: string, colour: string) => void;
+	setActiveMap: (mapId: string) => void;
 }
 interface OwnProps {}
 
@@ -42,12 +45,16 @@ class MapPanelContainer extends Component<Props> {
 			updateFogColour,
 			updateStageBackground,
 			activeMapId,
-			activeMap
+			activeMap,
+			maps,
+			setActiveMap
 		} = this.props;
 
 		return (
 			<MapPanel
+				maps={maps}
 				activeMapId={activeMapId}
+				setActiveMap={setActiveMap}
 				activeMap={activeMap}
 				fogEditMode={fogEditMode}
 				fogAddMode={fogAddMode}
@@ -66,7 +73,8 @@ const mapStateToProps = (state): StateProps => ({
 	fogAddMode: state.maps.fogAddMode,
 	fogEditMode: state.maps.fogEditMode,
 	activeMapId: state.globalState.state.activeMapId,
-	activeMap: getCurrentMap(state)
+	activeMap: getCurrentMap(state),
+	maps: state.maps.maps
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	enableFogEditMode: () => dispatch(enableFogEditMode()),
@@ -76,7 +84,8 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 	updateFogColour: (mapId: string, colour: string) =>
 		dispatch(mapsUpdateFogColour(mapId, colour)),
 	updateStageBackground: (mapId: string, colour: string) =>
-		dispatch(mapsUpdateBackgroundColour(mapId, colour))
+		dispatch(mapsUpdateBackgroundColour(mapId, colour)),
+	setActiveMap: (mapId: string) => dispatch(setActiveMap(mapId))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

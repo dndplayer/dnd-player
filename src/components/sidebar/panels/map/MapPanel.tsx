@@ -14,6 +14,10 @@ import { MapData } from '../../../../models/Map';
 
 import styles from './MapPanel.module.css';
 
+interface State {
+	currActiveMapId: string;
+}
+
 interface Props {
 	enableFogEditMode: () => void;
 	disableFogEditMode: () => void;
@@ -25,9 +29,21 @@ interface Props {
 	activeMap?: MapData;
 	updateFogColour: (mapId: string, colour: string) => void;
 	updateStageBackground: (mapId: string, colour: string) => void;
+	maps: MapData[];
+	setActiveMap: (mapId: string) => void;
 }
 
-export default class MapPanel extends Component<Props> {
+export default class MapPanel extends Component<Props, State> {
+	state = {
+		currActiveMapId: this.props.activeMapId
+	};
+
+	componentDidUpdate(prevProps, prevState) {
+		if (this.props.activeMapId !== this.state.currActiveMapId) {
+			this.setState({ currActiveMapId: this.props.activeMapId });
+		}
+	}
+
 	onFogEditToggle = (e: ChangeEvent<HTMLInputElement>, checked: boolean): void => {
 		if (checked) {
 			this.props.enableFogEditMode();
@@ -59,6 +75,19 @@ export default class MapPanel extends Component<Props> {
 		}
 		if (this.props.updateFogColour) {
 			this.props.updateFogColour(this.props.activeMapId, colour);
+		}
+	};
+
+	onChangeActiveMap = (e: any): void => {
+		this.setState({
+			currActiveMapId: e.target.value
+		});
+	};
+
+	changeMap = (): void => {
+		console.log(`Changing Map to ${this.state.currActiveMapId}`);
+		if (this.props.setActiveMap) {
+			this.props.setActiveMap(this.state.currActiveMapId);
 		}
 	};
 
@@ -143,9 +172,26 @@ export default class MapPanel extends Component<Props> {
 					</FormGroup>
 				</Paper>
 
-				<Typography variant="body1" component="p">
-					<i>This is WIP</i>
-				</Typography>
+				<Paper>
+					<div className={styles.settingRow}>
+						<span>Active Map ID {this.props.activeMapId}</span>
+						<select
+							defaultValue={this.props.activeMapId}
+							onChange={this.onChangeActiveMap}
+						>
+							{this.props.maps.map(x => (
+								<option key={x.id} value={x.id}>
+									{x.id}
+								</option>
+							))}
+						</select>
+						<button onClick={this.changeMap}>Change!</button>
+						<div>
+							Warning: This is still a little buggy! E.g. You need to refresh once
+							changed
+						</div>
+					</div>
+				</Paper>
 			</div>
 		);
 	}

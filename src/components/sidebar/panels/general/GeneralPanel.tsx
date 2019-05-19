@@ -6,15 +6,11 @@ import { NonPlayerCharacter } from '../../../../5e/models/Character';
 import { MapData } from '../../../../models/Map';
 
 interface State {
-	activeMapId: string;
 	roomUrlCopiedTooltipOpen: boolean;
 	roomUrlTooltipTimeout: any;
 }
 
 interface Props {
-	maps: MapData[];
-	activeMapId: string;
-	setActiveMap: (mapId: string) => void;
 	dm: boolean;
 	canBeDm: boolean;
 	roomUrl: string;
@@ -32,32 +28,14 @@ export default class GeneralPanel extends Component<Props, State> {
 	}
 
 	state = {
-		activeMapId: this.props.activeMapId,
 		roomUrlCopiedTooltipOpen: false,
 		roomUrlTooltipTimeout: null
 	};
 
-	componentDidUpdate(prevProps, prevState): void {
-		if (prevProps.activeMapId !== this.props.activeMapId) {
-			this.setState({ activeMapId: this.props.activeMapId });
-		}
-	}
+	componentDidUpdate(prevProps, prevState): void {}
 
 	onChangeDm = (e): void => {
 		this.props.setDm(!e.target.checked);
-	};
-
-	onChangeActiveMap = (e): void => {
-		this.setState({
-			activeMapId: e.target.value
-		});
-	};
-
-	changeMap = (): void => {
-		console.log(`Changing Map to ${this.state.activeMapId}`);
-		if (this.props.setActiveMap) {
-			this.props.setActiveMap(this.state.activeMapId);
-		}
 	};
 
 	copyRoomUrl = (): void => {
@@ -159,26 +137,6 @@ export default class GeneralPanel extends Component<Props, State> {
 								}
 								label="View as Player?"
 							/>
-						</div>
-					)}
-					{this.props.dm && (
-						<div className={styles.settingRow}>
-							<span>Active Map ID {this.props.activeMapId}</span>
-							<select
-								value={this.state.activeMapId}
-								onChange={this.onChangeActiveMap}
-							>
-								{this.props.maps.map(x => (
-									<option key={x.id} value={x.id}>
-										{x.id}
-									</option>
-								))}
-							</select>
-							<button onClick={this.changeMap}>Change!</button>
-							<div>
-								Warning: This is still a little buggy! E.g. You need to refresh once
-								changed
-							</div>
 						</div>
 					)}
 				</div>

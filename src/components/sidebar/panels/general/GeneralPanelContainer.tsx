@@ -16,11 +16,8 @@ interface StateProps {
 	dm: boolean;
 	canBeDm: boolean;
 	nonPlayerCharacters: NonPlayerCharacter[];
-	maps: MapData[];
-	activeMapId: string;
 }
 interface DispatchProps {
-	setActiveMap: (mapId: string) => void;
 	setDm: (val: boolean) => void;
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) => void;
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) => void;
@@ -31,7 +28,7 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 class GeneralPanelContainer extends Component<Props> {
 	render(): ReactNode {
-		const { dm, canBeDm, setDm, maps, setActiveMap, activeMapId } = this.props;
+		const { dm, canBeDm, setDm } = this.props;
 
 		const settings = JSON.parse(localStorage.getItem('firebaseConfig'));
 		const roomUrl =
@@ -39,9 +36,6 @@ class GeneralPanelContainer extends Component<Props> {
 
 		return (
 			<GeneralPanel
-				maps={maps}
-				activeMapId={activeMapId}
-				setActiveMap={setActiveMap}
 				dm={dm}
 				canBeDm={canBeDm}
 				setDm={setDm}
@@ -57,17 +51,14 @@ class GeneralPanelContainer extends Component<Props> {
 const mapStateToProps = (state): StateProps => ({
 	dm: state.auth.dm,
 	canBeDm: state.auth.canBeDm,
-	nonPlayerCharacters: state.assets.nonPlayerCharacters,
-	maps: state.maps.maps,
-	activeMapId: state.globalState.state.activeMapId
+	nonPlayerCharacters: state.assets.nonPlayerCharacters
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	setDm: (val: boolean) => dispatch(setDm(val)),
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) =>
 		dispatch(updateNonPlayerCharacter(characterId, character)),
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) =>
-		dispatch(saveNewNonPlayerCharacter(character)),
-	setActiveMap: (mapId: string) => dispatch(setActiveMap(mapId))
+		dispatch(saveNewNonPlayerCharacter(character))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(
