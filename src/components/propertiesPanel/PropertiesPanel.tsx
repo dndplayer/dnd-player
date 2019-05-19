@@ -275,10 +275,10 @@ export default class PropertiesPanel extends Component<Props, State> {
 				<div
 					style={{
 						padding: 2,
-						backgroundColor: 'red',
+						color: '#d29a38',
 						textAlign: 'center',
-						top: 0,
-						right: 0,
+						top: '4px',
+						right: '4px',
 						position: 'absolute',
 						width: 24,
 						height: 24,

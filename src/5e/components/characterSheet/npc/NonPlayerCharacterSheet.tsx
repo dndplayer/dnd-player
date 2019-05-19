@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import { ChatMessageData } from '../../../../models/ChatMessage';
 
 import css from './NonPlayerCharacterSheet.module.css';
-import { Character, NonPlayerCharacter } from '../../../models/Character';
+import { NonPlayerCharacter } from '../../../models/Character';
 import { Upload } from '../../../../models/Upload';
 import CharacterImage from '../CharacterImage';
 import AbilityScoreContainer from './AbilityScoreContainer';
