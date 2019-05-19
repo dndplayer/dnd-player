@@ -34,13 +34,14 @@ export interface MapLayers {
 }
 
 export interface MaskPolygon {
+	id: string;
 	points: number[];
 	position: { x: number; y: number };
 }
 
 export interface FogData {
 	colour?: string;
-	maskPolygons?: MaskPolygon[];
+	maskPolygons?: object;
 }
 
 export interface MapData {

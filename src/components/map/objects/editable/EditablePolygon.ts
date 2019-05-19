@@ -40,6 +40,7 @@ export class EditablePolygonContainer extends PIXI.Container {
 		d.height = 256 * 4;
 		d.anchor.set(0.5, 0.5);
 		d.interactive = true;
+		d.buttonMode = true;
 		d.on('click', (e: PIXI.interaction.InteractionEvent) => {
 			console.log(`Delete clicked`);
 			this._delete();

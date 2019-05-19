@@ -32,7 +32,10 @@ export default PixiComponent<Props, PIXI.Container>('BasicFogLayer', {
 			return;
 		}
 
-		if (!newProps.fogData.maskPolygons || newProps.fogData.maskPolygons.length === 0) {
+		if (
+			!newProps.fogData.maskPolygons ||
+			Object.keys(newProps.fogData.maskPolygons).length === 0
+		) {
 			return;
 		}
 
@@ -55,18 +58,34 @@ export default PixiComponent<Props, PIXI.Container>('BasicFogLayer', {
 
 		mask.clear();
 		mask.beginFill(0xffffff);
-		for (const poly of newProps.fogData.maskPolygons) {
-			if (!poly || !poly.points || poly.points.length % 2 !== 0) {
-				// We require an even number
-				continue;
+
+		Object.keys(newProps.fogData.maskPolygons).forEach(
+			(key): void => {
+				const poly = newProps.fogData.maskPolygons[key];
+				if (!poly || !poly.points || poly.points.length % 2 !== 0) {
+					return;
+				}
+				const mappedPoints = poly.points.map((x, idx) =>
+					idx % 2 === 0 ? x + poly.position.x : x + poly.position.y
+				);
+				mask.drawPolygon(mappedPoints);
 			}
-			// mask.moveTo(poly.position.x, poly.position.y)
-			// mask.drawPolygon(poly.points);
-			const mappedPoints = poly.points.map((x, idx) =>
-				idx % 2 === 0 ? x + poly.position.x : x + poly.position.y
-			);
-			mask.drawPolygon(mappedPoints);
-		}
+		);
+
+		// for (let polyKey of newProps.fogData.maskPolygons) {
+		// 	const poly = newProps.fogData.maskPolygons[polyKey];
+		// 		// for (const poly of newProps.fogData.maskPolygons) {
+		// 	if (!poly || !poly.points || poly.points.length % 2 !== 0) {
+		// 		// We require an even number
+		// 		continue;
+		// 	}
+		// 	// mask.moveTo(poly.position.x, poly.position.y)
+		// 	// mask.drawPolygon(poly.points);
+		// 	const mappedPoints = poly.points.map((x, idx) =>
+		// 		idx % 2 === 0 ? x + poly.position.x : x + poly.position.y
+		// 	);
+		// 	mask.drawPolygon(mappedPoints);
+		// }
 		mask.endFill();
 
 		const blurRadius = 32 * newProps.viewportZoom;

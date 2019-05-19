@@ -1,6 +1,7 @@
 import React, { Component, ReactNode, ReactElement } from 'react';
 import { Stage, Sprite, Container, PixiComponent, AppConsumer, Graphics } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
+import { v4 } from 'uuid';
 
 import { MapData } from '../../models/Map';
 
@@ -71,7 +72,7 @@ interface State {
 	measureEnd: PIXI.PointLike;
 	measuredDistance: string; // Probably should be a number ultimately
 	viewportZoom: number;
-	newFogIndex?: number;
+	newFogIndex?: string;
 	newFogPosition?: PIXI.PointLike;
 	newFogPoints?: number[];
 }
@@ -123,7 +124,7 @@ class Map extends Component<Props, State> {
 		if (this.props.fogAddMode && !prevProps.fogAddMode) {
 			// Fog add enabled, prepare some local state.
 			this.setState({
-				newFogIndex: this.props.mapData.fog.maskPolygons.length,
+				newFogIndex: v4(),
 				newFogPosition: new PIXI.Point(0, 0),
 				newFogPoints: []
 			});
@@ -555,24 +556,31 @@ class Map extends Component<Props, State> {
 								{dm &&
 									this.props.fogEditMode &&
 									this.props.mapData &&
-									this.props.mapData.fog.maskPolygons.length > 0 &&
-									this.props.mapData.fog.maskPolygons.map((x, idx) => (
-										<EditablePolygon
-											key={idx}
-											onUpdate={(position, points) => {
-												this.props.onUpdateFogPolygon(
-													this.props.mapData.id,
-													String(idx),
-													position,
-													points
-												);
-											}}
-											position={new PIXI.Point(x.position.x, x.position.y)}
-											editMode={this.props.fogEditMode}
-											polyPoints={x.points}
-											viewportZoom={this.state.viewportZoom}
-										/>
-									))}
+									Object.keys(this.props.mapData.fog.maskPolygons).length > 0 &&
+									Object.keys(this.props.mapData.fog.maskPolygons).map(
+										(xx, idx) => {
+											const x = this.props.mapData.fog.maskPolygons[xx];
+											return (
+												<EditablePolygon
+													key={idx}
+													onUpdate={(position, points) => {
+														this.props.onUpdateFogPolygon(
+															this.props.mapData.id,
+															xx,
+															position,
+															points
+														);
+													}}
+													position={
+														new PIXI.Point(x.position.x, x.position.y)
+													}
+													editMode={this.props.fogEditMode}
+													polyPoints={x.points}
+													viewportZoom={this.state.viewportZoom}
+												/>
+											);
+										}
+									)}
 								<Ruler
 									visible={this.state.measuring}
 									measuring={this.state.measuring}
