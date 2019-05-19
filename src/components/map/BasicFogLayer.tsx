@@ -56,7 +56,7 @@ export default PixiComponent<Props, PIXI.Container>('BasicFogLayer', {
 		mask.clear();
 		mask.beginFill(0xffffff);
 		for (const poly of newProps.fogData.maskPolygons) {
-			if (poly.points.length % 2 !== 0) {
+			if (!poly || !poly.points || poly.points.length % 2 !== 0) {
 				// We require an even number
 				continue;
 			}

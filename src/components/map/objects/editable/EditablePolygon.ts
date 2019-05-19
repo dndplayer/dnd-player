@@ -2,6 +2,8 @@ import * as PIXI from 'pixi.js';
 import { PixiComponent } from '@inlet/react-pixi';
 import Midpoint from './Midpoint';
 import Handle from './Handle';
+import DeleteImage from './delete.png';
+import { getMidpointOfPoints } from '../../MapUtils';
 
 /**
  * TODO: This could all do with refactoring!
@@ -32,6 +34,32 @@ export class EditablePolygonContainer extends PIXI.Container {
 
 		this.addChild(g);
 
+		// const t = PIXI.Texture.fromImage(DeleteImage, undefined, undefined, 1.0);
+		const d = PIXI.Sprite.fromImage(DeleteImage, undefined, 1.0);
+		d.width = 142 * 4;
+		d.height = 256 * 4;
+		d.anchor.set(0.5, 0.5);
+		d.interactive = true;
+		d.on('click', (e: PIXI.interaction.InteractionEvent) => {
+			console.log(`Delete clicked`);
+			this._delete();
+		});
+		d.on('mouseover', (e: PIXI.interaction.InteractionEvent) => {
+			d.tint = 0xff0000;
+			this._deleteHover = true;
+			this.updateLocal(); // No data passed, just re-draw the poly
+		});
+		d.on('mouseout', (e: PIXI.interaction.InteractionEvent) => {
+			d.tint = 0xffffff;
+			this._deleteHover = false;
+			this.updateLocal(); // No data passed, just re-draw the poly
+		});
+
+		const mp = getMidpointOfPoints(this._localPoints);
+		d.position.set(mp[0], mp[1]);
+
+		this.addChild(d);
+
 		this.redrawHandles();
 		this.redrawMidpoints();
 	}
@@ -40,9 +68,11 @@ export class EditablePolygonContainer extends PIXI.Container {
 		return this._localPoints;
 	}
 
-	public updateLocal = (data: number[]): void => {
-		this._localPoints = data;
-		this._pPoints = this.convertToPoints(this._localPoints);
+	public updateLocal = (data?: number[]): void => {
+		if (data) {
+			this._localPoints = data;
+			this._pPoints = this.convertToPoints(this._localPoints);
+		}
 
 		const polyGraphic = this.getChildByName('poly') as PIXI.Graphics;
 		if (polyGraphic) {
@@ -51,7 +81,7 @@ export class EditablePolygonContainer extends PIXI.Container {
 
 			polyGraphic.clear();
 			polyGraphic.lineStyle(8, 0x00ff00);
-			polyGraphic.beginFill(0x00ff00, 0.4);
+			polyGraphic.beginFill(this._deleteHover ? 0xc12424 : 0x00ff00, 0.4);
 			polyGraphic.drawPolygon(poly);
 			polyGraphic.endFill();
 			polyGraphic.hitArea = poly;
@@ -95,9 +125,17 @@ export class EditablePolygonContainer extends PIXI.Container {
 		}
 	}
 
+	private _delete(): void {
+		if (this._onUpdate) {
+			this._onUpdate(this.position, null);
+		}
+	}
+
 	private _onUpdate: (position: PIXI.Point, points: number[]) => void;
 
 	private _viewportZoom: number = 1;
+
+	private _deleteHover: boolean = false;
 
 	private _pPoints: PIXI.Point[] = [];
 	private _localPoints: number[] = [];
