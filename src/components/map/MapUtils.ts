@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js';
 import { MapData } from '../../models/Map';
 import { MapObject } from '../../models/Map';
 
@@ -41,4 +42,18 @@ export const calculateDistance = (
 		scale /
 		40
 	).toFixed(1);
+};
+
+export const getMidpointOfPoints = (points: number[]): number[] => {
+	const avgs = points.reduce(
+		(prev, curr, idx) => {
+			const pointIdx = Math.floor(idx / 2);
+			const isX = idx % 2 === 0;
+			const p = isX ? prev.x : prev.y;
+			const a = (p * pointIdx + curr) / (pointIdx + 1);
+			return { ...prev, [isX ? 'x' : 'y']: a };
+		},
+		{ x: 0, y: 0 }
+	);
+	return [avgs.x, avgs.y];
 };
