@@ -1,27 +1,38 @@
-import React, { Component } from 'react';
+import { Component, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
-const copyStyles = (sourceDoc, targetDoc) => {
-	Array.from(sourceDoc.styleSheets).forEach((styleSheet: any) => {
-		try {
-			if (styleSheet.href) {
-				const newLinkEl = sourceDoc.createElement('link');
-				newLinkEl.href = styleSheet.href;
-				newLinkEl.rel = 'stylesheet';
-				targetDoc.head.appendChild(newLinkEl);
-			} else if (styleSheet.cssRules) {
-				// for <style> elements
-				const newStyleEl = sourceDoc.createElement('style');
+const copyStyles = (sourceDoc: Document, targetDoc: Document): void => {
+	Array.from(sourceDoc.styleSheets).forEach(
+		(styleSheet): void => {
+			try {
+				if (styleSheet.href) {
+					const newLinkEl = sourceDoc.createElement('link');
+					newLinkEl.href = styleSheet.href;
+					newLinkEl.rel = 'stylesheet';
+					targetDoc.head.appendChild(newLinkEl);
+				} else if ((styleSheet as CSSStyleSheet).cssRules) {
+					// for <style> elements
+					const newStyleEl = sourceDoc.createElement('style');
 
-				Array.from(styleSheet.cssRules).forEach((cssRule: any) => {
-					// write the text of each rule into the body of the style element
-					newStyleEl.appendChild(sourceDoc.createTextNode(cssRule.cssText));
-				});
+					Array.from((styleSheet as CSSStyleSheet).cssRules).forEach(
+						(cssRule): void => {
+							// write the text of each rule into the body of the style element
+							newStyleEl.appendChild(
+								sourceDoc.createTextNode(
+									cssRule.cssText.replace(
+										/url\("\//g,
+										`url("${window.location.protocol}//${window.location.host}/`
+									)
+								)
+							);
+						}
+					);
 
-				targetDoc.head.appendChild(newStyleEl);
-			}
-		} catch (err) {}
-	});
+					targetDoc.head.appendChild(newStyleEl);
+				}
+			} catch (err) {}
+		}
+	);
 };
 
 interface Props {
@@ -30,8 +41,8 @@ interface Props {
 }
 
 interface State {
-	win: any;
-	el: any;
+	win: Window;
+	el: HTMLDivElement;
 }
 
 export default class WindowPortal extends Component<Props, State> {
@@ -44,7 +55,7 @@ export default class WindowPortal extends Component<Props, State> {
 		};
 	}
 
-	render(): any {
+	render(): ReactNode {
 		const { el } = this.state;
 		if (!el) {
 			return null;
@@ -52,7 +63,7 @@ export default class WindowPortal extends Component<Props, State> {
 		return ReactDOM.createPortal(this.props.children, el);
 	}
 
-	componentDidMount() {
+	componentDidMount(): void {
 		let win = window.open(
 			'',
 			'',
@@ -67,7 +78,10 @@ export default class WindowPortal extends Component<Props, State> {
 
 		copyStyles(document, win.document);
 
-		win.addEventListener('beforeunload', () => this.props.onClose && this.props.onClose());
+		win.addEventListener(
+			'beforeunload',
+			(): void => this.props.onClose && this.props.onClose()
+		);
 
 		this.setState({
 			win,
@@ -75,7 +89,7 @@ export default class WindowPortal extends Component<Props, State> {
 		});
 	}
 
-	componentWillUnmount() {
+	componentWillUnmount(): void {
 		this.state.win.close();
 	}
 }
