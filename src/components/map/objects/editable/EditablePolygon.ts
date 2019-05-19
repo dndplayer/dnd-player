@@ -196,6 +196,14 @@ export class EditablePolygonContainer extends PIXI.Container {
 			halfwayPoints.push(midPoint);
 		}
 
+		if (this._pPoints.length > 2) {
+			const midPoint = new PIXI.Point(
+				(this._pPoints[0].x + this._pPoints[this._pPoints.length - 1].x) / 2,
+				(this._pPoints[0].y + this._pPoints[this._pPoints.length - 1].y) / 2
+			);
+			halfwayPoints.push(midPoint);
+		}
+
 		let k = 0;
 		for (let p of halfwayPoints) {
 			const midPoint = new Midpoint();
