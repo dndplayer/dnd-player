@@ -3,7 +3,8 @@ import { all, call, fork, select, takeEvery, put, delay } from 'redux-saga/effec
 import { types, syncChatMessages, syncChatFailed, closeChat } from '../actions/chat';
 
 import rsf from '../rsf';
-import { database } from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
 import { updateTime } from '../actions/globalState';
 
 function* saveNewChatMessage(action): any {
@@ -16,7 +17,7 @@ function* saveNewChatMessage(action): any {
 	yield call(rsf.database.create, '/chatroom', {
 		sender: currentUser.email,
 		// timestamp: firestore.Timestamp.now(), // Firestore way
-		timestamp: database.ServerValue.TIMESTAMP, // Database way
+		timestamp: firebase.database.ServerValue.TIMESTAMP, // Database way
 		msg,
 		data
 	});
@@ -31,7 +32,8 @@ const messageTransformer = ({ value }) =>
 function* syncMessagesSaga(): any {
 	yield fork(
 		rsf.database.sync,
-		database(rsf.app)
+		firebase
+			.database(rsf.app)
 			.ref('/chatroom')
 			.orderByChild('timestamp')
 			.limitToLast(100) as any,

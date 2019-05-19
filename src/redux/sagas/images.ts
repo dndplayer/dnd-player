@@ -1,9 +1,10 @@
-import { all, call, fork, takeEvery } from 'redux-saga/effects';
+import { all, fork } from 'redux-saga/effects';
 
-import { types, syncImages, syncImagesFailed } from '../actions/images';
+import { syncImages, syncImagesFailed } from '../actions/images';
 
 import rsf from '../rsf';
-import { database } from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
 
 const imageTransformer = ({ value }) =>
 	Object.keys(value).map(key => ({
@@ -14,7 +15,8 @@ const imageTransformer = ({ value }) =>
 function* syncImagesSaga(): any {
 	yield fork(
 		rsf.database.sync,
-		database(rsf.app)
+		firebase
+			.database(rsf.app)
 			.ref('/uploads')
 			.orderByChild('timestamp') as any,
 		{

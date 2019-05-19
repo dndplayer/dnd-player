@@ -1,5 +1,6 @@
 import { all, fork, takeEvery, call, put, delay } from 'redux-saga/effects';
-import { database } from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
 
 import { v4 } from 'uuid';
 
@@ -20,7 +21,7 @@ const mapPingsTransformer = ({ value }) => value;
 function* syncMapPingsSaga(): any {
 	yield fork(
 		rsf.database.sync,
-		database(rsf.app).ref('/mapPings'),
+		firebase.database(rsf.app).ref('/mapPings'),
 		{
 			successActionCreator: mapPingsNewPing,
 			failureActionCreator: mapPingsSyncFailure,

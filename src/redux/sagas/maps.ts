@@ -1,5 +1,6 @@
 import { all, fork, takeEvery, call } from 'redux-saga/effects';
-import { database } from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
 
 import rsf from '../rsf';
 import {
@@ -25,7 +26,7 @@ const mapsTransformer = ({ value }) =>
 function* syncMapsSaga(): any {
 	yield fork(
 		rsf.database.sync,
-		database(rsf.app).ref('/maps'),
+		firebase.database(rsf.app).ref('/maps'),
 		{
 			successActionCreator: mapsSyncSuccess,
 			failureActionCreator: mapsSyncError,

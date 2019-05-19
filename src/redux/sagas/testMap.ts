@@ -12,7 +12,8 @@ import {
 } from '../actions/testMap';
 
 import rsf from '../rsf';
-import { database } from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/database';
 import { AssetType } from '../../models/AssetType';
 
 const testMapTransformer = ({ value }) => value;
@@ -20,7 +21,7 @@ const testMapTransformer = ({ value }) => value;
 function* syncTestMapSaga(): any {
 	yield fork(
 		rsf.database.sync,
-		database(rsf.app).ref('/testMap'),
+		firebase.database(rsf.app).ref('/testMap'),
 		// .orderByChild('timestamp') as any,
 		{
 			successActionCreator: syncTestMap,

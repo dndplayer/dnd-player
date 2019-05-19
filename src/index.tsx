@@ -4,7 +4,8 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { MuiThemeProvider, TextField, Button, createMuiTheme } from '@material-ui/core';
 
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 // import '@firebase/firestore';
 import '@firebase/database';
 

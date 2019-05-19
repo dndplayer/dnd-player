@@ -1,5 +1,6 @@
 import { all, fork, takeEvery, call } from 'redux-saga/effects';
-import { database } from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
 
 import rsf from '../rsf';
 import {
@@ -14,7 +15,7 @@ const globalStateTransformer = ({ value }) => value;
 function* syncGlobalStateSaga(): any {
 	yield fork(
 		rsf.database.sync,
-		database(rsf.app).ref('/globalState'),
+		firebase.database(rsf.app).ref('/globalState'),
 		{
 			successActionCreator: syncGlobalStateSuccess,
 			failureActionCreator: syncGlobalStateFailure,

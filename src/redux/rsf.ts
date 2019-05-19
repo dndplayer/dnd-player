@@ -1,5 +1,5 @@
-import firebase from 'firebase';
-import '@firebase/database';
+import firebase from 'firebase/app';
+import 'firebase/database';
 import ReduxSagaFirebase from 'redux-saga-firebase';
 
 const firebaseConfig = JSON.parse(localStorage.getItem('firebaseConfig'));

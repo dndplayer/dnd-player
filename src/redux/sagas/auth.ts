@@ -1,4 +1,5 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import { all, call, fork, put, take, takeEvery } from 'redux-saga/effects';
 
 import { types, loginSuccess, loginFailure, logoutSuccess, logoutFailure } from '../actions/auth';

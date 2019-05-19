@@ -1,7 +1,9 @@
 import { all, fork, delay, takeEvery, put, select } from 'redux-saga/effects';
 
 import rsf from '../rsf';
-import { database, auth } from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/auth';
 import {
 	syncUserPresence,
 	syncUserPresenceFailed,
@@ -10,17 +12,17 @@ import {
 	SyncUsersAction,
 	types
 } from '../actions/users';
-import { setCanBeDm, setDm } from '../actions/auth';
+import { setCanBeDm } from '../actions/auth';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function* updatePresenceSaga(): any {
-	const a = auth(rsf.app);
+	const a = firebase.auth(rsf.app);
 	while (!a.currentUser) {
 		yield delay(500);
 	}
 
-	const users = database(rsf.app).ref('/userPresence/' + a.currentUser.uid);
-	const online = database(rsf.app).ref('/.info/connected');
+	const users = firebase.database(rsf.app).ref('/userPresence/' + a.currentUser.uid);
+	const online = firebase.database(rsf.app).ref('/.info/connected');
 	online.on(
 		'value',
 		(snapshot): void => {
@@ -33,7 +35,7 @@ function* updatePresenceSaga(): any {
 
 	yield fork(
 		rsf.database.sync,
-		database(rsf.app).ref('/userPresence'),
+		firebase.database(rsf.app).ref('/userPresence'),
 		{
 			successActionCreator: syncUserPresence,
 			failureActionCreator: syncUserPresenceFailed
@@ -46,7 +48,7 @@ function* updatePresenceSaga(): any {
 function* updateUsersSaga(): any {
 	yield fork(
 		rsf.database.sync,
-		database(rsf.app).ref('/users'),
+		firebase.database(rsf.app).ref('/users'),
 		{
 			successActionCreator: syncUsers,
 			failureActionCreator: syncUsersFailed
@@ -57,7 +59,7 @@ function* updateUsersSaga(): any {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function* checkDmStateSaga(action: SyncUsersAction): any {
-	const me = auth().currentUser;
+	const me = firebase.auth().currentUser;
 	if (!me) {
 		return;
 	}

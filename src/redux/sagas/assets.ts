@@ -1,4 +1,4 @@
-import { all, call, select, fork, takeEvery, put, take, delay } from 'redux-saga/effects';
+import { all, call, select, fork, takeEvery, take, delay } from 'redux-saga/effects';
 
 import {
 	types,
@@ -10,7 +10,8 @@ import {
 } from '../actions/assets';
 
 import rsf from '../rsf';
-import { database } from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/database';
 import { AnyAction } from 'redux';
 
 const playerCharacterTransformer = ({ value }) =>
@@ -30,7 +31,7 @@ function* saveNewNonPlayerCharacterSaga(action: AnyAction): any {
 	const currentUser: firebase.User = yield select(state => state.auth.user);
 	const payload = {
 		...action.nonPlayerCharacterData,
-		timestamp: database.ServerValue.TIMESTAMP,
+		timestamp: firebase.database.ServerValue.TIMESTAMP,
 		creator: currentUser.uid
 	};
 
@@ -42,7 +43,7 @@ function* updatePlayerCharacterSaga(action: AnyAction): any {
 	const currentUser: firebase.User = yield select(state => state.auth.user);
 	const payload = {
 		...action.character,
-		timestamp: database.ServerValue.TIMESTAMP,
+		timestamp: firebase.database.ServerValue.TIMESTAMP,
 		creator: currentUser.uid
 	};
 
@@ -54,7 +55,7 @@ function* saveNewPlayerCharacterSaga(action: AnyAction): any {
 	const currentUser: firebase.User = yield select(state => state.auth.user);
 	const payload = {
 		...action.playerCharacterData,
-		timestamp: database.ServerValue.TIMESTAMP,
+		timestamp: firebase.database.ServerValue.TIMESTAMP,
 		creator: currentUser.uid
 	};
 
@@ -64,7 +65,7 @@ function* saveNewPlayerCharacterSaga(action: AnyAction): any {
 function* syncPlayerCharactersSaga(): any {
 	yield fork(
 		rsf.database.sync,
-		database(rsf.app).ref('/playerCharacters'),
+		firebase.database(rsf.app).ref('/playerCharacters'),
 		{
 			successActionCreator: syncPlayerCharacters,
 			failureActionCreator: syncPlayerCharactersFailed,
@@ -79,7 +80,7 @@ function* updateNonPlayerCharacterSaga(action: AnyAction): any {
 	const currentUser: firebase.User = yield select(state => state.auth.user);
 	const payload = {
 		...action.character,
-		timestamp: database.ServerValue.TIMESTAMP,
+		timestamp: firebase.database.ServerValue.TIMESTAMP,
 		creator: currentUser.uid
 	};
 
@@ -87,7 +88,7 @@ function* updateNonPlayerCharacterSaga(action: AnyAction): any {
 	yield call(
 		rsf.database.update,
 		'/lastUpdates/nonPlayerCharacters',
-		database.ServerValue.TIMESTAMP
+		firebase.database.ServerValue.TIMESTAMP
 	);
 }
 
@@ -102,7 +103,7 @@ function* syncNonPlayerCharactersSaga(): any {
 	const currentLastUpdate = yield select(state => state.assets.nonPlayerCharacterLastUpdate);
 	yield fork(
 		rsf.database.sync,
-		database(rsf.app).ref('/lastUpdates/nonPlayerCharacters'),
+		firebase.database(rsf.app).ref('/lastUpdates/nonPlayerCharacters'),
 		{
 			successActionCreator: syncNonPlayerCharacterLastUpdate
 		},
@@ -115,7 +116,7 @@ function* syncNonPlayerCharactersSaga(): any {
 	}
 	yield fork(
 		rsf.database.sync,
-		database(rsf.app).ref('/nonPlayerCharacters'),
+		firebase.database(rsf.app).ref('/nonPlayerCharacters'),
 		{
 			successActionCreator: syncNonPlayerCharacters,
 			failureActionCreator: syncNonPlayerCharactersFailed,

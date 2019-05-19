@@ -1,6 +1,7 @@
 import { channel } from 'redux-saga';
-import { all, call, put, take, select, fork, takeEvery } from 'redux-saga/effects';
-import { database } from 'firebase';
+import { all, call, put, take, fork, takeEvery } from 'redux-saga/effects';
+import firebase from 'firebase/app';
+import 'firebase/database';
 import uuidv4 from 'uuid/v4';
 
 import { types, uploadProgress } from '../actions/storage';
@@ -32,7 +33,7 @@ function* sendFileSaga(action): any {
 			downloadUrl: url,
 			name: action.name,
 			filePath: filePath,
-			uploadTime: database.ServerValue.TIMESTAMP
+			uploadTime: firebase.database.ServerValue.TIMESTAMP
 		};
 		yield call(rsf.database.create, '/uploads', payload);
 
