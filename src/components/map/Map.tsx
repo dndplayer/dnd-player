@@ -72,6 +72,7 @@ interface State {
 	measuredDistance: string; // Probably should be a number ultimately
 	viewportZoom: number;
 	newFogIndex?: number;
+	newFogPosition?: PIXI.PointLike;
 	newFogPoints?: number[];
 }
 class Map extends Component<Props, State> {
@@ -87,6 +88,7 @@ class Map extends Component<Props, State> {
 		measuredDistance: null,
 		viewportZoom: 1,
 		newFogIndex: null,
+		newFogPosition: null,
 		newFogPoints: null
 	};
 
@@ -122,6 +124,7 @@ class Map extends Component<Props, State> {
 			// Fog add enabled, prepare some local state.
 			this.setState({
 				newFogIndex: this.props.mapData.fog.maskPolygons.length,
+				newFogPosition: new PIXI.Point(0, 0),
 				newFogPoints: []
 			});
 		}
@@ -130,12 +133,13 @@ class Map extends Component<Props, State> {
 			this.props.onUpdateFogPolygon(
 				this.props.mapData.id,
 				this.state.newFogIndex,
-				new PIXI.Point(0, 0), // TODO: Change this so all points are offset of the first
+				this.state.newFogPosition,
 				this.state.newFogPoints
 			);
 
 			this.setState({
 				newFogIndex: null,
+				newFogPosition: null,
 				newFogPoints: null
 			});
 		}
@@ -254,14 +258,29 @@ class Map extends Component<Props, State> {
 				}
 
 				if (this.props.fogAddMode) {
-					// TODO: Add a point to a new Polygon here
 					const localPos = this._viewport.toLocal(e.data.global);
-					console.log(`TODO: Add new poly point @ ${localPos.x}, ${localPos.y}`);
-					// We know the new poly index (this.state.newFogIndex) so we can just
-					// start appending points to that array in the DB
+					//console.log(`TODO: Add new poly point @ ${localPos.x}, ${localPos.y}`);
+
+					let newFogPos = this.state.newFogPosition;
+					if (
+						!this.state.newFogPosition ||
+						(this.state.newFogPosition.x === 0 && this.state.newFogPosition.y === 0)
+					) {
+						this.setState({
+							newFogPosition: localPos.clone()
+						});
+
+						newFogPos = localPos.clone();
+					}
+
+					// Make all new points offset from the first
+					const newPointPos = new PIXI.Point(
+						localPos.x - newFogPos.x,
+						localPos.y - newFogPos.y
+					);
 
 					this.setState(state => ({
-						newFogPoints: [...state.newFogPoints, localPos.x, localPos.y]
+						newFogPoints: [...state.newFogPoints, newPointPos.x, newPointPos.y]
 					}));
 				}
 
