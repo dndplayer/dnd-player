@@ -91,16 +91,10 @@ function* updateFogPolygon(action: UpdateFogPolygonAction): any {
 	if (!points || points.length === 0) {
 		yield call(rsf.database.delete, `/maps/${mapId}/fog/maskPolygons/${fogPolygonId}`);
 	} else {
-		yield call(
-			rsf.database.update,
-			`/maps/${mapId}/fog/maskPolygons/${fogPolygonId}/points`,
-			points
-		);
-		yield call(
-			rsf.database.update,
-			`/maps/${mapId}/fog/maskPolygons/${fogPolygonId}/position`,
-			{ x: position.x, y: position.y }
-		);
+		yield call(rsf.database.update, `/maps/${mapId}/fog/maskPolygons/${fogPolygonId}`, {
+			position: { x: position.x, y: position.y },
+			points: points
+		});
 	}
 }
 

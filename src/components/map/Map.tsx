@@ -71,6 +71,8 @@ interface State {
 	measureEnd: PIXI.PointLike;
 	measuredDistance: string; // Probably should be a number ultimately
 	viewportZoom: number;
+	newFogIndex?: number;
+	newFogPoints?: number[];
 }
 class Map extends Component<Props, State> {
 	state = {
@@ -83,7 +85,9 @@ class Map extends Component<Props, State> {
 		measureStart: null,
 		measureEnd: null,
 		measuredDistance: null,
-		viewportZoom: 1
+		viewportZoom: 1,
+		newFogIndex: null,
+		newFogPoints: null
 	};
 
 	private app: any;
@@ -111,6 +115,28 @@ class Map extends Component<Props, State> {
 		if (this.props.measureModeEnabled !== prevProps.measureModeEnabled) {
 			this.setState({
 				measuring: this.props.measureModeEnabled
+			});
+		}
+
+		if (this.props.fogAddMode && !prevProps.fogAddMode) {
+			// Fog add enabled, prepare some local state.
+			this.setState({
+				newFogIndex: this.props.mapData.fog.maskPolygons.length,
+				newFogPoints: []
+			});
+		}
+		if (!this.props.fogAddMode && prevProps.fogAddMode) {
+			// Fog add disabled, cleanup local state and persist the new poly ?
+			this.props.onUpdateFogPolygon(
+				this.props.mapData.id,
+				this.state.newFogIndex,
+				new PIXI.Point(0, 0), // TODO: Change this so all points are offset of the first
+				this.state.newFogPoints
+			);
+
+			this.setState({
+				newFogIndex: null,
+				newFogPoints: null
 			});
 		}
 	}
@@ -231,6 +257,12 @@ class Map extends Component<Props, State> {
 					// TODO: Add a point to a new Polygon here
 					const localPos = this._viewport.toLocal(e.data.global);
 					console.log(`TODO: Add new poly point @ ${localPos.x}, ${localPos.y}`);
+					// We know the new poly index (this.state.newFogIndex) so we can just
+					// start appending points to that array in the DB
+
+					this.setState(state => ({
+						newFogPoints: [...state.newFogPoints, localPos.x, localPos.y]
+					}));
 				}
 
 				// WIP Ping testing
