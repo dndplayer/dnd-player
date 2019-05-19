@@ -9,6 +9,7 @@
 	.messages {
 		flex-direction: column;
 		display: flex;
+		margin: 5px;
 	}
 
 	.username {
@@ -16,7 +17,6 @@
 	}
 
 	.message {
-		padding: 5px;
 		color: #ffc45e;
 		text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 		display: flex;

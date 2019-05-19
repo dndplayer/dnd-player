@@ -87,7 +87,7 @@ class ChatContainer extends Component<Props, State> {
 								default={{
 									x: 440,
 									y: -640,
-									width: '500px',
+									width: '440px',
 									height: '600px'
 								}}
 								minWidth={200}
