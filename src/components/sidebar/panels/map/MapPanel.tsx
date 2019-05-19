@@ -91,6 +91,10 @@ export default class MapPanel extends Component<Props, State> {
 		}
 	};
 
+	addNewMap = (): void => {
+		alert('NOT YET IMPLEMENTED.');
+	};
+
 	render(): ReactNode {
 		const { fogEditMode, fogAddMode } = this.props;
 
@@ -172,25 +176,24 @@ export default class MapPanel extends Component<Props, State> {
 					</FormGroup>
 				</Paper>
 
-				<Paper>
-					<div className={styles.settingRow}>
-						<span>Active Map ID {this.props.activeMapId}</span>
-						<select
-							defaultValue={this.props.activeMapId}
-							onChange={this.onChangeActiveMap}
-						>
-							{this.props.maps.map(x => (
-								<option key={x.id} value={x.id}>
-									{x.id}
-								</option>
-							))}
-						</select>
-						<button onClick={this.changeMap}>Change!</button>
-						<div>
-							Warning: This is still a little buggy! E.g. You need to refresh once
-							changed
-						</div>
+				<Paper style={{ marginTop: 30, padding: 5 }}>
+					<Typography variant="body1" component="p">
+						Active Map ID {this.props.activeMapId}
+					</Typography>
+					<select defaultValue={this.props.activeMapId} onChange={this.onChangeActiveMap}>
+						{this.props.maps.map(x => (
+							<option key={x.id} value={x.id}>
+								{x.id}
+							</option>
+						))}
+					</select>
+					<button onClick={this.changeMap}>Change!</button>
+					<div>
+						Warning: This is still a little buggy! E.g. You need to refresh once changed
 					</div>
+					<Button fullWidth variant="outlined" color="secondary" onClick={this.addNewMap}>
+						Add new Map
+					</Button>
 				</Paper>
 			</div>
 		);
