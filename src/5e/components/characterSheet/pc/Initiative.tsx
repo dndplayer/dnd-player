@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import './PlayerCharacterSheet.css';
+import css from './PlayerCharacterSheet.module.scss';
 import { PlayerCharacter } from '../../../models/Character';
 import Rules from '../../../5eRules';
 import { RollData, ChatMessageData } from '../../../../models/ChatMessage';
@@ -24,17 +24,17 @@ export default class Initiative extends React.Component<Props, {}> {
 		const modifier = Rules.getInitiativeModifier(character);
 
 		return (
-			<div className="initiative" onClick={e => this.handleClick(e, 0)}>
-				<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
+			<div className={css.initiative} onClick={e => this.handleClick(e, 0)}>
+				<div className={css.popupAdvantage} onClick={e => this.handleClick(e, 1)}>
 					A
 				</div>
-				<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
+				<div className={css.popupDisadvantage} onClick={e => this.handleClick(e, -1)}>
 					D
 				</div>
-				<div className="initiative-title">Initiative</div>
-				<div className="initiative-modifier">
-					<div className="initiative-symbol">{modifier < 0 ? '-' : '+'}</div>
-					<div className="initiative-number">{Math.abs(modifier)}</div>
+				<div className={css.initiativeTitle}>Initiative</div>
+				<div className={css.initiativeModifier}>
+					<div className={css.initiativeSymbol}>{modifier < 0 ? '-' : '+'}</div>
+					<div className={css.initiativeNumber}>{Math.abs(modifier)}</div>
 				</div>
 			</div>
 		);

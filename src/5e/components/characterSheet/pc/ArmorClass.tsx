@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import './PlayerCharacterSheet.css';
+import css from './PlayerCharacterSheet.module.scss';
 import { PlayerCharacter } from '../../../models/Character';
 
 interface Props {
@@ -18,9 +18,9 @@ export default class ArmorClass extends React.Component<Props, {}> {
 		const { character } = this.props;
 
 		return (
-			<div className="ac">
-				<div className="ac-title">AC</div>
-				<div className="ac-number">{character.ac}</div>
+			<div className={css.ac}>
+				<div className={css.acTitle}>AC</div>
+				<div className={css.acNumber}>{character.ac}</div>
 			</div>
 		);
 	}

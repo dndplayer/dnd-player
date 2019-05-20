@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import css from './PlayerCharacterSheetEditor.module.css';
+import css from './PlayerCharacterSheetEditor.module.scss';
 import Icon from '@mdi/react';
 import { mdiPlus } from '@mdi/js';
 import { PlayerCharacter } from '../../../../models/Character';

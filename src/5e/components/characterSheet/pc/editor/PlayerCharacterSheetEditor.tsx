@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { ChatMessageData } from '../../../../../models/ChatMessage';
 
-import css from './PlayerCharacterSheetEditor.module.css';
+import css from './PlayerCharacterSheetEditor.module.scss';
 import { Character, PlayerCharacter } from '../../../../models/Character';
 import { Upload } from '../../../../../models/Upload';
 import CharacterImage from '../../CharacterImage';
@@ -46,7 +46,11 @@ export default class PlayerCharacterSheetEditor extends React.Component<Props, S
 		const update = this.update.bind(this);
 
 		return (
-			<div className={`${css.column} character-sheet ${this.props.popout ? 'popout' : ''}`}>
+			<div
+				className={`${css.column} ${css.characterSheet} ${
+					this.props.popout ? 'popout' : ''
+				}`}
+			>
 				<div className={`${css.column} ${css.characterSheet} 'popout'}`}>
 					<div className={css.characterImageContainer}>
 						<CharacterImage

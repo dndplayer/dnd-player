@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 
-import './PlayerCharacterSheet.css';
+import css from './Attacks.module.scss';
+import sheetCss from './PlayerCharacterSheet.module.scss';
 import { Attack, AttackEffectType, ToHitAttackEffect, DamageAttackEffect } from '../../../5eRules';
 import { ChatMessageData, CharacterActionData } from '../../../../models/ChatMessage';
 import CharacterActionHelper from '../../../CharacterActionHelper';
@@ -30,28 +31,31 @@ export default class AttackBlock extends React.Component<Props, {}> {
 		)[0] as DamageAttackEffect;
 
 		return (
-			<div className="attack" onClick={e => this.handleClick(e, 0)}>
+			<div className={css.attack} onClick={e => this.handleClick(e, 0)}>
 				{toHitEffect && (
-					<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
+					<div className={sheetCss.popupAdvantage} onClick={e => this.handleClick(e, 1)}>
 						A
 					</div>
 				)}
 				{toHitEffect !== undefined && (
-					<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
+					<div
+						className={sheetCss.popupDisadvantage}
+						onClick={e => this.handleClick(e, -1)}
+					>
 						D
 					</div>
 				)}
-				<div className="attack-name">
+				<div className={css.attackName}>
 					<span>{attack.name}</span>
 				</div>
-				<div className="attack-range">{attack.range} ft.</div>
-				<div className="attack-toHit">
+				<div className={css.attackRange}>{attack.range} ft.</div>
+				<div className={css.attackToHit}>
 					{toHitEffect && (
 						<div>
-							<div className="attack-toHit-symbol">
+							<div className={css.attackToHitSymbol}>
 								{toHitEffect.modifier < 0 ? '-' : '+'}
 							</div>
-							<div className="attack-toHit-number">
+							<div className={css.attackToHitNumber}>
 								{Math.abs(toHitEffect.modifier)}
 							</div>
 						</div>
@@ -62,7 +66,7 @@ export default class AttackBlock extends React.Component<Props, {}> {
 						</div>
 					)*/}
 				</div>
-				<div className="attack-damage">
+				<div className={css.attackDamage}>
 					{damageEffect && (
 						<div>
 							{damageEffect.diceCount}d{damageEffect.diceSize}+

@@ -4,7 +4,7 @@ import { ChatMessageData } from '../../../../models/ChatMessage';
 import AbilityScore from './AbilityScore';
 import AbilitySave from './AbilitySave';
 
-import './PlayerCharacterSheet.css';
+import css from './PlayerCharacterSheet.module.scss';
 import { Character, PlayerCharacter } from '../../../models/Character';
 import Skill from './Skill';
 import ProficiencyBonus from './ProficiencyBonus';
@@ -50,18 +50,18 @@ export default class PlayerCharacterSheet extends React.Component<Props, {}> {
 		const { character, editPlayerCharacter, inline } = this.props;
 
 		return (
-			<div className={`column character-sheet ${inline ? 'inline' : ''} popout`}>
+			<div className={`column ${css.characterSheet} ${inline ? 'inline' : ''} popout`}>
 				{this.props.editPlayerCharacter && (
 					<div
-						className="character-edit"
+						className={css.characterEdit}
 						onClick={() => editPlayerCharacter(character.id)}
 					>
 						EDIT
 					</div>
 				)}
-				<div className="row character-details">
-					<div className="character-name">{character.name}</div>
-					<div className="character-image">
+				<div className={`${css.row} ${css.characterDetails}`}>
+					<div className={css.characterName}>{character.name}</div>
+					<div className={css.characterImage}>
 						<CharacterImage
 							imageUrl={
 								this.props.image ? this.props.image.downloadUrl : character.imageRef
@@ -71,14 +71,14 @@ export default class PlayerCharacterSheet extends React.Component<Props, {}> {
 							updateCharacter={this.props.updatePlayerCharacter}
 						/>
 					</div>
-					<div className="character-classes">
+					<div className={css.characterClasses}>
 						{(character.levels || [])
 							.map(x => `${Rules.classNameMap[x.className]} ${x.level}`)
 							.join(', ')}
 					</div>
 				</div>
-				<div className="row">
-					<div className="ability-container">
+				<div className={css.row}>
+					<div className={css.abilityContainer}>
 						<AbilityScore ability="strength" character={character} {...this.props} />
 						<AbilityScore ability="dexterity" character={character} {...this.props} />
 						<AbilityScore
@@ -98,9 +98,9 @@ export default class PlayerCharacterSheet extends React.Component<Props, {}> {
 					<Speed character={character} {...this.props} />
 					<HitPoints character={character} {...this.props} />
 				</div>
-				<div className="row">
-					<div className="column">
-						<div className="save-container">
+				<div className={css.row}>
+					<div className={css.column}>
+						<div className={css.saveContainer}>
 							<AbilitySave ability="strength" character={character} {...this.props} />
 							<AbilitySave
 								ability="dexterity"
@@ -122,7 +122,7 @@ export default class PlayerCharacterSheet extends React.Component<Props, {}> {
 							<div className="section-title">Saving Throws</div>
 						</div>
 					</div>
-					<div className="skill-container">
+					<div className={css.skillContainer}>
 						<Skill
 							skill="acrobatics"
 							ability="dexterity"
@@ -231,23 +231,23 @@ export default class PlayerCharacterSheet extends React.Component<Props, {}> {
 							character={character}
 							{...this.props}
 						/>
-						<div className="section-title">Skills</div>
+						<div className={css.sectionTitle}>Skills</div>
 					</div>
-					<div className="column" style={{ flex: 1 }}>
-						<div className="row">
+					<div className={css.column} style={{ flex: 1 }}>
+						<div className={css.row}>
 							<Initiative character={character} {...this.props} />
 							<ArmorClass character={character} {...this.props} />
 						</div>
-						<div className="row">
+						<div className={css.row}>
 							<Attacks character={character} {...this.props} />
 						</div>
-						<div className="row">
+						<div className={css.row}>
 							<Equipment character={character} {...this.props} />
 						</div>
-						<div className="row">
+						<div className={css.row}>
 							<Traits character={character} {...this.props} />
 						</div>
-						<div className="row">
+						<div className={css.row}>
 							<Resources character={character} {...this.props} />
 						</div>
 					</div>

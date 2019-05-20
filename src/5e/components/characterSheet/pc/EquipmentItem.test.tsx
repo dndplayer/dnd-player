@@ -2,7 +2,7 @@ import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import EquipmentItem from './EquipmentItem';
-import styles from './EquipmentItem.module.css';
+import styles from './EquipmentItem.module.scss';
 
 Enzyme.configure({ adapter: new Adapter() });
 

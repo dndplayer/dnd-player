@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import css from './PlayerCharacterSheetEditor.module.css';
+import css from './PlayerCharacterSheetEditor.module.scss';
 import { Character } from '../../../../models/Character';
 import AbilityScoreEditor from './AbilityScoreEditor';
 

@@ -8,16 +8,15 @@
 	flex-direction: column;
 }
 
-.character-sheet {
+.characterSheet {
 	background: #202020;
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden auto;
-}
-
-.character-sheet.inline {
-	width: 100%;
-	height: auto;
+	&.inline {
+		width: 100%;
+		height: auto;
+	}
 }
 
 .popout .character-close,
@@ -25,8 +24,8 @@
 	display: none;
 }
 
-.character-close,
-.character-cancel {
+.characterClose,
+.characterCancel {
 	background: red;
 	position: absolute;
 	right: 0;
@@ -38,15 +37,15 @@
 	justify-content: center;
 	cursor: pointer;
 }
-.character-details {
+.characterDetails {
 	display: flex;
 	flex-direction: row;
 	align-items: space-between;
 	justify-content: center;
 	width: 100%;
 }
-.character-name,
-.character-classes {
+.characterName,
+.characterClasses {
 	flex: 1;
 	color: #ccc;
 	font-family: 'Libre Baskerville', serif;
@@ -58,16 +57,16 @@
 	padding: 8px 24px;
 }
 
-.character-classes {
+.characterClasses {
 	font-size: 16px;
 }
 
-.ability-container {
+.abilityContainer {
 	display: flex;
 }
 
 .proficiency,
-.ability-container,
+.abilityContainer,
 .speed,
 .initiative {
 	color: #ccc;
@@ -107,14 +106,14 @@
 	height: 65px;
 }
 
-.ability-title,
-.proficiency-title,
-.speed-title,
-.initiative-title,
-.speed-type,
-.ac-title,
-.hp-title,
-.hp-header {
+.abilityTitle,
+.proficiencyTitle,
+.speedTitle,
+.initiativeTitle,
+.speedType,
+.acTitle,
+.hpTitle,
+.hpHeader {
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 9px;
@@ -123,41 +122,41 @@
 	letter-spacing: -0.4px;
 }
 
-.ability-title,
-.proficiency-title,
-.speed-title,
-.initiative-title,
-.ac-title,
-.hp-title {
+.abilityTitle,
+.proficiencyTitle,
+.speedTitle,
+.initiativeTitle,
+.acTitle,
+.hpTitle {
 	position: absolute;
 	top: 12px;
 	left: 0;
 	right: 0;
 }
 
-.ability-modifier,
-.proficiency-modifier,
-.speed-modifier,
-.initiative-modifier {
+.abilityModifier,
+.proficiencyModifier,
+.speedModifier,
+.initiativeModifier {
 	position: relative;
 	line-height: 28px;
 }
 
-.ability-modifier {
+.abilityModifier {
 	margin-top: 7px;
 }
 
-.proficiency-modifier {
+.proficiencyModifier {
 	margin-top: 12px;
 }
 
-.initiative-modifier {
+.initiativeModifier {
 	margin-top: 19px;
 }
 
-.ability-symbol,
-.proficiency-symbol,
-.initiative-symbol {
+.abilitySymbol,
+.proficiencySymbol,
+.initiativeSymbol {
 	position: absolute;
 	right: 100%;
 	margin-right: 1px;
@@ -166,14 +165,14 @@
 	color: #808080;
 }
 
-.ability-number,
-.proficiency-number,
-.speed-number,
-.initiative-number {
+.abilityNumber,
+.proficiencyNumber,
+.speedNumber,
+.initiativeNumber {
 	font-size: 28px;
 }
 
-.ability-score {
+.abilityScore {
 	position: absolute;
 	font-weight: 600;
 	font-size: 17px;
@@ -188,8 +187,8 @@
 	background: #202020;
 }
 
-.popup-advantage,
-.popup-disadvantage {
+.popupAdvantage,
+.popupDisadvantage {
 	height: 30px;
 	width: 30px;
 	color: #202020;
@@ -206,41 +205,41 @@
 	transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
 		opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms, visibility 300ms;
 }
-.popup-advantage {
+.popupAdvantage {
 	background: url(../../../../components/chat/advantage.svg);
 	right: -16px;
 	transform: translate3d(-10px, 0, 0);
 }
-.popup-disadvantage {
+.popupDisadvantage {
 	background: url(../../../../components/chat/disadvantage.svg);
 	left: -16px;
 	transform: translate3d(10px, 0, 0);
 }
 
-div:hover > .popup-advantage,
-div:hover > .popup-disadvantage {
+div:hover > .popupAdvantage,
+div:hover > .popupDisadvantage {
 	transform: translate3d(0, 0, 0);
 	opacity: 1;
 	visibility: visible;
 }
 
-div:hover > .popup-advantage:hover,
-div:hover > .popup-disadvantage:hover {
+div:hover > .popupAdvantage:hover,
+div:hover > .popupDisadvantage:hover {
 	color: #ccc;
 	transform: scale(1.25);
 }
 
-.proficiency-title,
-.speed-title,
-.initiative-title,
-.ac-title,
-.hp-title {
+.proficiencyTitle,
+.speedTitle,
+.initiativeTitle,
+.acTitle,
+.hpTitle {
 	font-family: 'Libre Baskerville', serif;
 	font-variant: small-caps;
 	font-size: 11px;
 	top: 9px;
 }
-.speed-container {
+.speedContainer {
 	margin-top: 12px;
 	position: relative;
 	display: flex;
@@ -248,14 +247,14 @@ div:hover > .popup-disadvantage:hover {
 	align-items: center;
 	justify-content: center;
 }
-.speed-unit {
+.speedUnit {
 	color: #808080;
 	position: absolute;
 	left: 100%;
 	margin-left: 4px;
 	bottom: 3px;
 }
-.speed-popup {
+.speedPopup {
 	position: absolute;
 	top: -2px;
 	left: -2px;
@@ -270,17 +269,17 @@ div:hover > .popup-disadvantage:hover {
 	padding-top: 16px;
 	z-index: 1;
 }
-.speed-popup-wrap {
+.speedPopupWrap {
 	position: relative;
 }
 
-.speed:hover .speed-popup {
+.speed:hover .speedPopup {
 	opacity: 1;
 	visibility: visible;
 }
 
-.save-container,
-.skill-container {
+.saveContainer,
+.skillContainer {
 	width: 285px;
 	border: 2px solid #000;
 	border-radius: 32px;
@@ -294,11 +293,11 @@ div:hover > .popup-disadvantage:hover {
 	padding: 8px;
 }
 
-.save-container {
+.saveContainer {
 	flex-wrap: wrap;
 }
 
-.skill-container {
+.skillContainer {
 	flex-direction: column;
 }
 
@@ -314,8 +313,8 @@ div:hover > .popup-disadvantage:hover {
 	margin: 4px 8px;
 }
 
-.save-wrapper,
-.skill-wrapper {
+.saveWrapper,
+.skillWrapper {
 	border: 1px solid #444;
 	border-radius: 80px;
 	display: flex;
@@ -324,37 +323,37 @@ div:hover > .popup-disadvantage:hover {
 	padding: 4px;
 }
 
-.save-wrapper {
+.saveWrapper {
 	width: 70px;
 	justify-content: center;
 	align-items: center;
 }
 
-.skill-wrapper {
+.skillWrapper {
 	width: 210px;
 	justify-content: start;
 	align-items: center;
 }
 
-.save-title,
-.skill-ability {
+.saveTitle,
+.skillAbility {
 	text-transform: uppercase;
 	font-weight: 600;
 	font-size: 14px;
 	letter-spacing: -0.4px;
 }
 
-.skill-ability {
+.skillAbility {
 	color: #808080;
 	margin: 0 24px;
 	width: 24px;
 }
-.skill-title {
+.skillTitle {
 	font-size: 14px;
 }
 
-.save-modifier,
-.skill-modifier {
+.saveModifier,
+.skillModifier {
 	border: 1px solid #444;
 	background: #202020;
 	width: 45px;
@@ -369,30 +368,30 @@ div:hover > .popup-disadvantage:hover {
 	justify-content: center;
 }
 
-.save-modifier {
+.saveModifier {
 	height: 35px;
 }
-.skill-modifier {
+.skillModifier {
 	height: 30px;
 }
 
-.save-symbol,
-.skill-symbol {
+.saveSymbol,
+.skillSymbol {
 	font-weight: 700;
 	color: #808080;
 	margin-top: -4px;
 	margin-left: -4px;
 }
 
-.save-number,
-.skill-number {
+.saveNumber,
+.skillNumber {
 	font-size: 20px;
 	font-weight: 600;
 	margin-top: -4px;
 }
 
-.save-proficiency,
-.skill-proficiency {
+.saveProficiency,
+.skillProficiency {
 	position: absolute;
 	border: 1px solid #444;
 	width: 12px;
@@ -401,16 +400,16 @@ div:hover > .popup-disadvantage:hover {
 	background: #202020;
 	left: -6px;
 }
-.save-proficiency.expertise,
-.skill-proficiency.expertise {
+.saveProficiency.expertise,
+.skillProficiency.expertise {
 	background: #4c976e;
 }
-.save-proficiency.proficient,
-.skill-proficiency.proficient {
+.saveProficiency.proficient,
+.skillProficiency.proficient {
 	background: #ccc;
 }
-.save-proficiency.half-proficient,
-.skill-proficiency.half-proficient {
+.saveProficiency.half-proficient,
+.skillProficiency.half-proficient {
 	background: #666;
 }
 
@@ -425,11 +424,11 @@ div:hover > .popup-disadvantage:hover {
 	cursor: pointer;
 }
 
-.ac-title {
+.acTitle {
 	top: 20px;
 }
 
-.ac-number {
+.acNumber {
 	color: #ccc;
 	font-size: 28px;
 }
@@ -447,13 +446,13 @@ div:hover > .popup-disadvantage:hover {
 	justify-content: space-evenly;
 }
 
-.hp-divider {
+.hpDivider {
 	color: #444;
 	font-size: 32px;
 }
 
-.hp-current,
-.hp-max {
+.hpCurrent,
+.hpMax {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -463,11 +462,11 @@ div:hover > .popup-disadvantage:hover {
 	font-size: 28px;
 }
 
-.hp-header {
+.hpHeader {
 	color: #666;
 }
 
-.section-title {
+.sectionTitle {
 	color: #666;
 	font-weight: bold;
 	font-variant: small-caps;

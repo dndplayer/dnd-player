@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import { DiceRoll } from 'rpg-dice-roller';
 import { RollData, ChatMessageData } from '../../../../models/ChatMessage';
 
-import './PlayerCharacterSheet.css';
+import css from './PlayerCharacterSheet.module.scss';
 import { PlayerCharacter } from '../../../models/Character';
 import Rules from '../../../5eRules';
 import { ProficiencyClassMap } from './PlayerCharacterSheet';
@@ -28,19 +28,19 @@ export default class AbilitySave extends React.Component<Props, {}> {
 		const proficiencyClass = ProficiencyClassMap[saves[ability] || 0];
 
 		return (
-			<div className="save" onClick={e => this.handleClick(e, 0)}>
-				<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
+			<div className={css.save} onClick={e => this.handleClick(e, 0)}>
+				<div className={css.popupAdvantage} onClick={e => this.handleClick(e, 1)}>
 					A
 				</div>
-				<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
+				<div className={css.popupDisadvantage} onClick={e => this.handleClick(e, -1)}>
 					D
 				</div>
-				<div className="save-wrapper">
-					<div className={`save-proficiency ${proficiencyClass}`} />
-					<div className="save-title">{Rules.getShortAbilityName(ability)}</div>
-					<div className="save-modifier">
-						<span className="save-symbol">{modifier < 0 ? '-' : '+'}</span>
-						<span className="save-number">{Math.abs(modifier)}</span>
+				<div className={css.saveWrapper}>
+					<div className={`${css.saveProficiency} ${proficiencyClass}`} />
+					<div className={css.saveTitle}>{Rules.getShortAbilityName(ability)}</div>
+					<div className={css.saveModifier}>
+						<span className={css.saveSymbol}>{modifier < 0 ? '-' : '+'}</span>
+						<span className={css.saveNumber}>{Math.abs(modifier)}</span>
 					</div>
 				</div>
 			</div>

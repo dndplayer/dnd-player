@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import './PlayerCharacterSheet.css';
+import css from './PlayerCharacterSheet.module.scss';
 import { Character, CharacterSpeeds } from '../../../models/Character';
 
 interface Props {
@@ -15,25 +15,25 @@ export default class Speed extends React.Component<Props, {}> {
 		const movementTypes = [];
 		for (const movementType of Object.keys(speed)) {
 			movementTypes.push(
-				<div className="speed-container" key={movementType}>
-					<div className="speed-popup-wrap">
-						<span className="speed-number">{speed[movementType]}</span>
-						<span className="speed-unit">ft.</span>
+				<div className={css.speedContainer} key={movementType}>
+					<div className={css.speedPopupWrap}>
+						<span className={css.speedNumber}>{speed[movementType]}</span>
+						<span className={css.speedUnit}>ft.</span>
 					</div>
-					<div className="speed-type">{movementType}</div>
+					<div className={css.speedType}>{movementType}</div>
 				</div>
 			);
 		}
 
 		return (
-			<div className="speed">
-				<div className="speed-title">Speed</div>
-				<div className="speed-container">
-					<span className="speed-number">{speed.walk}</span>
-					<span className="speed-unit">ft.</span>
+			<div className={css.speed}>
+				<div className={css.speedTitle}>Speed</div>
+				<div className={css.speedContainer}>
+					<span className={css.speedNumber}>{speed.walk}</span>
+					<span className={css.speedUnit}>ft.</span>
 				</div>
-				<div className="speed-popup">
-					<div className="speed-title">Speed</div>
+				<div className={css.speedPopup}>
+					<div className={css.speedTitle}>Speed</div>
 					{movementTypes}
 				</div>
 			</div>

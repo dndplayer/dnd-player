@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import styles from './Equipment.module.css';
+import styles from './PlayerCharacterSheet.module.scss';
 import { PlayerCharacter } from '../../../models/Character';
 
 interface Props {

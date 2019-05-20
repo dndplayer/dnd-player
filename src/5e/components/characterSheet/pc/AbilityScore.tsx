@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import { DiceRoll } from 'rpg-dice-roller';
 import { RollData, ChatMessageData } from '../../../../models/ChatMessage';
 
-import './PlayerCharacterSheet.css';
+import css from './PlayerCharacterSheet.module.scss';
 import { Character } from '../../../models/Character';
 import Rules from '../../../5eRules';
 
@@ -27,19 +27,19 @@ export default class AbilityScore extends React.Component<Props, {}> {
 		const modifier = Rules.getAbilityModifier(character, ability);
 
 		return (
-			<div className="ability" onClick={e => this.handleClick(e, 0)}>
-				<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
+			<div className={css.ability} onClick={e => this.handleClick(e, 0)}>
+				<div className={css.popupAdvantage} onClick={e => this.handleClick(e, 1)}>
 					A
 				</div>
-				<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
+				<div className={css.popupDisadvantage} onClick={e => this.handleClick(e, -1)}>
 					D
 				</div>
-				<div className="ability-title">{Rules.getLongAbilityName(ability)}</div>
-				<div className="ability-modifier">
-					<div className="ability-symbol">{modifier < 0 ? '-' : '+'}</div>
-					<div className="ability-number">{Math.abs(modifier)}</div>
+				<div className={css.abilityTitle}>{Rules.getLongAbilityName(ability)}</div>
+				<div className={css.abilityModifier}>
+					<div className={css.abilitySymbol}>{modifier < 0 ? '-' : '+'}</div>
+					<div className={css.abilityNumber}>{Math.abs(modifier)}</div>
 				</div>
-				<div className="ability-score">{character[ability]}</div>
+				<div className={css.abilityScore}>{character[ability]}</div>
 			</div>
 		);
 	}

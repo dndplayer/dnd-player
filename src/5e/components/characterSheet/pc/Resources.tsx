@@ -1,6 +1,6 @@
 import React, { ReactNode, ReactElement } from 'react';
 
-import styles from './Equipment.module.css';
+import styles from './Equipment.module.scss';
 import { PlayerCharacter, CharacterResource } from '../../../models/Character';
 import InlineCalculator from '../../../../components/util/InlineCalculator';
 

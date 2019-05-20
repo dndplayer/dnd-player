@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import './PlayerCharacterSheet.css';
+import css from './PlayerCharacterSheet.module.scss';
 import { PlayerCharacter } from '../../../models/Character';
 import Rules from '../../../5eRules';
 
@@ -20,11 +20,11 @@ export default class ProficiencyBonus extends React.Component<Props, {}> {
 		const modifier = Rules.getProficiencyBonus(character);
 
 		return (
-			<div className="proficiency">
-				<div className="proficiency-title">Proficiency</div>
-				<div className="proficiency-modifier">
-					<div className="proficiency-symbol">+</div>
-					<div className="proficiency-number">{modifier}</div>
+			<div className={css.proficiency}>
+				<div className={css.proficiencyTitle}>Proficiency</div>
+				<div className={css.proficiencyModifier}>
+					<div className={css.proficiencySymbol}>+</div>
+					<div className={css.proficiencyNumber}>{modifier}</div>
 				</div>
 			</div>
 		);

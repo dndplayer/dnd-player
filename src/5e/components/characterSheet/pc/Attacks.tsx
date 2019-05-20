@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import './Attacks.css';
+import css from './Attacks.module.scss';
 import { PlayerCharacter } from '../../../models/Character';
 import Rules from '../../../5eRules';
 import AttackBlock from './AttackBlock';
@@ -20,17 +20,17 @@ export default class Attacks extends React.Component<Props, {}> {
 		));
 
 		return (
-			<div className="attacks">
-				<div className="attack-container">
-					<div className="attack-header">
-						<span className="attack-name">Attack</span>
-						<span className="attack-range">Range</span>
-						<span className="attack-toHit">To Hit</span>
-						<span className="attack-damage">Damage</span>
+			<div className={css.attack}>
+				<div className={css.attackContainer}>
+					<div className={css.attackHeader}>
+						<span className={css.attackName}>Attack</span>
+						<span className={css.attackRange}>Range</span>
+						<span className={css.attackToHit}>To Hit</span>
+						<span className={css.attackDamage}>Damage</span>
 					</div>
 					{attacks}
 				</div>
-				<div className="attacks-title">Attacks</div>
+				<div className={css.attacksTitle}>Attacks</div>
 			</div>
 		);
 	}

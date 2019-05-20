@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import './PlayerCharacterSheet.css';
+import css from './PlayerCharacterSheet.module.scss';
 import { PlayerCharacter } from '../../../models/Character';
 import InlineCalculator from '../../../../components/util/InlineCalculator';
 
@@ -14,9 +14,9 @@ export default class HitPoints extends React.Component<Props, {}> {
 		const { character } = this.props;
 
 		return (
-			<div className="hp">
-				<div className="hp-title">Hit Points</div>
-				<div className="hp-current">
+			<div className={css.hp}>
+				<div className={css.hpTitle}>Hit Points</div>
+				<div className={css.hpCurrent}>
 					<InlineCalculator
 						value={character.hp}
 						onEnter={(val): void =>
@@ -26,12 +26,12 @@ export default class HitPoints extends React.Component<Props, {}> {
 							})
 						}
 					/>
-					<span className="hp-header">Current</span>
+					<span className={css.hpHeader}>Current</span>
 				</div>
-				<div className="hp-divider">/</div>
-				<div className="hp-max">
+				<div className={css.hpDivider}>/</div>
+				<div className={css.hpMax}>
 					<span>{character.maxHp}</span>
-					<span className="hp-header">Max</span>
+					<span className={css.hpHeader}>Max</span>
 				</div>
 			</div>
 		);

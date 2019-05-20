@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import styles from './Spells.module.css';
+import styles from './Spells.module.scss';
 import { PlayerCharacter } from '../../../models/Character';
 import Spell from './Spell';
 import SpellSlot from './SpellSlot';

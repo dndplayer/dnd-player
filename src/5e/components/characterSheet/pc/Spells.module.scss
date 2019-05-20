@@ -1,11 +1,11 @@
 .wrapper {
 	color: #ccc;
 	position: relative;
+	span {
+		display: inline-block;
+	}
 }
 
-.wrapper span {
-	display: inline-block;
-}
 .name {
 	width: 120px;
 }

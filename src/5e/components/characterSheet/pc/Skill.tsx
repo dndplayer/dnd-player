@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import { DiceRoll } from 'rpg-dice-roller';
 import { RollData, ChatMessageData } from '../../../../models/ChatMessage';
 
-import './PlayerCharacterSheet.css';
+import css from './PlayerCharacterSheet.module.scss';
 import { PlayerCharacter } from '../../../models/Character';
 import Rules from '../../../5eRules';
 import { ProficiencyClassMap } from './PlayerCharacterSheet';
@@ -31,20 +31,20 @@ export default class Skill extends React.Component<Props, {}> {
 		const proficiencyClass = ProficiencyClassMap[skills[skill] || 0];
 
 		return (
-			<div className="skill" onClick={e => this.handleClick(e, 0)}>
-				<div className="popup-advantage" onClick={e => this.handleClick(e, 1)}>
+			<div className={css.skill} onClick={e => this.handleClick(e, 0)}>
+				<div className={css.popupAdvantage} onClick={e => this.handleClick(e, 1)}>
 					A
 				</div>
-				<div className="popup-disadvantage" onClick={e => this.handleClick(e, -1)}>
+				<div className={css.popupDisadvantage} onClick={e => this.handleClick(e, -1)}>
 					D
 				</div>
-				<div className="skill-wrapper">
-					<div className={`skill-proficiency ${proficiencyClass}`} />
-					<div className="skill-ability">{Rules.getShortAbilityName(ability)}</div>
-					<div className="skill-title">{Rules.getLongSkillName(skill)}</div>
-					<div className="skill-modifier">
-						<div className="skill-symbol">{modifier < 0 ? '-' : '+'}</div>
-						<div className="skill-number">{Math.abs(modifier)}</div>
+				<div className={css.skillWrapper}>
+					<div className={`${css.skillProficiency}${proficiencyClass}`} />
+					<div className={css.skillAbility}>{Rules.getShortAbilityName(ability)}</div>
+					<div className={css.skillTitle}>{Rules.getLongSkillName(skill)}</div>
+					<div className={css.skillModifier}>
+						<div className={css.skillSymbol}>{modifier < 0 ? '-' : '+'}</div>
+						<div className={css.skillNumber}>{Math.abs(modifier)}</div>
 					</div>
 				</div>
 			</div>

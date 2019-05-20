@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import css from './PlayerCharacterSheetEditor.module.css';
+import css from './PlayerCharacterSheetEditor.module.scss';
 import { PlayerCharacter, CharacterEquipment } from '../../../../models/Character';
 import ArrayEditor from './ArrayEditor';
 
