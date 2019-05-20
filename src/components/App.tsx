@@ -22,6 +22,7 @@ import { configure as HotkeysConfigure, GlobalHotKeys } from 'react-hotkeys';
 import { openChat, closeChat } from '../redux/actions/chat';
 import { mapsToggleMeasureMode, toggleFogEditMode, toggleFogAddMode } from '../redux/actions/maps';
 import { keyUpShiftAction, keyDownShiftAction } from '../redux/actions/keys';
+import InitiativeTrackerContainer from './initiative/InitiativeTrackerContainer';
 
 const keyMap = {
 	OPEN_CHAT: 'enter',
@@ -92,6 +93,7 @@ export class App extends Component<{}, {}> {
 													</div>
 													<div className={styles.mapWrapper}>
 														<PropertiesPanelContainer />
+														<InitiativeTrackerContainer />
 														<MapContainer />
 													</div>
 													<div>

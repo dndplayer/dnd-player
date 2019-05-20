@@ -1,0 +1,44 @@
+.trackerWrapper {
+	position: absolute;
+	top: 0px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	height: 100px;
+	width: 60vw;
+	// background-color: rgb(124, 163, 15);
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+$lineHeight: 24px;
+
+.backLine {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	height: $lineHeight;
+	transform: translateY(-50%);
+	// background-color: #4277c6;
+	background: linear-gradient(#4277c6, #4277c6, #28508d);
+	z-index: 5;
+	border-radius: $lineHeight / 2;
+}
+
+.tokenWrapper {
+	position: relative;
+	z-index: 10;
+	padding: 5px 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.nextButton {
+	position: absolute !important;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 99;
+}

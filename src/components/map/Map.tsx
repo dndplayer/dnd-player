@@ -362,7 +362,7 @@ class Map extends Component<Props, State> {
 		return connectDropTarget(
 			<div ref={c => (this._mainWrapper = c)}>
 				{overlay}
-				<div className={styles.measureToolWrapper}>
+				{/* <div className={styles.measureToolWrapper}>
 					<div className={styles.squaredOne}>
 						<span>Measure Tool</span>
 						<input
@@ -376,7 +376,7 @@ class Map extends Component<Props, State> {
 						/>
 						<label htmlFor="squaredOne" />
 					</div>
-				</div>
+				</div> */}
 				<div className={styles.controlStateOverlay}>
 					{this.props.measureModeEnabled && (
 						<span className={styles.controlState}>MEASURING MODE</span>

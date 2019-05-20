@@ -18,6 +18,14 @@ export default class Handle extends PIXI.Graphics {
 		this.on('mousemove', this.onMouseMove);
 	}
 
+	public get dragging(): boolean {
+		return this._dragging;
+	}
+
+	public get dragData(): PIXI.interaction.InteractionData {
+		return this._dragData;
+	}
+
 	public pointIndex: number;
 
 	private _handleRect: PIXI.Rectangle;
@@ -30,7 +38,7 @@ export default class Handle extends PIXI.Graphics {
 		e.stopPropagation();
 
 		this._fill = true;
-		console.log(`Mouse Down Handle`);
+		// console.log(`Mouse Down Handle`);
 
 		this._dragging = true;
 		this._dragData = e.data;
@@ -42,7 +50,7 @@ export default class Handle extends PIXI.Graphics {
 		e.stopPropagation();
 
 		this._fill = false;
-		console.log(`Mouse Up Handle`);
+		// console.log(`Mouse Up Handle`);
 
 		this._dragging = false;
 		this._dragData = null;
