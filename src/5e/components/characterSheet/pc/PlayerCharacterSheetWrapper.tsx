@@ -38,6 +38,6 @@ export default class PlayerCharacterSheetWrapper extends React.Component<Props, 
 		) : (
 			<PlayerCharacterSheet {...this.props} />
 		);
-		return <div className="character-sheet popout"> {inner} </div>;
+		return inner;
 	}
 }

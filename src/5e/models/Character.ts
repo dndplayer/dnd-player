@@ -12,9 +12,11 @@ export interface Character {
 	wisdom: number;
 	charisma: number;
 	speed: CharacterSpeeds;
+	alignment: string;
 }
 
 export interface PlayerCharacter extends Character {
+	race: string;
 	ac: number;
 	hp: number;
 	maxHp: number;
@@ -33,7 +35,6 @@ export interface PlayerCharacter extends Character {
 
 export interface NonPlayerCharacter extends Character {
 	class: string;
-	alignment: string;
 	environments: string[];
 	source: string;
 	cr: number;

@@ -10,7 +10,8 @@ import { AttackEditor } from './AttacksEditor';
 
 export default class EquipmentEditor extends ArrayEditor<CharacterEquipment> {
 	prop: string = 'equipment';
-	heading: string = 'Equipment';
+	heading: string = '';
+	direction = 'column' as 'column';
 
 	mapItem(idx: string, item: CharacterEquipment): React.ReactNode {
 		return (
@@ -49,26 +50,28 @@ export class EquipmentItemEditor extends React.Component<Props, {}> {
 			);
 		}
 		return (
-			<div className={css.action}>
-				<div className={css.button} onClick={this.props.removeItem}>
-					<Icon path={mdiDelete} size={1} color={'#ccc'} />
+			<div className={css.column}>
+				<div className={css.row}>
+					<div className={css.button} onClick={this.props.removeItem}>
+						<Icon path={mdiDelete} size={1} color={'#ccc'} />
+					</div>
+					<input
+						className={css.italicHeading}
+						value={item.name}
+						placeholder="Name"
+						onChange={e => this.props.updateItemProperty('name', e.target.value)}
+					/>
+					<input
+						className={css.italicHeading}
+						value={item.weight}
+						type="number"
+						min="0"
+						placeholder="weight"
+						onChange={e =>
+							this.props.updateItemProperty('weight', parseInt(e.target.value))
+						}
+					/>
 				</div>
-				<input
-					className={css.italicHeading}
-					value={item.name}
-					placeholder="Name"
-					onChange={e => this.props.updateItemProperty('name', e.target.value)}
-				/>
-				<input
-					className={css.italicHeading}
-					value={item.weight}
-					type="number"
-					min="0"
-					placeholder="weight"
-					onChange={e =>
-						this.props.updateItemProperty('weight', parseInt(e.target.value))
-					}
-				/>
 				{attacks}
 				<div className={css.button} onClick={() => this.addAttack()}>
 					<Icon path={mdiPlus} size={1} color={'#ccc'} />

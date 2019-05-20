@@ -10,6 +10,7 @@ import ArrayEditor from './ArrayEditor';
 export default class LevelsEditor extends ArrayEditor<CharacterLevel> {
 	prop = 'levels';
 	heading = 'Levels';
+	direction = 'row' as 'row';
 	mapItem(idx: string, item: CharacterLevel): React.ReactNode {
 		return (
 			<LevelEditor
@@ -41,7 +42,7 @@ export class LevelEditor extends React.Component<Props, {}> {
 		}
 
 		return (
-			<div className={css.level}>
+			<div className={css.row}>
 				<div
 					className={css.button}
 					onClick={this.props.removeLevel}

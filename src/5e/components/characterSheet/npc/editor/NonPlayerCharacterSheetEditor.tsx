@@ -73,7 +73,7 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 					<div className={css.characterType}>
 						<select
 							value={newCharacter.size}
-							placeholder="Class"
+							placeholder="Size"
 							onChange={(e): void => this.update('size', e.target.value)}
 						>
 							<option value={CharacterSize.Tiny}>Tiny</option>

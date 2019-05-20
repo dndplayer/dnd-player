@@ -1,12 +1,13 @@
 import React, { ReactNode } from 'react';
 
 import css from './PlayerCharacterSheetEditor.module.scss';
-import { Character } from '../../../../models/Character';
+import { PlayerCharacter } from '../../../../models/Character';
 import Rules from '../../../../5eRules';
+import SaveEditor from './SaveEditor';
 
 interface Props {
 	ability: string;
-	character: Character;
+	character: PlayerCharacter;
 	updateCharacterProperty: (property: string, value: any) => void;
 }
 
@@ -15,9 +16,10 @@ export default class AbilityScoreEditor extends React.Component<Props, {}> {
 		const { ability, character } = this.props;
 
 		return (
-			<div className={css.ability}>
-				<div className={css.abilityTitle}>{Rules.getShortAbilityName(ability)}</div>
+			<div className={css.columnCenter}>
+				<div className={css.label}>{Rules.getShortAbilityName(ability)}</div>
 				<input
+					className={css.ability}
 					value={character[ability]}
 					type="number"
 					min={0}
@@ -25,6 +27,7 @@ export default class AbilityScoreEditor extends React.Component<Props, {}> {
 					placeholder={'10'}
 					onChange={e => this.props.updateCharacterProperty(ability, e.target.value)}
 				/>
+				<SaveEditor prop={ability} {...this.props} />
 			</div>
 		);
 	}

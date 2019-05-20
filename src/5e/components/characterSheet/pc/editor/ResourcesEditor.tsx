@@ -8,7 +8,8 @@ import ArrayEditor from './ArrayEditor';
 
 export default class ResourcesEditor extends ArrayEditor<CharacterResource> {
 	prop = 'resources';
-	heading = 'Resources';
+	heading = '';
+	direction = 'column' as 'column';
 
 	mapItem(idx: string, item: CharacterResource): React.ReactNode {
 		return (

@@ -20,7 +20,8 @@ export default class InlineCalculator extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 		this.state = {
-			newValue: props.value.toString()
+			newValue:
+				props.value === undefined || props.value === null ? '' : props.value.toString()
 		};
 	}
 

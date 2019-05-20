@@ -10,7 +10,8 @@ import EffectsEditor from './EffectsEditor';
 
 export default class AttacksEditor extends ArrayEditor<CharacterAttack> {
 	prop: string = 'attacks';
-	heading: string = 'Innate Attacks';
+	heading: string = '';
+	direction = 'column' as 'column';
 
 	mapItem(idx: string, item: CharacterAttack): React.ReactNode {
 		return (
@@ -35,7 +36,7 @@ export class AttackEditor extends React.Component<Props, {}> {
 		const { attack } = this.props;
 
 		return (
-			<div className={css.action}>
+			<div className={css.row}>
 				<div className={css.button} onClick={this.props.removeItem}>
 					<Icon path={mdiDelete} size={1} color={'#ccc'} />
 				</div>

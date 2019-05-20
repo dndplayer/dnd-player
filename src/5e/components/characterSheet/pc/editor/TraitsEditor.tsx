@@ -8,7 +8,8 @@ import ArrayEditor from './ArrayEditor';
 
 export default class TraitsEditor extends ArrayEditor<CharacterTrait> {
 	prop = 'traits';
-	heading = 'Traits';
+	heading = '';
+	direction = 'column' as 'column';
 
 	mapItem(idx: string, item: CharacterTrait): React.ReactNode {
 		return (
@@ -33,7 +34,7 @@ export class TraitEditor extends React.Component<Props, {}> {
 		const { trait } = this.props;
 
 		return (
-			<div className={css.trait}>
+			<div className={css.row}>
 				<div
 					className={css.button}
 					onClick={this.props.removeTrait}

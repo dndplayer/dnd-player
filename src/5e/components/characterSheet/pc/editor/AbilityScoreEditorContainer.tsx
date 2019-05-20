@@ -1,18 +1,18 @@
 import React, { ReactNode } from 'react';
 
 import css from './PlayerCharacterSheetEditor.module.scss';
-import { Character } from '../../../../models/Character';
+import { PlayerCharacter } from '../../../../models/Character';
 import AbilityScoreEditor from './AbilityScoreEditor';
 
 interface Props {
-	character: Character;
+	character: PlayerCharacter;
 	updateCharacterProperty: (property: string, value: any) => void;
 }
 
 export default class AbilityScoreEditorContainer extends React.Component<Props, {}> {
 	render(): ReactNode {
 		return (
-			<div className={css.abilityContainer}>
+			<div className={css.row}>
 				<AbilityScoreEditor ability="strength" {...this.props} />
 				<AbilityScoreEditor ability="dexterity" {...this.props} />
 				<AbilityScoreEditor ability="constitution" {...this.props} />
