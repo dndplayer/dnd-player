@@ -4,8 +4,8 @@
 	left: 50%;
 	transform: translate(-50%, 0);
 	height: 100px;
-	width: 60vw;
-	// background-color: rgb(124, 163, 15);
+	// width: 60vw;
+	padding-right: 50px; // Prevent tokens overlapping Next button
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
@@ -31,7 +31,8 @@ $lineHeight: 24px;
 	padding: 5px 10px;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-evenly;
+	// justify-content: space-evenly;
+	justify-content: flex-start;
 	align-items: center;
 }
 
