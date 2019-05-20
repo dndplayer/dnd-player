@@ -306,8 +306,8 @@ class Map extends Component<Props, State> {
 					this.setState({
 						measureEnd: e.data.global.clone(),
 						measuredDistance: `${calculateDistance(
-							this.state.measureStart,
-							this.state.measureEnd,
+							[this.state.measureStart.x, this.state.measureStart.y],
+							[this.state.measureEnd.x, this.state.measureEnd.y],
 							this._viewport.scale.x
 						)} ft.`
 					});

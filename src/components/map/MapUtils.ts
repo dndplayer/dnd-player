@@ -32,19 +32,18 @@ export const groupObjectsByLayer = (map: MapData): GroupedMapObject[] => {
 	}, []);
 };
 
-export const calculateDistance = (
-	start: PIXI.PointLike,
-	end: PIXI.PointLike,
-	scale: number
-): string => {
+export const calculateDistance = (start: number[], end: number[], scale: number): string => {
 	return (
-		Math.pow(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2), 0.5) /
+		Math.pow(Math.pow(end[0] - start[0], 2) + Math.pow(end[1] - start[1], 2), 0.5) /
 		scale /
 		40
 	).toFixed(1);
 };
 
 export const getMidpointOfPoints = (points: number[]): number[] => {
+	if (points === null || points === undefined) {
+		return null;
+	}
 	const avgs = points.reduce(
 		(prev, curr, idx) => {
 			const pointIdx = Math.floor(idx / 2);

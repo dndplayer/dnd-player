@@ -83,6 +83,7 @@
     "eslint-plugin-jsx-a11y": "6.x",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "7.x",
+    "jest-canvas-mock": "^2.1.0",
     "jest-each": "^24.7.1",
     "prettier": "^1.17.0",
     "react-hot-loader": "^4.8.4"
@@ -97,5 +98,6 @@
       "prettier --single-quote --write",
       "git add"
     ]
-  }
+  },
+  "jest": {}
 }

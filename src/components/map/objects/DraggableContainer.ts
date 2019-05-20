@@ -172,7 +172,11 @@ export default class DraggableContainer extends MapObject {
 							end: end,
 							measuring: true,
 							visible: true,
-							distance: `${calculateDistance(start, end, this.viewportZoom)} ft.`,
+							distance: `${calculateDistance(
+								[start.x, start.y],
+								[end.x, end.y],
+								this.viewportZoom
+							)} ft.`,
 							thickness: 3
 						}
 					);
