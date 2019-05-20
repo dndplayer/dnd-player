@@ -33,25 +33,32 @@ const keyMap = {
 	SHIFT_UP: { sequence: 'shift', action: 'keyup' }
 };
 
-const handlers = {
-	OPEN_CHAT: event => store.store.dispatch(openChat()),
-	CLOSE_CHAT: event => store.store.dispatch(closeChat()),
-	TOGGLE_MEASURE_MODE: event => store.store.dispatch(mapsToggleMeasureMode()),
-	SHIFT_DOWN: event => {
-		if (event.repeat) {
-			return; // Ignore repeat keys
-		}
-		console.log(event);
-		store.store.dispatch(keyDownShiftAction());
-	},
-	SHIFT_UP: event => {
-		console.log(event);
-		store.store.dispatch(keyUpShiftAction());
-	},
-	TOGGLE_FOG_EDIT_MODE: event => store.store.dispatch(toggleFogEditMode()),
-	TOGGLE_FOG_ADD_MODE: event => store.store.dispatch(toggleFogAddMode())
+const ignoreKeyRepeats = (cb: (event: KeyboardEvent) => void): ((e: KeyboardEvent) => void) => (
+	e: KeyboardEvent
+): void => {
+	if (e.repeat) {
+		return; // Prevent key repeats
+	}
+	if (cb) {
+		cb(e);
+	}
 };
 
+const handlers = {
+	OPEN_CHAT: ignoreKeyRepeats(event => store.store.dispatch(openChat())),
+	CLOSE_CHAT: ignoreKeyRepeats(event => store.store.dispatch(closeChat())),
+	TOGGLE_MEASURE_MODE: ignoreKeyRepeats(event => store.store.dispatch(mapsToggleMeasureMode())),
+	SHIFT_DOWN: ignoreKeyRepeats(event => {
+		console.log(event);
+		store.store.dispatch(keyDownShiftAction());
+	}),
+	SHIFT_UP: ignoreKeyRepeats(event => {
+		console.log(event);
+		store.store.dispatch(keyUpShiftAction());
+	}),
+	TOGGLE_FOG_EDIT_MODE: ignoreKeyRepeats(event => store.store.dispatch(toggleFogEditMode())),
+	TOGGLE_FOG_ADD_MODE: ignoreKeyRepeats(event => store.store.dispatch(toggleFogAddMode()))
+};
 export class App extends Component<{}, {}> {
 	constructor(props) {
 		super(props);
