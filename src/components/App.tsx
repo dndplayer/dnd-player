@@ -38,6 +38,9 @@ const handlers = {
 	CLOSE_CHAT: event => store.store.dispatch(closeChat()),
 	TOGGLE_MEASURE_MODE: event => store.store.dispatch(mapsToggleMeasureMode()),
 	SHIFT_DOWN: event => {
+		if (event.repeat) {
+			return; // Ignore repeat keys
+		}
 		console.log(event);
 		store.store.dispatch(keyDownShiftAction());
 	},
