@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { ChatMessageData } from '../../../../models/ChatMessage';
 
-import css from './NonPlayerCharacterSheet.module.css';
+import css from './NonPlayerCharacterSheet.module.scss';
 import { Character } from '../../../models/Character';
 import AbilityScore from './AbilityScore';
 

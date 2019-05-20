@@ -20,7 +20,8 @@
 	overflow: hidden auto;
 	box-sizing: border-box;
 	color: #ccc;
-	padding: 8px;
+	padding: 4px;
+	position: relative;
 }
 
 .characterImageContainer {

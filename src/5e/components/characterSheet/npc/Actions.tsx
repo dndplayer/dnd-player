@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { ChatMessageData } from '../../../../models/ChatMessage';
 
-import css from './NonPlayerCharacterSheet.module.css';
+import css from './NonPlayerCharacterSheet.module.scss';
 import { NonPlayerCharacter } from '../../../models/Character';
 import {
 	AttackEffectType,

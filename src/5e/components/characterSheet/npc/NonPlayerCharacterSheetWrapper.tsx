@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { ChatMessageData } from '../../../../models/ChatMessage';
 
+import css from './NonPlayerCharacterSheet.module.scss';
 import { Character, NonPlayerCharacter } from '../../../models/Character';
 import { Upload } from '../../../../models/Upload';
 import NonPlayerCharacterSheet from './NonPlayerCharacterSheet';
@@ -39,10 +40,6 @@ export default class NonPlayerCharacterSheetWrapper extends React.Component<Prop
 		) : (
 			<NonPlayerCharacterSheet {...this.props} />
 		);
-		return (
-			<div className={`character-sheet ${this.props.inline ? 'inline' : ''} popout`}>
-				{inner}
-			</div>
-		);
+		return inner;
 	}
 }

@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import { DiceRoll } from 'rpg-dice-roller';
 import { RollData, ChatMessageData } from '../../../../models/ChatMessage';
 
-import css from './NonPlayerCharacterSheet.module.css';
+import css from './NonPlayerCharacterSheet.module.scss';
 import { NonPlayerCharacterSkill, NonPlayerCharacter } from '../../../models/Character';
 import Rules from '../../../5eRules';
 import Rollable from '../../Rollable';

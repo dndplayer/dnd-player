@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { ChatMessageData, RollData } from '../../../../models/ChatMessage';
 
-import css from './NonPlayerCharacterSheet.module.css';
+import css from './NonPlayerCharacterSheet.module.scss';
 import { NonPlayerCharacter } from '../../../models/Character';
 import { Upload } from '../../../../models/Upload';
 import CharacterImage from '../CharacterImage';
@@ -33,7 +33,7 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 	render(): ReactNode {
 		const { character, editNonPlayerCharacter, characterId, inline } = this.props;
 		return (
-			<div className={`column ${css.characterSheet} ${inline ? css.inline : ''} popout`}>
+			<div className={`${css.column} ${css.characterSheet} ${inline ? css.inline : ''}`}>
 				{!inline && (
 					<div className={css.characterImageContainer}>
 						<CharacterImage
@@ -46,7 +46,7 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 						/>
 					</div>
 				)}
-				<div className={css.characterName + ' row'}>
+				<div className={`${css.characterName} ${css.row}`}>
 					<span>{character.name}</span>
 					<div onClick={(): void => this.rollInitiative(0)} className={css.button}>
 						<Icon path={mdiSwordCross} size={1} color={'#a6792d'} />

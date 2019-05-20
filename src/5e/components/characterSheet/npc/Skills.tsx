@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { ChatMessageData } from '../../../../models/ChatMessage';
 
-import css from './NonPlayerCharacterSheet.module.css';
+import css from './NonPlayerCharacterSheet.module.scss';
 import { NonPlayerCharacter } from '../../../models/Character';
 import Skill from './Skill';
 
@@ -26,7 +26,7 @@ export default class Skills extends React.Component<Props, {}> {
 		}
 
 		return (
-			<div className="row">
+			<div className={css.row}>
 				<span className={css.boldHeading}>Skills</span>
 				{skills}
 			</div>

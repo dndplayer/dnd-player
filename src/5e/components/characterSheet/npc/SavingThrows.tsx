@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { ChatMessageData } from '../../../../models/ChatMessage';
 
-import css from './NonPlayerCharacterSheet.module.css';
+import css from './NonPlayerCharacterSheet.module.scss';
 import { NonPlayerCharacter } from '../../../models/Character';
 import SavingThrow from './SavingThrow';
 
@@ -33,7 +33,7 @@ export default class SavingThrows extends React.Component<Props, {}> {
 		}
 
 		return (
-			<div className="row">
+			<div className={css.row}>
 				<span className={css.boldHeading}>Saving Throws</span>
 				{saves}
 			</div>
