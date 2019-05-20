@@ -13,6 +13,7 @@ import UiReducer from './ui';
 import GlobalStateReducer from './globalState';
 import MapPingsReducer from './mapPings';
 import UsersReducer from './users';
+import KeysReducer from './keys';
 
 export default history =>
 	combineReducers({
@@ -24,9 +25,9 @@ export default history =>
 		assets: AssetReducer,
 		maps: MapsReducer,
 		characters: CharactersReducer,
-		// testMap: TestMapReducer,
 		ui: UiReducer,
 		globalState: GlobalStateReducer,
 		mapPings: MapPingsReducer,
-		users: UsersReducer
+		users: UsersReducer,
+		keys: KeysReducer
 	});

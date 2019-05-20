@@ -47,6 +47,7 @@ interface OwnProps {
 	user: firebase.User;
 	sendPing: (ping: MapPing) => void;
 	mapPings: MapPing[];
+	keyShiftDown: boolean;
 	toggleMeasureMode: (val?: boolean) => void;
 	measureModeEnabled: boolean;
 	fogEditMode: boolean;
@@ -289,7 +290,7 @@ class Map extends Component<Props, State> {
 				}
 
 				// WIP Ping testing
-				if (!this.state.measuring && !this.props.fogAddMode) {
+				if (!this.state.measuring && !this.props.fogAddMode && this.props.keyShiftDown) {
 					const localPos = this._viewport.toLocal(e.data.global);
 					this.props.sendPing({
 						position: localPos.clone(),

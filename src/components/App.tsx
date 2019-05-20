@@ -48,14 +48,8 @@ const handlers = {
 	OPEN_CHAT: ignoreKeyRepeats(event => store.store.dispatch(openChat())),
 	CLOSE_CHAT: ignoreKeyRepeats(event => store.store.dispatch(closeChat())),
 	TOGGLE_MEASURE_MODE: ignoreKeyRepeats(event => store.store.dispatch(mapsToggleMeasureMode())),
-	SHIFT_DOWN: ignoreKeyRepeats(event => {
-		console.log(event);
-		store.store.dispatch(keyDownShiftAction());
-	}),
-	SHIFT_UP: ignoreKeyRepeats(event => {
-		console.log(event);
-		store.store.dispatch(keyUpShiftAction());
-	}),
+	SHIFT_DOWN: ignoreKeyRepeats(event => store.store.dispatch(keyDownShiftAction())),
+	SHIFT_UP: ignoreKeyRepeats(event => store.store.dispatch(keyUpShiftAction())),
 	TOGGLE_FOG_EDIT_MODE: ignoreKeyRepeats(event => store.store.dispatch(toggleFogEditMode())),
 	TOGGLE_FOG_ADD_MODE: ignoreKeyRepeats(event => store.store.dispatch(toggleFogAddMode()))
 };

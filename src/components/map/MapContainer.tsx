@@ -29,6 +29,7 @@ interface StateProps {
 	measureModeEnabled: boolean;
 	fogEditMode: boolean;
 	fogAddMode: boolean;
+	keyShiftDown: boolean;
 }
 interface DispatchProps {
 	onUpdateObject: (mapId, mapObjectId, newData) => void;
@@ -65,6 +66,7 @@ class MapContainer extends Component<Props> {
 			user,
 			sendPing,
 			mapPings,
+			keyShiftDown,
 			toggleMeasureMode,
 			measureModeEnabled,
 			fogEditMode,
@@ -94,6 +96,7 @@ class MapContainer extends Component<Props> {
 				user={user}
 				sendPing={sendPing}
 				mapPings={mapPings}
+				keyShiftDown={keyShiftDown}
 				toggleMeasureMode={toggleMeasureMode}
 				measureModeEnabled={measureModeEnabled}
 				fogEditMode={fogEditMode}
@@ -114,6 +117,7 @@ const mapStateToProps = (state): StateProps => ({
 	maps: state.maps.maps,
 	activeMapId: state.globalState.state ? state.globalState.state.activeMapId : null,
 	mapPings: state.mapPings.pings,
+	keyShiftDown: state.keys.shiftDown,
 	measureModeEnabled: state.maps.measureModeEnabled,
 	fogEditMode: state.maps.fogEditMode,
 	fogAddMode: state.maps.fogAddMode
