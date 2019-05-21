@@ -32,7 +32,8 @@ export default class InitiativeTracker extends Component<Props> {
 			initiatives,
 			images,
 			currentTurnId,
-			modifyHp
+			modifyHp,
+			dm
 		} = this.props;
 
 		// if (!this.props.initiativeTrackerOpen) {
@@ -54,6 +55,7 @@ export default class InitiativeTracker extends Component<Props> {
 			<div
 				className={[
 					styles.trackerWrapper,
+					this.props.dm ? styles.dm : '',
 					this.props.initiativeTrackerOpen ? styles.hidden : ''
 				].join(' ')}
 			>
@@ -84,6 +86,7 @@ export default class InitiativeTracker extends Component<Props> {
 									initRoll={x.initiativeRoll}
 									currentTurn={isTurn}
 									modifyHp={modifyHp}
+									dm={dm}
 								/>
 							);
 						}

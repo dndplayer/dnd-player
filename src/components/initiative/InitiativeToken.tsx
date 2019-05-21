@@ -14,6 +14,7 @@ interface Props {
 	currentTurn: boolean;
 	imageUrl: string;
 	modifyHp: (pcId: string | null, npcId: string | null, newHp: number) => void;
+	dm: boolean;
 }
 
 interface State {
@@ -29,6 +30,10 @@ export default class InitiativeToken extends Component<Props, State> {
 	};
 
 	onClick = e => {
+		if (!this.props.dm) {
+			return;
+		}
+
 		this.setState(state => ({
 			hpOpen: !state.hpOpen
 		}));

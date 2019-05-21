@@ -5,11 +5,19 @@
 	transform: translate(-50%, 0);
 	height: 100px;
 	// width: 60vw;
-	padding-right: 100px; // Prevent tokens overlapping Next/Clear buttons
+	// padding-right: 100px; // Prevent tokens overlapping Next/Clear buttons
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 
 	transition: visibility 0s, top 400ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+/*
+	This isn't idea, really want this nested in .trackerWrapper but
+	that doesn't play nice with the react modules
+*/
+.dm {
+	padding-right: 100px; // Prevent tokens overlapping Next/Clear buttons
 }
 
 .hidden {
