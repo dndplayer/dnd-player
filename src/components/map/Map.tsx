@@ -503,7 +503,8 @@ class Map extends Component<Props, State> {
 															isSelectable={
 																dm &&
 																!this.state.measuring &&
-																!this.props.fogAddMode
+																!this.props.fogAddMode &&
+																!this.props.keyShiftDown
 															}
 															onSelected={this.props.onSelectObject}
 															mapObjectId={o.id}
@@ -548,7 +549,8 @@ class Map extends Component<Props, State> {
 															isSelectable={
 																(pcAsset || dm) &&
 																!this.state.measuring &&
-																!this.props.fogAddMode
+																!this.props.fogAddMode &&
+																!this.props.keyShiftDown
 															}
 															onSelected={this.props.onSelectObject}
 															mapObjectId={o.id}
