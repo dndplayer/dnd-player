@@ -21,7 +21,7 @@ interface Props {
 	initiativeTrackerOpen: boolean;
 	nextTurn: () => void;
 	clearInitiatives: () => void;
-	modifyHp: (pcId: string | null, npcId: string | null, newHp: number) => void;
+	modifyHp: (newHp: number, pcId?: string, npcId?: string) => void;
 }
 
 export default class InitiativeTracker extends Component<Props> {

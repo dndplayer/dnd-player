@@ -13,7 +13,7 @@ interface Props {
 	isNpc: boolean;
 	currentTurn: boolean;
 	imageUrl: string;
-	modifyHp: (pcId: string | null, npcId: string | null, newHp: number) => void;
+	modifyHp: (newHp: number, pcId?: string, npcId?: string) => void;
 	dm: boolean;
 }
 
@@ -39,12 +39,12 @@ export default class InitiativeToken extends Component<Props, State> {
 		}));
 	};
 
-	onChangeHp = e => {
+	onChangeHp = val => {
 		if (this.props.modifyHp) {
 			this.props.modifyHp(
+				val,
 				this.props.isPc ? this.props.char.id : null,
-				this.props.isNpc ? this.props.char.id : null,
-				e.target.value
+				this.props.isNpc ? this.props.char.id : null
 			);
 		}
 	};
@@ -76,7 +76,7 @@ export default class InitiativeToken extends Component<Props, State> {
 								className={styles.hpInput}
 								inputClassName={styles.hpInputInner}
 								value={pc ? pc.hp : npc ? npc.hp || 0 : 0}
-								onEnter={(val): void => console.log(val)}
+								onEnter={(val): void => this.onChangeHp(val)}
 							/>
 						</Paper>
 					</Zoom>

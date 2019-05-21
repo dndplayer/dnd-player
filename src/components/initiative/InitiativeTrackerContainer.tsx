@@ -10,6 +10,8 @@ import { Upload } from '../../models/Upload';
 import { setCurrentTurn, clearInitiatives } from '../../redux/actions/initiative';
 import { InitiativeData, InitiativeRoller } from '../../models/Initiative';
 import { getCurrentInitiativeTurn } from '../../redux/selectors/initiative';
+import { updatePlayerCharacter, updateNonPlayerCharacter } from '../../redux/actions/assets';
+import { string } from 'prop-types';
 
 interface StateProps {
 	playerCharacters: PlayerCharacter[];
@@ -23,6 +25,8 @@ interface StateProps {
 interface DispatchProps {
 	setCurrentTurn: (id: string) => void;
 	clearInitiatives: () => void;
+	updatePlayerCharacter: (id: string, data: PlayerCharacter) => void;
+	updateNonPlayerCharacter: (id: string, data: NonPlayerCharacter) => void;
 }
 interface OwnProps {}
 
@@ -47,13 +51,21 @@ class InitiativeTrackerContainer extends Component<Props, State> {
 		this.props.setCurrentTurn(rolls[1].id);
 	}
 
-	modifyHp(): void {
-		// TODO: Do some stuff!
+	modifyHp(newHp: number, pcId?: string, npcId?: string): void {
+		if (pcId) {
+			const char = this.props.playerCharacters.find(x => x.id === pcId);
+			if (char) {
+				this.props.updatePlayerCharacter(pcId, { ...char, hp: newHp });
+			}
+		} else if (npcId) {
+			const char = this.props.nonPlayerCharacters.find(x => x.id === npcId);
+			if (char) {
+				this.props.updateNonPlayerCharacter(npcId, { ...char, hp: newHp });
+			}
+		}
 	}
 
 	render(): ReactNode {
-		// TODO: Eventually replace this with data from Redux
-
 		const { currentTurnId } = this.props;
 
 		return (
@@ -84,7 +96,11 @@ const mapStateToProps = (state: AppState): StateProps => ({
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	setCurrentTurn: id => dispatch(setCurrentTurn(id)),
-	clearInitiatives: () => dispatch(clearInitiatives())
+	clearInitiatives: () => dispatch(clearInitiatives()),
+	updatePlayerCharacter: (id: string, data: PlayerCharacter) =>
+		dispatch(updatePlayerCharacter(id, data)),
+	updateNonPlayerCharacter: (id: string, data: NonPlayerCharacter) =>
+		dispatch(updateNonPlayerCharacter(id, data))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(
