@@ -161,7 +161,8 @@ export default class PropertiesPanel extends Component<Props, State> {
 					position: 'absolute',
 					top: 0,
 					left: 0,
-					overflow: 'hidden scroll'
+					overflow: 'hidden scroll',
+					zIndex: 99
 				}}
 			>
 				<div

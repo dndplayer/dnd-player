@@ -68,7 +68,7 @@ export default class InitiativeToken extends Component<Props, State> {
 					style={{ backgroundImage: `url(${imageUrl})` }}
 					onClick={this.onClick}
 				/>
-				<div className={styles.ac}>{ac}</div>
+				{this.props.dm && <div className={styles.ac}>{ac}</div>}
 				{hpOpen && (
 					<Zoom in={hpOpen}>
 						<Paper elevation={4}>

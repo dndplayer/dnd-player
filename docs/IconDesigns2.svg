@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.1 r15371"
+   sodipodi:docname="IconDesigns2.svg">
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient4567"
+       inkscape:collect="always">
+      <stop
+         id="stop4563"
+         offset="0"
+         style="stop-color:#1c42a1;stop-opacity:1" />
+      <stop
+         id="stop4565"
+         offset="1"
+         style="stop-color:#8696ef;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4508-0">
+      <stop
+         style="stop-color:#7bc4ee;stop-opacity:1;"
+         offset="0"
+         id="stop4504" />
+      <stop
+         style="stop-color:#cbe8f8;stop-opacity:1"
+         offset="1"
+         id="stop4506" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4508-0"
+       id="linearGradient4510"
+       x1="80.537186"
+       y1="152.88577"
+       x2="33.23365"
+       y2="113.86441"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4508-0"
+       id="linearGradient4522"
+       x1="157.91393"
+       y1="146.04994"
+       x2="115.74081"
+       y2="119.96959"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4567"
+       id="linearGradient4554"
+       gradientUnits="userSpaceOnUse"
+       x1="80.537186"
+       y1="152.88577"
+       x2="33.23365"
+       y2="113.86441" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4567"
+       id="linearGradient4556"
+       gradientUnits="userSpaceOnUse"
+       x1="157.91393"
+       y1="146.04994"
+       x2="115.74081"
+       y2="119.96959" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4567"
+       id="linearGradient4585"
+       gradientUnits="userSpaceOnUse"
+       x1="80.537186"
+       y1="152.88577"
+       x2="33.23365"
+       y2="113.86441" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4567"
+       id="linearGradient4587"
+       gradientUnits="userSpaceOnUse"
+       x1="157.91393"
+       y1="146.04994"
+       x2="115.74081"
+       y2="119.96959" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4567"
+       id="linearGradient4601"
+       gradientUnits="userSpaceOnUse"
+       x1="80.537186"
+       y1="152.88577"
+       x2="33.23365"
+       y2="113.86441" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4567"
+       id="linearGradient4603"
+       gradientUnits="userSpaceOnUse"
+       x1="157.91393"
+       y1="146.04994"
+       x2="115.74081"
+       y2="119.96959" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="739.02491"
+     inkscape:cy="47.071147"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:type="star"
+       style="opacity:1;fill:#7bc4ee;fill-opacity:1;stroke:#5f5f5f;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+       id="path4493"
+       sodipodi:sides="6"
+       sodipodi:cx="56.885414"
+       sodipodi:cy="46.779762"
+       sodipodi:r1="35.537804"
+       sodipodi:r2="17.768902"
+       sodipodi:arg1="1.5707963"
+       sodipodi:arg2="2.0943951"
+       inkscape:flatsided="true"
+       inkscape:rounded="1.04083e-017"
+       inkscape:randomized="0"
+       d="m 56.885415,82.317566 -30.776641,-17.768901 -1e-6,-35.537804 30.77664,-17.768902 30.776641,17.768901 10e-7,35.537803 z"
+       inkscape:transform-center-y="8.8844501"
+       inkscape:export-xdpi="42.736488"
+       inkscape:export-ydpi="42.736488" />
+    <path
+       id="path4497"
+       style="fill:#7bc4ee;fill-opacity:1;stroke:#5f5f5f;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 164.83457,14.047862 v 29.141423 c 0,0 0.27492,14.570715 -26.11732,37.663921 C 112.32502,57.76 112.59994,43.189285 112.59994,43.189285 V 14.047862 Z"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccc"
+       inkscape:export-xdpi="44.765556"
+       inkscape:export-ydpi="44.765556" />
+    <g
+       id="g4536"
+       inkscape:export-xdpi="42.736488"
+       inkscape:export-ydpi="42.736488">
+      <path
+         sodipodi:type="star"
+         style="opacity:1;fill:url(#linearGradient4510);fill-opacity:1;stroke:#5f5f5f;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+         id="path4500"
+         sodipodi:sides="6"
+         sodipodi:cx="56.885414"
+         sodipodi:cy="132.30601"
+         sodipodi:r1="35.537804"
+         sodipodi:r2="17.768902"
+         sodipodi:arg1="1.5707963"
+         sodipodi:arg2="2.0943951"
+         inkscape:flatsided="true"
+         inkscape:rounded="1.04083e-017"
+         inkscape:randomized="0"
+         d="m 56.885415,167.84382 -30.776641,-17.7689 -1e-6,-35.53781 30.77664,-17.768899 30.776641,17.768899 10e-7,35.53781 z"
+         inkscape:transform-center-y="8.8844501"
+         inkscape:export-xdpi="42.736488"
+         inkscape:export-ydpi="42.736488" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path4512"
+         d="M 26.108773,150.07492 34.2105,119.53303 56.885413,96.76821 26.108773,114.53711 Z"
+         style="fill:#f6fbfe;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" />
+      <path
+         inkscape:export-ydpi="42.736488"
+         inkscape:export-xdpi="42.736488"
+         inkscape:transform-center-y="8.8844501"
+         d="m 56.885415,167.84382 -30.776641,-17.7689 -1e-6,-35.53781 30.77664,-17.768899 30.776641,17.768899 10e-7,35.53781 z"
+         inkscape:randomized="0"
+         inkscape:rounded="1.04083e-017"
+         inkscape:flatsided="true"
+         sodipodi:arg2="2.0943951"
+         sodipodi:arg1="1.5707963"
+         sodipodi:r2="17.768902"
+         sodipodi:r1="35.537804"
+         sodipodi:cy="132.30601"
+         sodipodi:cx="56.885414"
+         sodipodi:sides="6"
+         id="path4514"
+         style="opacity:1;fill:none;fill-opacity:1;stroke:#5f5f5f;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+         sodipodi:type="star" />
+    </g>
+    <g
+       id="g4531"
+       inkscape:export-xdpi="42.736488"
+       inkscape:export-ydpi="42.736488">
+      <path
+         id="path4502"
+         style="fill:url(#linearGradient4522);fill-opacity:1;stroke:#5f5f5f;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 164.83457,99.574111 v 29.141419 c 0,0 0.27492,14.57072 -26.11732,37.66392 -26.39223,-23.0932 -26.11731,-37.66392 -26.11731,-37.66392 V 99.574111 Z"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccc"
+         inkscape:export-xdpi="44.765556"
+         inkscape:export-ydpi="44.765556" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path4524"
+         d="m 114.25772,134.63376 c -0.13363,-0.66817 -0.4009,-20.44612 16.57071,-34.878672 l -18.22849,-0.180977 -0.0795,29.714259 z"
+         style="fill:#ffffff;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" />
+      <path
+         inkscape:export-ydpi="44.765556"
+         inkscape:export-xdpi="44.765556"
+         sodipodi:nodetypes="cccccc"
+         inkscape:connector-curvature="0"
+         d="m 164.83457,99.574111 v 29.141419 c 0,0 0.27492,14.57072 -26.11732,37.66392 -26.39223,-23.0932 -26.11731,-37.66392 -26.11731,-37.66392 V 99.574111 Z"
+         style="fill:none;fill-opacity:1;stroke:#5f5f5f;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path4526" />
+    </g>
+    <g
+       inkscape:export-ydpi="42.736488"
+       inkscape:export-xdpi="42.736488"
+       id="g4544"
+       transform="translate(0,87.664405)"
+       inkscape:export-filename="D:\Development\DndPlayer\src\components\initiative\dice.png">
+      <path
+         inkscape:export-ydpi="42.736488"
+         inkscape:export-xdpi="42.736488"
+         inkscape:transform-center-y="8.8844501"
+         d="m 56.885415,167.84382 -30.776641,-17.7689 -1e-6,-35.53781 30.77664,-17.768899 30.776641,17.768899 10e-7,35.53781 z"
+         inkscape:randomized="0"
+         inkscape:rounded="1.04083e-017"
+         inkscape:flatsided="true"
+         sodipodi:arg2="2.0943951"
+         sodipodi:arg1="1.5707963"
+         sodipodi:r2="17.768902"
+         sodipodi:r1="35.537804"
+         sodipodi:cy="132.30602"
+         sodipodi:cx="56.885414"
+         sodipodi:sides="6"
+         id="path4538"
+         style="opacity:1;fill:url(#linearGradient4554);fill-opacity:1;stroke:#5f5f5f;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+         sodipodi:type="star" />
+      <path
+         style="fill:#f6fbfe;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M 26.108773,150.07492 34.2105,119.53303 56.885413,96.76821 26.108773,114.53711 Z"
+         id="path4540"
+         inkscape:connector-curvature="0" />
+      <path
+         sodipodi:type="star"
+         style="opacity:1;fill:none;fill-opacity:1;stroke:#5f5f5f;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+         id="path4542"
+         sodipodi:sides="6"
+         sodipodi:cx="56.885414"
+         sodipodi:cy="132.30602"
+         sodipodi:r1="35.537804"
+         sodipodi:r2="17.768902"
+         sodipodi:arg1="1.5707963"
+         sodipodi:arg2="2.0943951"
+         inkscape:flatsided="true"
+         inkscape:rounded="1.04083e-017"
+         inkscape:randomized="0"
+         d="m 56.885415,167.84382 -30.776641,-17.7689 -1e-6,-35.53781 30.77664,-17.768899 30.776641,17.768899 10e-7,35.53781 z"
+         inkscape:transform-center-y="8.8844501"
+         inkscape:export-xdpi="42.736488"
+         inkscape:export-ydpi="42.736488" />
+    </g>
+    <g
+       inkscape:export-ydpi="42.736488"
+       inkscape:export-xdpi="42.736488"
+       id="g4552"
+       transform="translate(0,87.664405)"
+       inkscape:export-filename="D:\Development\DndPlayer\src\components\initiative\ac.png">
+      <path
+         inkscape:export-ydpi="44.765556"
+         inkscape:export-xdpi="44.765556"
+         sodipodi:nodetypes="cccccc"
+         inkscape:connector-curvature="0"
+         d="m 164.83457,99.574111 v 29.141419 c 0,0 0.27492,14.57072 -26.11732,37.66392 -26.39223,-23.0932 -26.11731,-37.66392 -26.11731,-37.66392 V 99.574111 Z"
+         style="fill:url(#linearGradient4556);fill-opacity:1.0;stroke:#5f5f5f;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path4546" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 114.25772,134.63376 c -0.13363,-0.66817 -0.4009,-20.44612 16.57071,-34.878672 l -18.22849,-0.180977 -0.0795,29.714259 z"
+         id="path4548"
+         inkscape:connector-curvature="0" />
+      <path
+         id="path4550"
+         style="fill:none;fill-opacity:1;stroke:#5f5f5f;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 164.83457,99.574111 v 29.141419 c 0,0 0.27492,14.57072 -26.11732,37.66392 -26.39223,-23.0932 -26.11731,-37.66392 -26.11731,-37.66392 V 99.574111 Z"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccc"
+         inkscape:export-xdpi="44.765556"
+         inkscape:export-ydpi="44.765556" />
+    </g>
+    <g
+       inkscape:export-filename="D:\Development\DndPlayer\src\components\initiative\dice.png"
+       transform="translate(0,176.39789)"
+       id="g4575"
+       inkscape:export-xdpi="42.736488"
+       inkscape:export-ydpi="42.736488">
+      <path
+         sodipodi:type="star"
+         style="opacity:1;fill:url(#linearGradient4585);fill-opacity:1;stroke:#5f5f5f;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+         id="path4569"
+         sodipodi:sides="6"
+         sodipodi:cx="56.885414"
+         sodipodi:cy="132.30602"
+         sodipodi:r1="35.537804"
+         sodipodi:r2="17.768902"
+         sodipodi:arg1="1.5707963"
+         sodipodi:arg2="2.0943951"
+         inkscape:flatsided="true"
+         inkscape:rounded="1.04083e-017"
+         inkscape:randomized="0"
+         d="m 56.885415,167.84382 -30.776641,-17.7689 -1e-6,-35.53781 30.77664,-17.768899 30.776641,17.768899 10e-7,35.53781 z"
+         inkscape:transform-center-y="8.8844501"
+         inkscape:export-xdpi="42.736488"
+         inkscape:export-ydpi="42.736488" />
+      <path
+         inkscape:export-ydpi="42.736488"
+         inkscape:export-xdpi="42.736488"
+         inkscape:transform-center-y="8.8844501"
+         d="m 56.885415,167.84382 -30.776641,-17.7689 -1e-6,-35.53781 30.77664,-17.768899 30.776641,17.768899 10e-7,35.53781 z"
+         inkscape:randomized="0"
+         inkscape:rounded="1.04083e-017"
+         inkscape:flatsided="true"
+         sodipodi:arg2="2.0943951"
+         sodipodi:arg1="1.5707963"
+         sodipodi:r2="17.768902"
+         sodipodi:r1="35.537804"
+         sodipodi:cy="132.30602"
+         sodipodi:cx="56.885414"
+         sodipodi:sides="6"
+         id="path4573"
+         style="opacity:1;fill:none;fill-opacity:1;stroke:#5f5f5f;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+         sodipodi:type="star" />
+    </g>
+    <g
+       inkscape:export-filename="D:\Development\DndPlayer\src\components\initiative\ac.png"
+       transform="translate(0,176.39789)"
+       id="g4583"
+       inkscape:export-xdpi="42.736488"
+       inkscape:export-ydpi="42.736488">
+      <path
+         id="path4577"
+         style="fill:url(#linearGradient4587);fill-opacity:1;stroke:#5f5f5f;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 164.83457,99.574111 v 29.141419 c 0,0 0.27492,14.57072 -26.11732,37.66392 -26.39223,-23.0932 -26.11731,-37.66392 -26.11731,-37.66392 V 99.574111 Z"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccc"
+         inkscape:export-xdpi="44.765556"
+         inkscape:export-ydpi="44.765556" />
+      <path
+         inkscape:export-ydpi="44.765556"
+         inkscape:export-xdpi="44.765556"
+         sodipodi:nodetypes="cccccc"
+         inkscape:connector-curvature="0"
+         d="m 164.83457,99.574111 v 29.141419 c 0,0 0.27492,14.57072 -26.11732,37.66392 -26.39223,-23.0932 -26.11731,-37.66392 -26.11731,-37.66392 V 99.574111 Z"
+         style="fill:none;fill-opacity:1;stroke:#5f5f5f;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path4581" />
+    </g>
+    <g
+       inkscape:export-ydpi="42.736488"
+       inkscape:export-xdpi="42.736488"
+       id="g4593"
+       transform="translate(0,266.20045)"
+       inkscape:export-filename="D:\Development\DndPlayer\src\components\initiative\dice.png">
+      <path
+         inkscape:export-ydpi="42.736488"
+         inkscape:export-xdpi="42.736488"
+         inkscape:transform-center-y="8.8844501"
+         d="m 56.885415,167.84382 -30.776641,-17.7689 -1e-6,-35.53781 30.77664,-17.768899 30.776641,17.768899 10e-7,35.53781 z"
+         inkscape:randomized="0"
+         inkscape:rounded="1.04083e-017"
+         inkscape:flatsided="true"
+         sodipodi:arg2="2.0943951"
+         sodipodi:arg1="1.5707963"
+         sodipodi:r2="17.768902"
+         sodipodi:r1="35.537804"
+         sodipodi:cy="132.30602"
+         sodipodi:cx="56.885414"
+         sodipodi:sides="6"
+         id="path4589"
+         style="opacity:1;fill:url(#linearGradient4601);fill-opacity:1;stroke:#cdcdcd;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+         sodipodi:type="star" />
+    </g>
+    <g
+       inkscape:export-ydpi="42.736488"
+       inkscape:export-xdpi="42.736488"
+       id="g4599"
+       transform="translate(0,266.20045)"
+       inkscape:export-filename="D:\Development\DndPlayer\src\components\initiative\ac.png">
+      <path
+         inkscape:export-ydpi="44.765556"
+         inkscape:export-xdpi="44.765556"
+         sodipodi:nodetypes="cccccc"
+         inkscape:connector-curvature="0"
+         d="m 164.83457,99.574111 v 29.141419 c 0,0 0.27492,14.57072 -26.11732,37.66392 -26.39223,-23.0932 -26.11731,-37.66392 -26.11731,-37.66392 V 99.574111 Z"
+         style="fill:url(#linearGradient4603);fill-opacity:1;stroke:#cdcdcd;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path4595" />
+    </g>
+  </g>
+</svg>

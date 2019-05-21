@@ -1,4 +1,4 @@
-import React, { Component, ReactNode, ReactElement } from 'react';
+import React, { Component, ReactNode, ReactElement, Ref } from 'react';
 
 import styles from './InitiativeTracker.module.scss';
 import InitiativeToken from './InitiativeToken';
@@ -25,6 +25,16 @@ interface Props {
 }
 
 export default class InitiativeTracker extends Component<Props> {
+	private _activeRef: HTMLElement;
+
+	componentDidUpdate(prevProps: Props, prevState) {
+		if (prevProps.currentTurnId !== this.props.currentTurnId) {
+			if (this._activeRef) {
+				this._activeRef.scrollIntoView();
+			}
+		}
+	}
+
 	render(): ReactNode {
 		const {
 			nonPlayerCharacters,
@@ -73,17 +83,25 @@ export default class InitiativeTracker extends Component<Props> {
 							const isTurn = currentTurnId === x.id;
 
 							return (
-								<InitiativeToken
-									key={x.id}
-									isPc={!!x.pcId}
-									isNpc={!!x.npcId}
-									char={char}
-									imageUrl={image ? image.downloadUrl : Unknown}
-									initRoll={x.initiativeRoll}
-									currentTurn={isTurn}
-									modifyHp={modifyHp}
-									dm={dm}
-								/>
+								<div
+									ref={r => {
+										if (isTurn) {
+											this._activeRef = r;
+										}
+									}}
+								>
+									<InitiativeToken
+										key={x.id}
+										isPc={!!x.pcId}
+										isNpc={!!x.npcId}
+										char={char}
+										imageUrl={image ? image.downloadUrl : Unknown}
+										initRoll={x.initiativeRoll}
+										currentTurn={isTurn}
+										modifyHp={modifyHp}
+										dm={dm}
+									/>
+								</div>
 							);
 						}
 					)}
