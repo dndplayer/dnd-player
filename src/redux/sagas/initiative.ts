@@ -9,7 +9,8 @@ import {
 	types,
 	InitiativeAddRollAction,
 	InitiativeClearAction,
-	InitiativeSetCurrentTurnAction
+	InitiativeSetCurrentTurnAction,
+	InitiativeRemoveAction
 } from '../actions/initiative';
 
 const initiativeTransformer = ({ value }) => value;
@@ -31,6 +32,10 @@ function* addInitiativeRollSaga(action: InitiativeAddRollAction): any {
 	yield call(rsf.database.create, '/initiatives/rolls', action.data);
 }
 
+function* removeInitiativeRollSaga(action: InitiativeRemoveAction): any {
+	yield call(rsf.database.delete, `/initiatives/rolls/${action.id}`);
+}
+
 function* clearInitiativesSaga(action: InitiativeClearAction): any {
 	yield call(rsf.database.delete, '/initiatives/rolls');
 }
@@ -43,6 +48,7 @@ export default function* rootSaga() {
 	yield all([
 		fork(syncInitiativeSaga),
 		takeEvery(types.INITIATIVE.ADD_ROLL, addInitiativeRollSaga),
+		takeEvery(types.INITIATIVE.REMOVE, removeInitiativeRollSaga),
 		takeEvery(types.INITIATIVE.CLEAR, clearInitiativesSaga),
 		takeEvery(types.INITIATIVE.SET_CURRENT_TURN, setCurrentTurnSaga)
 	]);

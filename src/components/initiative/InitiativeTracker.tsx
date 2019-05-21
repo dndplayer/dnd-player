@@ -22,6 +22,7 @@ interface Props {
 	nextTurn: () => void;
 	clearInitiatives: () => void;
 	modifyHp: (newHp: number, pcId?: string, npcId?: string) => void;
+	removeInitiative: (id: string) => void;
 }
 
 export default class InitiativeTracker extends Component<Props> {
@@ -43,7 +44,8 @@ export default class InitiativeTracker extends Component<Props> {
 			images,
 			currentTurnId,
 			modifyHp,
-			dm
+			dm,
+			removeInitiative
 		} = this.props;
 
 		if (!initiatives || !initiatives.rolls) {
@@ -93,6 +95,7 @@ export default class InitiativeTracker extends Component<Props> {
 								>
 									<InitiativeToken
 										// key={x.id}
+										initId={x.id}
 										isPc={!!x.pcId}
 										isNpc={!!x.npcId}
 										char={char}
@@ -101,6 +104,7 @@ export default class InitiativeTracker extends Component<Props> {
 										currentTurn={isTurn}
 										modifyHp={modifyHp}
 										dm={dm}
+										removeInitiative={removeInitiative}
 									/>
 								</div>
 							);

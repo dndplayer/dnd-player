@@ -7,7 +7,7 @@ import { orderInitiatives } from './InitiativeHelpers';
 import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
 import { AppState } from '../../redux/reducers';
 import { Upload } from '../../models/Upload';
-import { setCurrentTurn, clearInitiatives } from '../../redux/actions/initiative';
+import { setCurrentTurn, clearInitiatives, removeInitiative } from '../../redux/actions/initiative';
 import { InitiativeData, InitiativeRoller } from '../../models/Initiative';
 import { getCurrentInitiativeTurn } from '../../redux/selectors/initiative';
 import { updatePlayerCharacter, updateNonPlayerCharacter } from '../../redux/actions/assets';
@@ -24,6 +24,7 @@ interface StateProps {
 }
 interface DispatchProps {
 	setCurrentTurn: (id: string) => void;
+	removeInitiative: (id: string) => void;
 	clearInitiatives: () => void;
 	updatePlayerCharacter: (id: string, data: PlayerCharacter) => void;
 	updateNonPlayerCharacter: (id: string, data: NonPlayerCharacter) => void;
@@ -80,6 +81,7 @@ class InitiativeTrackerContainer extends Component<Props, State> {
 				modifyHp={this.modifyHp}
 				dm={this.props.isDm}
 				initiativeTrackerOpen={this.props.initiativeTrackerOpen}
+				removeInitiative={this.props.removeInitiative}
 			/>
 		);
 	}
@@ -100,7 +102,8 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 	updatePlayerCharacter: (id: string, data: PlayerCharacter) =>
 		dispatch(updatePlayerCharacter(id, data)),
 	updateNonPlayerCharacter: (id: string, data: NonPlayerCharacter) =>
-		dispatch(updateNonPlayerCharacter(id, data))
+		dispatch(updateNonPlayerCharacter(id, data)),
+	removeInitiative: (id: string) => dispatch(removeInitiative(id))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

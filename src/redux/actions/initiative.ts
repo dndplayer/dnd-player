@@ -9,7 +9,8 @@ export const types = {
 		},
 		SET_CURRENT_TURN: 'INITIATIVE.SET_CURRENT_TURN',
 		ADD_ROLL: 'INITIATIVE.ADD_ROLL',
-		CLEAR: 'INITIATIVE.CLEAR'
+		CLEAR: 'INITIATIVE.CLEAR',
+		REMOVE: 'INITIATIVE.REMOVE'
 	}
 };
 
@@ -26,6 +27,10 @@ export interface InitiativeAddRollAction extends Action {
 }
 
 export interface InitiativeSetCurrentTurnAction extends Action {
+	id: string;
+}
+
+export interface InitiativeRemoveAction extends Action {
 	id: string;
 }
 
@@ -52,6 +57,11 @@ export const addInitiativeRoll = (data: InitiativeRoller): InitiativeAddRollActi
 
 export const setCurrentTurn = (id: string): InitiativeSetCurrentTurnAction => ({
 	type: types.INITIATIVE.SET_CURRENT_TURN,
+	id
+});
+
+export const removeInitiative = (id: string): InitiativeRemoveAction => ({
+	type: types.INITIATIVE.REMOVE,
 	id
 });
 

@@ -7,6 +7,7 @@ import { Zoom, Paper } from '@material-ui/core';
 import InlineCalculator from '../util/InlineCalculator';
 
 interface Props {
+	initId: string;
 	initRoll: number;
 	char: Character;
 	isPc: boolean;
@@ -14,6 +15,7 @@ interface Props {
 	currentTurn: boolean;
 	imageUrl: string;
 	modifyHp: (newHp: number, pcId?: string, npcId?: string) => void;
+	removeInitiative: (id: string) => void;
 	dm: boolean;
 }
 
@@ -71,7 +73,7 @@ export default class InitiativeToken extends Component<Props, State> {
 				{this.props.dm && hpOpen && (
 					<div
 						className={styles.deleteButton}
-						onClick={() => console.log('TODO: delete')}
+						onClick={() => this.props.removeInitiative(this.props.initId)}
 					>
 						X
 					</div>
