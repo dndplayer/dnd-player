@@ -11,6 +11,11 @@ export const types = {
 			CLOSE: 'UI.SIDEBAR.CLOSE',
 			TOGGLE: 'UI.SIDEBAR.TOGGLE',
 			OPEN_PANEL: 'UI.SIDEBAR.OPEN_PANEL'
+		},
+		INITIATIVE_TRACKER: {
+			OPEN: 'UI.INITIATIVE_TRACKER.OPEN',
+			CLOSE: 'UI.INITIATIVE_TRACKER.CLOSE',
+			TOGGLE: 'UI.INITIATIVE_TRACKER.TOGGLE'
 		}
 	}
 };
@@ -26,6 +31,10 @@ export interface PropertyPanelVisibilityAction extends Action {
 export interface SidebarOpenAction extends Action {}
 export interface SidebarCloseAction extends Action {}
 export interface SidebarToggleAction extends Action {}
+
+export interface InitiativeTrackerOpenAction extends Action {}
+export interface InitiativeTrackerCloseAction extends Action {}
+export interface InitiativeTrackerToggleAction extends Action {}
 
 export interface SidebarOpenPanelAction extends Action {
 	panel: OverlayPanelTypes;
@@ -50,6 +59,18 @@ export const closeSidebar = (): SidebarCloseAction => ({
 
 export const toggleSidebar = (): SidebarToggleAction => ({
 	type: types.UI.SIDEBAR.TOGGLE
+});
+
+export const openInitiativeTracker = (): InitiativeTrackerOpenAction => ({
+	type: types.UI.INITIATIVE_TRACKER.OPEN
+});
+
+export const closeInitiativeTracker = (): InitiativeTrackerCloseAction => ({
+	type: types.UI.INITIATIVE_TRACKER.CLOSE
+});
+
+export const toggleInitiativeTracker = (): InitiativeTrackerToggleAction => ({
+	type: types.UI.INITIATIVE_TRACKER.TOGGLE
 });
 
 export const openPanel = (panel: OverlayPanelTypes): SidebarOpenPanelAction => ({

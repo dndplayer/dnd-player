@@ -8,6 +8,15 @@
 	padding-right: 100px; // Prevent tokens overlapping Next/Clear buttons
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
+
+	transition: visibility 0s, top 400ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.hidden {
+	top: -100px;
+	visibility: hidden;
+
+	transition: visibility 0s 400ms, top 400ms cubic-bezier(0.28, 0.84, 0.42, 1);
 }
 
 $lineHeight: 24px;

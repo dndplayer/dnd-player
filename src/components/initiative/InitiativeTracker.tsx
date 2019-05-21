@@ -2,7 +2,7 @@ import React, { Component, ReactNode, ReactElement } from 'react';
 
 import styles from './InitiativeTracker.module.scss';
 import InitiativeToken from './InitiativeToken';
-import { InitiativeRoller } from '../../models/Initiative';
+import { InitiativeRoller, InitiativeData } from '../../models/Initiative';
 import { Fab } from '@material-ui/core';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import ClearIcon from '@material-ui/icons/Clear';
@@ -13,11 +13,12 @@ import Unknown from './unknown.png';
 
 interface Props {
 	currentTurnId?: string;
-	initiatives: InitiativeRoller[];
+	initiatives: InitiativeData;
 	playerCharacters: PlayerCharacter[];
 	nonPlayerCharacters: NonPlayerCharacter[];
 	dm: boolean;
 	images: Upload[];
+	initiativeTrackerOpen: boolean;
 	nextTurn: () => void;
 	clearInitiatives: () => void;
 	modifyHp: (pcId: string | null, npcId: string | null, newHp: number) => void;
@@ -34,14 +35,30 @@ export default class InitiativeTracker extends Component<Props> {
 			modifyHp
 		} = this.props;
 
-		if (!initiatives || initiatives.length === 0) {
+		// if (!this.props.initiativeTrackerOpen) {
+		// 	return <div />;
+		// }
+
+		if (!initiatives || !initiatives.rolls) {
 			return <div />;
 		}
 
+		const rolls = Object.keys(initiatives.rolls)
+			.map(x => ({
+				...initiatives.rolls[x],
+				id: x
+			}))
+			.sort((a, b) => b.initiativeRoll - a.initiativeRoll);
+
 		return (
-			<div className={styles.trackerWrapper}>
+			<div
+				className={[
+					styles.trackerWrapper,
+					this.props.initiativeTrackerOpen ? styles.hidden : ''
+				].join(' ')}
+			>
 				<div className={styles.tokenWrapper}>
-					{initiatives.map(
+					{rolls.map(
 						(x): ReactElement => {
 							const char = x.pcId
 								? playerCharacters.find(y => y.id === x.pcId)

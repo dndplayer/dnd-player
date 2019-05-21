@@ -18,6 +18,7 @@ interface StateProps {
 	initiatives: InitiativeData;
 	currentTurnId: string;
 	isDm: boolean;
+	initiativeTrackerOpen: boolean;
 }
 interface DispatchProps {
 	setCurrentTurn: (id: string) => void;
@@ -27,28 +28,14 @@ interface OwnProps {}
 
 type Props = StateProps & DispatchProps & OwnProps;
 
-interface State {
-	orderedRolls: InitiativeRoller[];
-}
+interface State {}
 
 class InitiativeTrackerContainer extends Component<Props, State> {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			orderedRolls: []
-		};
-
 		this.nextTurn = this.nextTurn.bind(this);
 		this.modifyHp = this.modifyHp.bind(this);
-	}
-
-	componentDidUpdate(prevProps, prevState) {
-		if (this.props.initiatives !== prevProps.initiatives) {
-			this.setState({
-				orderedRolls: orderInitiatives(this.props.initiatives)
-			});
-		}
 	}
 
 	nextTurn(): void {
@@ -67,16 +54,12 @@ class InitiativeTrackerContainer extends Component<Props, State> {
 	render(): ReactNode {
 		// TODO: Eventually replace this with data from Redux
 
-		// const initiatives = orderInitiatives(GetDefaultTestData());
-		// const currentTurnId = initiatives.length > 0 ? initiatives[0].id : null;
-
 		const { currentTurnId } = this.props;
-		const { orderedRolls } = this.state;
 
 		return (
 			<InitiativeTracker
 				currentTurnId={currentTurnId}
-				initiatives={orderedRolls}
+				initiatives={this.props.initiatives}
 				playerCharacters={this.props.playerCharacters}
 				nonPlayerCharacters={this.props.nonPlayerCharacters}
 				images={this.props.images}
@@ -84,6 +67,7 @@ class InitiativeTrackerContainer extends Component<Props, State> {
 				clearInitiatives={this.props.clearInitiatives}
 				modifyHp={this.modifyHp}
 				dm={this.props.isDm}
+				initiativeTrackerOpen={this.props.initiativeTrackerOpen}
 			/>
 		);
 	}
@@ -95,7 +79,8 @@ const mapStateToProps = (state: AppState): StateProps => ({
 	images: state.images.images,
 	initiatives: state.initiative.rolls,
 	currentTurnId: getCurrentInitiativeTurn(state),
-	isDm: state.auth.dm
+	isDm: state.auth.dm,
+	initiativeTrackerOpen: state.ui.initiativeTrackerOpen
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	setCurrentTurn: id => dispatch(setCurrentTurn(id)),
