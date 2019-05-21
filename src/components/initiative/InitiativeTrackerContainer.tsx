@@ -7,7 +7,7 @@ import { orderInitiatives } from './InitiativeHelpers';
 import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
 import { AppState } from '../../redux/reducers';
 import { Upload } from '../../models/Upload';
-import { setCurrentTurn } from '../../redux/actions/initiative';
+import { setCurrentTurn, clearInitiatives } from '../../redux/actions/initiative';
 import { InitiativeData, InitiativeRoller } from '../../models/Initiative';
 import { getCurrentInitiativeTurn } from '../../redux/selectors/initiative';
 
@@ -21,6 +21,7 @@ interface StateProps {
 }
 interface DispatchProps {
 	setCurrentTurn: (id: string) => void;
+	clearInitiatives: () => void;
 }
 interface OwnProps {}
 
@@ -80,6 +81,7 @@ class InitiativeTrackerContainer extends Component<Props, State> {
 				nonPlayerCharacters={this.props.nonPlayerCharacters}
 				images={this.props.images}
 				nextTurn={this.nextTurn}
+				clearInitiatives={this.props.clearInitiatives}
 				modifyHp={this.modifyHp}
 				dm={this.props.isDm}
 			/>
@@ -96,7 +98,8 @@ const mapStateToProps = (state: AppState): StateProps => ({
 	isDm: state.auth.dm
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
-	setCurrentTurn: id => dispatch(setCurrentTurn(id))
+	setCurrentTurn: id => dispatch(setCurrentTurn(id)),
+	clearInitiatives: () => dispatch(clearInitiatives())
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

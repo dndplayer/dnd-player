@@ -5,6 +5,7 @@ import InitiativeToken from './InitiativeToken';
 import { InitiativeRoller } from '../../models/Initiative';
 import { Fab } from '@material-ui/core';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
+import ClearIcon from '@material-ui/icons/Clear';
 import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
 import { Upload } from '../../models/Upload';
 
@@ -18,6 +19,7 @@ interface Props {
 	dm: boolean;
 	images: Upload[];
 	nextTurn: () => void;
+	clearInitiatives: () => void;
 	modifyHp: (pcId: string | null, npcId: string | null, newHp: number) => void;
 }
 
@@ -31,6 +33,10 @@ export default class InitiativeTracker extends Component<Props> {
 			currentTurnId,
 			modifyHp
 		} = this.props;
+
+		if (!initiatives || initiatives.length === 0) {
+			return <div />;
+		}
 
 		return (
 			<div className={styles.trackerWrapper}>
@@ -68,15 +74,26 @@ export default class InitiativeTracker extends Component<Props> {
 				</div>
 				<div className={styles.backLine} />
 				{this.props.dm && (
-					<Fab
-						color="secondary"
-						size="small"
-						aria-label="Next Turn"
-						className={styles.nextButton}
-						onClick={this.props.nextTurn}
-					>
-						<SkipNextIcon />
-					</Fab>
+					<div className={styles.buttonWrapper}>
+						<Fab
+							color="secondary"
+							size="small"
+							aria-label="Next Turn"
+							className={styles.nextButton}
+							onClick={this.props.nextTurn}
+						>
+							<SkipNextIcon />
+						</Fab>
+						<Fab
+							color="primary"
+							size="small"
+							aria-label="Clear Initiative"
+							className={styles.clearButton}
+							onClick={this.props.clearInitiatives}
+						>
+							<ClearIcon />
+						</Fab>
+					</div>
 				)}
 			</div>
 		);

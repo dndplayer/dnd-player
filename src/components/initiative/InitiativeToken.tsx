@@ -65,15 +65,10 @@ export default class InitiativeToken extends Component<Props, State> {
 				{hpOpen && (
 					<Zoom in={hpOpen}>
 						<Paper elevation={4}>
-							{/* <input
-								className={styles.hpInput}
-								value={pc ? pc.hp : npc ? npc.hp : 0}
-								onChange={this.onChangeHp}
-							/> */}
 							<InlineCalculator
 								className={styles.hpInput}
 								inputClassName={styles.hpInputInner}
-								value={pc ? pc.hp : npc ? npc.hp : 0}
+								value={pc ? pc.hp : npc ? npc.hp || 0 : 0}
 								onEnter={(val): void => console.log(val)}
 							/>
 						</Paper>

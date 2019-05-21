@@ -5,7 +5,7 @@
 	transform: translate(-50%, 0);
 	height: 100px;
 	// width: 60vw;
-	padding-right: 50px; // Prevent tokens overlapping Next button
+	padding-right: 100px; // Prevent tokens overlapping Next/Clear buttons
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
@@ -36,10 +36,20 @@ $lineHeight: 24px;
 	align-items: center;
 }
 
-.nextButton {
+.buttonWrapper {
 	position: absolute !important;
 	right: 0;
 	top: 50%;
+	width: 90px;
 	transform: translateY(-50%);
 	z-index: 99;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.nextButton {
+}
+
+.clearButton {
 }
