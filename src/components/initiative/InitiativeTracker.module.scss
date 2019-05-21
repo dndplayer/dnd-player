@@ -21,7 +21,7 @@
 }
 
 .hidden {
-	top: -100px;
+	top: -140px; // Slightly more than trackerWrapper height to allow for AC than hangs off bottom
 	visibility: hidden;
 
 	transition: visibility 0s 400ms, top 400ms cubic-bezier(0.28, 0.84, 0.42, 1);
