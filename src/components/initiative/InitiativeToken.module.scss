@@ -88,3 +88,18 @@
 	border: 1px solid #eee;
 	border-radius: 5px;
 }
+
+.deleteButton {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 16px;
+	height: 16px;
+	background: #f00;
+	border-radius: 50%;
+	font-weight: 800;
+	font-size: 12px;
+	text-align: center;
+	cursor: pointer;
+	user-select: none;
+}

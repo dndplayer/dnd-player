@@ -68,6 +68,14 @@ export default class InitiativeToken extends Component<Props, State> {
 					style={{ backgroundImage: `url(${imageUrl})` }}
 					onClick={this.onClick}
 				/>
+				{this.props.dm && hpOpen && (
+					<div
+						className={styles.deleteButton}
+						onClick={() => console.log('TODO: delete')}
+					>
+						X
+					</div>
+				)}
 				{this.props.dm && <div className={styles.ac}>{ac}</div>}
 				{hpOpen && (
 					<Zoom in={hpOpen}>

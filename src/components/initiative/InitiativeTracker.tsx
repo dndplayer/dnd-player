@@ -84,6 +84,7 @@ export default class InitiativeTracker extends Component<Props> {
 
 							return (
 								<div
+									key={x.id}
 									ref={r => {
 										if (isTurn) {
 											this._activeRef = r;
@@ -91,7 +92,7 @@ export default class InitiativeTracker extends Component<Props> {
 									}}
 								>
 									<InitiativeToken
-										key={x.id}
+										// key={x.id}
 										isPc={!!x.pcId}
 										isNpc={!!x.npcId}
 										char={char}
