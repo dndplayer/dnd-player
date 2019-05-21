@@ -22,6 +22,9 @@ export default class RollMessageItem extends React.Component<Props> {
 			case 'Attack':
 				className = 'roll-attack';
 				break;
+			case 'Spell':
+				className = 'roll-spell';
+				break;
 			case 'Ad-hoc':
 			default:
 				className = 'roll-adhoc';

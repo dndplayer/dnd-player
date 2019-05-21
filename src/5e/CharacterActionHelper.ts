@@ -1,4 +1,4 @@
-import { CharacterAttack, Character } from './models/Character';
+import { CharacterAttack, Character, CharacterSpell } from './models/Character';
 
 import {
 	CharacterActionData,
@@ -23,6 +23,30 @@ import Rules, {
 import { DiceRoll } from 'rpg-dice-roller';
 
 export default class CharacterActionHelper {
+	public static doSpell(
+		character: Character,
+		action: CharacterSpell,
+		advantage: number,
+		sendMessage: (string, any) => void
+	): void {
+		let crit = false;
+
+		const data: CharacterActionData = {
+			type: 'spell',
+			title: action.name,
+			characterName: character.name,
+			results: []
+		};
+
+		for (const effect of action.effects) {
+			const result = CharacterActionHelper.applyEffect(effect, advantage, crit);
+			crit = result.crit;
+			data.results.push(result.result);
+		}
+
+		sendMessage('', data);
+	}
+
 	public static doAction(
 		character: Character,
 		action: CharacterAttack & Attack,

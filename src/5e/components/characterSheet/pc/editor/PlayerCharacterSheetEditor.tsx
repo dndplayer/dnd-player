@@ -3,7 +3,12 @@ import React, { ReactNode } from 'react';
 import { ChatMessageData } from '../../../../../models/ChatMessage';
 
 import css from './PlayerCharacterSheetEditor.module.scss';
-import { Character, PlayerCharacter, CharacterSize } from '../../../../models/Character';
+import {
+	Character,
+	PlayerCharacter,
+	CharacterSize,
+	CharacterSpell
+} from '../../../../models/Character';
 import { Upload } from '../../../../../models/Upload';
 import CharacterImage from '../../CharacterImage';
 import Icon from '@mdi/react';
@@ -11,7 +16,6 @@ import { mdiCancel, mdiContentSave } from '@mdi/js';
 import AbilityScoreEditorContainer from './AbilityScoreEditorContainer';
 import MoneyEditorContainer from './MoneyEditorContainer';
 import LevelsEditor from './LevelEditor';
-import SavesEditor from './SaveEditor';
 import SkillsEditor from './SkillsEditor';
 import SpellsEditor from './SpellsEditor';
 import SpellSlotEditorContainer from './SpellSlotEditorContainer';
@@ -25,6 +29,7 @@ interface Props {
 	updatePlayerCharacter: (characterId: string, character: Character) => void;
 	abortEditPlayerCharacter: (characterId: string) => void;
 	character: PlayerCharacter;
+	spells: CharacterSpell[];
 	popout?: string;
 	image: Upload;
 }
@@ -156,7 +161,11 @@ export default class PlayerCharacterSheetEditor extends React.Component<Props, S
 				<span className={css.subtitle}>Equipment</span>
 				<EquipmentEditor character={newCharacter} updateCharacterProperty={update} />
 				<span className={css.subtitle}>Magic</span>
-				<SpellsEditor character={newCharacter} updateCharacterProperty={update} />
+				<SpellsEditor
+					character={newCharacter}
+					updateCharacterProperty={update}
+					lookup={this.props.spells}
+				/>
 				<SpellSlotEditorContainer
 					character={newCharacter}
 					updateCharacterProperty={update}

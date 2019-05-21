@@ -5,7 +5,7 @@ import AbilityScore from './AbilityScore';
 import AbilitySave from './AbilitySave';
 
 import css from './PlayerCharacterSheet.module.scss';
-import { Character, PlayerCharacter } from '../../../models/Character';
+import { Character, PlayerCharacter, CharacterSpell } from '../../../models/Character';
 import Skill from './Skill';
 import ProficiencyBonus from './ProficiencyBonus';
 import Speed from './Speed';
@@ -28,6 +28,7 @@ interface Props {
 	character: PlayerCharacter;
 	image: Upload;
 	inline?: boolean;
+	spells: CharacterSpell[];
 }
 
 export const ProficiencyClassMap = {

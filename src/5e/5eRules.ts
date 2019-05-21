@@ -96,14 +96,6 @@ export default class Rules {
 		const attacks = []
 			.concat((character.equipment || []).map(x => x.attacks || []))
 			.concat(character.attacks || [])
-			.concat(
-				(character.spells || []).map(x => {
-					return {
-						...x,
-						title: x.name
-					};
-				})
-			)
 			.flat()
 			.map(attack => {
 				return {

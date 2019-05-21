@@ -57,6 +57,7 @@ export default class Chat extends React.Component<Props, State> {
 								case 'roll':
 									return <RollMessageItem message={x} key={idx} />;
 								case 'action':
+								case 'spell':
 									return <CharacterAction message={x} key={idx} />;
 								default:
 									return (

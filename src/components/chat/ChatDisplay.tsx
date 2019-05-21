@@ -49,6 +49,7 @@ export default class ChatDisplay extends React.Component<Props> {
 								case 'roll':
 									return <RollMessageItem message={x} key={idx} />;
 								case 'action':
+								case 'spell':
 									return <CharacterAction message={x} key={idx} />;
 								default:
 									return (

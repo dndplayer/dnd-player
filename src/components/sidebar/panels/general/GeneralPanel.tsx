@@ -2,8 +2,7 @@ import React, { Component, ReactNode } from 'react';
 import { Switch, FormControlLabel, Button, Tooltip } from '@material-ui/core';
 
 import styles from './GeneralPanel.module.css';
-import { NonPlayerCharacter } from '../../../../5e/models/Character';
-import { MapData } from '../../../../models/Map';
+import { NonPlayerCharacter, CharacterSpell } from '../../../../5e/models/Character';
 
 interface State {
 	roomUrlCopiedTooltipOpen: boolean;
@@ -15,9 +14,12 @@ interface Props {
 	canBeDm: boolean;
 	roomUrl: string;
 	nonPlayerCharacters: NonPlayerCharacter[];
+	spells: CharacterSpell[];
 	setDm: (val: boolean) => void;
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) => void;
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) => void;
+	updateSpell: (spellId: string, spell: CharacterSpell) => void;
+	saveNewSpell: (spell: CharacterSpell) => void;
 }
 
 export default class GeneralPanel extends Component<Props, State> {
@@ -93,6 +95,36 @@ export default class GeneralPanel extends Component<Props, State> {
 		alert('NPC JSON copied to clipboard.');
 	}
 
+	importSpells(): void {
+		const input = prompt('enter spell json...');
+		const obj = JSON.parse(input);
+		if (!obj) {
+			alert('Failed to parse JSON.');
+			return;
+		}
+
+		for (const spell of obj) {
+			const existing = this.props.spells.find(y => y.name === spell.name);
+			if (existing) {
+				this.props.updateSpell(existing.id, spell);
+			} else {
+				this.props.saveNewSpell(spell);
+			}
+		}
+
+		alert('Done!');
+	}
+
+	exportSpells(): void {
+		const el = document.createElement('textarea');
+		el.value = JSON.stringify(this.props.spells);
+		document.body.appendChild(el);
+		el.select();
+		document.execCommand('copy');
+		document.body.removeChild(el);
+		alert('Spell JSON copied to clipboard.');
+	}
+
 	render(): ReactNode {
 		return (
 			<div className={styles.generalPanel}>
@@ -127,6 +159,8 @@ export default class GeneralPanel extends Component<Props, State> {
 							</div>
 							<Button onClick={() => this.importNpcs()}>Import NPCs</Button>
 							<Button onClick={() => this.exportNpcs()}>Export NPCs</Button>
+							<Button onClick={() => this.importSpells()}>Import Spells</Button>
+							<Button onClick={() => this.exportSpells()}>Export Spells</Button>
 						</div>
 					)}
 					{this.props.canBeDm && (

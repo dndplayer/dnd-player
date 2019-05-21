@@ -7,6 +7,7 @@ import AuthReducer, { initialState as Auth } from './auth';
 import StorageReducer, { initialState as Storage } from './storage';
 import ImageReducer, { initialState as Image } from './images';
 import AssetReducer, { initialState as Asset } from './assets';
+import SpellsReducer, { initialState as Spells } from './spells';
 import MapsReducer, { initialState as Maps } from './maps';
 import UiReducer, { initialState as Ui } from './ui';
 import GlobalStateReducer, { initialState as GlobalState } from './globalState';
@@ -22,6 +23,7 @@ export interface AppState {
 	storage: typeof Storage;
 	images: typeof Image;
 	assets: typeof Asset;
+	spells: typeof Spells;
 	maps: typeof Maps;
 	ui: typeof Ui;
 	globalState: typeof GlobalState;
@@ -39,6 +41,7 @@ export default history =>
 		storage: StorageReducer,
 		images: ImageReducer,
 		assets: AssetReducer,
+		spells: SpellsReducer,
 		maps: MapsReducer,
 		characters: CharactersReducer,
 		ui: UiReducer,

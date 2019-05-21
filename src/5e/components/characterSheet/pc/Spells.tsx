@@ -1,21 +1,31 @@
 import React, { ReactNode } from 'react';
 
 import styles from './Spells.module.scss';
-import { PlayerCharacter } from '../../../models/Character';
+import { PlayerCharacter, CharacterSpell } from '../../../models/Character';
 import Spell from './Spell';
 import SpellSlot from './SpellSlot';
+import { ChatMessageData } from '../../../../models/ChatMessage';
 
 interface Props {
 	character: PlayerCharacter;
+	spells: CharacterSpell[];
+	sendMessage: (message: string, data?: ChatMessageData) => void;
 }
 
 export default class Spells extends React.Component<Props, {}> {
 	render(): ReactNode {
 		const { character } = this.props;
 
-		const spells = (character.spells || []).map((spell, idx) => (
-			<Spell key={idx} spell={spell} {...this.props} />
-		));
+		const spells = (character.spells || []).map(
+			(spell, idx): ReactNode => (
+				<Spell
+					key={idx}
+					prepared={spell.prepared}
+					spell={this.props.spells.find(y => y.id === spell.spellId)}
+					{...this.props}
+				/>
+			)
+		);
 
 		return (
 			<div className={styles.spells}>

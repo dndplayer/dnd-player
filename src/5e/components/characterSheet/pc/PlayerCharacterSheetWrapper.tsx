@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { ChatMessageData } from '../../../../models/ChatMessage';
 
-import { Character, PlayerCharacter } from '../../../models/Character';
+import { Character, PlayerCharacter, CharacterSpell } from '../../../models/Character';
 import { Upload } from '../../../../models/Upload';
 import PlayerCharacterSheet from './PlayerCharacterSheet';
 import PlayerCharacterSheetEditor from './editor/PlayerCharacterSheetEditor';
@@ -16,6 +16,7 @@ interface Props {
 	image: Upload;
 	editing: boolean;
 	inline?: boolean;
+	spells: CharacterSpell[];
 }
 
 export default class PlayerCharacterSheetWrapper extends React.Component<Props, {}> {

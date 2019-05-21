@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 import PlayerCharacterSheetWrapper from './pc/PlayerCharacterSheetWrapper';
 
 import { saveNewMessage } from '../../../redux/actions/chat';
-import { Character, PlayerCharacter, NonPlayerCharacter } from '../../models/Character';
+import {
+	Character,
+	PlayerCharacter,
+	NonPlayerCharacter,
+	CharacterSpell
+} from '../../models/Character';
 import {
 	updatePlayerCharacter,
 	updateNonPlayerCharacter,
@@ -20,7 +25,8 @@ const mapStateToProps = (state): any => ({
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
 	editingCharacterSheets: state.characters.editingCharacterSheets,
 	activeCharacterSheetId: state.assets.activeCharacterSheetId,
-	images: state.images.images
+	images: state.images.images,
+	spells: state.spells.spells
 });
 
 const mapDispatchToProps = (dispatch): any => ({
@@ -53,6 +59,7 @@ interface StateFromProps {
 	nonPlayerCharacters: NonPlayerCharacter[];
 	images: Upload[];
 	activeCharacterSheetId: string;
+	spells: CharacterSpell[];
 }
 
 // interface OwnProps {}

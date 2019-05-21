@@ -1,72 +1,72 @@
 import React, { ReactNode } from 'react';
 
 import css from './PlayerCharacterSheetEditor.module.scss';
-import { CharacterSpell, PlayerCharacter } from '../../../../models/Character';
+import {
+	CharacterSpell,
+	PlayerCharacter,
+	CharacterSpellReference
+} from '../../../../models/Character';
 import ArrayEditor from './ArrayEditor';
 
 import Icon from '@mdi/react';
 import { mdiDelete } from '@mdi/js';
-import EffectsEditor from './EffectsEditor';
 
-export default class SpellsEditor extends ArrayEditor<CharacterSpell> {
+export default class SpellsEditor extends ArrayEditor<CharacterSpellReference, CharacterSpell> {
 	prop: string = 'spells';
 	heading: string = '';
 	direction = 'column' as 'column';
 
-	mapItem(idx: string, item: CharacterSpell): React.ReactNode {
+	mapItem(idx: string, item: CharacterSpellReference): React.ReactNode {
 		return (
 			<SpellEditor
+				spells={this.props.lookup}
 				spell={item}
 				key={idx}
 				character={this.props.character}
-				updateItemProperty={(p, v) => this.updateItemProperty(idx, p, v)}
 				removeItem={() => this.removeItem(idx)}
+				updateItemProperty={(p, v) => this.updateItemProperty(idx, p, v)}
 			/>
 		);
 	}
 }
 
 interface Props {
-	updateItemProperty: (property: string, value: any) => void;
-	spell: CharacterSpell;
+	spells: CharacterSpell[];
+	spell: CharacterSpellReference;
 	character: PlayerCharacter;
 	removeItem: () => void;
+	updateItemProperty: (p: string, v: any) => void;
 }
 
 export class SpellEditor extends React.Component<Props, {}> {
 	render(): ReactNode {
-		const { spell } = this.props;
-
+		const availableSpells = [];
+		for (const spell of this.props.spells) {
+			availableSpells.push(
+				<option value={spell.id} key={spell.id}>
+					{spell.name}
+				</option>
+			);
+		}
 		return (
 			<div className={css.action}>
 				<div className={css.button} onClick={this.props.removeItem}>
 					<Icon path={mdiDelete} size={1} color={'#ccc'} />
 				</div>
 				<input
-					className={css.italicHeading}
-					value={spell.name}
-					placeholder="Name"
-					onChange={e => this.props.updateItemProperty('name', e.target.value)}
+					type="checkbox"
+					checked={this.props.spell.prepared}
+					onChange={e =>
+						this.props.updateItemProperty('prepared', e.currentTarget.checked)
+					}
 				/>
-				<input
-					className={css.italicHeading}
-					value={spell.school}
-					placeholder="conjuration"
-					onChange={e => this.props.updateItemProperty('school', e.target.value)}
-				/>
-				<input
-					className={css.italicHeading}
-					value={spell.level}
-					type="number"
-					placeholder="4"
-					min="0"
-					max="9"
-					onChange={e => this.props.updateItemProperty('level', parseInt(e.target.value))}
-				/>
-				<EffectsEditor
-					effects={this.props.spell.effects}
-					updateEffects={e => this.props.updateItemProperty('effects', [...e])}
-				/>
+				<select
+					value={this.props.spell.spellId}
+					onChange={e => this.props.updateItemProperty('spellId', e.currentTarget.value)}
+				>
+					{' '}
+					{availableSpells}{' '}
+				</select>
 			</div>
 		);
 	}

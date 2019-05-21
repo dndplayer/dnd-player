@@ -24,7 +24,7 @@ export interface PlayerCharacter extends Character {
 	levels: CharacterLevel[];
 	equipment: CharacterEquipment[];
 	attacks: CharacterAttack[];
-	spells: CharacterSpell[];
+	spells: CharacterSpellReference[];
 	saves: CharacterProficiencySaves;
 	skills: CharacterProficiencySkills;
 	traits: CharacterTrait[];
@@ -72,6 +72,10 @@ export interface CharacterSpeeds {
 	climb?: number;
 	fly?: number;
 	swim?: number;
+}
+export interface CharacterSpellReference {
+	spellId: string;
+	prepared: boolean;
 }
 
 export interface CharacterProficiencySaves {
@@ -186,18 +190,26 @@ export interface TextCharacterAttackEffect extends CharacterAttackEffect {
 }
 
 export interface CharacterSpell {
+	id: string;
 	name: string;
 	level: number;
 	school: string;
 	time: string;
-	range: number;
+	range: CharacterSpellRange;
 	verbal?: boolean;
 	somatic?: boolean;
 	material?: string;
+	concentration: boolean;
 	duration: string;
 	description: string;
 	higherLevels?: string;
 	effects: CharacterAttackEffect[];
+	source: string;
+}
+
+export interface CharacterSpellRange {
+	distance: number;
+	type: string;
 }
 
 export interface NonPlayerCharacterTrait {

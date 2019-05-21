@@ -5,12 +5,16 @@ import Icon from '@mdi/react';
 import { mdiPlus } from '@mdi/js';
 import { PlayerCharacter } from '../../../../models/Character';
 
-interface Props<T> {
+interface Props<T, LookupType> {
 	updateCharacterProperty: (property: string, value: any) => void;
 	character: PlayerCharacter;
+	lookup?: LookupType[];
 }
 
-export default abstract class ArrayEditor<T> extends React.Component<Props<T>, {}> {
+export default abstract class ArrayEditor<T, LookupType = {}> extends React.Component<
+	Props<T, LookupType>,
+	{}
+> {
 	abstract mapItem(idx: string, item: T): ReactNode;
 	abstract prop: string;
 	abstract heading: string;

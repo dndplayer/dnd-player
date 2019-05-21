@@ -1,26 +1,26 @@
 import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import GeneralPanel from './GeneralPanel';
-import { NonPlayerCharacter } from '../../../../5e/models/Character';
+import { NonPlayerCharacter, CharacterSpell } from '../../../../5e/models/Character';
 import {
 	updateNonPlayerCharacter,
 	saveNewNonPlayerCharacter
 } from '../../../../redux/actions/assets';
-import { MapData } from '../../../../models/Map';
-import { setActiveMap } from '../../../../redux/actions/globalState';
-import { mapsUpdateBackgroundColour } from '../../../../redux/actions/maps';
-import { getCurrentMapBackgroundColour } from '../../../../redux/selectors/maps';
 import { setDm } from '../../../../redux/actions/auth';
+import { updateSpell, saveNewSpell } from '../../../../redux/actions/spells';
 
 interface StateProps {
 	dm: boolean;
 	canBeDm: boolean;
 	nonPlayerCharacters: NonPlayerCharacter[];
+	spells: CharacterSpell[];
 }
 interface DispatchProps {
 	setDm: (val: boolean) => void;
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) => void;
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) => void;
+	updateSpell: (spellId: string, spell: CharacterSpell) => void;
+	saveNewSpell: (spell: CharacterSpell) => void;
 }
 interface OwnProps {}
 
@@ -41,8 +41,11 @@ class GeneralPanelContainer extends Component<Props> {
 				setDm={setDm}
 				roomUrl={roomUrl}
 				nonPlayerCharacters={this.props.nonPlayerCharacters}
+				spells={this.props.spells}
 				updateNonPlayerCharacter={this.props.updateNonPlayerCharacter}
 				saveNewNonPlayerCharacter={this.props.saveNewNonPlayerCharacter}
+				updateSpell={this.props.updateSpell}
+				saveNewSpell={this.props.saveNewSpell}
 			/>
 		);
 	}
@@ -51,14 +54,17 @@ class GeneralPanelContainer extends Component<Props> {
 const mapStateToProps = (state): StateProps => ({
 	dm: state.auth.dm,
 	canBeDm: state.auth.canBeDm,
-	nonPlayerCharacters: state.assets.nonPlayerCharacters
+	nonPlayerCharacters: state.assets.nonPlayerCharacters,
+	spells: state.spells.spells
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	setDm: (val: boolean) => dispatch(setDm(val)),
 	updateNonPlayerCharacter: (characterId: string, character: NonPlayerCharacter) =>
 		dispatch(updateNonPlayerCharacter(characterId, character)),
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) =>
-		dispatch(saveNewNonPlayerCharacter(character))
+		dispatch(saveNewNonPlayerCharacter(character)),
+	updateSpell: (spellId: string, spell: CharacterSpell) => dispatch(updateSpell(spellId, spell)),
+	saveNewSpell: (spell: CharacterSpell) => dispatch(saveNewSpell(spell))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(
