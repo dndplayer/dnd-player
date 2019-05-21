@@ -15,6 +15,7 @@ interface Props {
 	initiatives: InitiativeRoller[];
 	playerCharacters: PlayerCharacter[];
 	nonPlayerCharacters: NonPlayerCharacter[];
+	dm: boolean;
 	images: Upload[];
 	nextTurn: () => void;
 	modifyHp: (pcId: string | null, npcId: string | null, newHp: number) => void;
@@ -66,15 +67,17 @@ export default class InitiativeTracker extends Component<Props> {
 					)}
 				</div>
 				<div className={styles.backLine} />
-				<Fab
-					color="secondary"
-					size="small"
-					aria-label="Next Turn"
-					className={styles.nextButton}
-					onClick={this.props.nextTurn}
-				>
-					<SkipNextIcon />
-				</Fab>
+				{this.props.dm && (
+					<Fab
+						color="secondary"
+						size="small"
+						aria-label="Next Turn"
+						className={styles.nextButton}
+						onClick={this.props.nextTurn}
+					>
+						<SkipNextIcon />
+					</Fab>
+				)}
 			</div>
 		);
 	}

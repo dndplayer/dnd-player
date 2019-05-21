@@ -17,6 +17,7 @@ interface StateProps {
 	images: Upload[];
 	initiatives: InitiativeData;
 	currentTurnId: string;
+	isDm: boolean;
 }
 interface DispatchProps {
 	setCurrentTurn: (id: string) => void;
@@ -80,6 +81,7 @@ class InitiativeTrackerContainer extends Component<Props, State> {
 				images={this.props.images}
 				nextTurn={this.nextTurn}
 				modifyHp={this.modifyHp}
+				dm={this.props.isDm}
 			/>
 		);
 	}
@@ -90,7 +92,8 @@ const mapStateToProps = (state: AppState): StateProps => ({
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
 	images: state.images.images,
 	initiatives: state.initiative.rolls,
-	currentTurnId: getCurrentInitiativeTurn(state)
+	currentTurnId: getCurrentInitiativeTurn(state),
+	isDm: state.auth.dm
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	setCurrentTurn: id => dispatch(setCurrentTurn(id))
