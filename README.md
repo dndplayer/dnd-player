@@ -17,6 +17,32 @@ Open-source DND shared experience play space ... or something.
 
 https://dnd-player.com
 
+## Setting up Firebase
+
+- Create a Google account if you do not already have one.
+- Log into the [Firebase Console](https://console.firebase.google.com/u/0/).
+- Click `Add project`.
+- Enter a project name (e.g. dnd-player), accept the controller-controller terms, and click `Create project`.
+- Open the Project Overview page.
+- Navigate to `Develop -> Authentication` in the side menu.
+- Click `Set up sign-in method`.
+- Select the `Email/Password` sign-in provider, click the top `Enable` switch and click `Save`.
+- Click on `Develop -> Authentication` in the side menu again to get back to the Users page.
+- Click `Add user`.
+- Enter your email address and a password, and click `Add user`.
+- Click the `Copy UID` icon that appears when you mouse-over the created user.
+- Navigate to `Develop -> Database` in the side menu.
+- Scroll down to Realtime Database, and click `Create database`.
+- Choose `Start in test mode` and click `Enable`.
+- Click the `add child` plus icon next to your project name.
+- Enter 'users' into the `Name` field, and click on the `add child` plus item in the new row.
+- Paste the copied UID into the `Name` field, and click on the `add child plus item in the new row.
+- Enter 'dm' into the `Name` field, and 'true' into the `Value` field.
+- Click `Add`.
+- Click on the cog next to `Project Overview` in the side menu, and click on `Project settings`.
+
+You can now log into dnd-player.com with the Project ID and Web API Key listed on that page, along with the email and password you entered.
+
 ## Docs
 
 **DEV.md** contains developer specific details

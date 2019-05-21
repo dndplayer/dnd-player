@@ -2,6 +2,7 @@ import { channel } from 'redux-saga';
 import { all, call, put, take, fork, takeEvery } from 'redux-saga/effects';
 import firebase from 'firebase/app';
 import 'firebase/database';
+import 'firebase/storage';
 import uuidv4 from 'uuid/v4';
 
 import { types, uploadProgress } from '../actions/storage';
