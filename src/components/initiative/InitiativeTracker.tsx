@@ -36,10 +36,6 @@ export default class InitiativeTracker extends Component<Props> {
 			dm
 		} = this.props;
 
-		// if (!this.props.initiativeTrackerOpen) {
-		// 	return <div />;
-		// }
-
 		if (!initiatives || !initiatives.rolls) {
 			return <div />;
 		}

@@ -56,6 +56,8 @@ export default class InitiativeToken extends Component<Props, State> {
 		const pc = char as PlayerCharacter;
 		const npc = char as NonPlayerCharacter;
 
+		const ac = pc ? pc.ac : npc ? npc.ac : 0;
+
 		return (
 			<div className={styles.wrapper}>
 				<div className={styles.initiativeRoll}>{initRoll}</div>
@@ -66,7 +68,7 @@ export default class InitiativeToken extends Component<Props, State> {
 					style={{ backgroundImage: `url(${imageUrl})` }}
 					onClick={this.onClick}
 				/>
-				{/* <span className={styles.name}>{char.name}</span> */}
+				<div className={styles.ac}>{ac}</div>
 				{hpOpen && (
 					<Zoom in={hpOpen}>
 						<Paper elevation={4}>

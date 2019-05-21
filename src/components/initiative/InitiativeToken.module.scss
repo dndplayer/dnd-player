@@ -23,6 +23,21 @@
 	transition: all 400ms cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
+.ac {
+	position: absolute;
+	bottom: -20px;
+	left: 50%;
+	transform: translateX(-50%);
+	padding: 2px 3px;
+	// background: #444;
+	width: 23px;
+	height: 32px;
+	background-image: url(./ac.png); // 128 x 102
+	background-size: contain;
+	color: #000;
+	text-align: center;
+}
+
 .currentTurn {
 	border: 3px solid rgb(103, 182, 87);
 	box-shadow: #00ff15 0px 0px 10px;
