@@ -8,26 +8,38 @@ import { InitiativeRoller } from '../../models/Initiative';
 
 describe('InitiativeHelpers', () => {
 	describe('orderInitiatives', () => {
+		it('should return an empty array if null or undefined is given', () => {
+			const x = orderInitiatives(null);
+			expect(x).toEqual([]);
+		});
 		it('should return an empty array if an empty array is given', () => {
-			const i = [];
+			const i = {};
 			const x = orderInitiatives(i);
 			expect(x).toEqual([]);
 		});
 		it('should return an array with current turn first', () => {
-			const i = [generateInitiative(), generateInitiative(), generateInitiative(true)];
+			const i = {
+				currentTurn: '111',
+				rolls: {
+					'111': generateInitiative(),
+					'222': generateInitiative(),
+					'333': generateInitiative()
+				}
+			};
 			const x = orderInitiatives(i);
-			expect(x[0].currentTurn).toBeTruthy();
-			expect(x[1].currentTurn).toBeFalsy();
-			expect(x[2].currentTurn).toBeFalsy();
+			expect(x[0].id).toEqual('111');
 		});
 		it('should return a correctly sorted array', () => {
-			const i = [
-				generateInitiative(undefined, 12),
-				generateInitiative(undefined, 5),
-				generateInitiative(true, 9),
-				generateInitiative(undefined, 19),
-				generateInitiative(undefined, 2)
-			];
+			const i = {
+				currentTurn: '333',
+				rolls: {
+					'111': generateInitiative(12),
+					'222': generateInitiative(5),
+					'333': generateInitiative(9),
+					'444': generateInitiative(19),
+					'555': generateInitiative(2)
+				}
+			};
 			const x = orderInitiatives(i);
 
 			const y = x.map(z => z.initiativeRoll);
@@ -49,26 +61,32 @@ describe('InitiativeHelpers', () => {
 			// }
 		});
 		it('should return a correctly sorted array (if current turn is at start)', () => {
-			const i = [
-				generateInitiative(true, 12),
-				generateInitiative(undefined, 5),
-				generateInitiative(undefined, 9),
-				generateInitiative(undefined, 19),
-				generateInitiative(undefined, 2)
-			];
+			const i = {
+				currentTurn: '111',
+				rolls: {
+					'111': generateInitiative(12),
+					'222': generateInitiative(5),
+					'333': generateInitiative(9),
+					'444': generateInitiative(19),
+					'555': generateInitiative(2)
+				}
+			};
 			const x = orderInitiatives(i);
 
 			const y = x.map(z => z.initiativeRoll);
 			expect(y).toEqual([12, 19, 2, 5, 9]);
 		});
 		it('should return a correctly sorted array (if current turn is at end)', () => {
-			const i = [
-				generateInitiative(undefined, 12),
-				generateInitiative(undefined, 5),
-				generateInitiative(undefined, 9),
-				generateInitiative(undefined, 19),
-				generateInitiative(true, 2)
-			];
+			const i = {
+				currentTurn: '555',
+				rolls: {
+					'111': generateInitiative(12),
+					'222': generateInitiative(5),
+					'333': generateInitiative(9),
+					'444': generateInitiative(19),
+					'555': generateInitiative(2)
+				}
+			};
 			const x = orderInitiatives(i);
 
 			const y = x.map(z => z.initiativeRoll);
@@ -77,10 +95,10 @@ describe('InitiativeHelpers', () => {
 	});
 });
 
-function generateInitiative(currTurn?: boolean, roll?: number): InitiativeRoller {
+function generateInitiative(roll?: number): InitiativeRoller {
 	return {
-		currentTurn: currTurn || false,
 		initiativeRoll: roll || Math.ceil(Math.random() * 20),
-		character: null
+		npcId: null,
+		pcId: null
 	};
 }

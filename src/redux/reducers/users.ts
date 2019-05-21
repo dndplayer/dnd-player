@@ -7,7 +7,7 @@ export interface UsersState {
 	userPresenceSyncError: Error;
 	usersSyncError: Error;
 }
-const initialState: UsersState = {
+export const initialState: UsersState = {
 	onlineUsers: [],
 	users: {},
 	userPresenceSyncError: null,

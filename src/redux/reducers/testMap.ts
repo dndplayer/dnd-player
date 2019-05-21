@@ -9,7 +9,7 @@ interface State {
 	selectedObjects: string[];
 }
 
-const initialState: State = {
+export const initialState: State = {
 	map: null,
 	syncError: null,
 	selectedObjects: []

@@ -1,7 +1,13 @@
-import { Character } from '../5e/models/Character';
+export interface InitiativeData {
+	currentTurn?: string;
+	rolls?: {
+		[key: string]: InitiativeRoller;
+	};
+}
 
 export interface InitiativeRoller {
-	character: Character;
+	id?: string; // - Populated when converting Object to array
+	pcId?: string;
+	npcId?: string;
 	initiativeRoll: number;
-	currentTurn: boolean;
 }

@@ -1,7 +1,7 @@
 import { types } from '../actions/storage';
 import { stat } from 'fs';
 
-const initialState = {
+export const initialState = {
 	uploading: false,
 	url: null,
 	uploadProgress: 0,

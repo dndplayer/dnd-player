@@ -9,7 +9,7 @@ interface AuthState {
 	canBeDm: boolean;
 }
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
 	loading: false,
 	loggedIn: false,
 	user: null,

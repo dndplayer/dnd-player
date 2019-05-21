@@ -19,7 +19,7 @@ interface AssetState {
 	nonPlayerCharacterLastUpdate: string;
 }
 
-const initialState: AssetState = {
+export const initialState: AssetState = {
 	playerCharacters: [],
 	nonPlayerCharacters: [],
 	pcSyncError: null,

@@ -59,3 +59,15 @@
 	text-align: center;
 	user-select: none;
 }
+
+.hpInput {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	padding: 2px 3px;
+	box-sizing: border-box;
+}
+
+.hpInputInner {
+	width: 100%;
+}

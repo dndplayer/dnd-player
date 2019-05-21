@@ -6,7 +6,7 @@ interface State {
 	syncError?: object;
 }
 
-const initialState: State = {
+export const initialState: State = {
 	images: [],
 	syncError: null
 };

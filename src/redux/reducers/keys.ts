@@ -4,7 +4,7 @@ interface State {
 	shiftDown: boolean;
 }
 
-const initialState: State = {
+export const initialState: State = {
 	shiftDown: false
 };
 

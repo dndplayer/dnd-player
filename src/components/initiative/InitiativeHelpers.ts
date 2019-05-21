@@ -1,4 +1,4 @@
-import { InitiativeRoller } from '../../models/Initiative';
+import { InitiativeRoller, InitiativeData } from '../../models/Initiative';
 
 /**
  * Given a collection of initiative rolls, sort them into the
@@ -7,16 +7,22 @@ import { InitiativeRoller } from '../../models/Initiative';
  * @param initiatives An array of initiatives to be sorted.
  * @returns A sorted array of InitiativeRoller
  */
-export const orderInitiatives = (initiatives: InitiativeRoller[]): InitiativeRoller[] => {
-	const inits = [...initiatives];
-	inits.sort((a, b): number => a.initiativeRoll - b.initiativeRoll);
-
-	const currTurnIdx = inits.findIndex((x): boolean => x.currentTurn);
-
-	const a = inits.splice(0, currTurnIdx);
-	if (a && a.length > 0) {
-		inits.splice(inits.length, 0, ...a);
+export const orderInitiatives = (initiatives: InitiativeData): InitiativeRoller[] => {
+	if (!initiatives || !initiatives.rolls) {
+		return [];
 	}
 
-	return inits;
+	const inits = { ...initiatives.rolls };
+	const initArray = Object.keys(inits).map(x => ({ ...inits[x], id: x }));
+
+	initArray.sort((a, b): number => a.initiativeRoll - b.initiativeRoll);
+
+	const currTurnIdx = initArray.findIndex((x): boolean => x.id === initiatives.currentTurn);
+
+	const a = initArray.splice(0, currTurnIdx);
+	if (a && a.length > 0) {
+		initArray.splice(initArray.length, 0, ...a);
+	}
+
+	return initArray;
 };

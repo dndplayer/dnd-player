@@ -18,7 +18,7 @@ interface State {
 	fogAddMode: boolean;
 }
 
-const initialState: State = {
+export const initialState: State = {
 	maps: null,
 	error: null,
 	selectedObjects: [],

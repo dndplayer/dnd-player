@@ -1,6 +1,6 @@
 import { types } from '../actions/characters';
 
-const initialState: {
+export const initialState: {
 	editingCharacterSheets: string[];
 } = {
 	editingCharacterSheets: []

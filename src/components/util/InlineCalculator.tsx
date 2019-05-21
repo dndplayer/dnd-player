@@ -1,10 +1,14 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, CSSProperties } from 'react';
 import { ObserveKeys, HotKeys } from 'react-hotkeys';
 import stringMath from 'string-math';
 
 interface Props {
 	value: number;
 	onEnter: (newVal: number) => void;
+	className?: string;
+	style?: CSSProperties;
+	inputClassName?: string;
+	inputStyle?: CSSProperties;
 }
 
 interface State {
@@ -45,7 +49,12 @@ export default class InlineCalculator extends React.Component<Props, State> {
 		const onCancel = this.onCancel.bind(this);
 		const onFocus = this.onFocus.bind(this);
 		return (
-			<HotKeys keyMap={keyMap} handlers={this.handlers}>
+			<HotKeys
+				keyMap={keyMap}
+				handlers={this.handlers}
+				className={this.props.className}
+				style={this.props.style}
+			>
 				<ObserveKeys only={Object.values(keyMap)} except={undefined}>
 					<input
 						ref={(i): HTMLInputElement => (this._input = i)}
@@ -53,6 +62,8 @@ export default class InlineCalculator extends React.Component<Props, State> {
 						onChange={onChange}
 						onBlur={onCancel}
 						onFocus={onFocus}
+						className={this.props.inputClassName}
+						style={this.props.inputStyle}
 					/>
 				</ObserveKeys>
 			</HotKeys>

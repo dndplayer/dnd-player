@@ -11,7 +11,7 @@ interface State {
 	sidebarPanel?: OverlayPanelTypes;
 }
 
-const initialState: State = {
+export const initialState: State = {
 	propertyPanel: {
 		visible: false
 	},

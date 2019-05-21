@@ -11,7 +11,7 @@ interface State {
 	currentTime: number;
 }
 
-const initialState: State = {
+export const initialState: State = {
 	state: null,
 	syncError: null,
 	currentTime: new Date().getTime()

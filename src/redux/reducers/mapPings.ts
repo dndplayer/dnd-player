@@ -5,7 +5,7 @@ interface State {
 	pings: {};
 }
 
-const initialState: State = {
+export const initialState: State = {
 	pings: {}
 };
 

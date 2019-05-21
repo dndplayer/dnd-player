@@ -1,6 +1,6 @@
 import { types } from '../actions/chat';
 
-const initialState = {
+export const initialState = {
 	messages: [],
 	new: {},
 	syncError: null,

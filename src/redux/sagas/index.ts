@@ -9,6 +9,7 @@ import maps from './maps';
 import globalState from './globalState';
 import mapPings from './mapPings';
 import users from './users';
+import initiative from './initiative';
 
 export default function* rootSaga(): any {
 	yield all([
@@ -20,6 +21,7 @@ export default function* rootSaga(): any {
 		fork(maps),
 		fork(globalState),
 		fork(mapPings),
-		fork(users)
+		fork(users),
+		fork(initiative)
 	]);
 }
