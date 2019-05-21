@@ -15,7 +15,7 @@ export const orderInitiatives = (initiatives: InitiativeData): InitiativeRoller[
 	const inits = { ...initiatives.rolls };
 	const initArray = Object.keys(inits).map(x => ({ ...inits[x], id: x }));
 
-	initArray.sort((a, b): number => a.initiativeRoll - b.initiativeRoll);
+	initArray.sort((a, b): number => b.initiativeRoll - a.initiativeRoll);
 
 	const currTurnIdx = initArray.findIndex((x): boolean => x.id === initiatives.currentTurn);
 

@@ -43,7 +43,7 @@ describe('InitiativeHelpers', () => {
 			const x = orderInitiatives(i);
 
 			const y = x.map(z => z.initiativeRoll);
-			expect(y).toEqual([9, 12, 19, 2, 5]);
+			expect(y).toEqual([9, 5, 2, 19, 12]);
 
 			// --- The below is a dynamic way to check the above.
 			// const maxRoll = x.reduce((p, c) => (c.initiativeRoll > p ? c.initiativeRoll : p), 0);
@@ -74,7 +74,7 @@ describe('InitiativeHelpers', () => {
 			const x = orderInitiatives(i);
 
 			const y = x.map(z => z.initiativeRoll);
-			expect(y).toEqual([12, 19, 2, 5, 9]);
+			expect(y).toEqual([12, 9, 5, 2, 19]);
 		});
 		it('should return a correctly sorted array (if current turn is at end)', () => {
 			const i = {
@@ -90,7 +90,7 @@ describe('InitiativeHelpers', () => {
 			const x = orderInitiatives(i);
 
 			const y = x.map(z => z.initiativeRoll);
-			expect(y).toEqual([2, 5, 9, 12, 19]);
+			expect(y).toEqual([2, 19, 12, 9, 5]);
 		});
 	});
 });
