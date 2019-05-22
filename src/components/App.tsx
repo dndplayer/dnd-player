@@ -23,7 +23,7 @@ import { openChat, closeChat } from '../redux/actions/chat';
 import { mapsToggleMeasureMode, toggleFogEditMode, toggleFogAddMode } from '../redux/actions/maps';
 import { keyUpShiftAction, keyDownShiftAction } from '../redux/actions/keys';
 import InitiativeTrackerContainer from './initiative/InitiativeTrackerContainer';
-import { toggleInitiativeTracker } from '../redux/actions/ui';
+import { toggleInitiativeTracker, toggleSidebar } from '../redux/actions/ui';
 
 const keyMap = {
 	OPEN_CHAT: 'enter',
@@ -31,6 +31,7 @@ const keyMap = {
 	TOGGLE_MEASURE_MODE: 'm',
 	TOGGLE_FOG_EDIT_MODE: 'f',
 	TOGGLE_FOG_ADD_MODE: 'a',
+	TOGGLE_SIDEBAR: 's',
 	TOGGLE_INITIATIVE_TRACKER: 'i',
 	SHIFT_DOWN: { sequence: 'shift', action: 'keydown' },
 	SHIFT_UP: { sequence: 'shift', action: 'keyup' }
@@ -57,7 +58,8 @@ const handlers = {
 	TOGGLE_FOG_ADD_MODE: ignoreKeyRepeats(event => store.store.dispatch(toggleFogAddMode())),
 	TOGGLE_INITIATIVE_TRACKER: ignoreKeyRepeats(event =>
 		store.store.dispatch(toggleInitiativeTracker())
-	)
+	),
+	TOGGLE_SIDEBAR: ignoreKeyRepeats(event => store.store.dispatch(toggleSidebar()))
 };
 export class App extends Component<{}, {}> {
 	constructor(props) {
