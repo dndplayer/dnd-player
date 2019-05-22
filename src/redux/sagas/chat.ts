@@ -7,7 +7,7 @@ import firebase from 'firebase/app';
 import 'firebase/database';
 import { updateTime } from '../actions/globalState';
 import { addInitiativeRoll } from '../actions/initiative';
-import { AdvantageType } from '../../models/ChatMessage';
+import { AdvantageType, RollData } from '../../models/ChatMessage';
 
 function* saveNewChatMessage(action): any {
 	// const msg = yield select(state => state.chat.newMessage);
@@ -15,28 +15,32 @@ function* saveNewChatMessage(action): any {
 	const msg = action.message || '';
 	const data = action.data || {};
 
-	if (data.type === 'roll' && data.rollType === 'Initiative') {
-		let roll = 0;
-		switch (data.rollAdvantageType) {
-			case AdvantageType.Advantage:
-				roll = Math.max(data.roll1Total, data.roll2Total);
-				break;
-			case AdvantageType.Disadvantage:
-				roll = Math.min(data.roll1Total, data.roll2Total);
-				break;
-			case AdvantageType.None:
-			default:
-				roll = data.roll1Total;
-				break;
-		}
+	if (data.type === 'roll') {
+		const d = data as RollData;
 
-		yield put(
-			addInitiativeRoll({
-				initiativeRoll: roll,
-				pcId: null,
-				npcId: null
-			})
-		);
+		if (d.rollType === 'Initiative') {
+			let roll = 0;
+			switch (d.rollAdvantageType) {
+				case AdvantageType.Advantage:
+					roll = Math.max(d.roll1Total, d.roll2Total);
+					break;
+				case AdvantageType.Disadvantage:
+					roll = Math.min(d.roll1Total, d.roll2Total);
+					break;
+				case AdvantageType.None:
+				default:
+					roll = d.roll1Total;
+					break;
+			}
+
+			yield put(
+				addInitiativeRoll({
+					initiativeRoll: roll,
+					pcId: d.pcId,
+					npcId: d.npcId
+				})
+			);
+		}
 	}
 
 	yield put(closeChat());

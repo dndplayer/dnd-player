@@ -165,6 +165,8 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 		const roll = new DiceRoll('d20' + modifierStr);
 
 		const data: RollData = {
+			pcId: null,
+			npcId: this.props.character.id,
 			type: 'roll',
 			characterName: this.props.character.name,
 			rollType: 'Initiative',

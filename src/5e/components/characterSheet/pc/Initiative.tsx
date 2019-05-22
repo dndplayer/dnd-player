@@ -46,6 +46,8 @@ export default class Initiative extends React.Component<Props, {}> {
 		const roll = new DiceRoll('d20' + modifierStr);
 
 		const data: RollData = {
+			pcId: this.props.character.id,
+			npcId: null,
 			type: 'roll',
 			rollType: 'Initiative',
 			rollName: 'Initiative',

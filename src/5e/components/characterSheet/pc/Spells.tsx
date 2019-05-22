@@ -25,7 +25,7 @@ export default class Spells extends React.Component<Props, {}> {
 			}));
 		const classSpells = this.props.spells
 			.filter(x =>
-				x.classes.some(y =>
+				(x.classes || []).some(y =>
 					innateSpellcastingLevels.some(
 						z => z.className === y && z.maxSpellLevel >= x.level
 					)
