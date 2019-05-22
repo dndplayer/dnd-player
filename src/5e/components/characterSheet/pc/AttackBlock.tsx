@@ -78,7 +78,8 @@ export default class AttackBlock extends React.Component<Props, {}> {
 		);
 	}
 
-	handleClick(e, advantage: number): void {
+	handleClick(e: React.MouseEvent, advantage: number): void {
+		e.stopPropagation();
 		const attack = this.props.attack;
 		let crit = false;
 
