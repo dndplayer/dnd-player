@@ -7,6 +7,7 @@ import firebase from 'firebase/app';
 import 'firebase/database';
 import { updateTime } from '../actions/globalState';
 import { addInitiativeRoll } from '../actions/initiative';
+import { AdvantageType } from '../../models/ChatMessage';
 
 function* saveNewChatMessage(action): any {
 	// const msg = yield select(state => state.chat.newMessage);
@@ -15,7 +16,20 @@ function* saveNewChatMessage(action): any {
 	const data = action.data || {};
 
 	if (data.type === 'roll' && data.rollType === 'Initiative') {
-		const roll = data.roll1Total;
+		let roll = 0;
+		switch (data.rollAdvantageType) {
+			case AdvantageType.Advantage:
+				roll = Math.max(data.roll1Total, data.roll2Total);
+				break;
+			case AdvantageType.Disadvantage:
+				roll = Math.min(data.roll1Total, data.roll2Total);
+				break;
+			case AdvantageType.None:
+			default:
+				roll = data.roll1Total;
+				break;
+		}
+
 		yield put(
 			addInitiativeRoll({
 				initiativeRoll: roll,
