@@ -94,12 +94,16 @@ export default class Rules {
 
 	public static getAttacks(character: PlayerCharacter): Attack[] {
 		const attacks = []
-			.concat((character.equipment || []).map(x => x.attacks || []))
-			.concat(character.attacks || [])
+			.concat(
+				(character.equipment || []).map(x =>
+					(x.attacks || []).map(y => ({ source: x.name, ...y }))
+				)
+			)
+			.concat((character.attacks || []).map(x => ({ source: 'Innate', ...x })))
 			.flat()
 			.map(attack => {
 				return {
-					name: attack.title,
+					name: `${attack.source} ${attack.title}`,
 					range: attack.range,
 					effects: attack.effects.map(effect =>
 						CharacterEffects.mapCharacterAttackEffect(effect, character)
