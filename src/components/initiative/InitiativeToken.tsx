@@ -85,7 +85,7 @@ export default class InitiativeToken extends Component<Props, State> {
 							<InlineCalculator
 								className={styles.hpInput}
 								inputClassName={styles.hpInputInner}
-								value={pc ? pc.hp : npc ? npc.hp || 0 : 0}
+								value={isPc && pc ? pc.hp : isNpc && npc ? npc.hp || 0 : 0}
 								onEnter={(val): void => this.onChangeHp(val)}
 							/>
 						</Paper>
