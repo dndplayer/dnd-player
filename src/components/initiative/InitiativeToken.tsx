@@ -52,13 +52,13 @@ export default class InitiativeToken extends Component<Props, State> {
 	};
 
 	render(): ReactNode {
-		const { char, initRoll, currentTurn, imageUrl } = this.props;
+		const { char, initRoll, currentTurn, imageUrl, isPc, isNpc } = this.props;
 		const { hpOpen } = this.state;
 
 		const pc = char as PlayerCharacter;
 		const npc = char as NonPlayerCharacter;
 
-		const ac = pc ? pc.ac : npc ? npc.ac : 0;
+		const ac = isPc && pc ? pc.ac : isNpc && npc ? npc.ac : 0;
 
 		return (
 			<div className={styles.wrapper}>
@@ -67,7 +67,7 @@ export default class InitiativeToken extends Component<Props, State> {
 					className={[styles.avatar, currentTurn ? styles.currentTurn : null]
 						.filter(x => x)
 						.join(' ')}
-					style={{ backgroundImage: `url(${imageUrl})` }}
+					style={{ backgroundImage: `url('${imageUrl}')` }}
 					onClick={this.onClick}
 				/>
 				{this.props.dm && hpOpen && (

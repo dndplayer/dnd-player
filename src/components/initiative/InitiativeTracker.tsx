@@ -81,9 +81,16 @@ export default class InitiativeTracker extends Component<Props> {
 								// return <div key={x.id} />; // TODO: Handle this better
 							}
 
+							// THIS IS HACKY
 							const image = char
 								? images.find(x => x.filePath === char.imageRef)
 								: null;
+
+							const imageUrl = image
+								? image.downloadUrl
+								: char.imageRef && char.imageRef.startsWith('http')
+								? char.imageRef
+								: Unknown;
 
 							const isTurn = currentTurnId === x.id;
 
@@ -102,7 +109,7 @@ export default class InitiativeTracker extends Component<Props> {
 										isPc={!!x.pcId}
 										isNpc={!!x.npcId}
 										char={char}
-										imageUrl={image ? image.downloadUrl : Unknown}
+										imageUrl={imageUrl}
 										initRoll={x.initiativeRoll}
 										currentTurn={isTurn}
 										modifyHp={modifyHp}
