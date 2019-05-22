@@ -18,16 +18,16 @@ export default class Traits extends React.Component<Props, {}> {
 		const { character } = this.props;
 
 		const traits = (character.traits || []).map((item, idx) => (
-			<div key={idx}>
-				<div>{item.name}</div>
-				<div>{item.description}</div>
+			<div key={idx} className={styles.trait}>
+				<span className={styles.title}>{item.name}.</span>
+				<span>{item.description}</span>
 			</div>
 		));
 
 		return (
 			<div className={styles.traits}>
+				<div className={styles.subtitle}>Traits</div>
 				<div className={styles.wrapper}>{traits}</div>
-				<div className={styles.title}>Traits</div>
 			</div>
 		);
 	}

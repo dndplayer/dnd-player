@@ -246,12 +246,12 @@ export default class PlayerCharacterSheet extends React.Component<Props, {}> {
 							<Equipment character={character} {...this.props} />
 						</div>
 						<div className={css.row}>
-							<Traits character={character} {...this.props} />
-						</div>
-						<div className={css.row}>
 							<Resources character={character} {...this.props} />
 						</div>
 					</div>
+				</div>
+				<div className={css.row}>
+					<Traits character={character} {...this.props} />
 				</div>
 				<div>
 					<Spells character={character} {...this.props} />

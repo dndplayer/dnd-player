@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { PlayerCharacter } from '../../../models/Character';
 import InlineCalculator from '../../../../components/util/InlineCalculator';
+import css from './PlayerCharacterSheet.module.scss';
 
 interface Props {
 	character: PlayerCharacter;
@@ -19,9 +20,9 @@ export default class SpellSlot extends React.Component<Props, {}> {
 		}
 
 		return (
-			<div className="column">
-				<div>{slot}</div>
-				<div>
+			<div className={css.row}>
+				<div>{slot}:</div>
+				<div className={css.row}>
 					<InlineCalculator
 						value={characterSlot.current}
 						onEnter={val => {
@@ -36,7 +37,7 @@ export default class SpellSlot extends React.Component<Props, {}> {
 							});
 						}}
 					/>
-					/ {characterSlot.max}
+					<div>/ {characterSlot.max}</div>
 				</div>
 			</div>
 		);

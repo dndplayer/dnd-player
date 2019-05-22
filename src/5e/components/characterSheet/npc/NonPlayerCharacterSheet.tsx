@@ -73,7 +73,7 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 				<div>
 					<span className={css.boldHeading}>Hit Points</span>
 					{(character.maxHp && (
-						<span className="row">
+						<span className={css.row}>
 							<InlineCalculator
 								value={character.hp}
 								onEnter={v =>

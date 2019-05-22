@@ -160,7 +160,7 @@ export default class PlayerCharacterSheetEditor extends React.Component<Props, S
 				</div>
 				<span className={css.subtitle}>Equipment</span>
 				<EquipmentEditor character={newCharacter} updateCharacterProperty={update} />
-				<span className={css.subtitle}>Magic</span>
+				<span className={css.subtitle}>Spellcasting</span>
 				<SpellsEditor
 					character={newCharacter}
 					updateCharacterProperty={update}

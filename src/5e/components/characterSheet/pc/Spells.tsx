@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import styles from './Spells.module.scss';
+import pcStyles from './PlayerCharacterSheet.module.scss';
 import { PlayerCharacter, CharacterSpell } from '../../../models/Character';
 import Spell from './Spell';
 import SpellSlot from './SpellSlot';
@@ -69,6 +70,7 @@ export default class Spells extends React.Component<Props, {}> {
 
 		return (
 			<div className={styles.spells}>
+				<div className={pcStyles.subtitle}>Spellcasting</div>
 				<div className={styles.wrapper}>
 					<div>Spell slots:</div>
 					<div className={`${styles.slots} row`}>
@@ -126,7 +128,6 @@ export default class Spells extends React.Component<Props, {}> {
 					</div>
 					{spells}
 				</div>
-				<div className={styles.title}>Spells</div>
 			</div>
 		);
 	}

@@ -1,6 +1,8 @@
 import React, { ReactNode, ReactElement } from 'react';
 
 import styles from './Equipment.module.scss';
+import pcStyles from './PlayerCharacterSheet.module.scss';
+
 import { PlayerCharacter, CharacterResource } from '../../../models/Character';
 import InlineCalculator from '../../../../components/util/InlineCalculator';
 
@@ -17,7 +19,7 @@ export default class Resources extends React.Component<Props, {}> {
 			(item, idx): ReactElement => (
 				<div key={idx}>
 					<div>{item.name}</div>
-					<div>
+					<div className={pcStyles.row}>
 						<InlineCalculator
 							value={item.quantity}
 							onEnter={(val): void => this.updateResource(item, val)}
