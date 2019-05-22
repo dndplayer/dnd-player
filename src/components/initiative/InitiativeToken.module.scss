@@ -46,6 +46,22 @@
 	box-shadow: #00ff15 0px 0px 10px;
 	height: 90px;
 	width: 90px;
+
+	animation: pulse 2s infinite;
+
+	@keyframes pulse {
+		0% {
+			box-shadow: #00ff15 0px 0px 10px;
+		}
+
+		50% {
+			box-shadow: #00ff15 0px 0px 20px;
+		}
+
+		100% {
+			box-shadow: #00ff15 0px 0px 10px;
+		}
+	}
 }
 
 .initiativeRoll {
