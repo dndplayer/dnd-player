@@ -43,6 +43,15 @@ export default class CharacterActionHelper {
 			results: []
 		};
 
+		const r: CharacterActionTextResult = {
+			type: CharacterActionResultType.Text,
+			text: `time: ${action.time}, duration: ${action.duration}${action.range}${
+				action.concentration ? ', Concentration' : ''
+			}`
+		};
+
+		data.results.push(r);
+
 		for (const effect of action.effects) {
 			const result = CharacterActionHelper.applyEffect(effect, advantage, crit);
 			crit = result.crit;

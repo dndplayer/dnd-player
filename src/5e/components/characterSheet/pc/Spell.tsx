@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import styles from './EquipmentItem.module.scss';
+import styles from './Spells.module.scss';
 import { Character, CharacterSpell } from '../../../models/Character';
 import Rollable from '../../Rollable';
 import CharacterActionHelper from '../../../CharacterActionHelper';
@@ -24,8 +24,8 @@ export default class Spell extends React.Component<Props, {}> {
 				<Rollable showAdvantage onClick={onClick}>
 					{spell.name}
 				</Rollable>
-				<span className={styles.school}>{spell.school}</span>
 				<span className={styles.level}>{spell.level}</span>
+				{spell.concentration && <span>Concentration</span>}
 			</div>
 		);
 	}
