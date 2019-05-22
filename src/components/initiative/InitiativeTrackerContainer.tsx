@@ -44,7 +44,11 @@ class InitiativeTrackerContainer extends Component<Props, State> {
 	}
 
 	nextTurn(): void {
-		const rolls = orderInitiatives(this.props.initiatives);
+		const rolls = orderInitiatives(
+			this.props.initiatives,
+			this.props.playerCharacters,
+			this.props.nonPlayerCharacters
+		);
 		if (!rolls || rolls.length <= 1) {
 			return;
 		}
