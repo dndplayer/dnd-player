@@ -10,6 +10,7 @@ import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
 import { Upload } from '../../models/Upload';
 
 import Unknown from './unknown.png';
+import { orderInitiatives } from './InitiativeHelpers';
 
 interface Props {
 	currentTurnId?: string;
@@ -52,12 +53,11 @@ export default class InitiativeTracker extends Component<Props> {
 			return <div />;
 		}
 
-		const rolls = Object.keys(initiatives.rolls)
-			.map(x => ({
-				...initiatives.rolls[x],
-				id: x
-			}))
-			.sort((a, b) => b.initiativeRoll - a.initiativeRoll);
+		const rolls = orderInitiatives(
+			initiatives,
+			this.props.playerCharacters,
+			this.props.nonPlayerCharacters
+		);
 
 		return (
 			<div
@@ -77,10 +77,12 @@ export default class InitiativeTracker extends Component<Props> {
 								: null;
 
 							if (!char) {
-								return <div key={x.id} />; // TODO: Handle this better
+								// return <div key={x.id} />; // TODO: Handle this better
 							}
 
-							const image = images.find(x => x.filePath === char.imageRef);
+							const image = char
+								? images.find(x => x.filePath === char.imageRef)
+								: null;
 
 							const isTurn = currentTurnId === x.id;
 

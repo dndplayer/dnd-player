@@ -6,12 +6,24 @@ import rsf from '../rsf';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import { updateTime } from '../actions/globalState';
+import { addInitiativeRoll } from '../actions/initiative';
 
 function* saveNewChatMessage(action): any {
 	// const msg = yield select(state => state.chat.newMessage);
 	const currentUser: firebase.User = yield select(state => state.auth.user);
 	const msg = action.message || '';
 	const data = action.data || {};
+
+	if (data.type === 'roll' && data.rollType === 'Initiative') {
+		const roll = data.roll1Total;
+		yield put(
+			addInitiativeRoll({
+				initiativeRoll: roll,
+				pcId: null,
+				npcId: null
+			})
+		);
+	}
 
 	yield put(closeChat());
 	yield call(rsf.database.create, '/chatroom', {
