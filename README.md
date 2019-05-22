@@ -39,6 +39,22 @@ https://dnd-player.com
 - Paste the copied UID into the `Name` field, and click on the `add child plus item in the new row.
 - Enter 'dm' into the `Name` field, and 'true' into the `Value` field.
 - Click `Add`.
+- Navigate to `Develop -> Storage` in the side menu.
+- Click `Get Started`, then `Got it`.
+- Navigate to https://console.cloud.google.com/home/dashboard.
+- Click on the `Activate Cloud Shell` icon in the top right.
+- vim cors.json
+```json
+[
+  {
+    "origin": ["https://dnd-player.com"],
+    "method": ["GET"],
+    "maxAgeSeconds": 3600
+  }
+]
+```
+- `gsutil cors set cors.json gs://<project_id>.appspot.com`
+
 - Click on the cog next to `Project Overview` in the side menu, and click on `Project settings`.
 
 You can now log into dnd-player.com with the Project ID and Web API Key listed on that page, along with the email and password you entered.

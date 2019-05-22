@@ -25,7 +25,7 @@ export default class SpellSlotEditor extends React.Component<Props, {}> {
 						this.props.updateCharacterProperty('spellSlots', {
 							...character.spellSlots,
 							[slot]: {
-								...(character.spellSlots[slot] || {}),
+								...characterSlot,
 								current: parseInt(e.target.value) || 0
 							}
 						})
@@ -40,7 +40,7 @@ export default class SpellSlotEditor extends React.Component<Props, {}> {
 						this.props.updateCharacterProperty('spellSlots', {
 							...character.spellSlots,
 							[slot]: {
-								...(character.spellSlots[slot] || {}),
+								...characterSlot,
 								max: parseInt(e.target.value) || 0
 							}
 						})

@@ -1,4 +1,9 @@
-import { CharacterAttack, Character, CharacterSpell } from './models/Character';
+import {
+	CharacterAttack,
+	Character,
+	CharacterSpell,
+	TextCharacterAttackEffect
+} from './models/Character';
 
 import {
 	CharacterActionData,
@@ -39,6 +44,12 @@ export default class CharacterActionHelper {
 		};
 
 		for (const effect of action.effects) {
+			const result = CharacterActionHelper.applyEffect(effect, advantage, crit);
+			crit = result.crit;
+			data.results.push(result.result);
+		}
+
+		for (const effect of action.effectsHigherLevel || []) {
 			const result = CharacterActionHelper.applyEffect(effect, advantage, crit);
 			crit = result.crit;
 			data.results.push(result.result);

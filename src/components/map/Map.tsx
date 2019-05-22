@@ -173,7 +173,7 @@ class Map extends Component<Props, State> {
 				this.loader.add('__missing__', 'https://placekitten.com/128/128');
 			}
 
-			const mapAssetsToLoad = Object.keys(this.props.mapData.objects)
+			const mapAssetsToLoad = Object.keys(this.props.mapData.objects || {})
 				.map(
 					(x: string): any => {
 						// TODO: CE - Really not loving this code to determine the image ref, revisit this
@@ -341,7 +341,6 @@ class Map extends Component<Props, State> {
 		}
 
 		const { objects, backgroundColour } = this.props.mapData;
-		const { background, tokens } = this.props.mapData.layers;
 		const { dm } = this.props;
 
 		const { connectDropTarget, isHovering } = this.props;

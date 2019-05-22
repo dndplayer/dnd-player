@@ -192,6 +192,7 @@ export interface TextCharacterAttackEffect extends CharacterAttackEffect {
 export interface CharacterSpell {
 	id: string;
 	name: string;
+	classes: string[];
 	level: number;
 	school: string;
 	time: string;
@@ -202,8 +203,8 @@ export interface CharacterSpell {
 	concentration: boolean;
 	duration: string;
 	description: string;
-	higherLevels?: string;
 	effects: CharacterAttackEffect[];
+	effectsHigherLevel?: CharacterAttackEffect[];
 	source: string;
 }
 

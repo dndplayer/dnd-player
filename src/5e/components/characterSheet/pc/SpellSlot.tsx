@@ -1,10 +1,12 @@
 import React, { ReactNode } from 'react';
 
 import { PlayerCharacter } from '../../../models/Character';
+import InlineCalculator from '../../../../components/util/InlineCalculator';
 
 interface Props {
 	character: PlayerCharacter;
 	slot: number;
+	updatePlayerCharacter: (characterId: string, character: PlayerCharacter) => void;
 }
 
 export default class SpellSlot extends React.Component<Props, {}> {
@@ -20,7 +22,21 @@ export default class SpellSlot extends React.Component<Props, {}> {
 			<div className="column">
 				<div>{slot}</div>
 				<div>
-					{characterSlot.current} / {characterSlot.max}
+					<InlineCalculator
+						value={characterSlot.current}
+						onEnter={val => {
+							const slots = { ...character.spellSlots };
+							slots[this.props.slot] = {
+								current: val,
+								max: characterSlot.max
+							};
+							this.props.updatePlayerCharacter(character.id, {
+								...character,
+								spellSlots: slots
+							});
+						}}
+					/>
+					/ {characterSlot.max}
 				</div>
 			</div>
 		);

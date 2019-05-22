@@ -39,7 +39,7 @@ export default class InlineCalculator extends React.Component<Props, State> {
 	componentDidUpdate(prevProps: Props): void {
 		if (prevProps.value !== this.props.value) {
 			this.setState({
-				newValue: this.props.value.toString()
+				newValue: this.props.value ? this.props.value.toString() : ''
 			});
 		}
 	}
