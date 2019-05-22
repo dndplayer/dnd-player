@@ -56,7 +56,8 @@ export default class InitiativeTracker extends Component<Props> {
 		const rolls = orderInitiatives(
 			initiatives,
 			this.props.playerCharacters,
-			this.props.nonPlayerCharacters
+			this.props.nonPlayerCharacters,
+			true
 		);
 
 		return (

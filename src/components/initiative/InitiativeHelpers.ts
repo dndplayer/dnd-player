@@ -13,7 +13,8 @@ import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
 export const orderInitiatives = (
 	initiatives: InitiativeData,
 	pc: PlayerCharacter[],
-	npc: NonPlayerCharacter[]
+	npc: NonPlayerCharacter[],
+	fixedOrder: boolean = false
 ): InitiativeRoller[] => {
 	if (!initiatives || !initiatives.rolls) {
 		return [];
@@ -63,6 +64,10 @@ export const orderInitiatives = (
 			);
 		}
 	);
+
+	if (fixedOrder) {
+		return initArray;
+	}
 
 	const currTurnIdx = initArray.findIndex((x): boolean => x.id === initiatives.currentTurn);
 
