@@ -105,6 +105,7 @@ export default class Chat extends React.Component<Props, State> {
 		}
 
 		if (!this.state.msg) {
+			this.props.closeChat();
 			return;
 		}
 
