@@ -39,7 +39,7 @@ export default class Userlist extends Component<Props> {
 								} 0px 0px 3px`
 							}}
 						>
-							{x.name}
+							{x.name} {x.dm && '(DM)'}
 						</li>
 					))}
 				</ul>
