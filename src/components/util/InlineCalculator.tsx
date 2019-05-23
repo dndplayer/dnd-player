@@ -79,7 +79,8 @@ export default class InlineCalculator extends React.Component<Props, State> {
 		if (val[0] === '-' || val[0] === '+') {
 			val = this.props.value + val;
 		}
-		this.props.onEnter(stringMath(val));
+		const result = Math.floor(stringMath(val));
+		this.props.onEnter(result);
 		this._input.blur();
 	}
 
