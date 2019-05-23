@@ -42,10 +42,14 @@
 .user {
 	width: 100%;
 	margin-right: 30px;
+	display: flex;
 
 	&::before {
-		// content: '‒';
-		margin-right: 4px;
+		content: '•';
+		color: red;
+		font-size: 64px;
+		line-height: 20px;
+		text-shadow: red 0 0 5px !important;
 	}
 }
 
@@ -53,15 +57,20 @@
 	// background-color: rgb(126, 184, 126);
 
 	&::before {
-		// content: '+';
-	}
-
-	&::after {
 		content: '•';
 		color: green;
-		float: right;
+		// float: right;
 		font-size: 64px;
 		line-height: 20px;
 		text-shadow: green 0 0 5px !important;
 	}
+
+	// &::after {
+	// 	content: '•';
+	// 	color: green;
+	// 	float: right;
+	// 	font-size: 64px;
+	// 	line-height: 20px;
+	// 	text-shadow: green 0 0 5px !important;
+	// }
 }
