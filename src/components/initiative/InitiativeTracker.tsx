@@ -96,7 +96,7 @@ export default class InitiativeTracker extends Component<Props> {
 
 							const imageUrl = image
 								? image.downloadUrl
-								: char.imageRef && char.imageRef.startsWith('http')
+								: char && char.imageRef && char.imageRef.startsWith('http')
 								? char.imageRef
 								: Unknown;
 
