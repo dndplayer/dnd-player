@@ -41,15 +41,24 @@
 
 .user {
 	&::before {
-		content: '‒';
+		// content: '‒';
 		margin-right: 4px;
 	}
 }
 
 .online {
-	background-color: rgb(126, 184, 126);
+	// background-color: rgb(126, 184, 126);
 
 	&::before {
-		content: '+';
+		// content: '+';
+	}
+
+	&::after {
+		content: '•';
+		color: green;
+		float: right;
+		font-size: 64px;
+		line-height: 20px;
+		text-shadow: green 0 0 5px !important;
 	}
 }
