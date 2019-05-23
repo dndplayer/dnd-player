@@ -21,9 +21,7 @@ export default class Spell extends React.Component<Props, {}> {
 		return (
 			<div className={styles.wrapper}>
 				<input type="checkbox" checked={this.props.prepared} disabled />
-				<Rollable showAdvantage onClick={onClick}>
-					{spell.name}
-				</Rollable>
+				<Rollable onClick={onClick}>{spell.name}</Rollable>
 				<span className={styles.level}>{spell.level}</span>
 				{spell.concentration && <span>Concentration</span>}
 			</div>

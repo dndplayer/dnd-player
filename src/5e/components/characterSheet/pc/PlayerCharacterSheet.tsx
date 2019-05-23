@@ -20,11 +20,13 @@ import Rules from '../../../5eRules';
 import Spells from './Spells';
 import Traits from './Traits';
 import Resources from './Resources';
+import { mdiPencil } from '@mdi/js';
+import Icon from '@mdi/react';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	updatePlayerCharacter: (characterId: string, character: Character) => void;
-	editPlayerCharacter?: (characterId: string) => void;
+	editPlayerCharacter: (characterId: string) => void;
 	character: PlayerCharacter;
 	image: Upload;
 	inline?: boolean;
@@ -52,17 +54,23 @@ export default class PlayerCharacterSheet extends React.Component<Props, {}> {
 
 		return (
 			<div className={`column ${css.characterSheet} ${inline ? 'inline' : ''} popout`}>
-				{this.props.editPlayerCharacter && (
-					<div
-						className={css.characterEdit}
-						onClick={() => editPlayerCharacter(character.id)}
-					>
-						EDIT
-					</div>
-				)}
-				<div className={`${css.row} ${css.characterDetails}`}>
+				<div className={css.row}>
 					<div className={css.characterName}>{character.name}</div>
-					<div className={css.characterImage}>
+					<div onClick={() => editPlayerCharacter(character.id)} className={css.button}>
+						<Icon path={mdiPencil} size={1} color={'#a6792d'} />
+					</div>
+				</div>
+				<div className={css.row}>
+					<div className={css.characterType}>
+						{Rules.getSizeName(character.size)} {character.race}{' '}
+						{(character.levels || [])
+							.map(x => `${Rules.classNameMap[x.className]} ${x.level}`)
+							.join(', ')}
+						, {character.alignment}
+					</div>
+				</div>
+				<div className={`${css.row} ${css.characterDetails}`}>
+					<div className={css.characterImage} style={{ float: 'right' }}>
 						<CharacterImage
 							imageUrl={
 								this.props.image ? this.props.image.downloadUrl : character.imageRef
@@ -72,12 +80,8 @@ export default class PlayerCharacterSheet extends React.Component<Props, {}> {
 							updateCharacter={this.props.updatePlayerCharacter}
 						/>
 					</div>
-					<div className={css.characterClasses}>
-						{(character.levels || [])
-							.map(x => `${Rules.classNameMap[x.className]} ${x.level}`)
-							.join(', ')}
-					</div>
 				</div>
+				<hr />
 				<div className={css.row}>
 					<div className={css.abilityContainer}>
 						<AbilityScore ability="strength" character={character} {...this.props} />
@@ -123,116 +127,118 @@ export default class PlayerCharacterSheet extends React.Component<Props, {}> {
 							<div className="section-title">Saving Throws</div>
 						</div>
 					</div>
-					<div className={css.skillContainer}>
-						<Skill
-							skill="acrobatics"
-							ability="dexterity"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="animalHandling"
-							ability="wisdom"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="arcana"
-							ability="intelligence"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="athletics"
-							ability="strength"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="deception"
-							ability="charisma"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="history"
-							ability="intelligence"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="insight"
-							ability="wisdom"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="intimidation"
-							ability="charisma"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="investigation"
-							ability="intelligence"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="medicine"
-							ability="wisdom"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="nature"
-							ability="intelligence"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="perception"
-							ability="wisdom"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="performance"
-							ability="charisma"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="persuasion"
-							ability="charisma"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="religion"
-							ability="intelligence"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="sleightOfHand"
-							ability="dexterity"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="stealth"
-							ability="dexterity"
-							character={character}
-							{...this.props}
-						/>
-						<Skill
-							skill="survival"
-							ability="wisdom"
-							character={character}
-							{...this.props}
-						/>
-						<div className={css.sectionTitle}>Skills</div>
+					<div className={css.column}>
+						<div className={css.skillContainer}>
+							<Skill
+								skill="acrobatics"
+								ability="dexterity"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="animalHandling"
+								ability="wisdom"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="arcana"
+								ability="intelligence"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="athletics"
+								ability="strength"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="deception"
+								ability="charisma"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="history"
+								ability="intelligence"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="insight"
+								ability="wisdom"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="intimidation"
+								ability="charisma"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="investigation"
+								ability="intelligence"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="medicine"
+								ability="wisdom"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="nature"
+								ability="intelligence"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="perception"
+								ability="wisdom"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="performance"
+								ability="charisma"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="persuasion"
+								ability="charisma"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="religion"
+								ability="intelligence"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="sleightOfHand"
+								ability="dexterity"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="stealth"
+								ability="dexterity"
+								character={character}
+								{...this.props}
+							/>
+							<Skill
+								skill="survival"
+								ability="wisdom"
+								character={character}
+								{...this.props}
+							/>
+							<div className={css.sectionTitle}>Skills</div>
+						</div>
 					</div>
 					<div className={css.column} style={{ flex: 1 }}>
 						<div className={css.row}>

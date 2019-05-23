@@ -19,6 +19,18 @@
 		width: 100%;
 		height: auto;
 	}
+
+	hr {
+		margin: 8px 0;
+		height: 0;
+		border-style: solid;
+		border-width: 3px 0 3px 99vw;
+		border-color: transparent transparent transparent #d29a38;
+	}
+
+	input.hpCurrent {
+		max-width: 60px;
+	}
 }
 
 .popout .character-close,
@@ -46,21 +58,25 @@
 	justify-content: center;
 	width: 100%;
 }
-.characterName,
-.characterClasses {
-	flex: 1;
-	color: #ccc;
-	font-family: 'Libre Baskerville', serif;
-	font-variant: small-caps;
+.characterName {
+	color: #d29a38;
 	font-size: 24px;
-	border: 2px solid #000;
-	background: #202020;
-	margin: 8px;
-	padding: 8px 24px;
+	font-variant: small-caps;
+	font-weight: bold;
+	font-family: 'Libre Baskerville', serif;
 }
-
-.characterClasses {
-	font-size: 16px;
+.button {
+	background: #333;
+	border-radius: 60px;
+	margin: 0 4px;
+	padding: 4px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+}
+.characterType {
+	font-style: italic;
+	color: #999;
 }
 
 .abilityContainer {
@@ -496,5 +512,6 @@ div:hover > .popupDisadvantage:hover {
 		font-weight: 600;
 		margin-right: 4px;
 		font-style: italic;
+		color: #a6792d;
 	}
 }

@@ -11,7 +11,7 @@ interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
 	updatePlayerCharacter: (characterId: string, character: Character) => void;
 	abortEditPlayerCharacter?: (characterId: string) => void;
-	editPlayerCharacter?: (characterId: string) => void;
+	editPlayerCharacter: (characterId: string) => void;
 	character: PlayerCharacter;
 	image: Upload;
 	editing: boolean;

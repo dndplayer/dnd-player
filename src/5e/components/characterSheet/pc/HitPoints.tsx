@@ -19,6 +19,7 @@ export default class HitPoints extends React.Component<Props, {}> {
 				<div className={css.hpCurrent}>
 					<InlineCalculator
 						value={character.hp}
+						inputClassName={css.hpCurrent}
 						onEnter={(val): void =>
 							this.props.updatePlayerCharacter(character.id, {
 								...character,

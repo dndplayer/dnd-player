@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import css from './Rollable.module.scss';
 
 interface Props {
-	showAdvantage: boolean;
+	showAdvantage?: boolean;
 	onClick: (advantage: number) => void;
 }
 
