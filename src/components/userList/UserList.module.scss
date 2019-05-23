@@ -45,3 +45,11 @@
 		margin-right: 4px;
 	}
 }
+
+.online {
+	background-color: rgb(126, 184, 126);
+
+	&::before {
+		content: '+';
+	}
+}

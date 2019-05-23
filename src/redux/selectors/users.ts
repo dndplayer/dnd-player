@@ -6,7 +6,11 @@ const currentUser = (state: AppState) => state.auth.user;
 
 export const getAllUsers = createSelector(
 	users,
-	(users: any) => Object.keys(users).map(x => users[x])
+	(users: any) =>
+		Object.keys(users).map(x => ({
+			id: x,
+			...users[x]
+		}))
 );
 
 export const getCurrentUser = createSelector(

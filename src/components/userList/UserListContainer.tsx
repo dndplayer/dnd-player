@@ -17,9 +17,9 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 class UserListContainer extends Component<Props> {
 	render(): ReactNode {
-		const { users, userListOpen } = this.props;
+		const { users, userListOpen, onlineUsers } = this.props;
 
-		return <Userlist users={users} open={userListOpen} />;
+		return <Userlist users={users} onlineUsers={onlineUsers} open={userListOpen} />;
 	}
 }
 
