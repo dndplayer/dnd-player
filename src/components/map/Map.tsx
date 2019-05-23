@@ -24,6 +24,7 @@ import { MapPing } from '../../models/MapPing';
 import Ping from './objects/OldPing';
 import EditablePolygon from './objects/editable/EditablePolygon';
 import { User } from '../../models/User';
+import { AssetType } from '../../models/AssetType';
 
 // import Ping from './objects/NewPing';
 
@@ -534,6 +535,15 @@ class Map extends Component<Props, State> {
 															ac={
 																asset
 																	? asset.ac || undefined
+																	: undefined
+															}
+															range={
+																asset && asset.speed
+																	? Math.max(
+																			...Object.values(
+																				asset.speed
+																			)
+																	  )
 																	: undefined
 															}
 															position={o.position}

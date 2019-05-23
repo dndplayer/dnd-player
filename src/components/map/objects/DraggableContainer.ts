@@ -9,6 +9,7 @@ export interface DraggableContainerProps extends MapObjectProps {
 	isSelected: boolean;
 	isSelectable?: boolean;
 	viewportZoom: number;
+	range?: number;
 }
 
 export default class DraggableContainer extends MapObject {
@@ -25,6 +26,7 @@ export default class DraggableContainer extends MapObject {
 	public interactive: boolean = true;
 	public buttonMode: boolean = true;
 	public viewportZoom: number = 1;
+	public range: number = null;
 
 	// Click selection handling
 	public isSelected: boolean = false;
@@ -42,6 +44,7 @@ export default class DraggableContainer extends MapObject {
 		this.isSelectable = newProps.isSelectable;
 		this.interactive = !!newProps.isSelectable;
 		this.viewportZoom = newProps.viewportZoom;
+		this.range = newProps.range;
 		super.innerApplyProps(instance, oldProps, newProps);
 	}
 	// Core functionality
@@ -156,6 +159,11 @@ export default class DraggableContainer extends MapObject {
 						globalLastPos.y - this.dragGrabOffset.y * this.viewportZoom
 					);
 
+					const distance = calculateDistance(
+						[start.x, start.y],
+						[end.x, end.y],
+						this.viewportZoom
+					);
 					this._ruler.redraw(
 						{
 							scale: 1 / this.viewportZoom,
@@ -172,11 +180,8 @@ export default class DraggableContainer extends MapObject {
 							end: end,
 							measuring: true,
 							visible: true,
-							distance: `${calculateDistance(
-								[start.x, start.y],
-								[end.x, end.y],
-								this.viewportZoom
-							)} ft.`,
+							color: this.range && distance > this.range ? 0xe04b35 : undefined,
+							distance: `${distance.toFixed(1)} ft.`,
 							thickness: 3
 						}
 					);

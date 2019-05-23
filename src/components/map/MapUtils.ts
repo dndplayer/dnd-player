@@ -32,12 +32,10 @@ export const groupObjectsByLayer = (map: MapData): GroupedMapObject[] => {
 	}, []);
 };
 
-export const calculateDistance = (start: number[], end: number[], scale: number): string => {
+export const calculateDistance = (start: number[], end: number[], scale: number): number => {
 	return (
-		Math.pow(Math.pow(end[0] - start[0], 2) + Math.pow(end[1] - start[1], 2), 0.5) /
-		scale /
-		40
-	).toFixed(1);
+		Math.pow(Math.pow(end[0] - start[0], 2) + Math.pow(end[1] - start[1], 2), 0.5) / scale / 40
+	);
 };
 
 export const getMidpointOfPoints = (points: number[]): number[] => {
