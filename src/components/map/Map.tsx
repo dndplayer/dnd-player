@@ -125,7 +125,7 @@ class Map extends Component<Props, State> {
 			});
 		}
 
-		if (this.props.fogAddMode && !prevProps.fogAddMode) {
+		if (this.props.dm && (this.props.fogAddMode && !prevProps.fogAddMode)) {
 			// Fog add enabled, prepare some local state.
 			this.setState({
 				newFogIndex: v4(),
@@ -133,7 +133,7 @@ class Map extends Component<Props, State> {
 				newFogPoints: []
 			});
 		}
-		if (!this.props.fogAddMode && prevProps.fogAddMode) {
+		if (this.props.dm && (!this.props.fogAddMode && prevProps.fogAddMode)) {
 			// Fog add disabled, cleanup local state and persist the new poly ?
 			if (this.state.newFogPoints.length >= 4) {
 				// Minimum of 2 points (4 nums) to create a fog poly
@@ -265,7 +265,7 @@ class Map extends Component<Props, State> {
 					});
 				}
 
-				if (this.props.fogAddMode) {
+				if (this.props.dm && this.props.fogAddMode) {
 					const localPos = this._viewport.toLocal(e.data.global);
 					//console.log(`TODO: Add new poly point @ ${localPos.x}, ${localPos.y}`);
 
