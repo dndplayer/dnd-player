@@ -6,6 +6,17 @@
 	width: calc(100% - 3px);
 	opacity: 0.9;
 
+	a,
+	a:active,
+	a:visited {
+		color: #3477bf;
+		cursor: pointer;
+		position: relative;
+		display: inline-block;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
 	.messages {
 		flex-direction: column;
 		display: flex;

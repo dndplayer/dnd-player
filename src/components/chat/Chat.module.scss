@@ -24,6 +24,17 @@
 		opacity: 0;
 	}
 
+	a,
+	a:active,
+	a:visited {
+		color: #3477bf;
+		cursor: pointer;
+		position: relative;
+		display: inline-block;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
 	.messages {
 		flex-grow: 1;
 		flex-direction: column;
