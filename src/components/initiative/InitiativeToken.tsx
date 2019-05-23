@@ -46,8 +46,17 @@ export default class InitiativeToken extends Component<Props, State> {
 
 	onChangeHp = val => {
 		if (this.props.modifyHp) {
+			const pc = this.props.char as PlayerCharacter;
+			const npc = this.props.char as NonPlayerCharacter;
+
+			const newHpData = this.props.isPc
+				? { ...(pc || {}), hp: val }
+				: this.props.isNpc
+				? { ...this.props.npcToken.hp, hp: val }
+				: null;
+
 			this.props.modifyHp(
-				{ ...this.props.npcToken.hp, hp: val },
+				newHpData,
 				this.props.isPc ? this.props.char.id : null,
 				this.props.isNpc ? this.props.npcTokenId : null
 			);
