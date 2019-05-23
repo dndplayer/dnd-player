@@ -23,6 +23,7 @@ import TraitsEditor from './TraitsEditor';
 import AttacksEditor from './AttacksEditor';
 import EquipmentEditor from './EquipmentEditor';
 import ResourcesEditor from './ResourcesEditor';
+import SpeedsEditor from './SpeedsEditor';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -157,6 +158,7 @@ export default class PlayerCharacterSheetEditor extends React.Component<Props, S
 						</div>
 					</div>
 					<SkillsEditor character={newCharacter} updateCharacterProperty={update} />
+					<SpeedsEditor character={newCharacter} updateCharacterProperty={update} />
 				</div>
 				<span className={css.subtitle}>Equipment</span>
 				<EquipmentEditor character={newCharacter} updateCharacterProperty={update} />

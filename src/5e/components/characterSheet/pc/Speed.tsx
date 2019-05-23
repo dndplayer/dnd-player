@@ -14,6 +14,9 @@ export default class Speed extends React.Component<Props, {}> {
 
 		const movementTypes = [];
 		for (const movementType of Object.keys(speed)) {
+			if (!speed[movementType]) {
+				continue;
+			}
 			movementTypes.push(
 				<div className={css.speedContainer} key={movementType}>
 					<div className={css.speedPopupWrap}>
