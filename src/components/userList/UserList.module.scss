@@ -40,6 +40,9 @@
 }
 
 .user {
+	width: 100%;
+	margin-right: 30px;
+
 	&::before {
 		// content: '‒';
 		margin-right: 4px;
