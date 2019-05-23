@@ -59,7 +59,7 @@ export interface CharacterActionDiceRollResultRoll {
 export interface RollData extends ChatMessageData {
 	characterName?: string;
 	pcId?: string;
-	npcId?: string;
+	npcTokenId?: string;
 	rollType: string;
 	rollName: string;
 	rollSuffix?: string;

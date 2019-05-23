@@ -47,7 +47,7 @@ export default class Initiative extends React.Component<Props, {}> {
 
 		const data: RollData = {
 			pcId: this.props.character.id,
-			npcId: null,
+			npcTokenId: null,
 			type: 'roll',
 			rollType: 'Initiative',
 			rollName: 'Initiative',

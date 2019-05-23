@@ -5,6 +5,7 @@ import styles from './InitiativeToken.module.scss';
 import { url } from 'inspector';
 import { Zoom, Paper } from '@material-ui/core';
 import InlineCalculator from '../util/InlineCalculator';
+import { MapObject } from '../../models/Map';
 
 interface Props {
 	initId: string;
@@ -12,9 +13,11 @@ interface Props {
 	char: Character;
 	isPc: boolean;
 	isNpc: boolean;
+	npcTokenId?: string;
+	npcToken?: MapObject;
 	currentTurn: boolean;
 	imageUrl: string;
-	modifyHp: (newHp: number, pcId?: string, npcId?: string) => void;
+	modifyHp: (newHp: any, pcId?: string, npcTokenId?: string) => void;
 	removeInitiative: (id: string) => void;
 	dm: boolean;
 }
@@ -44,21 +47,26 @@ export default class InitiativeToken extends Component<Props, State> {
 	onChangeHp = val => {
 		if (this.props.modifyHp) {
 			this.props.modifyHp(
-				val,
+				{ ...this.props.npcToken.hp, hp: val },
 				this.props.isPc ? this.props.char.id : null,
-				this.props.isNpc ? this.props.char.id : null
+				this.props.isNpc ? this.props.npcTokenId : null
 			);
 		}
 	};
 
 	render(): ReactNode {
-		const { char, initRoll, currentTurn, imageUrl, isPc, isNpc } = this.props;
+		const { char, initRoll, currentTurn, imageUrl, isPc, isNpc, npcToken } = this.props;
 		const { hpOpen } = this.state;
 
 		const pc = char as PlayerCharacter;
 		const npc = char as NonPlayerCharacter;
 
 		const ac = isPc && pc ? pc.ac : isNpc && npc ? npc.ac : 0;
+
+		const hp =
+			isPc && pc ? pc.hp : isNpc && npcToken && npcToken.hp ? npcToken.hp.value || 0 : 0;
+		const hpMax =
+			isPc && pc ? pc.maxHp : isNpc && npcToken && npcToken.hp ? npcToken.hp.max || 0 : 0;
 
 		return (
 			<div className={styles.wrapper}>
@@ -85,7 +93,7 @@ export default class InitiativeToken extends Component<Props, State> {
 							<InlineCalculator
 								className={styles.hpInput}
 								inputClassName={styles.hpInputInner}
-								value={isPc && pc ? pc.hp : isNpc && npc ? npc.hp || 0 : 0}
+								value={hp}
 								onEnter={(val): void => this.onChangeHp(val)}
 							/>
 						</Paper>

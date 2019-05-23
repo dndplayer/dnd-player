@@ -8,6 +8,6 @@ export interface InitiativeData {
 export interface InitiativeRoller {
 	id?: string; // - Populated when converting Object to array
 	pcId?: string;
-	npcId?: string;
+	npcTokenId?: string; // Replaces npcId;
 	initiativeRoll: number;
 }

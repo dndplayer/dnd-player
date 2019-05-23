@@ -2,7 +2,6 @@ import React, { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import InitiativeTracker from './InitiativeTracker';
 
-import { GetDefaultTestData } from './TestData';
 import { orderInitiatives } from './InitiativeHelpers';
 import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
 import { AppState } from '../../redux/reducers';
@@ -12,10 +11,14 @@ import { InitiativeData, InitiativeRoller } from '../../models/Initiative';
 import { getCurrentInitiativeTurn } from '../../redux/selectors/initiative';
 import { updatePlayerCharacter, updateNonPlayerCharacter } from '../../redux/actions/assets';
 import { string } from 'prop-types';
+import { MapData, MapObject } from '../../models/Map';
+import { getCurrentMap } from '../../redux/selectors/maps';
+import { mapsUpdateObject } from '../../redux/actions/maps';
 
 interface StateProps {
 	playerCharacters: PlayerCharacter[];
 	nonPlayerCharacters: NonPlayerCharacter[];
+	map?: MapData;
 	images: Upload[];
 	initiatives: InitiativeData;
 	currentTurnId: string;
@@ -28,6 +31,7 @@ interface DispatchProps {
 	clearInitiatives: () => void;
 	updatePlayerCharacter: (id: string, data: PlayerCharacter) => void;
 	updateNonPlayerCharacter: (id: string, data: NonPlayerCharacter) => void;
+	updateToken: (mapId: string, tokenId: string, token: MapObject) => void;
 }
 interface OwnProps {}
 
@@ -56,17 +60,26 @@ class InitiativeTrackerContainer extends Component<Props, State> {
 		this.props.setCurrentTurn(rolls[1].id);
 	}
 
-	modifyHp(newHp: number, pcId?: string, npcId?: string): void {
+	modifyHp(newHp: any, pcId?: string, npcTokenId?: string): void {
 		if (pcId) {
 			const char = this.props.playerCharacters.find(x => x.id === pcId);
 			if (char) {
-				this.props.updatePlayerCharacter(pcId, { ...char, hp: newHp });
+				this.props.updatePlayerCharacter(pcId, { ...char, hp: newHp.hp });
 			}
-		} else if (npcId) {
-			const char = this.props.nonPlayerCharacters.find(x => x.id === npcId);
-			if (char) {
-				this.props.updateNonPlayerCharacter(npcId, { ...char, hp: newHp });
-			}
+		} else if (npcTokenId) {
+			// TODO: Update Map Token
+
+			const token = this.props.map.objects[npcTokenId];
+
+			this.props.updateToken(this.props.map.id, npcTokenId, {
+				...token,
+				hp: { value: newHp.hp, max: newHp.max || newHp.hp }
+			});
+
+			// const char = this.props.nonPlayerCharacters.find(x => x.id === npcId);
+			// if (char) {
+			// 	this.props.updateNonPlayerCharacter(npcId, { ...char, hp: newHp });
+			// }
 		}
 	}
 
@@ -79,6 +92,7 @@ class InitiativeTrackerContainer extends Component<Props, State> {
 				initiatives={this.props.initiatives}
 				playerCharacters={this.props.playerCharacters}
 				nonPlayerCharacters={this.props.nonPlayerCharacters}
+				map={this.props.map}
 				images={this.props.images}
 				nextTurn={this.nextTurn}
 				clearInitiatives={this.props.clearInitiatives}
@@ -98,7 +112,8 @@ const mapStateToProps = (state: AppState): StateProps => ({
 	initiatives: state.initiative.rolls,
 	currentTurnId: getCurrentInitiativeTurn(state),
 	isDm: state.auth.dm,
-	initiativeTrackerOpen: state.ui.initiativeTrackerOpen
+	initiativeTrackerOpen: state.ui.initiativeTrackerOpen,
+	map: getCurrentMap(state)
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	setCurrentTurn: id => dispatch(setCurrentTurn(id)),
@@ -107,7 +122,8 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 		dispatch(updatePlayerCharacter(id, data)),
 	updateNonPlayerCharacter: (id: string, data: NonPlayerCharacter) =>
 		dispatch(updateNonPlayerCharacter(id, data)),
-	removeInitiative: (id: string) => dispatch(removeInitiative(id))
+	removeInitiative: (id: string) => dispatch(removeInitiative(id)),
+	updateToken: (mapId, tokenId, token) => dispatch(mapsUpdateObject(mapId, tokenId, token))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

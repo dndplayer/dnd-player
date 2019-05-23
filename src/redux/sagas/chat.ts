@@ -37,7 +37,7 @@ function* saveNewChatMessage(action): any {
 				addInitiativeRoll({
 					initiativeRoll: roll,
 					pcId: d.pcId,
-					npcId: d.npcId
+					npcTokenId: d.npcTokenId
 				})
 			);
 		}

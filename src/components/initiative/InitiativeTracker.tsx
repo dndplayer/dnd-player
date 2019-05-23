@@ -11,18 +11,21 @@ import { Upload } from '../../models/Upload';
 
 import Unknown from './unknown.png';
 import { orderInitiatives } from './InitiativeHelpers';
+import { MapData } from '../../models/Map';
+import { MapObject } from '../../models/Map';
 
 interface Props {
 	currentTurnId?: string;
 	initiatives: InitiativeData;
 	playerCharacters: PlayerCharacter[];
 	nonPlayerCharacters: NonPlayerCharacter[];
+	map?: MapData;
 	dm: boolean;
 	images: Upload[];
 	initiativeTrackerOpen: boolean;
 	nextTurn: () => void;
 	clearInitiatives: () => void;
-	modifyHp: (newHp: number, pcId?: string, npcId?: string) => void;
+	modifyHp: (newHp: any, pcId?: string, npcTokenId?: string) => void;
 	removeInitiative: (id: string) => void;
 }
 
@@ -46,7 +49,8 @@ export default class InitiativeTracker extends Component<Props> {
 			currentTurnId,
 			modifyHp,
 			dm,
-			removeInitiative
+			removeInitiative,
+			map
 		} = this.props;
 
 		if (!initiatives || !initiatives.rolls) {
@@ -71,10 +75,14 @@ export default class InitiativeTracker extends Component<Props> {
 				<div className={styles.tokenWrapper}>
 					{rolls.map(
 						(x): ReactElement => {
+							const npcToken: MapObject = x.npcTokenId
+								? map.objects[x.npcTokenId] || null
+								: null;
+
 							const char = x.pcId
 								? playerCharacters.find(y => y.id === x.pcId)
-								: x.npcId
-								? nonPlayerCharacters.find(y => y.id === x.npcId)
+								: npcToken && npcToken.npcId
+								? nonPlayerCharacters.find(y => y.id === npcToken.npcId)
 								: null;
 
 							if (!char) {
@@ -107,8 +115,10 @@ export default class InitiativeTracker extends Component<Props> {
 										// key={x.id}
 										initId={x.id}
 										isPc={!!x.pcId}
-										isNpc={!!x.npcId}
+										isNpc={!!x.npcTokenId}
 										char={char}
+										npcTokenId={x.npcTokenId}
+										npcToken={npcToken}
 										imageUrl={imageUrl}
 										initRoll={x.initiativeRoll}
 										currentTurn={isTurn}

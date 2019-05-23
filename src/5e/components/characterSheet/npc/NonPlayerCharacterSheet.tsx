@@ -27,6 +27,7 @@ interface Props {
 	characterId: string;
 	image: Upload;
 	inline?: boolean;
+	tokenId?: string;
 }
 
 export default class NonPlayerCharacterSheet extends React.Component<Props, {}> {
@@ -166,7 +167,7 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 
 		const data: RollData = {
 			pcId: null,
-			npcId: this.props.character.id,
+			npcTokenId: this.props.tokenId,
 			type: 'roll',
 			characterName: this.props.character.name,
 			rollType: 'Initiative',

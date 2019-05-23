@@ -31,13 +31,13 @@ export const orderInitiatives = (
 		(a, b): number => {
 			const aChar = a.pcId
 				? pc.find(x => x.id === a.pcId)
-				: a.npcId
-				? npc.find(x => x.id === a.npcId)
+				: a.npcTokenId
+				? npc.find(x => x.id === a.npcTokenId)
 				: null;
 			const bChar = b.pcId
 				? pc.find(x => x.id === b.pcId)
-				: b.npcId
-				? npc.find(x => x.id === b.npcId)
+				: b.npcTokenId
+				? npc.find(x => x.id === b.npcTokenId)
 				: null;
 
 			// console.log(aChar);
@@ -51,11 +51,11 @@ export const orderInitiatives = (
 				return b.initiativeRoll - a.initiativeRoll;
 			}
 
-			console.log(
-				`${b.initiativeRoll} + 0.1 * ${bChar.dexterity} - (${a.initiativeRoll} + 0.1 * ${
-					aChar.dexterity
-				})`
-			);
+			// console.log(
+			// 	`${b.initiativeRoll} + 0.1 * ${bChar.dexterity} - (${a.initiativeRoll} + 0.1 * ${
+			// 		aChar.dexterity
+			// 	})`
+			// );
 
 			return (
 				b.initiativeRoll +
