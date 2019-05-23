@@ -46,11 +46,13 @@ const saveConfig = async (): Promise<void> => {
 	}
 };
 
-const match = window.location.search.match(/\?projectId=(.*?)&apiKey=(.*)$/);
+const match = window.location.href.match(/\?projectId=(.*?)&apiKey=(.*)$/);
 if (match) {
 	state.projectId = match[1];
 	state.apiKey = match[2];
-} else if (localStorage.getItem('firebaseConfig') == null) {
+}
+
+if (localStorage.getItem('firebaseConfig') == null) {
 	const theme = createMuiTheme({
 		palette: {
 			type: 'dark'
@@ -67,19 +69,23 @@ if (match) {
 					<TextField
 						label="Project Name"
 						placeholder="dnd-player-b8372"
-						onChange={evt => (state.projectId = evt.target.value)}
+						value={state.projectId || undefined}
+						disabled={!!state.projectId}
+						onChange={evt => (state.projectId = evt.target.value.trim())}
 						margin="normal"
 					/>
 					<TextField
 						label="API Key"
 						placeholder="AIzaSd***************pK5ao6g95Q-9auWt-8"
-						onChange={evt => (state.apiKey = evt.target.value)}
+						value={state.apiKey || undefined}
+						disabled={!!state.apiKey}
+						onChange={evt => (state.apiKey = evt.target.value.trim())}
 						margin="normal"
 					/>
 					<TextField
 						label="Username"
 						placeholder="email@example.com"
-						onChange={evt => (state.username = evt.target.value)}
+						onChange={evt => (state.username = evt.target.value.trim())}
 						margin="normal"
 					/>
 					<TextField

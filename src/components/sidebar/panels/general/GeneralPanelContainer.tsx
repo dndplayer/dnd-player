@@ -6,7 +6,7 @@ import {
 	updateNonPlayerCharacter,
 	saveNewNonPlayerCharacter
 } from '../../../../redux/actions/assets';
-import { setDm } from '../../../../redux/actions/auth';
+import { setDm, logout } from '../../../../redux/actions/auth';
 import { updateSpell, saveNewSpell } from '../../../../redux/actions/spells';
 
 interface StateProps {
@@ -21,7 +21,9 @@ interface DispatchProps {
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) => void;
 	updateSpell: (spellId: string, spell: CharacterSpell) => void;
 	saveNewSpell: (spell: CharacterSpell) => void;
+	logout: () => void;
 }
+
 interface OwnProps {}
 
 type Props = StateProps & DispatchProps & OwnProps;
@@ -46,6 +48,7 @@ class GeneralPanelContainer extends Component<Props> {
 				saveNewNonPlayerCharacter={this.props.saveNewNonPlayerCharacter}
 				updateSpell={this.props.updateSpell}
 				saveNewSpell={this.props.saveNewSpell}
+				logout={this.props.logout}
 			/>
 		);
 	}
@@ -64,7 +67,8 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) =>
 		dispatch(saveNewNonPlayerCharacter(character)),
 	updateSpell: (spellId: string, spell: CharacterSpell) => dispatch(updateSpell(spellId, spell)),
-	saveNewSpell: (spell: CharacterSpell) => dispatch(saveNewSpell(spell))
+	saveNewSpell: (spell: CharacterSpell) => dispatch(saveNewSpell(spell)),
+	logout: () => dispatch(logout())
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

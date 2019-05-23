@@ -20,6 +20,7 @@ interface Props {
 	saveNewNonPlayerCharacter: (character: NonPlayerCharacter) => void;
 	updateSpell: (spellId: string, spell: CharacterSpell) => void;
 	saveNewSpell: (spell: CharacterSpell) => void;
+	logout: () => void;
 }
 
 export default class GeneralPanel extends Component<Props, State> {
@@ -129,10 +130,6 @@ export default class GeneralPanel extends Component<Props, State> {
 		return (
 			<div className={styles.generalPanel}>
 				<h1>General</h1>
-				<h2>TODO:</h2>
-				<ul style={{ marginBottom: '50px' }}>
-					<li>Logout button</li>
-				</ul>
 				<div className={styles.settingWrapper}>
 					{this.props.dm && (
 						<div>
@@ -157,12 +154,17 @@ export default class GeneralPanel extends Component<Props, State> {
 									</Button>
 								</Tooltip>
 							</div>
-							<Button onClick={() => this.importNpcs()}>Import NPCs</Button>
-							<Button onClick={() => this.exportNpcs()}>Export NPCs</Button>
-							<Button onClick={() => this.importSpells()}>Import Spells</Button>
-							<Button onClick={() => this.exportSpells()}>Export Spells</Button>
+							<div>
+								<Button onClick={() => this.importNpcs()}>Import NPCs</Button>
+								<Button onClick={() => this.exportNpcs()}>Export NPCs</Button>
+							</div>
+							<div>
+								<Button onClick={() => this.importSpells()}>Import Spells</Button>
+								<Button onClick={() => this.exportSpells()}>Export Spells</Button>
+							</div>
 						</div>
 					)}
+					<Button onClick={() => this.props.logout()}>Logout</Button>
 					{this.props.canBeDm && (
 						<div className={styles.settingRow}>
 							<FormControlLabel

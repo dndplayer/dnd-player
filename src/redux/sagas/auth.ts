@@ -24,6 +24,8 @@ function* loginSaga(action): any {
 function* logoutSaga(): any {
 	try {
 		yield call(rsf.auth.signOut);
+		localStorage.removeItem('firebaseConfig');
+		window.location.reload();
 		// successful logout will trigger the loginStatusWatcher, which will update the state
 	} catch (error) {
 		yield put(logoutFailure(error));
