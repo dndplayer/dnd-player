@@ -80,6 +80,8 @@ interface State {
 	newFogIndex?: string;
 	newFogPosition?: PIXI.PointLike;
 	newFogPoints?: number[];
+	boxSelectStart?: PIXI.PointLike;
+	boxSelectEnd?: PIXI.PointLike;
 }
 class Map extends Component<Props, State> {
 	state = {
@@ -95,7 +97,9 @@ class Map extends Component<Props, State> {
 		viewportZoom: 1,
 		newFogIndex: null,
 		newFogPosition: null,
-		newFogPoints: null
+		newFogPoints: null,
+		boxSelectStart: null,
+		boxSelectEnd: null
 	};
 
 	private app: any;
@@ -301,6 +305,13 @@ class Map extends Component<Props, State> {
 						userId: this.props.user.uid
 					});
 				}
+
+				if (!this.state.measuring && !this.props.fogAddMode && !this.props.fogEditMode) {
+					const localPos = this._viewport.toLocal(e.data.global);
+					this.setState({
+						boxSelectStart: localPos.clone()
+					});
+				}
 			}
 		);
 		app.stage.on(
@@ -316,6 +327,13 @@ class Map extends Component<Props, State> {
 						)} ft.`
 					});
 				}
+
+				if (!this.state.measuring && !this.props.fogAddMode && !this.props.fogEditMode) {
+					const localPos = this._viewport.toLocal(e.data.global);
+					this.setState({
+						boxSelectEnd: localPos.clone()
+					});
+				}
 			}
 		);
 		app.stage.on(
@@ -324,6 +342,17 @@ class Map extends Component<Props, State> {
 				if (this.state.measuring) {
 					this.setState({ measureStart: null, measureEnd: null, measuredDistance: null });
 				}
+
+				// TODO: Calculate box select before resetting to null
+				//       doing this efficiently would be nice but not sure there is a way
+				//       that isn't just checking every object, it's not like we have an Octree or
+				//       something :(
+				console.log(
+					`Box Select (${this.state.boxSelectStart.x}, ${
+						this.state.boxSelectStart.y
+					}) -> (${this.state.boxSelectEnd.x}, ${this.state.boxSelectEnd.y})`
+				);
+				this.setState({ boxSelectStart: null, boxSelectEnd: null });
 			}
 		);
 	};
@@ -636,6 +665,25 @@ class Map extends Component<Props, State> {
 										/>
 									);
 								})}
+								{this.state.boxSelectStart && this.state.boxSelectEnd && (
+									<Graphics
+										draw={g => {
+											g.clear();
+											g.lineStyle(
+												5.2 * (1 / this.state.viewportZoom),
+												0xff0000
+											);
+											g.drawRect(
+												this.state.boxSelectStart.x,
+												this.state.boxSelectStart.y,
+												this.state.boxSelectEnd.x -
+													this.state.boxSelectStart.x,
+												this.state.boxSelectEnd.y -
+													this.state.boxSelectStart.y
+											);
+										}}
+									/>
+								)}
 							</ViewportComponent>
 						)}
 					</AppConsumer>
