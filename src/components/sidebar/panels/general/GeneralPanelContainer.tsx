@@ -8,12 +8,16 @@ import {
 } from '../../../../redux/actions/assets';
 import { setDm, logout } from '../../../../redux/actions/auth';
 import { updateSpell, saveNewSpell } from '../../../../redux/actions/spells';
+import { setUserColour } from '../../../../redux/actions/users';
+import { getCurrentUser } from '../../../../redux/selectors/users';
+import { User } from '../../../../models/User';
 
 interface StateProps {
 	dm: boolean;
 	canBeDm: boolean;
 	nonPlayerCharacters: NonPlayerCharacter[];
 	spells: CharacterSpell[];
+	currentUser: { user: User; firebaseUser: firebase.User };
 }
 interface DispatchProps {
 	setDm: (val: boolean) => void;
@@ -22,6 +26,7 @@ interface DispatchProps {
 	updateSpell: (spellId: string, spell: CharacterSpell) => void;
 	saveNewSpell: (spell: CharacterSpell) => void;
 	logout: () => void;
+	updateUserColour: (userId: string, colour: number) => void;
 }
 
 interface OwnProps {}
@@ -41,6 +46,7 @@ class GeneralPanelContainer extends Component<Props> {
 				dm={dm}
 				canBeDm={canBeDm}
 				setDm={setDm}
+				currentUser={this.props.currentUser}
 				roomUrl={roomUrl}
 				nonPlayerCharacters={this.props.nonPlayerCharacters}
 				spells={this.props.spells}
@@ -49,6 +55,7 @@ class GeneralPanelContainer extends Component<Props> {
 				updateSpell={this.props.updateSpell}
 				saveNewSpell={this.props.saveNewSpell}
 				logout={this.props.logout}
+				updateUserColour={this.props.updateUserColour}
 			/>
 		);
 	}
@@ -58,7 +65,8 @@ const mapStateToProps = (state): StateProps => ({
 	dm: state.auth.dm,
 	canBeDm: state.auth.canBeDm,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
-	spells: state.spells.spells
+	spells: state.spells.spells,
+	currentUser: getCurrentUser(state)
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	setDm: (val: boolean) => dispatch(setDm(val)),
@@ -68,7 +76,8 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 		dispatch(saveNewNonPlayerCharacter(character)),
 	updateSpell: (spellId: string, spell: CharacterSpell) => dispatch(updateSpell(spellId, spell)),
 	saveNewSpell: (spell: CharacterSpell) => dispatch(saveNewSpell(spell)),
-	logout: () => dispatch(logout())
+	logout: () => dispatch(logout()),
+	updateUserColour: (userId: string, colour: number) => dispatch(setUserColour(userId, colour))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

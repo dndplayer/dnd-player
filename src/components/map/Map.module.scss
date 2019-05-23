@@ -1,11 +1,13 @@
-.loadingWrapper {
+.loadingWrapper,
+.noMapWrapper {
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, 0);
 }
 
-.loadingText {
+.loadingText,
+.noMapText {
 	font-size: 200%;
 }
 

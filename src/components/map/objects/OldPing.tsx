@@ -11,6 +11,7 @@ import PingFrame6 from '../images/PingFrame6.png';
 interface Props {
 	position: PIXI.PointLike;
 	viewportZoom: number;
+	colour?: number;
 }
 
 /**
@@ -46,7 +47,7 @@ export default PixiComponent<Props, PIXI.Container>('Ping', {
 		const s = new PIXI.extras.AnimatedSprite(texArr);
 		s.anchor.set(0.5, 0.5);
 		s.animationSpeed = 0.1;
-		s.tint = 0xff0000; // TODO: Tint with users colour
+		s.tint = props.colour || 0xff0000;
 		s.play();
 		c.addChild(s);
 

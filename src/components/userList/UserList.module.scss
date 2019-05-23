@@ -1,0 +1,35 @@
+.userListWrapper {
+	position: absolute;
+	top: 0;
+	left: 0;
+	max-width: 400px;
+	z-index: 2;
+	background-color: rgba(50, 50, 100, 0.4);
+	padding: 10px;
+	user-select: none;
+
+	transition: all 600ms cubic-bezier(0.28, 0.84, 0.42, 1);
+}
+
+.visible {
+	left: 0px;
+
+	transition: all 600ms cubic-bezier(0.28, 0.84, 0.42, 1);
+}
+
+.hidden {
+	left: -400px;
+
+	transition: all 600ms cubic-bezier(0.28, 0.84, 0.42, 1);
+}
+
+.listStyle {
+	list-style: none;
+}
+
+.user {
+	&::before {
+		content: '‒';
+		margin-right: 4px;
+	}
+}

@@ -1,3 +1,5 @@
 export interface User {
-	dm: boolean;
+	name: string;
+	dm?: boolean;
+	colour?: number;
 }

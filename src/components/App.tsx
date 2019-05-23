@@ -23,7 +23,8 @@ import { openChat, closeChat } from '../redux/actions/chat';
 import { mapsToggleMeasureMode, toggleFogEditMode, toggleFogAddMode } from '../redux/actions/maps';
 import { keyUpShiftAction, keyDownShiftAction } from '../redux/actions/keys';
 import InitiativeTrackerContainer from './initiative/InitiativeTrackerContainer';
-import { toggleInitiativeTracker, toggleSidebar } from '../redux/actions/ui';
+import { toggleInitiativeTracker, toggleSidebar, toggleUserList } from '../redux/actions/ui';
+import UserListContainer from './userList/UserListContainer';
 
 const keyMap = {
 	OPEN_CHAT: 'enter',
@@ -33,6 +34,7 @@ const keyMap = {
 	TOGGLE_FOG_ADD_MODE: 'a',
 	TOGGLE_SIDEBAR: 's',
 	TOGGLE_INITIATIVE_TRACKER: 'i',
+	TOGGLE_USERLIST: 'u',
 	SHIFT_DOWN: { sequence: 'shift', action: 'keydown' },
 	SHIFT_UP: { sequence: 'shift', action: 'keyup' }
 };
@@ -59,7 +61,8 @@ const handlers = {
 	TOGGLE_INITIATIVE_TRACKER: ignoreKeyRepeats(event =>
 		store.store.dispatch(toggleInitiativeTracker())
 	),
-	TOGGLE_SIDEBAR: ignoreKeyRepeats(event => store.store.dispatch(toggleSidebar()))
+	TOGGLE_SIDEBAR: ignoreKeyRepeats(event => store.store.dispatch(toggleSidebar())),
+	TOGGLE_USERLIST: ignoreKeyRepeats(event => store.store.dispatch(toggleUserList()))
 };
 export class App extends Component<{}, {}> {
 	constructor(props) {
@@ -101,6 +104,7 @@ export class App extends Component<{}, {}> {
 													<div className={styles.mapWrapper}>
 														<PropertiesPanelContainer />
 														<InitiativeTrackerContainer />
+														<UserListContainer />
 														<MapContainer />
 													</div>
 													<div>

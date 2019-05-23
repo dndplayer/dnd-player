@@ -7,7 +7,8 @@ export const types = {
 			SYNC_FAILED: 'USERS.PRESENCE.SYNC_FAILED' as 'USERS.PRESENCE.SYNC_FAILED'
 		},
 		SYNC: 'USERS.SYNC' as 'USERS.SYNC',
-		SYNC_FAILED: 'USERS.SYNC_FAILED' as 'USERS.SYNC_FAILED'
+		SYNC_FAILED: 'USERS.SYNC_FAILED' as 'USERS.SYNC_FAILED',
+		SET_COLOUR: 'USERS.SET_COLOUR' as 'USERS.SET_COLOUR'
 	}
 };
 
@@ -41,6 +42,12 @@ export interface SyncUsersFailedAction {
 	error: Error;
 }
 
+export interface SetUserColourAction {
+	type: typeof types.USERS.SET_COLOUR;
+	colour: number;
+	userId: string;
+}
+
 // --------------------------------------------------------
 // Action creators
 // --------------------------------------------------------
@@ -62,4 +69,10 @@ export const syncUsers = (users: { [key: string]: User }): SyncUsersAction => ({
 export const syncUsersFailed = (error: Error): SyncUsersFailedAction => ({
 	type: types.USERS.SYNC_FAILED,
 	error
+});
+
+export const setUserColour = (userId: string, colour: number): SetUserColourAction => ({
+	type: types.USERS.SET_COLOUR,
+	userId,
+	colour
 });

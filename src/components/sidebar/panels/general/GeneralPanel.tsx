@@ -3,16 +3,19 @@ import { Switch, FormControlLabel, Button, Tooltip } from '@material-ui/core';
 
 import styles from './GeneralPanel.module.css';
 import { NonPlayerCharacter, CharacterSpell } from '../../../../5e/models/Character';
+import { User } from '../../../../models/User';
 
 interface State {
 	roomUrlCopiedTooltipOpen: boolean;
 	roomUrlTooltipTimeout: any;
+	userColour: number;
 }
 
 interface Props {
 	dm: boolean;
 	canBeDm: boolean;
 	roomUrl: string;
+	currentUser: { user: User; firebaseUser: firebase.User };
 	nonPlayerCharacters: NonPlayerCharacter[];
 	spells: CharacterSpell[];
 	setDm: (val: boolean) => void;
@@ -21,6 +24,7 @@ interface Props {
 	updateSpell: (spellId: string, spell: CharacterSpell) => void;
 	saveNewSpell: (spell: CharacterSpell) => void;
 	logout: () => void;
+	updateUserColour: (userId: string, colour: number) => void;
 }
 
 export default class GeneralPanel extends Component<Props, State> {
@@ -32,13 +36,30 @@ export default class GeneralPanel extends Component<Props, State> {
 
 	state = {
 		roomUrlCopiedTooltipOpen: false,
-		roomUrlTooltipTimeout: null
+		roomUrlTooltipTimeout: null,
+		userColour:
+			this.props.currentUser && this.props.currentUser.user
+				? this.props.currentUser.user.colour
+				: 0xff0000
 	};
 
 	componentDidUpdate(prevProps, prevState): void {}
 
 	onChangeDm = (e): void => {
 		this.props.setDm(!e.target.checked);
+	};
+
+	private _hexToInt = (x: string): number => parseInt(x.replace('#', '0x'), 16);
+	private _intToHex = (x: number): string => `#${x.toString(16)}`;
+
+	onChangeUserColour = (e): void => {
+		const col = this._hexToInt(e.target.value);
+
+		this.setState({
+			userColour: col
+		});
+
+		this.props.updateUserColour(this.props.currentUser.firebaseUser.uid, col);
 	};
 
 	copyRoomUrl = (): void => {
@@ -131,6 +152,25 @@ export default class GeneralPanel extends Component<Props, State> {
 			<div className={styles.generalPanel}>
 				<h1>General</h1>
 				<div className={styles.settingWrapper}>
+					<div className={styles.settingRow}>
+						<input
+							type="color"
+							id="userColour"
+							name="userColour"
+							onChange={this.onChangeUserColour}
+							value={this._intToHex(this.state.userColour)}
+							style={{
+								margin: '.4rem'
+							}}
+						/>
+						<label
+							htmlFor="userColour"
+							style={{ font: '1rem "Fira Sans", sans-serif' }}
+						>
+							User Colour
+						</label>
+					</div>
+
 					{this.props.dm && (
 						<div>
 							<div className={styles.settingRow}>

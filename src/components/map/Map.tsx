@@ -52,6 +52,7 @@ interface OwnProps {
 	measureModeEnabled: boolean;
 	fogEditMode: boolean;
 	fogAddMode: boolean;
+	userColour: number;
 	onUpdateFogPolygon: (
 		mapId: string,
 		fogPolygonId: string,
@@ -337,7 +338,11 @@ class Map extends Component<Props, State> {
 		}
 
 		if (!this.props.mapData) {
-			return <div>No Map</div>;
+			return (
+				<div className={styles.noMapWrapper}>
+					<div className={styles.noMapText}>No Map</div>
+				</div>
+			);
 		}
 
 		const { objects, backgroundColour } = this.props.mapData;
@@ -380,10 +385,10 @@ class Map extends Component<Props, State> {
 					{this.props.measureModeEnabled && (
 						<span className={styles.controlState}>MEASURING MODE</span>
 					)}
-					{this.props.fogEditMode && (
+					{this.props.dm && this.props.fogEditMode && (
 						<span className={styles.controlState}>FOG EDIT MODE</span>
 					)}
-					{this.props.fogAddMode && (
+					{this.props.dm && this.props.fogAddMode && (
 						<span className={styles.controlState}>FOG ADD MODE</span>
 					)}
 				</div>
@@ -612,6 +617,7 @@ class Map extends Component<Props, State> {
 										<Ping
 											key={x}
 											// app={app}
+											colour={this.props.userColour}
 											position={new PIXI.Point(p.position.x, p.position.y)}
 											viewportZoom={this.state.viewportZoom}
 										/>

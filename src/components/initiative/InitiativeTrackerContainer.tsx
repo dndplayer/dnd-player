@@ -67,19 +67,12 @@ class InitiativeTrackerContainer extends Component<Props, State> {
 				this.props.updatePlayerCharacter(pcId, { ...char, hp: newHp.hp });
 			}
 		} else if (npcTokenId) {
-			// TODO: Update Map Token
-
 			const token = this.props.map.objects[npcTokenId];
 
 			this.props.updateToken(this.props.map.id, npcTokenId, {
 				...token,
 				hp: { value: newHp.hp, max: newHp.max || newHp.hp }
 			});
-
-			// const char = this.props.nonPlayerCharacters.find(x => x.id === npcId);
-			// if (char) {
-			// 	this.props.updateNonPlayerCharacter(npcId, { ...char, hp: newHp });
-			// }
 		}
 	}
 

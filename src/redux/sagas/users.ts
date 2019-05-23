@@ -1,4 +1,4 @@
-import { all, fork, delay, takeEvery, put, select } from 'redux-saga/effects';
+import { all, fork, delay, takeEvery, put, select, call } from 'redux-saga/effects';
 
 import rsf from '../rsf';
 import firebase from 'firebase/app';
@@ -10,7 +10,8 @@ import {
 	syncUsers,
 	syncUsersFailed,
 	SyncUsersAction,
-	types
+	types,
+	SetUserColourAction
 } from '../actions/users';
 import { setCanBeDm } from '../actions/auth';
 
@@ -71,11 +72,18 @@ function* checkDmStateSaga(action: SyncUsersAction): any {
 	}
 }
 
+function* setUserColourSaga(action: SetUserColourAction): any {
+	yield call(rsf.database.patch, firebase.database(rsf.app).ref(`/users/${action.userId}`), {
+		colour: action.colour
+	});
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function* rootSaga(): any {
 	yield all([
 		fork(updatePresenceSaga),
 		fork(updateUsersSaga),
-		takeEvery(types.USERS.SYNC, checkDmStateSaga)
+		takeEvery(types.USERS.SYNC, checkDmStateSaga),
+		takeEvery(types.USERS.SET_COLOUR, setUserColourSaga)
 	]);
 }

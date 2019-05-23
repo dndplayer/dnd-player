@@ -86,7 +86,7 @@ export default class InitiativeToken extends Component<Props, State> {
 						X
 					</div>
 				)}
-				{this.props.dm && <div className={styles.ac}>{ac}</div>}
+				{(this.props.isPc || this.props.dm) && <div className={styles.ac}>{ac}</div>}
 				{hpOpen && (
 					<Zoom in={hpOpen}>
 						<Paper elevation={4}>

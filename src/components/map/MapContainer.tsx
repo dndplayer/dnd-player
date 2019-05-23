@@ -15,6 +15,9 @@ import {
 } from '../../redux/actions/maps';
 import { MapPing } from '../../models/MapPing';
 import { mapPingsSendPing } from '../../redux/actions/mapPings';
+import { getUserColour } from '../../redux/selectors/users';
+
+import styles from './Map.module.scss';
 
 interface StateProps {
 	maps: MapData[];
@@ -30,6 +33,7 @@ interface StateProps {
 	fogEditMode: boolean;
 	fogAddMode: boolean;
 	keyShiftDown: boolean;
+	userColour: number;
 }
 interface DispatchProps {
 	onUpdateObject: (mapId, mapObjectId, newData) => void;
@@ -71,13 +75,18 @@ class MapContainer extends Component<Props> {
 			measureModeEnabled,
 			fogEditMode,
 			fogAddMode,
-			onUpdateFogPolygon
+			onUpdateFogPolygon,
+			userColour
 		} = this.props;
 
 		const map = maps ? maps.find(x => x.id === activeMapId) : null;
 
 		if (!map) {
-			return <div>No Map</div>;
+			return (
+				<div className={styles.noMapWrapper}>
+					<div className={styles.noMapText}>No Map</div>
+				</div>
+			);
 		}
 
 		return (
@@ -94,6 +103,7 @@ class MapContainer extends Component<Props> {
 				images={images}
 				dm={dm}
 				user={user}
+				userColour={userColour}
 				sendPing={sendPing}
 				mapPings={mapPings}
 				keyShiftDown={keyShiftDown}
@@ -120,7 +130,8 @@ const mapStateToProps = (state): StateProps => ({
 	keyShiftDown: state.keys.shiftDown,
 	measureModeEnabled: state.maps.measureModeEnabled,
 	fogEditMode: state.maps.fogEditMode,
-	fogAddMode: state.maps.fogAddMode
+	fogAddMode: state.maps.fogAddMode,
+	userColour: getUserColour(state)
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	onUpdateObject: (mapId, mapObjectId, data) =>

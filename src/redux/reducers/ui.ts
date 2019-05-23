@@ -10,6 +10,7 @@ interface State {
 	sidebarOpen: boolean;
 	sidebarPanel?: OverlayPanelTypes;
 	initiativeTrackerOpen: boolean;
+	userListOpen: boolean;
 }
 
 export const initialState: State = {
@@ -18,7 +19,8 @@ export const initialState: State = {
 	},
 	sidebarOpen: false,
 	sidebarPanel: null,
-	initiativeTrackerOpen: false
+	initiativeTrackerOpen: false,
+	userListOpen: true
 };
 
 export default function uiReducer(state = initialState, action: any = {}) {
@@ -68,6 +70,21 @@ export default function uiReducer(state = initialState, action: any = {}) {
 			return {
 				...state,
 				initiativeTrackerOpen: !state.initiativeTrackerOpen
+			};
+		case types.UI.USER_LIST.OPEN:
+			return {
+				...state,
+				userListOpen: true
+			};
+		case types.UI.USER_LIST.CLOSE:
+			return {
+				...state,
+				userListOpen: false
+			};
+		case types.UI.USER_LIST.TOGGLE:
+			return {
+				...state,
+				userListOpen: !state.userListOpen
 			};
 		default:
 			return state;
