@@ -83,7 +83,16 @@ export default class WindowPortal extends Component<Props, State> {
 
 		win.addEventListener(
 			'beforeunload',
-			(): void => this.props.onClose && this.props.onClose()
+			(): void => {
+				this.props.onClose && this.props.onClose();
+			}
+		);
+
+		window.addEventListener(
+			'beforeunload',
+			(): void => {
+				this.state.win && this.state.win.close();
+			}
 		);
 
 		this.setState({
