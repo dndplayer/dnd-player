@@ -17,6 +17,7 @@ export default class Userlist extends Component<Props> {
 					!this.props.open ? styles.hidden : styles.visible
 				].join(' ')}
 			>
+				<div className={styles.header}>User List</div>
 				<ul className={styles.listStyle}>
 					{this.props.users.map(x => (
 						// Change this to use id as key
@@ -24,7 +25,10 @@ export default class Userlist extends Component<Props> {
 							key={x.name}
 							className={styles.user}
 							style={{
-								color: x.colour ? `#${x.colour.toString(16)}` : '#fff'
+								color: x.colour ? `#${x.colour.toString(16)}` : '#fff',
+								textShadow: `${
+									x.colour ? `#${x.colour.toString(16)}` : '#fff'
+								} 0px 0px 3px`
 							}}
 						>
 							{x.name}
