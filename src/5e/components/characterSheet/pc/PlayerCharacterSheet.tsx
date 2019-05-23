@@ -32,10 +32,10 @@ interface Props {
 }
 
 export const ProficiencyClassMap = {
-	0: 'none',
-	0.5: 'half-proficienct',
-	1: 'proficient',
-	2: 'expertise'
+	0: css.none,
+	0.5: css.halfProficient,
+	1: css.proficient,
+	2: css.expertise
 };
 
 export default class PlayerCharacterSheet extends React.Component<Props, {}> {

@@ -39,7 +39,7 @@ export default class Skill extends React.Component<Props, {}> {
 					D
 				</div>
 				<div className={css.skillWrapper}>
-					<div className={`${css.skillProficiency}${proficiencyClass}`} />
+					<div className={`${css.skillProficiency} ${proficiencyClass}`} />
 					<div className={css.skillAbility}>{Rules.getShortAbilityName(ability)}</div>
 					<div className={css.skillTitle}>{Rules.getLongSkillName(skill)}</div>
 					<div className={css.skillModifier}>
