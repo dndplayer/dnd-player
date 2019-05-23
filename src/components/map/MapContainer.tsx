@@ -18,6 +18,8 @@ import { mapPingsSendPing } from '../../redux/actions/mapPings';
 import { getUserColour } from '../../redux/selectors/users';
 
 import styles from './Map.module.scss';
+import { User } from '../../models/User';
+import { AppState } from '../../redux/reducers';
 
 interface StateProps {
 	maps: MapData[];
@@ -28,7 +30,8 @@ interface StateProps {
 	images: Upload[];
 	dm: boolean;
 	user: firebase.User;
-	mapPings: MapPing[];
+	users: { [key: string]: User };
+	mapPings: { [key: string]: MapPing };
 	measureModeEnabled: boolean;
 	fogEditMode: boolean;
 	fogAddMode: boolean;
@@ -68,6 +71,7 @@ class MapContainer extends Component<Props> {
 			images,
 			dm,
 			user,
+			users,
 			sendPing,
 			mapPings,
 			keyShiftDown,
@@ -103,6 +107,7 @@ class MapContainer extends Component<Props> {
 				images={images}
 				dm={dm}
 				user={user}
+				users={users}
 				userColour={userColour}
 				sendPing={sendPing}
 				mapPings={mapPings}
@@ -117,13 +122,14 @@ class MapContainer extends Component<Props> {
 	}
 }
 
-const mapStateToProps = (state): StateProps => ({
+const mapStateToProps = (state: AppState): StateProps => ({
 	selectedObjects: state.maps.selectedObjects,
 	images: state.images.images,
 	playerCharacters: state.assets.playerCharacters,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
 	dm: state.auth.dm,
 	user: state.auth.user,
+	users: state.users.users,
 	maps: state.maps.maps,
 	activeMapId: state.globalState.state ? state.globalState.state.activeMapId : null,
 	mapPings: state.mapPings.pings,

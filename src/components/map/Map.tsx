@@ -23,6 +23,7 @@ import { ViewportComponent } from './Viewport';
 import { MapPing } from '../../models/MapPing';
 import Ping from './objects/OldPing';
 import EditablePolygon from './objects/editable/EditablePolygon';
+import { User } from '../../models/User';
 
 // import Ping from './objects/NewPing';
 
@@ -45,8 +46,9 @@ interface OwnProps {
 	images: Upload[];
 	dm: boolean;
 	user: firebase.User;
+	users: { [key: string]: User };
 	sendPing: (ping: MapPing) => void;
-	mapPings: MapPing[];
+	mapPings: { [key: string]: MapPing };
 	keyShiftDown: boolean;
 	toggleMeasureMode: (val?: boolean) => void;
 	measureModeEnabled: boolean;
@@ -612,12 +614,13 @@ class Map extends Component<Props, State> {
 									thickness={3}
 								/>
 								{Object.keys(this.props.mapPings).map(x => {
-									const p = this.props.mapPings[x];
+									const p: MapPing = this.props.mapPings[x];
+									const sourceUser = this.props.users[p.userId];
 									return (
 										<Ping
 											key={x}
 											// app={app}
-											colour={this.props.userColour}
+											colour={sourceUser ? sourceUser.colour : 0xff0000}
 											position={new PIXI.Point(p.position.x, p.position.y)}
 											viewportZoom={this.state.viewportZoom}
 										/>

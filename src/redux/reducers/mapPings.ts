@@ -2,7 +2,7 @@ import { types, MapPingsAddPingAction, MapPingsRemovePingAction } from '../actio
 import { MapPing } from '../../models/MapPing';
 
 interface State {
-	pings: {};
+	pings: { [key: string]: MapPing };
 }
 
 export const initialState: State = {
