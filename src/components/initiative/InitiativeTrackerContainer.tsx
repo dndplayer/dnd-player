@@ -57,7 +57,12 @@ class InitiativeTrackerContainer extends Component<Props, State> {
 			return;
 		}
 
-		this.props.setCurrentTurn(rolls[1].id);
+		let nextRollId = rolls[1].id;
+		if (rolls.findIndex(x => x.id === this.props.currentTurnId) < 0) {
+			nextRollId = rolls[0].id;
+		}
+
+		this.props.setCurrentTurn(nextRollId);
 	}
 
 	modifyHp(newHp: any, pcId?: string, npcTokenId?: string): void {
