@@ -11,7 +11,8 @@ import {
 	mapsAddImage,
 	mapsSelectObject,
 	mapsToggleMeasureMode,
-	mapsUpdateFogPolygon
+	mapsUpdateFogPolygon,
+	mapsSelectObjects
 } from '../../redux/actions/maps';
 import { MapPing } from '../../models/MapPing';
 import { mapPingsSendPing } from '../../redux/actions/mapPings';
@@ -43,6 +44,7 @@ interface DispatchProps {
 	onAddAssetToMap: (mapId, assetType, assetId, initialData) => void;
 	onAddImageToMap: (mapId, imageRef, initialData) => void;
 	onSelectObject: (mapObjectId) => void;
+	onSelectObjects: (mapObjectIds: string[]) => void;
 	sendPing: (ping: MapPing) => void;
 	toggleMeasureMode: (val?: boolean) => void;
 	onUpdateFogPolygon: (
@@ -64,6 +66,7 @@ class MapContainer extends Component<Props> {
 			selectedObjects,
 			onUpdateObject,
 			onSelectObject,
+			onSelectObjects,
 			onAddAssetToMap,
 			onAddImageToMap,
 			playerCharacters,
@@ -104,6 +107,7 @@ class MapContainer extends Component<Props> {
 				onAddAssetToMap={onAddAssetToMap}
 				onAddImageToMap={onAddImageToMap}
 				onSelectObject={onSelectObject}
+				onSelectObjects={onSelectObjects}
 				images={images}
 				dm={dm}
 				user={user}
@@ -147,6 +151,7 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 	onAddImageToMap: (mapId, imageRef, initialData) =>
 		dispatch(mapsAddImage(mapId, imageRef, initialData)),
 	onSelectObject: data => dispatch(mapsSelectObject(data)),
+	onSelectObjects: data => dispatch(mapsSelectObjects(data)),
 	sendPing: (ping: MapPing) => dispatch(mapPingsSendPing(ping)),
 	toggleMeasureMode: (val?: boolean) => dispatch(mapsToggleMeasureMode(val)),
 	onUpdateFogPolygon: (

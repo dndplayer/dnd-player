@@ -3,7 +3,7 @@ import { Stage, Sprite, Container, PixiComponent, AppConsumer, Graphics } from '
 import * as PIXI from 'pixi.js';
 import { v4 } from 'uuid';
 
-import { MapData } from '../../models/Map';
+import { MapData, MapObject } from '../../models/Map';
 
 import { DropTarget, DropTargetMonitor } from 'react-dnd';
 import types from '../../constants/dragdroptypes';
@@ -44,6 +44,7 @@ interface OwnProps {
 	onAddAssetToMap: (mapId, assetType, assetId, initialData) => void;
 	onAddImageToMap: (mapId, imageRef, initialData) => void;
 	onSelectObject: (mapObjectId) => void;
+	onSelectObjects: (mapObjectIds: string[]) => void;
 	images: Upload[];
 	dm: boolean;
 	user: firebase.User;
@@ -347,11 +348,28 @@ class Map extends Component<Props, State> {
 				//       doing this efficiently would be nice but not sure there is a way
 				//       that isn't just checking every object, it's not like we have an Octree or
 				//       something :(
+
+				const dragRect = new PIXI.Rectangle(
+					this.state.boxSelectStart.x,
+					this.state.boxSelectStart.y,
+					this.state.boxSelectEnd.x - this.state.boxSelectStart.x,
+					this.state.boxSelectEnd.y - this.state.boxSelectStart.y
+				);
+
+				const selectedObjects = Object.keys(this.props.mapData.objects).filter(x => {
+					const o: MapObject = this.props.mapData.objects[x];
+
+					return dragRect.contains(o.position.x, o.position.y);
+				});
+
+				this.props.onSelectObjects(selectedObjects);
+
 				console.log(
 					`Box Select (${this.state.boxSelectStart.x}, ${
 						this.state.boxSelectStart.y
 					}) -> (${this.state.boxSelectEnd.x}, ${this.state.boxSelectEnd.y})`
 				);
+				console.log(selectedObjects);
 				this.setState({ boxSelectStart: null, boxSelectEnd: null });
 			}
 		);

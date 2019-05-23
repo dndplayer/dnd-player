@@ -22,7 +22,8 @@ export const types = {
 			ADD: 'MAPS.IMAGE.ADD'
 		},
 		SELECT: {
-			OBJECT: 'MAPS.SELECT.OBJECT'
+			OBJECT: 'MAPS.SELECT.OBJECT',
+			OBJECTS: 'MAPS.SELECT.OBJECTS'
 		},
 		MEASURE_MODE: {
 			TOGGLE: 'MAPS.MEASURE_MODE.TOGGLE'
@@ -62,6 +63,10 @@ export interface MapsUpdateObjectAction extends Action {
 
 export interface MapsSelectObjectAction extends Action {
 	mapObjectId: string;
+}
+
+export interface MapsSelectObjectsAction extends Action {
+	mapObjectIds: string[];
 }
 
 export interface MapsAddAssetAction extends Action {
@@ -153,6 +158,11 @@ export const mapsAddImage = (mapId, imageRef, initialData = null): MapsAddImageA
 export const mapsSelectObject = (mapObjectId): MapsSelectObjectAction => ({
 	type: types.MAPS.SELECT.OBJECT,
 	mapObjectId
+});
+
+export const mapsSelectObjects = (mapObjectIds: string[]): MapsSelectObjectsAction => ({
+	type: types.MAPS.SELECT.OBJECTS,
+	mapObjectIds
 });
 
 export const mapsUpdateBackgroundColour = (mapId, colour): MapsUpdateBackgroundColourAction => ({

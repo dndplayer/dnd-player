@@ -5,7 +5,8 @@ import {
 	MapsSelectObjectAction,
 	MapsToggleMeasureModeAction,
 	EnableFogEditModeAction,
-	DisableFogEditModeAction
+	DisableFogEditModeAction,
+	MapsSelectObjectsAction
 } from '../actions/maps';
 import { MapData } from '../../models/Map';
 
@@ -48,6 +49,13 @@ export default function mapsReducer(state: State = initialState, action: any = {
 			return {
 				...state,
 				selectedObjects: a.mapObjectId ? [a.mapObjectId] : []
+			};
+		}
+		case types.MAPS.SELECT.OBJECTS: {
+			const a = action as MapsSelectObjectsAction;
+			return {
+				...state,
+				selectedObjects: a.mapObjectIds ? a.mapObjectIds : []
 			};
 		}
 		case types.MAPS.MEASURE_MODE.TOGGLE: {
