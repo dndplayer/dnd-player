@@ -49,8 +49,8 @@ export default class GeneralPanel extends Component<Props, State> {
 		this.props.setDm(!e.target.checked);
 	};
 
-	private _hexToInt = (x: string): number => parseInt(x.replace('#', '0x'), 16);
-	private _intToHex = (x: number): string => `#${x.toString(16)}`;
+	private _hexToInt = (x: string): number => (x ? parseInt(x.replace('#', '0x'), 16) : 0);
+	private _intToHex = (x: number): string => `#${(x || 0).toString(16)}`;
 
 	onChangeUserColour = (e): void => {
 		const col = this._hexToInt(e.target.value);
