@@ -1,5 +1,7 @@
 import { all, call, fork, select, takeEvery, put, delay } from 'redux-saga/effects';
 
+import { Howl, Howler } from 'howler';
+
 import { types, syncChatMessages, syncChatFailed, closeChat } from '../actions/chat';
 
 import rsf from '../rsf';
@@ -78,6 +80,13 @@ function* syncMessagesSaga(): any {
 function* updateCurrentTimeSaga(): any {
 	yield delay(7000);
 	yield put(updateTime());
+
+	// TODO: Add a setting to enable/disable sounds
+	var sound = new Howl({
+		src: [`${process.env.PUBLIC_URL}/sounds/plucky.mp3`]
+	});
+
+	sound.play();
 }
 
 export default function* rootSaga() {
