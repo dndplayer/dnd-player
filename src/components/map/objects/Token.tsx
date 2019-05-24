@@ -40,6 +40,7 @@ export default PixiComponent<Props, TokenContainer>('Token', {
 
 		cont.isSelectable = props.isSelectable || true;
 		cont.onSelected = props.onSelected;
+		cont.onMove = props.onMove;
 		cont.onUpdateObject = props.onUpdateObject;
 		cont.layerName = props.layerName;
 		cont.mapObjectId = props.mapObjectId;

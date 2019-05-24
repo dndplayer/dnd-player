@@ -344,35 +344,61 @@ class Map extends Component<Props, State> {
 					this.setState({ measureStart: null, measureEnd: null, measuredDistance: null });
 				}
 
-				// TODO: Calculate box select before resetting to null
-				//       doing this efficiently would be nice but not sure there is a way
-				//       that isn't just checking every object, it's not like we have an Octree or
-				//       something :(
+				if (this.state.boxSelectStart && this.state.boxSelectEnd) {
+					// TODO: Calculate box select before resetting to null
+					//       doing this efficiently would be nice but not sure there is a way
+					//       that isn't just checking every object, it's not like we have an Octree or
+					//       something :(
 
-				const dragRect = new PIXI.Rectangle(
-					this.state.boxSelectStart.x,
-					this.state.boxSelectStart.y,
-					this.state.boxSelectEnd.x - this.state.boxSelectStart.x,
-					this.state.boxSelectEnd.y - this.state.boxSelectStart.y
-				);
+					const dragRect = new PIXI.Rectangle(
+						this.state.boxSelectStart.x,
+						this.state.boxSelectStart.y,
+						this.state.boxSelectEnd.x - this.state.boxSelectStart.x,
+						this.state.boxSelectEnd.y - this.state.boxSelectStart.y
+					);
 
-				const selectedObjects = Object.keys(this.props.mapData.objects).filter(x => {
-					const o: MapObject = this.props.mapData.objects[x];
+					const selectedObjects = Object.keys(this.props.mapData.objects).filter(x => {
+						const o: MapObject = this.props.mapData.objects[x];
 
-					return dragRect.contains(o.position.x, o.position.y);
-				});
+						return dragRect.contains(o.position.x, o.position.y);
+					});
 
-				this.props.onSelectObjects(selectedObjects);
+					this.props.onSelectObjects(selectedObjects);
 
-				console.log(
-					`Box Select (${this.state.boxSelectStart.x}, ${
-						this.state.boxSelectStart.y
-					}) -> (${this.state.boxSelectEnd.x}, ${this.state.boxSelectEnd.y})`
-				);
-				console.log(selectedObjects);
+					console.log(
+						`Box Select (${this.state.boxSelectStart.x}, ${
+							this.state.boxSelectStart.y
+						}) -> (${this.state.boxSelectEnd.x}, ${this.state.boxSelectEnd.y})`
+					);
+					console.log(selectedObjects);
+				}
+
 				this.setState({ boxSelectStart: null, boxSelectEnd: null });
 			}
 		);
+	};
+
+	handleMultiDrag = (dX, dY, sourceMapObjectId) => {
+		console.log(`${sourceMapObjectId} - ${dX},${dY}`);
+
+		if (this.props.selectedObjects && this.props.selectedObjects.length > 1) {
+			const otherObjects: MapObject[] = this.props.selectedObjects
+				.filter(x => x !== sourceMapObjectId)
+				.map(x => ({
+					...this.props.mapData.objects[x],
+					id: x
+				}));
+
+			// TODO: This isn't correct because dX & dY are offsets from the drag start,
+			// so this keeps adding the value over and over to the position.
+			// Either dX & dY should be between each frame OR this needs to somehow
+			// store the start drag pos here also.
+			otherObjects.forEach(x => {
+				this.props.onUpdateObject(this.props.mapData.id, x.id, {
+					position: { x: x.position.x + dX, y: x.position.y + dY }
+				});
+			});
+		}
 	};
 
 	render(): ReactNode {
@@ -620,6 +646,7 @@ class Map extends Component<Props, State> {
 															layerName={layer}
 															visibility={visibility}
 															viewportZoom={this.state.viewportZoom}
+															onMove={this.handleMultiDrag}
 														/>
 													);
 												})}
@@ -689,7 +716,9 @@ class Map extends Component<Props, State> {
 											g.clear();
 											g.lineStyle(
 												5.2 * (1 / this.state.viewportZoom),
-												0xff0000
+												0xff0000,
+												0.7,
+												0.5
 											);
 											g.drawRect(
 												this.state.boxSelectStart.x,

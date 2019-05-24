@@ -10,6 +10,7 @@ export interface DraggableContainerProps extends MapObjectProps {
 	isSelectable?: boolean;
 	viewportZoom: number;
 	range?: number;
+	onMove?: (dX: number, dY: number, sourceMapObjectId: string) => void;
 }
 
 export default class DraggableContainer extends MapObject {
@@ -19,6 +20,7 @@ export default class DraggableContainer extends MapObject {
 	public dragData?: any; // Keep track of dragging event data during drag
 	public dragLocked: boolean; // Lock the token so it can't be dragged
 	public clickedAvailable: boolean; // When a drag starts this is true until it can no longer be considered a click I.E. Movement has occurred.
+	public onMove?: (dX: number, dY: number, sourceMapObjectId: string) => void;
 
 	public hoverFilters: any[] = [new OutlineFilter(4, 0xff0000)]; // Filters to be applied when hovering over this token
 	public dragFilters: any[] = [new PIXI.filters.AlphaFilter(0.7)]; // Filters to be applied when dragging this token
@@ -147,8 +149,14 @@ export default class DraggableContainer extends MapObject {
 			) {
 				this.clickedAvailable = false;
 				const newPos = this.dragData.getLocalPosition(e.currentTarget.parent);
+
 				this.x = newPos.x - (this.dragGrabOffset ? this.dragGrabOffset.x : 0);
 				this.y = newPos.y - (this.dragGrabOffset ? this.dragGrabOffset.y : 0);
+
+				if (this.onMove) {
+					this.onMove(dX, dY, this.mapObjectId);
+				}
+
 				if (this._ruler) {
 					const start = new PIXI.Point(
 						this.dragStartPosition.x - this.dragGrabOffset.x * this.viewportZoom,

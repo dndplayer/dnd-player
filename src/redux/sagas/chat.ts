@@ -12,6 +12,10 @@ import { addInitiativeRoll } from '../actions/initiative';
 import { AdvantageType, RollData } from '../../models/ChatMessage';
 import { AppState } from '../reducers';
 
+// This isn't neccessarily ideal, having this as a global
+// variable, but should work for now to limit repeat sounds.
+let lastSoundPlayedAt: number = null;
+
 function* saveNewChatMessage(action): any {
 	// const msg = yield select(state => state.chat.newMessage);
 	const currentUser: firebase.User = yield select(state => state.auth.user);
@@ -78,9 +82,12 @@ function* syncMessagesSaga(): any {
 		'value'
 	);
 }
+
 function* updateCurrentTimeSaga(): any {
 	const soundsMuted = yield select((state: AppState) => state.ui.soundsMuted);
-	if (!soundsMuted) {
+	const now = new Date().getTime();
+	if (!soundsMuted && (!lastSoundPlayedAt || lastSoundPlayedAt < now - 800)) {
+		lastSoundPlayedAt = now;
 		var sound = new Howl({
 			src: [`${process.env.PUBLIC_URL}/sounds/plucky.mp3`]
 		});
