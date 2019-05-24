@@ -11,6 +11,8 @@ import { updateSpell, saveNewSpell } from '../../../../redux/actions/spells';
 import { setUserColour } from '../../../../redux/actions/users';
 import { getCurrentUser } from '../../../../redux/selectors/users';
 import { User } from '../../../../models/User';
+import { AppState } from '../../../../redux/reducers';
+import { muteSounds, unmuteSounds } from '../../../../redux/actions/ui';
 
 interface StateProps {
 	dm: boolean;
@@ -18,6 +20,7 @@ interface StateProps {
 	nonPlayerCharacters: NonPlayerCharacter[];
 	spells: CharacterSpell[];
 	currentUser: { user: User; firebaseUser: firebase.User };
+	soundsMuted: boolean;
 }
 interface DispatchProps {
 	setDm: (val: boolean) => void;
@@ -27,6 +30,7 @@ interface DispatchProps {
 	saveNewSpell: (spell: CharacterSpell) => void;
 	logout: () => void;
 	updateUserColour: (userId: string, colour: number) => void;
+	setSoundsMuted: (val: boolean) => void;
 }
 
 interface OwnProps {}
@@ -56,17 +60,20 @@ class GeneralPanelContainer extends Component<Props> {
 				saveNewSpell={this.props.saveNewSpell}
 				logout={this.props.logout}
 				updateUserColour={this.props.updateUserColour}
+				soundsMuted={this.props.soundsMuted}
+				setSoundsMuted={this.props.setSoundsMuted}
 			/>
 		);
 	}
 }
 
-const mapStateToProps = (state): StateProps => ({
+const mapStateToProps = (state: AppState): StateProps => ({
 	dm: state.auth.dm,
 	canBeDm: state.auth.canBeDm,
 	nonPlayerCharacters: state.assets.nonPlayerCharacters,
 	spells: state.spells.spells,
-	currentUser: getCurrentUser(state)
+	currentUser: getCurrentUser(state),
+	soundsMuted: state.ui.soundsMuted
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	setDm: (val: boolean) => dispatch(setDm(val)),
@@ -77,7 +84,9 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 	updateSpell: (spellId: string, spell: CharacterSpell) => dispatch(updateSpell(spellId, spell)),
 	saveNewSpell: (spell: CharacterSpell) => dispatch(saveNewSpell(spell)),
 	logout: () => dispatch(logout()),
-	updateUserColour: (userId: string, colour: number) => dispatch(setUserColour(userId, colour))
+	updateUserColour: (userId: string, colour: number) => dispatch(setUserColour(userId, colour)),
+	setSoundsMuted: (val: boolean) =>
+		val === true ? dispatch(muteSounds()) : dispatch(unmuteSounds())
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

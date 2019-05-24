@@ -1,5 +1,12 @@
-import { types, PropertyPanelVisibilityAction, SidebarOpenPanelAction } from '../actions/ui';
+import {
+	types,
+	PropertyPanelVisibilityAction,
+	SidebarOpenPanelAction,
+	SoundsMuteAction
+} from '../actions/ui';
 import { OverlayPanelTypes } from '../../models/OverlayPanelTypes';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 interface PropertyPanelState {
 	visible: boolean;
@@ -11,6 +18,7 @@ interface State {
 	sidebarPanel?: OverlayPanelTypes;
 	initiativeTrackerOpen: boolean;
 	userListOpen: boolean;
+	soundsMuted: boolean;
 }
 
 export const initialState: State = {
@@ -20,10 +28,11 @@ export const initialState: State = {
 	sidebarOpen: false,
 	sidebarPanel: null,
 	initiativeTrackerOpen: false,
-	userListOpen: true
+	userListOpen: true,
+	soundsMuted: false
 };
 
-export default function uiReducer(state = initialState, action: any = {}) {
+function uiReducer(state = initialState, action: any = {}) {
 	switch (action.type) {
 		case types.UI.PROPERTY_PANEL.VISIBILITY:
 			const a = action as PropertyPanelVisibilityAction;
@@ -86,7 +95,30 @@ export default function uiReducer(state = initialState, action: any = {}) {
 				...state,
 				userListOpen: !state.userListOpen
 			};
+		case types.UI.SOUNDS.MUTE: {
+			const a = action as SoundsMuteAction;
+			return {
+				...state,
+				soundsMuted: a.val !== undefined && a.val !== null ? a.val : true
+			};
+		}
+		case types.UI.SOUNDS.UNMUTE:
+			return {
+				...state,
+				soundsMuted: false
+			};
+		case types.UI.SOUNDS.TOGGLE_MUTED:
+			return {
+				...state,
+				soundsMuted: !state.soundsMuted
+			};
 		default:
 			return state;
 	}
 }
+
+const persistConfig = {
+	key: 'ui',
+	storage
+};
+export default persistReducer(persistConfig, uiReducer);

@@ -25,6 +25,8 @@ interface Props {
 	saveNewSpell: (spell: CharacterSpell) => void;
 	logout: () => void;
 	updateUserColour: (userId: string, colour: number) => void;
+	setSoundsMuted: (val: boolean) => void;
+	soundsMuted: boolean;
 }
 
 export default class GeneralPanel extends Component<Props, State> {
@@ -47,6 +49,10 @@ export default class GeneralPanel extends Component<Props, State> {
 
 	onChangeDm = (e): void => {
 		this.props.setDm(!e.target.checked);
+	};
+
+	onChangeSoundsMuted = (e): void => {
+		this.props.setSoundsMuted(e.target.checked);
 	};
 
 	private _hexToInt = (x: string): number => (x ? parseInt(x.replace('#', '0x'), 16) : 0);
@@ -215,6 +221,17 @@ export default class GeneralPanel extends Component<Props, State> {
 							/>
 						</div>
 					)}
+					<div className={styles.settingRow}>
+						<FormControlLabel
+							control={
+								<Switch
+									checked={this.props.soundsMuted}
+									onChange={this.onChangeSoundsMuted}
+								/>
+							}
+							label="Mute sounds"
+						/>
+					</div>
 				</div>
 			</div>
 		);

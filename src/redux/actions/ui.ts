@@ -21,6 +21,11 @@ export const types = {
 			OPEN: 'UI.USER_LIST.OPEN',
 			CLOSE: 'UI.USER_LIST.CLOSE',
 			TOGGLE: 'UI.USER_LIST.TOGGLE'
+		},
+		SOUNDS: {
+			MUTE: 'UI.SOUNDS.MUTE',
+			UNMUTE: 'UI.SOUNDS.UNMUTE',
+			TOGGLE_MUTED: 'UI.SOUNDS.TOGGLE_MUTED'
 		}
 	}
 };
@@ -44,6 +49,12 @@ export interface InitiativeTrackerToggleAction extends Action {}
 export interface UserListOpenAction extends Action {}
 export interface UserListCloseAction extends Action {}
 export interface UserListToggleAction extends Action {}
+
+export interface SoundsMuteAction extends Action {
+	val?: boolean;
+}
+export interface SoundsUnmuteAction extends Action {}
+export interface SoundsToggleMutedAction extends Action {}
 
 export interface SidebarOpenPanelAction extends Action {
 	panel: OverlayPanelTypes;
@@ -97,4 +108,17 @@ export const toggleUserList = (): UserListToggleAction => ({
 export const openPanel = (panel: OverlayPanelTypes): SidebarOpenPanelAction => ({
 	type: types.UI.SIDEBAR.OPEN_PANEL,
 	panel
+});
+
+export const muteSounds = (val?: boolean): SoundsMuteAction => ({
+	type: types.UI.SOUNDS.MUTE,
+	val: val || true
+});
+
+export const unmuteSounds = (): SoundsUnmuteAction => ({
+	type: types.UI.SOUNDS.UNMUTE
+});
+
+export const toggleSoundsMuted = (): SoundsToggleMutedAction => ({
+	type: types.UI.SOUNDS.TOGGLE_MUTED
 });

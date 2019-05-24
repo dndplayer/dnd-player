@@ -10,6 +10,7 @@ import 'firebase/database';
 import { updateTime } from '../actions/globalState';
 import { addInitiativeRoll } from '../actions/initiative';
 import { AdvantageType, RollData } from '../../models/ChatMessage';
+import { AppState } from '../reducers';
 
 function* saveNewChatMessage(action): any {
 	// const msg = yield select(state => state.chat.newMessage);
@@ -78,15 +79,17 @@ function* syncMessagesSaga(): any {
 	);
 }
 function* updateCurrentTimeSaga(): any {
+	const soundsMuted = yield select((state: AppState) => state.ui.soundsMuted);
+	if (!soundsMuted) {
+		var sound = new Howl({
+			src: [`${process.env.PUBLIC_URL}/sounds/plucky.mp3`]
+		});
+
+		sound.play();
+	}
+
 	yield delay(7000);
 	yield put(updateTime());
-
-	// TODO: Add a setting to enable/disable sounds
-	var sound = new Howl({
-		src: [`${process.env.PUBLIC_URL}/sounds/plucky.mp3`]
-	});
-
-	sound.play();
 }
 
 export default function* rootSaga() {
