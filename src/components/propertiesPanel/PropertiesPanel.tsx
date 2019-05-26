@@ -8,14 +8,7 @@ import TokenCharacterSheetContainer from '../../5e/components/characterSheet/Tok
 import { FormControlLabel, Switch, Button } from '@material-ui/core';
 import Token from '../map/objects/Token';
 
-const wrapperStyle = {
-	position: 'absolute' as 'absolute',
-	right: 0,
-	width: '300px',
-	top: 0,
-	bottom: 0,
-	backgroundColor: 'rgba(0, 0, 0, 0.5)'
-};
+import styles from './PropertiesPanel.module.scss';
 
 const PropertyRow = (props: any) => {
 	return <div style={{ marginTop: '10px' }}>{props.children}</div>;
@@ -171,6 +164,12 @@ export default class PropertiesPanel extends Component<Props, State> {
 						flexDirection: 'column'
 					}}
 				>
+					{this.props.selected && this.props.selected.length > 1 && (
+						<div className={styles.multiSelect}>
+							{this.props.selected.length} item
+							{this.props.selected.length > 1 ? 's' : ''} selected
+						</div>
+					)}
 					{object.npcId && (
 						<TokenCharacterSheetContainer
 							characterSheetId={object.npcId}
