@@ -10,7 +10,8 @@ export const types = {
 		},
 		UPDATE: {
 			OBJECT: 'MAPS.UPDATE.OBJECT',
-			BACKGROUND_COLOUR: 'MAPS.UPDATE.BACKGROUND_COLOUR'
+			BACKGROUND_COLOUR: 'MAPS.UPDATE.BACKGROUND_COLOUR',
+			LAYER_LOCKED: 'MAPS.UPDATE.LAYER_LOCKED'
 		},
 		REMOVE: {
 			OBJECT: 'MAPS.REMOVE.OBJECT'
@@ -115,6 +116,12 @@ export interface UpdateFogColourAction extends Action {
 export interface EnableFogAddModeAction extends Action {}
 export interface DisableFogAddModeAction extends Action {}
 export interface ToggleFogAddModeAction extends Action {}
+
+export interface SetLayerLockedAction extends Action {
+	mapId: string;
+	layerId: string;
+	locked: boolean;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -223,4 +230,15 @@ export const disableFogAddMode = (): DisableFogAddModeAction => ({
 
 export const toggleFogAddMode = (): ToggleFogAddModeAction => ({
 	type: types.MAPS.FOG.ADD.TOGGLE
+});
+
+export const setLayerLocked = (
+	mapId: string,
+	layerId: string,
+	locked: boolean
+): SetLayerLockedAction => ({
+	type: types.MAPS.UPDATE.LAYER_LOCKED,
+	mapId,
+	layerId,
+	locked
 });

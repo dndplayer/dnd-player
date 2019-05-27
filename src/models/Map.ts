@@ -21,6 +21,7 @@ export interface MapLayer {
 	name: string;
 	visibleTo?: string[]; // Group visibility in the future
 	zIndex?: number;
+	locked?: boolean;
 }
 
 export interface MapLayers {

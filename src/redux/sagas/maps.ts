@@ -13,7 +13,8 @@ import {
 	MapsUpdateObjectAction,
 	MapsRemoveObjectAction,
 	UpdateFogPolygonAction,
-	UpdateFogColourAction
+	UpdateFogColourAction,
+	SetLayerLockedAction
 } from '../actions/maps';
 import { AssetType } from '../../models/AssetType';
 
@@ -104,6 +105,14 @@ function* updateFogColour(action: UpdateFogColourAction): any {
 	yield call(rsf.database.update, `/maps/${mapId}/fog/colour`, colour);
 }
 
+function* updateLockedLayers(action: SetLayerLockedAction): any {
+	yield call(
+		rsf.database.update,
+		`/maps/${action.mapId}/layers/${action.layerId}/locked`,
+		action.locked
+	);
+}
+
 export default function* rootSaga() {
 	yield all([
 		fork(syncMapsSaga),
@@ -113,6 +122,7 @@ export default function* rootSaga() {
 		takeEvery(types.MAPS.REMOVE.OBJECT, removeObject),
 		takeEvery(types.MAPS.UPDATE.OBJECT, updateObject),
 		takeEvery(types.MAPS.FOG.UPDATE.POLYGON, updateFogPolygon),
-		takeEvery(types.MAPS.FOG.UPDATE.COLOUR, updateFogColour)
+		takeEvery(types.MAPS.FOG.UPDATE.COLOUR, updateFogColour),
+		takeEvery(types.MAPS.UPDATE.LAYER_LOCKED, updateLockedLayers)
 	]);
 }

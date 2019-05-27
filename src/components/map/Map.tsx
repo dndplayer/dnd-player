@@ -3,7 +3,7 @@ import { Stage, Sprite, Container, PixiComponent, AppConsumer, Graphics } from '
 import * as PIXI from 'pixi.js';
 import { v4 } from 'uuid';
 
-import { MapData, MapObject } from '../../models/Map';
+import { MapData, MapObject, MapLayer } from '../../models/Map';
 
 import { DropTarget, DropTargetMonitor } from 'react-dnd';
 import types from '../../constants/dragdroptypes';
@@ -497,6 +497,10 @@ class Map extends Component<Props, State> {
 								/> */}
 								{groupedObjects.sort(layerSortFunc).map(
 									(layer: GroupedMapObject): ReactNode => {
+										const lay = this.props.mapData.layers[
+											layer.name
+										] as MapLayer;
+										const layerIsLocked = lay ? lay.locked : false;
 										return (
 											<Container
 												key={layer.name}
@@ -582,6 +586,7 @@ class Map extends Component<Props, State> {
 															isSelected={isSelected}
 															isSelectable={
 																dm &&
+																!layerIsLocked &&
 																!this.state.measuring &&
 																!this.props.fogAddMode &&
 																!this.props.keyShiftDown
@@ -637,6 +642,7 @@ class Map extends Component<Props, State> {
 															isSelected={isSelected}
 															isSelectable={
 																(pcAsset || dm) &&
+																!layerIsLocked &&
 																!this.state.measuring &&
 																!this.props.fogAddMode &&
 																!this.props.keyShiftDown

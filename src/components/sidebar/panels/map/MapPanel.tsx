@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import ColorPicker from 'material-ui-color-picker';
 
-import { MapData } from '../../../../models/Map';
+import { MapData, MapLayer } from '../../../../models/Map';
 
 import styles from './MapPanel.module.css';
 
@@ -31,6 +31,7 @@ interface Props {
 	updateStageBackground: (mapId: string, colour: string) => void;
 	maps: MapData[];
 	setActiveMap: (mapId: string) => void;
+	setLayerLocked: (mapId: string, layerId: string, checked: boolean) => void;
 }
 
 export default class MapPanel extends Component<Props, State> {
@@ -95,8 +96,18 @@ export default class MapPanel extends Component<Props, State> {
 		alert('NOT YET IMPLEMENTED.');
 	};
 
+	setLayerLocked = (layerId: string, checked: boolean): void => {
+		if (this.props.setLayerLocked) {
+			this.props.setLayerLocked(this.props.activeMapId, layerId, checked);
+		}
+	};
+
 	render(): ReactNode {
 		const { fogEditMode, fogAddMode } = this.props;
+
+		if (!this.props.activeMap || !this.props.activeMapId || !this.props.maps) {
+			return <div>Loading...</div>;
+		}
 
 		return (
 			<div>
@@ -194,6 +205,32 @@ export default class MapPanel extends Component<Props, State> {
 					<Button fullWidth variant="outlined" color="secondary" onClick={this.addNewMap}>
 						Add new Map
 					</Button>
+				</Paper>
+
+				<Paper style={{ marginTop: 30, padding: 5 }}>
+					<Typography variant="h5" component="h3">
+						Layer Locking
+					</Typography>
+					{this.props.activeMap &&
+						Object.keys(this.props.activeMap.layers).map(x => {
+							const l = this.props.activeMap.layers[x] as MapLayer;
+
+							return (
+								<FormGroup row key={x}>
+									<FormControlLabel
+										control={
+											<Switch
+												checked={l.locked}
+												onChange={e => {
+													this.setLayerLocked(x, e.target.checked);
+												}}
+											/>
+										}
+										label={x}
+									/>
+								</FormGroup>
+							);
+						})}
 				</Paper>
 			</div>
 		);

@@ -7,7 +7,8 @@ import {
 	mapsUpdateFogColour,
 	mapsUpdateBackgroundColour,
 	enableFogAddMode,
-	disableFogAddMode
+	disableFogAddMode,
+	setLayerLocked
 } from '../../../../redux/actions/maps';
 import { MapData } from '../../../../models/Map';
 import { getCurrentMap } from '../../../../redux/selectors/maps';
@@ -28,6 +29,7 @@ interface DispatchProps {
 	updateFogColour: (mapId: string, colour: string) => void;
 	updateStageBackground: (mapId: string, colour: string) => void;
 	setActiveMap: (mapId: string) => void;
+	setLayerLocked: (mapId: string, layerId: string, checked: boolean) => void;
 }
 interface OwnProps {}
 
@@ -47,7 +49,8 @@ class MapPanelContainer extends Component<Props> {
 			activeMapId,
 			activeMap,
 			maps,
-			setActiveMap
+			setActiveMap,
+			setLayerLocked
 		} = this.props;
 
 		return (
@@ -64,6 +67,7 @@ class MapPanelContainer extends Component<Props> {
 				disableFogAddMode={disableFogAddMode}
 				updateFogColour={updateFogColour}
 				updateStageBackground={updateStageBackground}
+				setLayerLocked={setLayerLocked}
 			/>
 		);
 	}
@@ -72,7 +76,7 @@ class MapPanelContainer extends Component<Props> {
 const mapStateToProps = (state): StateProps => ({
 	fogAddMode: state.maps.fogAddMode,
 	fogEditMode: state.maps.fogEditMode,
-	activeMapId: state.globalState.state.activeMapId,
+	activeMapId: state.globalState.state ? state.globalState.state.activeMapId : null,
 	activeMap: getCurrentMap(state),
 	maps: state.maps.maps
 });
@@ -85,7 +89,9 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 		dispatch(mapsUpdateFogColour(mapId, colour)),
 	updateStageBackground: (mapId: string, colour: string) =>
 		dispatch(mapsUpdateBackgroundColour(mapId, colour)),
-	setActiveMap: (mapId: string) => dispatch(setActiveMap(mapId))
+	setActiveMap: (mapId: string) => dispatch(setActiveMap(mapId)),
+	setLayerLocked: (mapId: string, layerId: string, checked: boolean) =>
+		dispatch(setLayerLocked(mapId, layerId, checked))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(
