@@ -10,7 +10,10 @@ export const types = {
 		SET_CURRENT_TURN: 'INITIATIVE.SET_CURRENT_TURN',
 		ADD_ROLL: 'INITIATIVE.ADD_ROLL',
 		CLEAR: 'INITIATIVE.CLEAR',
-		REMOVE: 'INITIATIVE.REMOVE'
+		REMOVE: 'INITIATIVE.REMOVE',
+		UPDATE: {
+			ROLL: 'INITIATIVE.UPDATE.ROLL'
+		}
 	}
 };
 
@@ -35,6 +38,11 @@ export interface InitiativeRemoveAction extends Action {
 }
 
 export interface InitiativeClearAction extends Action {}
+
+export interface InitiativeUpdateRollAction extends Action {
+	initiativeId: string;
+	newRoll: number;
+}
 
 /////////////////////////////////////////////////////////////////////
 
@@ -67,4 +75,13 @@ export const removeInitiative = (id: string): InitiativeRemoveAction => ({
 
 export const clearInitiatives = (): InitiativeClearAction => ({
 	type: types.INITIATIVE.CLEAR
+});
+
+export const updateInitiativeRoll = (
+	initiativeId: string,
+	newRoll: number
+): InitiativeUpdateRollAction => ({
+	type: types.INITIATIVE.UPDATE.ROLL,
+	initiativeId,
+	newRoll
 });

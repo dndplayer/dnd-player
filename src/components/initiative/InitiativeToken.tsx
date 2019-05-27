@@ -6,6 +6,7 @@ import { url } from 'inspector';
 import { Zoom, Paper } from '@material-ui/core';
 import InlineCalculator from '../util/InlineCalculator';
 import { MapObject } from '../../models/Map';
+import InitiativeDice from './InitiativeDice';
 
 interface Props {
 	initId: string;
@@ -18,6 +19,7 @@ interface Props {
 	currentTurn: boolean;
 	imageUrl: string;
 	modifyHp: (newHp: any, pcId?: string, npcTokenId?: string) => void;
+	modifyRoll: (initiativeId: string, val: number) => void;
 	removeInitiative: (id: string) => void;
 	dm: boolean;
 }
@@ -44,7 +46,13 @@ export default class InitiativeToken extends Component<Props, State> {
 		}));
 	};
 
-	onChangeHp = val => {
+	onModifyRoll = (val: number): void => {
+		if (this.props.modifyRoll) {
+			this.props.modifyRoll(this.props.initId, val);
+		}
+	};
+
+	onChangeHp = (val: number): void => {
 		if (this.props.modifyHp) {
 			const pc = this.props.char as PlayerCharacter;
 			const npc = this.props.char as NonPlayerCharacter;
@@ -79,7 +87,11 @@ export default class InitiativeToken extends Component<Props, State> {
 
 		return (
 			<div className={styles.wrapper}>
-				<div className={styles.initiativeRoll}>{initRoll}</div>
+				<InitiativeDice
+					dm={this.props.dm}
+					roll={initRoll}
+					onModifyRoll={this.onModifyRoll}
+				/>
 				<div
 					className={[styles.avatar, currentTurn ? styles.currentTurn : null]
 						.filter(x => x)
@@ -104,6 +116,8 @@ export default class InitiativeToken extends Component<Props, State> {
 								inputClassName={styles.hpInputInner}
 								value={hp}
 								onEnter={(val): void => this.onChangeHp(val)}
+								onBlur={() => this.setState({ hpOpen: false })}
+								autoFocus={true}
 							/>
 						</Paper>
 					</Zoom>

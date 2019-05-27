@@ -84,6 +84,28 @@
 	height: 18px;
 	background-image: url(./dice.png); // 128 x 102
 	background-size: contain;
+
+	cursor: pointer;
+}
+
+.initiativeEditor {
+	z-index: 9999;
+	position: absolute;
+	top: 0;
+	width: 50px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.initiativeEditorInner {
+	width: 100%;
+	border-radius: 5px;
+	padding: 2px 3px;
+	box-sizing: border-box;
+	box-shadow: #000 0 0 5px 3px;
+	background-color: #ccc;
+	color: #000;
+	text-align: center;
 }
 
 .hpInput {

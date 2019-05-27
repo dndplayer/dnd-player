@@ -6,7 +6,12 @@ import { orderInitiatives } from './InitiativeHelpers';
 import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
 import { AppState } from '../../redux/reducers';
 import { Upload } from '../../models/Upload';
-import { setCurrentTurn, clearInitiatives, removeInitiative } from '../../redux/actions/initiative';
+import {
+	setCurrentTurn,
+	clearInitiatives,
+	removeInitiative,
+	updateInitiativeRoll
+} from '../../redux/actions/initiative';
 import { InitiativeData, InitiativeRoller } from '../../models/Initiative';
 import { getCurrentInitiativeTurn } from '../../redux/selectors/initiative';
 import { updatePlayerCharacter, updateNonPlayerCharacter } from '../../redux/actions/assets';
@@ -32,6 +37,7 @@ interface DispatchProps {
 	updatePlayerCharacter: (id: string, data: PlayerCharacter) => void;
 	updateNonPlayerCharacter: (id: string, data: NonPlayerCharacter) => void;
 	updateToken: (mapId: string, tokenId: string, token: MapObject) => void;
+	updateInitiativeRoll: (initiativeId: string, newVal: number) => void;
 }
 interface OwnProps {}
 
@@ -45,6 +51,7 @@ class InitiativeTrackerContainer extends Component<Props, State> {
 
 		this.nextTurn = this.nextTurn.bind(this);
 		this.modifyHp = this.modifyHp.bind(this);
+		this.modifyRoll = this.modifyRoll.bind(this);
 	}
 
 	nextTurn(): void {
@@ -81,6 +88,10 @@ class InitiativeTrackerContainer extends Component<Props, State> {
 		}
 	}
 
+	modifyRoll(initiativeId: string, newRoll: number): void {
+		this.props.updateInitiativeRoll(initiativeId, newRoll);
+	}
+
 	render(): ReactNode {
 		const { currentTurnId } = this.props;
 
@@ -95,6 +106,7 @@ class InitiativeTrackerContainer extends Component<Props, State> {
 				nextTurn={this.nextTurn}
 				clearInitiatives={this.props.clearInitiatives}
 				modifyHp={this.modifyHp}
+				modifyRoll={this.modifyRoll}
 				dm={this.props.isDm}
 				initiativeTrackerOpen={this.props.initiativeTrackerOpen}
 				removeInitiative={this.props.removeInitiative}
@@ -121,7 +133,9 @@ const mapDispatchToProps = (dispatch): DispatchProps => ({
 	updateNonPlayerCharacter: (id: string, data: NonPlayerCharacter) =>
 		dispatch(updateNonPlayerCharacter(id, data)),
 	removeInitiative: (id: string) => dispatch(removeInitiative(id)),
-	updateToken: (mapId, tokenId, token) => dispatch(mapsUpdateObject(mapId, tokenId, token))
+	updateToken: (mapId, tokenId, token) => dispatch(mapsUpdateObject(mapId, tokenId, token)),
+	updateInitiativeRoll: (initiativeId: string, newRoll: number) =>
+		dispatch(updateInitiativeRoll(initiativeId, newRoll))
 });
 
 export default connect<StateProps, DispatchProps, OwnProps>(

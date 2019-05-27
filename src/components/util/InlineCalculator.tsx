@@ -6,6 +6,8 @@ interface Props {
 	value: number;
 	onEnter: (newVal: number) => void;
 	className?: string;
+	autoFocus?: boolean;
+	onBlur?: () => void;
 	style?: CSSProperties;
 	inputClassName?: string;
 	inputStyle?: CSSProperties;
@@ -54,6 +56,7 @@ export default class InlineCalculator extends React.Component<Props, State> {
 				handlers={this.handlers}
 				className={this.props.className}
 				style={this.props.style}
+				onBlur={this.props.onBlur}
 			>
 				<ObserveKeys only={Object.values(keyMap)} except={undefined}>
 					<input
@@ -64,6 +67,7 @@ export default class InlineCalculator extends React.Component<Props, State> {
 						onFocus={onFocus}
 						className={this.props.inputClassName}
 						style={this.props.inputStyle}
+						autoFocus={this.props.autoFocus}
 					/>
 				</ObserveKeys>
 			</HotKeys>
