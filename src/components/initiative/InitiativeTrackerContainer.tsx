@@ -29,6 +29,7 @@ interface StateProps {
 	currentTurnId: string;
 	isDm: boolean;
 	initiativeTrackerOpen: boolean;
+	shiftPressed: boolean;
 }
 interface DispatchProps {
 	setCurrentTurn: (id: string) => void;
@@ -110,6 +111,7 @@ class InitiativeTrackerContainer extends Component<Props, State> {
 				dm={this.props.isDm}
 				initiativeTrackerOpen={this.props.initiativeTrackerOpen}
 				removeInitiative={this.props.removeInitiative}
+				shiftPressed={this.props.shiftPressed}
 			/>
 		);
 	}
@@ -123,7 +125,8 @@ const mapStateToProps = (state: AppState): StateProps => ({
 	currentTurnId: getCurrentInitiativeTurn(state),
 	isDm: state.auth.dm,
 	initiativeTrackerOpen: state.ui.initiativeTrackerOpen,
-	map: getCurrentMap(state)
+	map: getCurrentMap(state),
+	shiftPressed: state.keys.shiftDown
 });
 const mapDispatchToProps = (dispatch): DispatchProps => ({
 	setCurrentTurn: id => dispatch(setCurrentTurn(id)),

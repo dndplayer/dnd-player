@@ -28,6 +28,7 @@ interface Props {
 	modifyHp: (newHp: any, pcId?: string, npcTokenId?: string) => void;
 	modifyRoll: (initiativeId: string, val: number) => void;
 	removeInitiative: (id: string) => void;
+	shiftPressed: boolean;
 }
 
 export default class InitiativeTracker extends Component<Props> {
@@ -52,7 +53,8 @@ export default class InitiativeTracker extends Component<Props> {
 			modifyRoll,
 			dm,
 			removeInitiative,
-			map
+			map,
+			shiftPressed
 		} = this.props;
 
 		if (!initiatives || !initiatives.rolls) {
@@ -128,6 +130,7 @@ export default class InitiativeTracker extends Component<Props> {
 										modifyRoll={modifyRoll}
 										dm={dm}
 										removeInitiative={removeInitiative}
+										shiftPressed={shiftPressed}
 									/>
 								</div>
 							);

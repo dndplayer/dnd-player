@@ -22,6 +22,7 @@ interface Props {
 	modifyRoll: (initiativeId: string, val: number) => void;
 	removeInitiative: (id: string) => void;
 	dm: boolean;
+	shiftPressed: boolean;
 }
 
 interface State {
@@ -38,6 +39,11 @@ export default class InitiativeToken extends Component<Props, State> {
 
 	onClick = e => {
 		if (!this.props.dm) {
+			return;
+		}
+
+		if (this.props.shiftPressed) {
+			this.props.removeInitiative(this.props.initId);
 			return;
 		}
 
@@ -99,14 +105,6 @@ export default class InitiativeToken extends Component<Props, State> {
 					style={{ backgroundImage: `url('${imageUrl}')` }}
 					onClick={this.onClick}
 				/>
-				{this.props.dm && hpOpen && (
-					<div
-						className={styles.deleteButton}
-						onClick={() => this.props.removeInitiative(this.props.initId)}
-					>
-						X
-					</div>
-				)}
 				{(this.props.isPc || this.props.dm) && <div className={styles.ac}>{ac}</div>}
 				{hpOpen && (
 					<Zoom in={hpOpen}>
