@@ -106,6 +106,10 @@
 	background-color: #ccc;
 	color: #000;
 	text-align: center;
+
+	&:focus {
+		outline: 0;
+	}
 }
 
 .hpInput {
@@ -125,6 +129,10 @@
 	box-sizing: border-box;
 	border: 1px solid #eee;
 	border-radius: 5px;
+
+	&:focus {
+		outline: 0;
+	}
 }
 
 .deleteButton {
