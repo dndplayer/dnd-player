@@ -39,8 +39,8 @@ export default class InitiativeDice extends Component<Props, State> {
 		const { editing } = this.state;
 
 		return (
-			<div className={styles.initiativeRoll}>
-				<div onClick={this.onClick}>
+			<div className={styles.initiativeRoll} onClick={this.onClick}>
+				<div>
 					{/* </div><div className={styles.initiativeRoll} onClick={this.onClick}> */}
 					{roll}
 				</div>
