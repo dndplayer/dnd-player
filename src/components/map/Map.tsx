@@ -1,20 +1,17 @@
 import React, { Component, ReactNode, ReactElement } from 'react';
-import { Stage, Sprite, Container, PixiComponent, AppConsumer, Graphics } from '@inlet/react-pixi';
+import { Stage, Sprite, AppConsumer, Graphics } from '@inlet/react-pixi';
 import * as PIXI from 'pixi.js';
 import { v4 } from 'uuid';
 
-import { MapData, MapObject, MapLayer } from '../../models/Map';
+import { MapData, MapObject, MapLayer as MapLayerModel } from '../../models/Map';
 
 import { DropTarget, DropTargetMonitor } from 'react-dnd';
 import types from '../../constants/dragdroptypes';
 
-import Token from './objects/Token';
 import { Upload } from '../../models/Upload';
 import { LinearProgress } from '@material-ui/core';
-import Scenery from './objects/Scenery';
 import { groupObjectsByLayer, calculateDistance, GroupedMapObject } from './MapUtils';
-import { PlayerCharacter, NonPlayerCharacter, CharacterSize } from '../../5e/models/Character';
-import { MapObjectVisibility } from './objects/MapObject';
+import { PlayerCharacter, NonPlayerCharacter } from '../../5e/models/Character';
 import Ruler from './objects/Ruler';
 import BasicFogLayer from './BasicFogLayer';
 
@@ -24,7 +21,7 @@ import { MapPing } from '../../models/MapPing';
 import Ping from './objects/OldPing';
 import EditablePolygon from './objects/editable/EditablePolygon';
 import { User } from '../../models/User';
-import { AssetType } from '../../models/AssetType';
+import MapLayer from './MapLayer';
 
 // import Ping from './objects/NewPing';
 
@@ -365,12 +362,12 @@ class Map extends Component<Props, State> {
 
 					this.props.onSelectObjects(selectedObjects);
 
-					console.log(
-						`Box Select (${this.state.boxSelectStart.x}, ${
-							this.state.boxSelectStart.y
-						}) -> (${this.state.boxSelectEnd.x}, ${this.state.boxSelectEnd.y})`
-					);
-					console.log(selectedObjects);
+					// console.log(
+					// 	`Box Select (${this.state.boxSelectStart.x}, ${
+					// 		this.state.boxSelectStart.y
+					// 	}) -> (${this.state.boxSelectEnd.x}, ${this.state.boxSelectEnd.y})`
+					// );
+					// console.log(selectedObjects);
 				}
 
 				this.setState({ boxSelectStart: null, boxSelectEnd: null });
@@ -378,16 +375,18 @@ class Map extends Component<Props, State> {
 		);
 	};
 
-	handleMultiDrag = (dX, dY, sourceMapObjectId) => {
+	handleMultiDrag = (dX, dY, sourceMapObjectId): void => {
 		console.log(`${sourceMapObjectId} - ${dX},${dY}`);
 
 		if (this.props.selectedObjects && this.props.selectedObjects.length > 1) {
 			const otherObjects: MapObject[] = this.props.selectedObjects
 				.filter(x => x !== sourceMapObjectId)
-				.map(x => ({
-					...this.props.mapData.objects[x],
-					id: x
-				}));
+				.map(
+					(x): any => ({
+						...this.props.mapData.objects[x],
+						id: x
+					})
+				);
 
 			// TODO: This isn't correct because dX & dY are offsets from the drag start,
 			// so this keeps adding the value over and over to the position.
@@ -402,8 +401,6 @@ class Map extends Component<Props, State> {
 	};
 
 	render(): ReactNode {
-		const { playerCharacters, nonPlayerCharacters, selectedObjects } = this.props;
-
 		if (this.state.loadingAssets) {
 			return (
 				<div className={styles.loadingWrapper}>
@@ -421,7 +418,7 @@ class Map extends Component<Props, State> {
 			);
 		}
 
-		const { objects, backgroundColour } = this.props.mapData;
+		const { backgroundColour } = this.props.mapData;
 		const { dm } = this.props;
 
 		const { connectDropTarget, isHovering } = this.props;
@@ -442,21 +439,6 @@ class Map extends Component<Props, State> {
 		return connectDropTarget(
 			<div ref={c => (this._mainWrapper = c)}>
 				{overlay}
-				{/* <div className={styles.measureToolWrapper}>
-					<div className={styles.squaredOne}>
-						<span>Measure Tool</span>
-						<input
-							type="checkbox"
-							value="None"
-							id="squaredOne"
-							name="check"
-							checked={this.state.measuring}
-							// onChange={e => this.setState({ measuring: e.target.checked })}
-							onChange={e => this.props.toggleMeasureMode(e.target.checked)}
-						/>
-						<label htmlFor="squaredOne" />
-					</div>
-				</div> */}
 				<div className={styles.controlStateOverlay}>
 					{this.props.measureModeEnabled && (
 						<span className={styles.controlState}>MEASURING MODE</span>
@@ -490,175 +472,25 @@ class Map extends Component<Props, State> {
 								screenHeight={this.state.windowHeight}
 								onZoom={x => this.setState({ viewportZoom: x })}
 							>
-								{/* <EditablePolygon
-									editMode={false}
-									polyPoints={[0, 0, 500, 500]}
-									viewportZoom={this.state.viewportZoom}
-								/> */}
 								{groupedObjects.sort(layerSortFunc).map(
-									(layer: GroupedMapObject): ReactNode => {
-										const lay = this.props.mapData.layers[
-											layer.name
-										] as MapLayer;
-										const layerIsLocked = lay ? lay.locked : false;
-										return (
-											<Container
-												key={layer.name}
-												name={`layer-${layer.name}`}
-											>
-												{layer.objects.map(o => {
-													const isPc = !!o.pcId;
-													const isNpc = !!o.npcId;
-													const pcAsset = o.pcId
-														? playerCharacters.find(
-																x => x.id === o.pcId
-														  )
-														: null;
-													const npcAsset = o.npcId
-														? nonPlayerCharacters.find(
-																x => x.id === o.npcId
-														  )
-														: null;
-													const imageUrl =
-														pcAsset && pcAsset.imageRef
-															? pcAsset.imageRef
-															: npcAsset && npcAsset.imageRef
-															? npcAsset.imageRef
-															: o.imageRef || '__missing__';
-													const res =
-														PIXI.loader.resources[imageUrl] &&
-														PIXI.loader.resources[imageUrl].texture;
-													const isSelected = !!selectedObjects.find(
-														x => x === o.id
-													);
-													const dmOnly = o.dmOnly || false;
-													const layer = o.layer;
-													const visibility = dmOnly
-														? dm
-															? MapObjectVisibility.DM_VISIBLE
-															: MapObjectVisibility.HIDDEN
-														: MapObjectVisibility.VISIBLE;
-													const isToken = isPc || isNpc;
-													const asset = pcAsset || npcAsset;
-													let scale = o.scale;
-													if (asset) {
-														const size = (asset.size || '').toString();
-														switch (parseInt(size)) {
-															case CharacterSize.Tiny:
-																scale = new PIXI.Point(0.5, 0.5);
-																break;
-															case CharacterSize.Small:
-																scale = new PIXI.Point(1, 1);
-																break;
-															case CharacterSize.Medium:
-																scale = new PIXI.Point(1, 1);
-																break;
-															case CharacterSize.Large:
-																scale = new PIXI.Point(2, 2);
-																break;
-															case CharacterSize.Huge:
-																scale = new PIXI.Point(3, 3);
-																break;
-															case CharacterSize.Gargantuan:
-																scale = new PIXI.Point(4, 4);
-																break;
-														}
-													}
-													return !isToken ? (
-														<Scenery
-															key={o.id}
-															position={o.position}
-															scale={o.scale}
-															rotation={o.rotation}
-															pivot={o.pivot}
-															anchor={o.anchor}
-															resource={res}
-															onUpdateObject={(
-																mapObjectId,
-																newData
-															) =>
-																this.props.onUpdateObject(
-																	this.props.mapData.id,
-																	mapObjectId,
-																	newData
-																)
-															}
-															isSelected={isSelected}
-															isSelectable={
-																dm &&
-																!layerIsLocked &&
-																!this.state.measuring &&
-																!this.props.fogAddMode &&
-																!this.props.keyShiftDown
-															}
-															onSelected={this.props.onSelectObject}
-															mapObjectId={o.id}
-															layerName={layer}
-															visibility={visibility}
-															viewportZoom={this.state.viewportZoom}
-														/>
-													) : (
-														<Token
-															key={o.id}
-															resource={res}
-															hp={
-																o.hp ||
-																(pcAsset
-																	? {
-																			value: pcAsset.hp,
-																			max: pcAsset.maxHp
-																	  }
-																	: undefined)
-															}
-															ac={
-																asset
-																	? asset.ac || undefined
-																	: undefined
-															}
-															range={
-																asset && asset.speed
-																	? Math.max(
-																			...Object.values(
-																				asset.speed
-																			)
-																	  )
-																	: undefined
-															}
-															position={o.position}
-															scale={scale}
-															rotation={o.rotation}
-															pivot={o.pivot}
-															anchor={o.anchor}
-															onUpdateObject={(
-																mapObjectId,
-																newData
-															) =>
-																this.props.onUpdateObject(
-																	this.props.mapData.id,
-																	mapObjectId,
-																	newData
-																)
-															}
-															isSelected={isSelected}
-															isSelectable={
-																(pcAsset || dm) &&
-																!layerIsLocked &&
-																!this.state.measuring &&
-																!this.props.fogAddMode &&
-																!this.props.keyShiftDown
-															}
-															onSelected={this.props.onSelectObject}
-															mapObjectId={o.id}
-															layerName={layer}
-															visibility={visibility}
-															viewportZoom={this.state.viewportZoom}
-															onMove={this.handleMultiDrag}
-														/>
-													);
-												})}
-											</Container>
-										);
-									}
+									(layer: GroupedMapObject): ReactNode => (
+										<MapLayer
+											key={layer.name}
+											dm={dm}
+											fogAddMode={this.props.fogAddMode}
+											handleMultiDrag={this.handleMultiDrag}
+											keyShiftDown={this.props.keyShiftDown}
+											layer={layer}
+											map={this.props.mapData}
+											measuring={this.state.measuring}
+											playerCharacters={this.props.playerCharacters}
+											nonPlayerCharacters={this.props.nonPlayerCharacters}
+											onSelectObject={this.props.onSelectObject}
+											selectedObjects={this.props.selectedObjects}
+											onUpdateObject={this.props.onUpdateObject}
+											viewportZoom={this.state.viewportZoom}
+										/>
+									)
 								)}
 								<BasicFogLayer
 									fogData={this.props.mapData && this.props.mapData.fog}
@@ -671,12 +503,12 @@ class Map extends Component<Props, State> {
 									this.props.mapData &&
 									Object.keys(this.props.mapData.fog.maskPolygons).length > 0 &&
 									Object.keys(this.props.mapData.fog.maskPolygons).map(
-										(xx, idx) => {
+										(xx, idx): ReactElement => {
 											const x = this.props.mapData.fog.maskPolygons[xx];
 											return (
 												<EditablePolygon
 													key={xx}
-													onUpdate={(position, points) => {
+													onUpdate={(position, points): void => {
 														this.props.onUpdateFogPolygon(
 															this.props.mapData.id,
 															xx,
@@ -703,22 +535,25 @@ class Map extends Component<Props, State> {
 									scale={this._viewport ? 1 / this._viewport.scale.x : 1}
 									thickness={3}
 								/>
-								{Object.keys(this.props.mapPings).map(x => {
-									const p: MapPing = this.props.mapPings[x];
-									const sourceUser = this.props.users[p.userId];
-									return (
-										<Ping
-											key={x}
-											// app={app}
-											colour={sourceUser ? sourceUser.colour : 0xff0000}
-											position={new PIXI.Point(p.position.x, p.position.y)}
-											viewportZoom={this.state.viewportZoom}
-										/>
-									);
-								})}
+								{Object.keys(this.props.mapPings).map(
+									(x): ReactElement => {
+										const p: MapPing = this.props.mapPings[x];
+										const sourceUser = this.props.users[p.userId];
+										return (
+											<Ping
+												key={x}
+												colour={sourceUser ? sourceUser.colour : 0xff0000}
+												position={
+													new PIXI.Point(p.position.x, p.position.y)
+												}
+												viewportZoom={this.state.viewportZoom}
+											/>
+										);
+									}
+								)}
 								{this.state.boxSelectStart && this.state.boxSelectEnd && (
 									<Graphics
-										draw={g => {
+										draw={(g): void => {
 											g.clear();
 											g.lineStyle(
 												5.2 * (1 / this.state.viewportZoom),

@@ -1,4 +1,4 @@
-import { User } from '../../models/User';
+import { User, Journal } from '../../models/User';
 
 export const types = {
 	USERS: {
@@ -8,7 +8,15 @@ export const types = {
 		},
 		SYNC: 'USERS.SYNC' as 'USERS.SYNC',
 		SYNC_FAILED: 'USERS.SYNC_FAILED' as 'USERS.SYNC_FAILED',
-		SET_COLOUR: 'USERS.SET_COLOUR' as 'USERS.SET_COLOUR'
+		SET_COLOUR: 'USERS.SET_COLOUR' as 'USERS.SET_COLOUR',
+		JOURNAL: {
+			PRIVATE: {
+				UPDATE: 'USERS.JOURNAL.PRIVATE.UPDATE'
+			},
+			PUBLIC: {
+				UPDATE: 'USERS.JOURNAL.PUBLIC.UPDATE'
+			}
+		}
 	}
 };
 
@@ -20,7 +28,10 @@ export type UserActionTypes =
 	| SyncUserPresenceAction
 	| SyncUserPresenceFailedAction
 	| SyncUsersAction
-	| SyncUsersFailedAction;
+	| SyncUsersFailedAction
+	| SetUserColourAction
+	| UpdateUserJournalPublicAction
+	| UpdateUserJournalPrivateAction;
 
 export interface SyncUserPresenceAction {
 	type: typeof types.USERS.PRESENCE.SYNC;
@@ -46,6 +57,18 @@ export interface SetUserColourAction {
 	type: typeof types.USERS.SET_COLOUR;
 	colour: number;
 	userId: string;
+}
+
+export interface UpdateUserJournalPrivateAction {
+	type: typeof types.USERS.JOURNAL.PRIVATE.UPDATE;
+	userId: string;
+	data: Journal;
+}
+
+export interface UpdateUserJournalPublicAction {
+	type: typeof types.USERS.JOURNAL.PUBLIC.UPDATE;
+	userId: string;
+	data: Journal;
 }
 
 // --------------------------------------------------------
@@ -75,4 +98,22 @@ export const setUserColour = (userId: string, colour: number): SetUserColourActi
 	type: types.USERS.SET_COLOUR,
 	userId,
 	colour
+});
+
+export const updatePrivateJournal = (
+	userId: string,
+	data: Journal
+): UpdateUserJournalPrivateAction => ({
+	type: types.USERS.JOURNAL.PRIVATE.UPDATE,
+	userId,
+	data
+});
+
+export const updatePublicJournal = (
+	userId: string,
+	data: Journal
+): UpdateUserJournalPublicAction => ({
+	type: types.USERS.JOURNAL.PUBLIC.UPDATE,
+	userId,
+	data
 });

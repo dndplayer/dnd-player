@@ -1,0 +1,13 @@
+.journalWrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+
+.journalRow {
+	flex-grow: 1;
+	margin-top: 20px;
+}
+
+.journalTextField {
+}

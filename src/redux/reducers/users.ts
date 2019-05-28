@@ -1,5 +1,12 @@
-import { UserActionTypes, types } from '../actions/users';
+import {
+	types,
+	SyncUserPresenceAction,
+	SyncUserPresenceFailedAction,
+	SyncUsersAction,
+	SyncUsersFailedAction
+} from '../actions/users';
 import { User } from '../../models/User';
+import { Action } from 'redux';
 
 export interface UsersState {
 	onlineUsers: string[];
@@ -14,28 +21,36 @@ export const initialState: UsersState = {
 	usersSyncError: null
 };
 
-export default function reducer(state = initialState, action: UserActionTypes): UsersState {
+export default function reducer(state = initialState, action: Action): UsersState {
 	switch (action.type) {
-		case types.USERS.PRESENCE.SYNC:
+		case types.USERS.PRESENCE.SYNC: {
+			const a = action as SyncUserPresenceAction;
 			return {
 				...state,
-				onlineUsers: action.onlineUsers
+				onlineUsers: a.onlineUsers
 			};
-		case types.USERS.PRESENCE.SYNC_FAILED:
+		}
+		case types.USERS.PRESENCE.SYNC_FAILED: {
+			const a = action as SyncUserPresenceFailedAction;
 			return {
 				...state,
-				userPresenceSyncError: action.error
+				userPresenceSyncError: a.error
 			};
-		case types.USERS.SYNC:
+		}
+		case types.USERS.SYNC: {
+			const a = action as SyncUsersAction;
 			return {
 				...state,
-				users: action.users
+				users: a.users
 			};
-		case types.USERS.SYNC_FAILED:
+		}
+		case types.USERS.SYNC_FAILED: {
+			const a = action as SyncUsersFailedAction;
 			return {
 				...state,
-				usersSyncError: action.error
+				usersSyncError: a.error
 			};
+		}
 		default:
 			return state;
 	}

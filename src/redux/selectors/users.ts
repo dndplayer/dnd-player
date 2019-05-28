@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { AppState } from '../reducers';
+import { User } from '../../models/User';
 
 const users = (state: AppState) => state.users.users;
 const currentUser = (state: AppState) => state.auth.user;
@@ -16,7 +17,7 @@ export const getAllUsers = createSelector(
 export const getCurrentUser = createSelector(
 	users,
 	currentUser,
-	(users: any, currentUser: firebase.User) => {
+	(users: any, currentUser: firebase.User): { user: User; firebaseUser: firebase.User } => {
 		return {
 			user: users && currentUser ? users[currentUser.uid] : null,
 			firebaseUser: currentUser
@@ -38,3 +39,21 @@ export const getUserColour = createSelector(
 		}
 	}
 );
+
+// export const getUserJournals = createSelector(
+// 	users,
+// 	currentUser,
+// 	(users: any, currentUser: firebase.User) => {
+// 		if (!currentUser) {
+// 			return null;
+// 		}
+
+// 		const u = users[currentUser.uid];
+// 		return u
+// 			? {
+// 					private: u.privateJournal,
+// 					public: u.publicJournal
+// 			  }
+// 			: null;
+// 	}
+// );

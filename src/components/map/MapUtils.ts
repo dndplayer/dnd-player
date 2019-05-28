@@ -19,6 +19,9 @@ export const groupObjectsByLayer = (map: MapData): GroupedMapObject[] => {
 	}
 	return Object.keys(map.objects).reduce((prev: GroupedMapObject[], curr: string): any => {
 		const l = map.objects[curr].layer;
+		if (l === undefined || l === null || l.length === 0) {
+			return prev; // Don't add invalid layers
+		}
 		let layer = prev.find(x => x.name === l);
 		if (!layer) {
 			layer = { objects: [], zIndex: zIndexes[l], name: l };
