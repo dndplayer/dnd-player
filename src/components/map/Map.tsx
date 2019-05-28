@@ -354,11 +354,21 @@ class Map extends Component<Props, State> {
 						this.state.boxSelectEnd.y - this.state.boxSelectStart.y
 					);
 
-					const selectedObjects = Object.keys(this.props.mapData.objects).filter(x => {
-						const o: MapObject = this.props.mapData.objects[x];
+					const selectedObjects = Object.keys(this.props.mapData.objects).filter(
+						(x): boolean => {
+							const o: MapObject = this.props.mapData.objects[x];
+							const layers = this.props.mapData.layers;
 
-						return dragRect.contains(o.position.x, o.position.y);
-					});
+							const layer = layers.hasOwnProperty(o.layer)
+								? (layers[o.layer] as MapLayerModel)
+								: null;
+							if (layer && layer.locked) {
+								return false;
+							}
+
+							return dragRect.contains(o.position.x, o.position.y);
+						}
+					);
 
 					this.props.onSelectObjects(selectedObjects);
 
