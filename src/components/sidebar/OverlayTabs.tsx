@@ -61,7 +61,8 @@ export default class OverlayTabs extends Component<Props> {
 						// justifyContent: 'center',
 						//width: '40px',
 						position: 'absolute' as 'absolute',
-						top: '50%',
+						// top: '50%',
+						top: '100px',
 						left: '-43px' // 40px for alignment then 3px for the margin in Tab
 					}}
 				>
