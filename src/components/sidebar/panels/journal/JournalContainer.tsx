@@ -26,8 +26,8 @@ class JournalContainer extends Component<Props> {
 			return <div>Loading...</div>;
 		}
 
-		const privateJournal = u.journal.private;
-		const publicJournal = u.journal.public;
+		const privateJournal = u.journal && u.journal.private;
+		const publicJournal = u.journal && u.journal.public;
 
 		return (
 			<Journal
