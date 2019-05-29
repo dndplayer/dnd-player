@@ -6,6 +6,7 @@ import ChatMessageItem from './ChatMessageItem';
 import RollMessageItem from './RollMessageItem';
 import { ChatMessage, ChatMessageData } from '../../models/ChatMessage.js';
 import CharacterAction from './characterActions/CharacterAction';
+import Info from './Info';
 
 interface Props {
 	recentMessages: ChatMessage[];
@@ -51,6 +52,8 @@ export default class ChatDisplay extends React.Component<Props> {
 								case 'action':
 								case 'spell':
 									return <CharacterAction message={x} key={idx} />;
+								case 'info':
+									return <Info message={x} key={idx} />;
 								default:
 									return (
 										<ChatMessageItem

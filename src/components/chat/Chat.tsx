@@ -8,7 +8,7 @@ import ChatMessageItem from './ChatMessageItem';
 import RollMessageItem from './RollMessageItem';
 import { ChatMessage, ChatMessageData, RollData } from '../../models/ChatMessage.js';
 import CharacterAction from './characterActions/CharacterAction';
-import { HotKeys, ObserveKeys } from 'react-hotkeys';
+import Info from './Info';
 
 interface Props {
 	messages: ChatMessage[];
@@ -59,6 +59,8 @@ export default class Chat extends React.Component<Props, State> {
 								case 'action':
 								case 'spell':
 									return <CharacterAction message={x} key={idx} />;
+								case 'info':
+									return <Info message={x} key={idx} />;
 								default:
 									return (
 										<ChatMessageItem

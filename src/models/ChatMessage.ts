@@ -15,6 +15,12 @@ export interface CharacterActionData extends ChatMessageData {
 	results: CharacterActionResult[];
 }
 
+export interface InfoData extends ChatMessageData {
+	title: string;
+	characterName: string;
+	details: string;
+}
+
 export enum CharacterActionResultType {
 	Text,
 	DiceRoll,

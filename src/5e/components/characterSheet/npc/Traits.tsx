@@ -1,9 +1,10 @@
 import React, { ReactNode } from 'react';
 
-import { ChatMessageData } from '../../../../models/ChatMessage';
+import { ChatMessageData, InfoData } from '../../../../models/ChatMessage';
 
 import css from './NonPlayerCharacterSheet.module.scss';
-import { NonPlayerCharacter } from '../../../models/Character';
+import { NonPlayerCharacter, NonPlayerCharacterTrait } from '../../../models/Character';
+import Rollable from '../../Rollable';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -23,12 +24,25 @@ export default class Traits extends React.Component<Props, {}> {
 			const trait = character.traits[traitIdx];
 			traits.push(
 				<div className={css.trait} key={traitIdx}>
-					<span className={css.italicHeading}>{trait.title}.</span>
+					<Rollable onClick={(): void => this.onClick(trait)}>
+						<span className={css.italicHeading}>{trait.title}.</span>
+					</Rollable>
 					<span>{trait.description}</span>
 				</div>
 			);
 		}
 
 		return <div>{traits}</div>;
+	}
+
+	onClick(trait: NonPlayerCharacterTrait): void {
+		const data: InfoData = {
+			type: 'info',
+			characterName: this.props.character.name,
+			title: `Trait: ${trait.title}`,
+			details: trait.description
+		};
+
+		this.props.sendMessage('', data);
 	}
 }
