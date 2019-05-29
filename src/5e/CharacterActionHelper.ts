@@ -1,9 +1,4 @@
-import {
-	CharacterAttack,
-	Character,
-	CharacterSpell,
-	TextCharacterAttackEffect
-} from './models/Character';
+import { CharacterAttack, Character, CharacterSpell } from './models/Character';
 
 import {
 	CharacterActionData,
@@ -12,7 +7,8 @@ import {
 	CharacterActionResultType,
 	AdvantageType,
 	CharacterActionConditionResult,
-	CharacterActionTextResult
+	CharacterActionTextResult,
+	RollData
 } from '../models/ChatMessage';
 
 import Rules, {
@@ -28,11 +24,48 @@ import Rules, {
 import { DiceRoll } from 'rpg-dice-roller';
 
 export default class CharacterActionHelper {
+	public static doBasicRoll(
+		character: Character,
+		type: string,
+		title: string,
+		modifier: number,
+		advantage: number,
+		sendMessage: (msg: string, data: any) => void
+	): void {
+		const modifierStr = (modifier < 0 ? '' : '+') + modifier;
+		const roll = new DiceRoll('d20' + modifierStr);
+
+		const data: RollData = {
+			pcId: character.id,
+			characterName: character.name,
+			npcTokenId: null,
+			type: 'roll',
+			rollType: type,
+			rollName: title,
+			modifier: modifierStr,
+			roll1Total: roll.total,
+			roll1Details: roll.toString().match(/.*?: (.*?) =/)[1],
+			roll1CritSuccess: roll.rolls[0][0] === 20,
+			roll1CritFail: roll.rolls[0][0] === 1
+		};
+
+		if (advantage) {
+			const roll2 = new DiceRoll('d20' + modifierStr);
+			data.rollAdvantageType = advantage;
+			data.roll2Total = roll2.total;
+			data.roll2Details = roll2.toString().match(/.*?: (.*?) =/)[1];
+			data.roll2CritSuccess = roll2.rolls[0][0] === 20;
+			data.roll2CritFail = roll2.rolls[0][0] === 1;
+		}
+
+		sendMessage('', data);
+	}
+
 	public static doSpell(
 		character: Character,
 		action: CharacterSpell,
 		advantage: number,
-		sendMessage: (string, any) => void
+		sendMessage: (msg: string, data: any) => void
 	): void {
 		let crit = false;
 
@@ -71,7 +104,7 @@ export default class CharacterActionHelper {
 		character: Character,
 		action: CharacterAttack & Attack,
 		advantage: number,
-		sendMessage: (string, any) => void
+		sendMessage: (msg: string, data: any) => void
 	): void {
 		let crit = false;
 
