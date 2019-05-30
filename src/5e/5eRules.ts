@@ -220,4 +220,46 @@ export default class Rules {
 	public static getSpeedName(key: string): string {
 		return Rules.speedNameMap[key];
 	}
+
+	public static getSpellSlots(character: PlayerCharacter): any {
+		if (!character || !character.levels || !character.levels.length) {
+			return null;
+		}
+
+		if (character.levels.length === 1) {
+			switch (character.levels[0].className) {
+				case 'paladin':
+				case 'ranger':
+					const level = character.levels[0].level;
+					return {
+						1: level >= 2 ? Math.min(4, Math.ceil(level / 2) + 1) : 0,
+						2: level >= 5 ? Math.min(3, Math.ceil(level / 2) - 1) : 0,
+						3: level >= 9 ? Math.min(3, Math.ceil(level / 2) - 3) : 0,
+						4: level >= 13 ? Math.min(3, Math.ceil(level / 2) - 6) : 0,
+						5: level >= 17 ? Math.min(2, Math.ceil(level / 2) - 8) : 0
+					};
+			}
+		}
+		const spellTotal = character.levels
+			.map(x =>
+				x.className.match(/bard|cleric|druid|sorcerer|wizard/)
+					? x.level
+					: x.className.match(/paladin|ranger/)
+					? Math.floor(x.level / 2)
+					: 0
+			)
+			.reduce((x, y) => x + y, 0);
+
+		return {
+			1: Math.min(4, spellTotal + 1),
+			2: spellTotal >= 3 ? Math.min(3, spellTotal - 1) : 0,
+			3: spellTotal >= 5 ? Math.min(3, spellTotal - 3) : 0,
+			4: spellTotal >= 7 ? Math.min(3, spellTotal - 6) : 0,
+			5: spellTotal >= 9 ? Math.min(3, Math.ceil((spellTotal - 1) / 8)) : 0,
+			6: spellTotal >= 11 ? Math.min(2, Math.floor((spellTotal - 3) / 8)) : 0,
+			7: spellTotal >= 13 ? Math.min(2, Math.floor(spellTotal / 10)) : 0,
+			8: spellTotal >= 15 ? 1 : 0,
+			9: spellTotal >= 17 ? 1 : 0
+		};
+	}
 }

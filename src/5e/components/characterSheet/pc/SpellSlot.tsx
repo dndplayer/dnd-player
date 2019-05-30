@@ -3,6 +3,7 @@ import React, { ReactNode } from 'react';
 import { PlayerCharacter } from '../../../models/Character';
 import InlineCalculator from '../../../../components/util/InlineCalculator';
 import css from './PlayerCharacterSheet.module.scss';
+import Rules from '../../../5eRules';
 
 interface Props {
 	character: PlayerCharacter;
@@ -14,17 +15,19 @@ export default class SpellSlot extends React.Component<Props, {}> {
 	render(): ReactNode {
 		const { character, slot } = this.props;
 
-		const characterSlot = (character.spellSlots || {})[slot];
-		if (!characterSlot || !characterSlot.max) {
+		const calculatedSlots = Rules.getSpellSlots(character);
+		if (!calculatedSlots[slot]) {
 			return null;
 		}
+
+		const characterSlot = (character.spellSlots || {})[slot];
 
 		return (
 			<div className={css.row}>
 				<div>{slot}:</div>
 				<div className={css.row}>
 					<InlineCalculator
-						value={characterSlot.current}
+						value={(characterSlot && characterSlot.current) || 0}
 						onEnter={val => {
 							const slots = { ...character.spellSlots };
 							slots[this.props.slot] = {
@@ -37,7 +40,7 @@ export default class SpellSlot extends React.Component<Props, {}> {
 							});
 						}}
 					/>
-					<div>/ {characterSlot.max}</div>
+					<div>/ {calculatedSlots[slot]}</div>
 				</div>
 			</div>
 		);
