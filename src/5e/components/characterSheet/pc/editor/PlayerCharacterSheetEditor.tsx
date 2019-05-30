@@ -18,7 +18,6 @@ import MoneyEditorContainer from './MoneyEditorContainer';
 import LevelsEditor from './LevelEditor';
 import SkillsEditor from './SkillsEditor';
 import SpellsEditor from './SpellsEditor';
-import SpellSlotEditorContainer from './SpellSlotEditorContainer';
 import TraitsEditor from './TraitsEditor';
 import AttacksEditor from './AttacksEditor';
 import EquipmentEditor from './EquipmentEditor';
@@ -167,10 +166,6 @@ export default class PlayerCharacterSheetEditor extends React.Component<Props, S
 					character={newCharacter}
 					updateCharacterProperty={update}
 					lookup={this.props.spells}
-				/>
-				<SpellSlotEditorContainer
-					character={newCharacter}
-					updateCharacterProperty={update}
 				/>
 				<span className={css.subtitle}>Innate Actions</span>
 				<AttacksEditor character={newCharacter} updateCharacterProperty={update} />
