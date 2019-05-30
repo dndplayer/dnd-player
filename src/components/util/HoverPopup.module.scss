@@ -1,16 +1,41 @@
 .hoverContainer {
 	position: relative;
+	display: inline-block;
 
 	.hover {
+		background: #222;
+		z-index: 1;
+		padding: 8px;
+		border: 1px solid #a6792d;
+		width: 600px;
+		border-radius: 1px;
+		opacity: 0;
+		visibility: collapse;
 		display: none;
 		position: absolute;
-		top: 0;
-		left: 0;
+		bottom: 21px;
+		left: 0px;
 		color: #ccc;
 		font-weight: 400;
 	}
 
+	.title {
+		font-variant: small-caps;
+		font-family: 'Libre Baskerville', serif;
+		font-size: 24px;
+		width: 100%;
+		color: #a6792d;
+		margin: 4px 0 8px 0;
+	}
+
+	.hoverChildren {
+		border-bottom: 1px dotted #666;
+		padding-bottom: 0px;
+	}
+
 	&:hover .hover {
-		display: static;
+		opacity: 1;
+		visibility: visible;
+		display: inline-block;
 	}
 }

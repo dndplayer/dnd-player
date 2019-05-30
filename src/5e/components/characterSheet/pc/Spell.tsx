@@ -22,9 +22,12 @@ export default class Spell extends React.Component<Props, {}> {
 		return (
 			<div className={styles.wrapper}>
 				<input type="checkbox" checked={this.props.prepared} disabled />
-				<Rollable onClick={onClick}>
-					<HoverPopup content={(spell.effects[0] as any).text}>{spell.name}</HoverPopup>
-				</Rollable>
+				<HoverPopup
+					title={spell.name}
+					content={spell.effects.map(x => (x as any).text).join('\n')}
+				>
+					<Rollable onClick={onClick}>{spell.name}</Rollable>
+				</HoverPopup>
 				<span className={styles.level}>{spell.level}</span>
 				{spell.concentration && <span>Concentration</span>}
 			</div>
