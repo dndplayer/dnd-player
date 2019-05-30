@@ -68,6 +68,10 @@ export default class Spells extends React.Component<Props, {}> {
 				)
 			);
 
+		if (!spells.length) {
+			return null;
+		}
+
 		return (
 			<div className={styles.spells}>
 				<div className={pcStyles.subtitle}>Spellcasting</div>

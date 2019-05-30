@@ -19,6 +19,10 @@ export default class Traits extends React.Component<Props, {}> {
 	render(): ReactNode {
 		const { character } = this.props;
 
+		if (!character.traits || !character.traits.length) {
+			return null;
+		}
+
 		const traits = (character.traits || []).map(
 			(item, idx): ReactNode => (
 				<div className={styles.trait}>
