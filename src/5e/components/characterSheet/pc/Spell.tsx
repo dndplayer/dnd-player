@@ -5,6 +5,7 @@ import { Character, CharacterSpell } from '../../../models/Character';
 import Rollable from '../../Rollable';
 import CharacterActionHelper from '../../../CharacterActionHelper';
 import { ChatMessageData } from '../../../../models/ChatMessage';
+import HoverPopup from '../../../../components/util/HoverPopup';
 
 interface Props {
 	character: Character;
@@ -21,7 +22,9 @@ export default class Spell extends React.Component<Props, {}> {
 		return (
 			<div className={styles.wrapper}>
 				<input type="checkbox" checked={this.props.prepared} disabled />
-				<Rollable onClick={onClick}>{spell.name}</Rollable>
+				<Rollable onClick={onClick}>
+					<HoverPopup content={(spell.effects[0] as any).text}>{spell.name}</HoverPopup>
+				</Rollable>
 				<span className={styles.level}>{spell.level}</span>
 				{spell.concentration && <span>Concentration</span>}
 			</div>

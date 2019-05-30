@@ -1,0 +1,16 @@
+.hoverContainer {
+	position: relative;
+
+	.hover {
+		display: none;
+		position: absolute;
+		top: 0;
+		left: 0;
+		color: #ccc;
+		font-weight: 400;
+	}
+
+	&:hover .hover {
+		display: static;
+	}
+}
