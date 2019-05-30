@@ -10,7 +10,7 @@ import { updateTime } from '../../redux/actions/globalState';
 import { getRecentMessages } from '../../redux/selectors/chat';
 import WindowPortal from '../util/WindowPortal';
 import { Icon } from '@material-ui/core';
-import { Rnd } from 'react-rnd';
+import { Rnd, ResizableDelta, Position } from 'react-rnd';
 
 const mapStateToProps = (state): any => ({
 	messages: state.chat.messages,
@@ -22,11 +22,11 @@ const mapStateToProps = (state): any => ({
 });
 
 const mapDispatchToProps = (dispatch): any => ({
-	sendMessage: (message, data?) => dispatch(saveNewMessage(message, data)),
-	login: (username, password) => dispatch(login(username, password)),
-	closeChat: () => dispatch(closeChat()),
-	openChat: () => dispatch(openChat()),
-	updateTime: () => dispatch(updateTime())
+	sendMessage: (message, data?): void => dispatch(saveNewMessage(message, data)),
+	login: (username, password): void => dispatch(login(username, password)),
+	closeChat: (): void => dispatch(closeChat()),
+	openChat: (): void => dispatch(openChat()),
+	updateTime: (): void => dispatch(updateTime())
 });
 
 interface DispatchFromProps {
@@ -52,16 +52,20 @@ type Props = DispatchFromProps & StateFromProps;
 
 interface State {
 	showWindowPortal: boolean;
+	chatPosition: Position;
+	chatDelta: ResizableDelta;
 }
 
 class ChatContainer extends Component<Props, State> {
 	state = {
-		showWindowPortal: false
+		showWindowPortal: false,
+		chatPosition: { x: 440, y: -640 },
+		chatDelta: { width: 440, height: 600 }
 	};
 
 	private _chat: Chat;
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps, prevState): void {
 		if (this.state.showWindowPortal && !prevState.showWindowPortal) {
 			// this._chat.forceUpdate();
 			this.forceUpdate();
@@ -71,7 +75,7 @@ class ChatContainer extends Component<Props, State> {
 		const chat = (
 			<Chat
 				{...this.props}
-				ref={c => (this._chat = c)}
+				ref={(c): Chat => (this._chat = c)}
 				messagesOpen={this.props.messagesOpen || this.state.showWindowPortal}
 			/>
 		);
@@ -85,14 +89,25 @@ class ChatContainer extends Component<Props, State> {
 						{this.props.messagesOpen && (
 							<Rnd
 								default={{
-									x: 440,
-									y: -640,
-									width: '440px',
-									height: '600px'
+									x: this.state.chatPosition.x,
+									y: this.state.chatPosition.y,
+									width: this.state.chatDelta.width,
+									height: this.state.chatDelta.height
 								}}
 								minWidth={200}
 								minHeight={100}
 								disableDragging={true}
+								onResizeStop={(e, dir, elementRef, delta, position): void =>
+									this.setState(
+										(prevState): Pick<State, never> => ({
+											chatPosition: position,
+											chatDelta: {
+												width: prevState.chatDelta.width + delta.width,
+												height: prevState.chatDelta.height + delta.height
+											}
+										})
+									)
+								}
 							>
 								{this.props.messagesOpen && chat}
 								{this.props.messagesOpen && (
@@ -105,7 +120,9 @@ class ChatContainer extends Component<Props, State> {
 											fontSize: 18,
 											color: '#d29a38'
 										}}
-										onClick={() => this.setState({ showWindowPortal: true })}
+										onClick={(): void =>
+											this.setState({ showWindowPortal: true })
+										}
 									>
 										open_in_new
 									</Icon>
@@ -118,7 +135,7 @@ class ChatContainer extends Component<Props, State> {
 						title="Chat"
 						width={440}
 						height={600}
-						onClose={() => this.setState({ showWindowPortal: false })}
+						onClose={(): void => this.setState({ showWindowPortal: false })}
 					>
 						{chat}
 					</WindowPortal>
