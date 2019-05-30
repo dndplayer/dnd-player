@@ -20,29 +20,36 @@ export default class SpellSlot extends React.Component<Props, {}> {
 			return null;
 		}
 
+		const decrement = this.adjustSlot.bind(this, -1);
+		const increment = this.adjustSlot.bind(this, 1);
+
 		const characterSlot = (character.spellSlots || {})[slot];
 
+		const slots = [];
+		for (let i = 0; i < calculatedSlots[slot]; i++) {
+			if (i < characterSlot.current) {
+				slots.push(<div key={i} className={css.fullSpellSlot} onClick={decrement} />);
+			} else {
+				slots.push(<div key={i} className={css.emptySpellSlot} onClick={increment} />);
+			}
+		}
+
 		return (
-			<div className={css.row}>
+			<div>
 				<div>{slot}:</div>
-				<div className={css.row}>
-					<InlineCalculator
-						value={(characterSlot && characterSlot.current) || 0}
-						onEnter={val => {
-							const slots = { ...character.spellSlots };
-							slots[this.props.slot] = {
-								current: val,
-								max: characterSlot.max
-							};
-							this.props.updatePlayerCharacter(character.id, {
-								...character,
-								spellSlots: slots
-							});
-						}}
-					/>
-					<div>/ {calculatedSlots[slot]}</div>
-				</div>
+				{slots}
 			</div>
 		);
+	}
+
+	adjustSlot(adjustment: number): void {
+		const slots = { ...this.props.character.spellSlots };
+		slots[this.props.slot] = {
+			current: slots[this.props.slot].current + adjustment
+		};
+		this.props.updatePlayerCharacter(this.props.character.id, {
+			...this.props.character,
+			spellSlots: slots
+		});
 	}
 }

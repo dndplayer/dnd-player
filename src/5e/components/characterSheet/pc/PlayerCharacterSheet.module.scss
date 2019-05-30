@@ -514,3 +514,22 @@ div:hover > .popupDisadvantage:hover {
 		font-style: italic;
 	}
 }
+
+.fullSpellSlot,
+.emptySpellSlot {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border: 3px solid #d29a38;
+	border-radius: 50%;
+	margin-right: 4px;
+	cursor: pointer;
+}
+
+.fullSpellSlot {
+	background: #a6792d;
+}
+
+.emptySpellSlot {
+	background: none;
+}
