@@ -46,14 +46,14 @@ describe('MapUtils', () => {
 	});
 
 	describe('calculateDistance', () => {
-		it('should return 0.0 if start and end are equal', () => {
+		it('should return 0 if start and end are equal', () => {
 			const x = calculateDistance([0, 0], [0, 0], 1);
-			expect(x).toEqual('0.0');
+			expect(x).toEqual(0);
 		});
 
 		it('should return correct distances', () => {
 			const x = calculateDistance([0, 0], [200, 200], 1);
-			expect(x).toEqual('7.1'); // 282.842 / 40
+			expect(x.toFixed(1)).toEqual('7.1'); // 282.842 / 40
 		});
 
 		each`
@@ -65,7 +65,7 @@ describe('MapUtils', () => {
 			${0.001} | ${'7071.1'}
 		`.it('should scale correctly if scale argument is changed', ({ scale, expected }) => {
 			const x = calculateDistance([0, 0], [200, 200], scale);
-			expect(x).toEqual(expected);
+			expect(x.toFixed(1)).toEqual(expected);
 		});
 	});
 
