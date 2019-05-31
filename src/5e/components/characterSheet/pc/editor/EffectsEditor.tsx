@@ -138,6 +138,12 @@ class ToHitEffectEditor extends React.Component<ToHitProps, {}> {
 					<option value="wisdom">Wisdom</option>
 					<option value="charisma">Charisma</option>
 				</select>
+				+
+				<input
+					value={toHitEffect.bonus}
+					type="number"
+					onChange={e => updateEffectProperty('bonus', parseInt(e.target.value))}
+				/>
 			</div>
 		);
 	}

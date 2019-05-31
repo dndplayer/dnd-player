@@ -48,7 +48,8 @@ export default class CharacterEffects {
 			type: AttackEffectType.ToHit,
 			modifier:
 				Rules.getAbilityModifier(character, toHitEffect.ability) +
-				Rules.getProficiencyBonus(character),
+				Rules.getProficiencyBonus(character) +
+				(toHitEffect.bonus || 0),
 			critRange: 20
 		};
 	}

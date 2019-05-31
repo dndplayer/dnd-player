@@ -168,6 +168,7 @@ export interface CharacterAttackEffect {
 
 export interface ToHitCharacterAttackEffect extends CharacterAttackEffect {
 	ability: string;
+	bonus: number;
 }
 
 export interface DamageCharacterAttackEffect extends CharacterAttackEffect {
