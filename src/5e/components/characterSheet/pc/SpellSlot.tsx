@@ -15,7 +15,7 @@ export default class SpellSlot extends React.Component<Props, {}> {
 		const { character, slot } = this.props;
 
 		const calculatedSlots = Rules.getSpellSlots(character);
-		if (!calculatedSlots[slot] && slot !== 0) {
+		if ((slot === 0 && !this.props.children) || (slot !== 0 && !calculatedSlots[slot])) {
 			return null;
 		}
 
