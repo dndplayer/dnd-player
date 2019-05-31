@@ -3,6 +3,13 @@
 	flex-direction: row;
 }
 
+.rowCenter {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
 .column {
 	display: flex;
 	flex-direction: column;
@@ -513,6 +520,19 @@ div:hover > .popupDisadvantage:hover {
 		margin-right: 4px;
 		font-style: italic;
 	}
+}
+
+.slotTitle {
+	font-variant: small-caps;
+	font-family: 'Libre Baskerville', serif;
+	font-size: 18px;
+	color: #a6792d;
+	margin: 8px 8px 4px 8px;
+}
+
+.slotNumber {
+	font-family: sans-serif;
+	font-variant: normal;
 }
 
 .fullSpellSlot,

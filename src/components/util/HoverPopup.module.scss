@@ -1,31 +1,32 @@
 .hoverContainer {
-	position: relative;
 	display: inline-block;
 
 	.hover {
 		background: #222;
 		z-index: 1;
 		padding: 8px;
-		border: 1px solid #a6792d;
+		border-top: 4px solid #666;
+		border-bottom: 4px solid #666;
 		width: 600px;
 		border-radius: 1px;
 		opacity: 0;
 		visibility: collapse;
 		display: none;
-		position: absolute;
-		bottom: 21px;
-		left: 0px;
+		position: fixed;
+		top: 8px;
+		right: 8px;
 		color: #ccc;
 		font-weight: 400;
+		box-shadow: 0 0 12px black;
 	}
 
 	.title {
 		font-variant: small-caps;
 		font-family: 'Libre Baskerville', serif;
-		font-size: 24px;
+		font-size: 20px;
 		width: 100%;
-		color: #a6792d;
-		margin: 4px 0 8px 0;
+		color: #d29a38;
+		margin: 4px 0 4px 0;
 	}
 
 	.hoverChildren {

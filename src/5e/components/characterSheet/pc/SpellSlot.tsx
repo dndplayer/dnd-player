@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
 
 import { PlayerCharacter } from '../../../models/Character';
-import InlineCalculator from '../../../../components/util/InlineCalculator';
 import css from './PlayerCharacterSheet.module.scss';
 import Rules from '../../../5eRules';
 
@@ -16,7 +15,7 @@ export default class SpellSlot extends React.Component<Props, {}> {
 		const { character, slot } = this.props;
 
 		const calculatedSlots = Rules.getSpellSlots(character);
-		if (!calculatedSlots[slot]) {
+		if (!calculatedSlots[slot] && slot !== 0) {
 			return null;
 		}
 
@@ -36,8 +35,19 @@ export default class SpellSlot extends React.Component<Props, {}> {
 
 		return (
 			<div>
-				<div>{slot}:</div>
-				{slots}
+				<div className={css.rowCenter} style={{ justifyContent: 'space-between' }}>
+					<div className={css.slotTitle}>
+						{slot === 0 ? (
+							'Cantrips'
+						) : (
+							<span>
+								Level <span className={css.slotNumber}>{slot}</span>
+							</span>
+						)}
+					</div>
+					<div>{slots}</div>
+				</div>
+				<div>{this.props.children}</div>
 			</div>
 		);
 	}

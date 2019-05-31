@@ -4,4 +4,23 @@
 	span {
 		display: inline-block;
 	}
+
+	hr {
+		border-width: 3px 0px 3px 600px;
+	}
+}
+
+.title {
+	font-variant: small-caps;
+	font-family: 'Libre Baskerville', serif;
+	font-size: 20px;
+	color: #a6792d;
+}
+
+.bold {
+	font-weight: 600;
+}
+
+.italic {
+	font-style: italic;
 }

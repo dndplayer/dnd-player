@@ -56,81 +56,45 @@ export default class Spells extends React.Component<Props, {}> {
 					: x.spell.name > y.spell.name
 					? 1
 					: -1
-			)
-			.map(
-				(spell, idx): ReactNode => (
-					<Spell
-						key={idx}
-						prepared={spell.ref.prepared}
-						spell={spell.spell}
-						{...this.props}
-					/>
-				)
 			);
+
+		const spellGroups = {};
+		for (const idx in spells) {
+			const s = spells[idx];
+			if (!spellGroups[s.spell.level]) {
+				spellGroups[s.spell.level] = [];
+			}
+
+			spellGroups[s.spell.level].push(
+				<Spell key={idx} prepared={s.ref.prepared} spell={s.spell} {...this.props} />
+			);
+		}
 
 		if (!spells.length) {
 			return null;
 		}
 
+		const slots = [];
+		const slots2 = [];
+		for (let i = 0; i <= 9; i++) {
+			(i < 5 ? slots : slots2).push(
+				<SpellSlot
+					key={i}
+					slot={i}
+					character={character}
+					updatePlayerCharacter={this.props.updatePlayerCharacter}
+				>
+					{spellGroups[i]}
+				</SpellSlot>
+			);
+		}
+
 		return (
 			<div className={styles.spells}>
 				<div className={pcStyles.subtitle}>Spellcasting</div>
-				<div className={styles.wrapper}>
-					<div>Spell slots:</div>
-					<div className={`${styles.slots} row`}>
-						<SpellSlot
-							slot={1}
-							character={character}
-							updatePlayerCharacter={this.props.updatePlayerCharacter}
-						/>
-						<SpellSlot
-							slot={2}
-							character={character}
-							updatePlayerCharacter={this.props.updatePlayerCharacter}
-						/>
-						<SpellSlot
-							slot={3}
-							character={character}
-							updatePlayerCharacter={this.props.updatePlayerCharacter}
-						/>
-						<SpellSlot
-							slot={4}
-							character={character}
-							updatePlayerCharacter={this.props.updatePlayerCharacter}
-						/>
-						<SpellSlot
-							slot={5}
-							character={character}
-							updatePlayerCharacter={this.props.updatePlayerCharacter}
-						/>
-						<SpellSlot
-							slot={6}
-							character={character}
-							updatePlayerCharacter={this.props.updatePlayerCharacter}
-						/>
-						<SpellSlot
-							slot={7}
-							character={character}
-							updatePlayerCharacter={this.props.updatePlayerCharacter}
-						/>
-						<SpellSlot
-							slot={8}
-							character={character}
-							updatePlayerCharacter={this.props.updatePlayerCharacter}
-						/>
-						<SpellSlot
-							slot={9}
-							character={character}
-							updatePlayerCharacter={this.props.updatePlayerCharacter}
-						/>
-					</div>
-					<div>Spells:</div>
-					<div className={styles.header}>
-						<span className={styles.name}>Name</span>
-						<span className={styles.school}>School</span>
-						<span className={styles.level}>Level</span>
-					</div>
-					{spells}
+				<div className={pcStyles.row}>
+					<div className={styles.wrapper}>{slots}</div>
+					<div className={styles.wrapper}>{slots2}</div>
 				</div>
 			</div>
 		);
