@@ -19,8 +19,36 @@
 
 .bold {
 	font-weight: 600;
+	margin-right: 4px;
 }
 
 .italic {
 	font-style: italic;
+}
+
+.concentration,
+.ritual {
+	margin-left: 4px;
+	display: inline-block;
+	font-size: 12px;
+	color: #ccc;
+	font-weight: 600;
+	background: #666;
+	border-radius: 50%;
+	width: 12px;
+	height: 12px;
+	position: relative;
+	&:after {
+		content: 'C';
+		position: absolute;
+		top: -3px;
+		left: 2px;
+	}
+}
+
+.ritual {
+	background: #444;
+	&:after {
+		content: 'R';
+	}
 }

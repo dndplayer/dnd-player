@@ -202,6 +202,7 @@ export interface CharacterSpell {
 	somatic?: boolean;
 	material?: string;
 	concentration: boolean;
+	ritual: boolean;
 	duration: string;
 	description: string;
 	effects: CharacterAttackEffect[];

@@ -6,6 +6,7 @@ import Rollable from '../../Rollable';
 import CharacterActionHelper from '../../../CharacterActionHelper';
 import { ChatMessageData } from '../../../../models/ChatMessage';
 import HoverPopup from '../../../../components/util/HoverPopup';
+import ReactMarkdown from 'react-markdown';
 
 interface Props {
 	character: Character;
@@ -22,7 +23,11 @@ export default class Spell extends React.Component<Props, {}> {
 		const content = (
 			<div>
 				<div className={styles.title}>{spell.name}</div>
-				<div className={styles.italic}>{`Level ${spell.level} ${spell.school}`}</div>
+				<div className={styles.italic}>
+					{spell.level
+						? `Level ${spell.level} ${spell.school}`
+						: `${spell.school} cantrip`}
+				</div>
 				<div>
 					<span className={styles.bold}>Casting Time:</span>
 					<span>{spell.time}</span>
@@ -36,7 +41,7 @@ export default class Spell extends React.Component<Props, {}> {
 					<span>
 						{spell.verbal && 'V'}
 						{spell.somatic && 'S'}
-						{spell.material && 'M'}
+						{spell.material && `M (${spell.material})`}
 					</span>
 				</div>
 				<div>
@@ -44,8 +49,16 @@ export default class Spell extends React.Component<Props, {}> {
 					<span>{spell.duration}</span>
 				</div>
 				<hr />
-				<div>{spell.effects.map(x => (x as any).text).join('\n')}</div>
-				<div>{(spell.effectsHigherLevel || []).map(x => (x as any).text).join('\n')}</div>
+				<div>
+					<ReactMarkdown>
+						{spell.effects.map(x => (x as any).text).join('\n')}
+					</ReactMarkdown>
+				</div>
+				<div>
+					<ReactMarkdown>
+						{(spell.effectsHigherLevel || []).map(x => (x as any).text).join('\n')}
+					</ReactMarkdown>
+				</div>
 				<div>
 					<span className={styles.bold}>Classes:</span>
 					<span>{spell.classes.join(', ')}</span>
@@ -59,7 +72,8 @@ export default class Spell extends React.Component<Props, {}> {
 				<HoverPopup content={content}>
 					<Rollable onClick={onClick}>{spell.name}</Rollable>
 				</HoverPopup>
-				{spell.concentration && <span>Concentration</span>}
+				{spell.concentration && <span className={styles.concentration} />}
+				{spell.ritual && <span className={styles.ritual} />}
 			</div>
 		);
 	}
