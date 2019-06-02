@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { CharacterActionTextResult } from '../../../models/ChatMessage';
+import ReactMarkdown from 'react-markdown';
 
 interface Props {
 	result: CharacterActionTextResult;
@@ -11,7 +12,7 @@ export default class TextBlock extends React.Component<Props> {
 
 		return (
 			<div className={`text`} style={{ marginTop: '4px' }}>
-				{result.text}
+				<ReactMarkdown>{result.text}</ReactMarkdown>
 			</div>
 		);
 	}

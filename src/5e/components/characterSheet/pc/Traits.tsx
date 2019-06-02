@@ -3,6 +3,7 @@ import React, { ReactNode } from 'react';
 import styles from './PlayerCharacterSheet.module.scss';
 import { PlayerCharacter, CharacterTrait } from '../../../models/Character';
 import Rollable from '../../Rollable';
+import ReactMarkdown from 'react-markdown';
 
 interface Props {
 	character: PlayerCharacter;
@@ -25,11 +26,13 @@ export default class Traits extends React.Component<Props, {}> {
 
 		const traits = (character.traits || []).map(
 			(item, idx): ReactNode => (
-				<div className={styles.trait}>
-					<Rollable key={idx} onClick={(): void => this.onClick(item)}>
-						<span className={styles.title}>{item.name}.</span>
-					</Rollable>
-					<span>{item.description}</span>
+				<div key={idx} className={styles.trait}>
+					<span style={{ float: 'left' }}>
+						<Rollable onClick={(): void => this.onClick(item)}>
+							<span className={styles.title}>{item.name}.</span>
+						</Rollable>
+					</span>
+					<ReactMarkdown>{item.description}</ReactMarkdown>
 				</div>
 			)
 		);

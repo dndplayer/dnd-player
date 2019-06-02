@@ -1,6 +1,6 @@
 import React, { Component, ReactNode, ReactElement } from 'react';
 import { Switch, Route } from 'react-router';
-import styles from './App.module.css';
+import styles from './App.module.scss';
 import { HashRouter } from 'react-router-dom';
 
 import CharacterSheetContainer from '../5e/components/characterSheet/CharacterSheetContainer';

@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { ChatMessage, InfoData } from '../../models/ChatMessage';
+import ReactMarkdown from 'react-markdown';
 
 import styles from './Info.module.scss';
 
@@ -20,7 +21,9 @@ export default class Info extends React.Component<Props> {
 				<div className={styles.infoTitle}>
 					<span>{data.title}</span>
 				</div>
-				<span className={styles.infoDetails}>{data.details}</span>
+				<div className={styles.infoDetails}>
+					<ReactMarkdown>{data.details}</ReactMarkdown>
+				</div>
 			</div>
 		);
 	}

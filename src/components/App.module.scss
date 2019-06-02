@@ -35,3 +35,40 @@ body {
 	/* padding: 0 10px 10px 10px; */
 	width: 25vw;
 }
+
+/* Markdown styles */
+p {
+	margin: 4px 0;
+}
+
+li {
+	margin-left: 28px;
+}
+
+table {
+	font-size: 14px;
+	border-collapse: collapse;
+	width: 100%;
+	th,
+	td {
+		padding: 0 4px;
+	}
+	thead {
+		tr th {
+			text-align: left;
+			color: #d29a38;
+		}
+	}
+
+	tbody {
+		tr {
+			&:nth-child(odd) {
+				background: #444;
+			}
+			td {
+				text-align: left;
+				color: #ccc;
+			}
+		}
+	}
+}
