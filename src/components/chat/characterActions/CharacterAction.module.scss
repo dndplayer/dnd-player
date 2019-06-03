@@ -9,29 +9,21 @@
 }
 
 .actionHeader {
-	font-family: 'Libre Baskerville', serif;
-	font-size: 12px;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
+	float: right;
 }
 
 .actionType,
+.actionHeader,
 .actionTitle {
-	color: #b65757;
+	font-family: 'Libre Baskerville', serif;
+	font-size: 20px;
+	color: #a6792d;
 	font-variant: small-caps;
-	font-size: 14px;
 }
 
 .actionTitle {
-	text-align: center;
 	font-family: 'Libre Baskerville', serif;
-	font-size: 16px;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
+	font-size: 20px;
 	font-weight: 600;
 }
 

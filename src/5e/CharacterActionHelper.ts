@@ -76,11 +76,20 @@ export default class CharacterActionHelper {
 			results: []
 		};
 
+		// empty spaces at the end of the lines are important here.
 		const r: CharacterActionTextResult = {
 			type: CharacterActionResultType.Text,
-			text: `time: ${action.time}, duration: ${action.duration}${action.range}${
-				action.concentration ? ', Concentration' : ''
-			}`
+			text: `*${
+				action.level ? `Level ${action.level} ${action.school}` : `${action.school} cantrip`
+			}*  
+**Casting Time**: ${action.time}  
+**Range**: ${action.range}  
+**Components**: ${action.verbal ? 'V' : ''}${action.somatic ? 'S' : ''}${
+				action.material ? `M (${action.material})` : ''
+			}  
+**Duration**: ${action.duration}
+
+---`
 		};
 
 		data.results.push(r);
@@ -225,9 +234,18 @@ export default class CharacterActionHelper {
 				return { result: result3, crit };
 			case AttackEffectType.Text:
 				const textEffect = effect as TextAttackEffect;
+				let t = textEffect.text;
+				let match: RegExpMatchArray;
+				do {
+					match = t.match(/\[\[(.*?)\]\]/);
+					if (match) {
+						const r = new DiceRoll(match[1]);
+						t = t.replace(match[0], `${match[1]} (**${r.total}**)`);
+					}
+				} while (match);
 				const result4: CharacterActionTextResult = {
 					type: CharacterActionResultType.Text,
-					text: textEffect.text
+					text: t
 				};
 				return { result: result4, crit };
 			default:

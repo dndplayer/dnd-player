@@ -51,12 +51,16 @@ export default class Spell extends React.Component<Props, {}> {
 				<hr />
 				<div>
 					<ReactMarkdown>
-						{spell.effects.map(x => (x as any).text).join('\n')}
+						{spell.effects
+							.map(x => (x as any).text.replace(/\[\[(.*?)\]\]/g, '**$1**'))
+							.join('\n')}
 					</ReactMarkdown>
 				</div>
 				<div>
 					<ReactMarkdown>
-						{(spell.effectsHigherLevel || []).map(x => (x as any).text).join('\n')}
+						{(spell.effectsHigherLevel || [])
+							.map(x => (x as any).text.replace(/\[\[(.*?)\]\]/g, '**$1**'))
+							.join('\n')}
 					</ReactMarkdown>
 				</div>
 				<div>

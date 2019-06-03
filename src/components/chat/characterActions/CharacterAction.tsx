@@ -22,7 +22,6 @@ export default class CharacterAction extends React.Component<Props> {
 			<div className={css.characterActionContainer}>
 				<div className={css.actionHeader}>
 					<span className={css.actionUser}>{data.characterName || message.sender}</span>
-					<span className={css.actionType}>Action</span>
 				</div>
 				<div className={css.actionTitle}>
 					<span className={css.actionName}>{data.title}</span>
