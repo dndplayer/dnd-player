@@ -3,8 +3,6 @@ import CharacterEffects from './CharacterEffects';
 
 export interface Attack {
 	name: string;
-	range: number;
-	longRange?: number;
 	effects: AttackEffect[];
 }
 
@@ -22,6 +20,8 @@ export enum AttackEffectType {
 export interface ToHitAttackEffect extends AttackEffect {
 	modifier: number;
 	critRange?: number;
+	range: number;
+	longRange?: number;
 }
 
 export interface DamageAttackEffect extends AttackEffect {

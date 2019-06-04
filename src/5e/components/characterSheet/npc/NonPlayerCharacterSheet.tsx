@@ -103,6 +103,12 @@ export default class NonPlayerCharacterSheet extends React.Component<Props, {}> 
 				<hr className={css.divider} />
 				<SavingThrows {...this.props} />
 				<Skills {...this.props} />
+				{character.damageVulnerabilities && (
+					<div>
+						<span className={css.boldHeading}>Damage Vulnerabilities</span>
+						<span>{character.damageVulnerabilities}</span>
+					</div>
+				)}
 				{character.damageResistances && (
 					<div>
 						<span className={css.boldHeading}>Damage Resistances</span>

@@ -24,7 +24,9 @@ export const ViewportComponent = PixiComponent<ViewportComponentProps, Viewport>
 
 		v.clampZoom({
 			minWidth: 1000,
-			minHeight: 1000
+			minHeight: 1000,
+			maxWidth: 100000,
+			maxHeight: 100000
 		});
 
 		v.name = props.name || 'viewport';

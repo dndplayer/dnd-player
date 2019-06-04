@@ -144,6 +144,26 @@ class ToHitEffectEditor extends React.Component<ToHitProps, {}> {
 					type="number"
 					onChange={e => updateEffectProperty('bonus', parseInt(e.target.value))}
 				/>
+				<input
+					className={css.italicHeading}
+					value={toHitEffect.range}
+					type="number"
+					min="0"
+					placeholder="range"
+					onChange={e =>
+						this.props.updateEffectProperty('range', parseInt(e.target.value))
+					}
+				/>
+				<input
+					className={css.italicHeading}
+					value={toHitEffect.longRange}
+					type="number"
+					placeholder="4"
+					min="0"
+					onChange={e =>
+						this.props.updateEffectProperty('longRange', parseInt(e.target.value))
+					}
+				/>
 			</div>
 		);
 	}

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import css from './PlayerCharacterSheetEditor.module.scss';
-import { PlayerCharacter, CharacterAttack } from '../../../../models/Character';
+import { CharacterAttack } from '../../../../models/Character';
 import ArrayEditor from './ArrayEditor';
 
 import Icon from '@mdi/react';
@@ -45,24 +45,6 @@ export class AttackEditor extends React.Component<Props, {}> {
 					value={attack.title}
 					placeholder="Name"
 					onChange={e => this.props.updateItemProperty('title', e.target.value)}
-				/>
-				<input
-					className={css.italicHeading}
-					value={attack.range}
-					type="number"
-					min="0"
-					placeholder="range"
-					onChange={e => this.props.updateItemProperty('range', parseInt(e.target.value))}
-				/>
-				<input
-					className={css.italicHeading}
-					value={attack.longRange}
-					type="number"
-					placeholder="4"
-					min="0"
-					onChange={e =>
-						this.props.updateItemProperty('longRange', parseInt(e.target.value))
-					}
 				/>
 				<EffectsEditor
 					effects={this.props.attack.effects}

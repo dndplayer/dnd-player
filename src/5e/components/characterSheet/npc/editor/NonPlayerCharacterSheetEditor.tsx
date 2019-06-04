@@ -131,6 +131,16 @@ export default class NonPlayerCharacterSheetEditor extends React.Component<Props
 					<SavesEditor updateCharacterProperty={update} character={newCharacter} />
 					<SkillsEditor updateCharacterProperty={update} character={newCharacter} />
 					<div>
+						<span className={css.boldHeading}>Damage Vulnerabilities</span>
+						<input
+							value={newCharacter.damageVulnerabilities}
+							placeholder="fire"
+							onChange={(e): void =>
+								this.update('damageVulnerabilities', e.target.value)
+							}
+						/>
+					</div>
+					<div>
 						<span className={css.boldHeading}>Damage Resistances</span>
 						<input
 							value={newCharacter.damageResistances}

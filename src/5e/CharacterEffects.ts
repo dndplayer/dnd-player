@@ -46,6 +46,8 @@ export default class CharacterEffects {
 		const toHitEffect = effect as ToHitCharacterAttackEffect;
 		return {
 			type: AttackEffectType.ToHit,
+			range: toHitEffect.range,
+			longRange: toHitEffect.longRange,
 			modifier:
 				Rules.getAbilityModifier(character, toHitEffect.ability) +
 				Rules.getProficiencyBonus(character) +

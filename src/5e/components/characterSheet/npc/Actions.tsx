@@ -12,6 +12,7 @@ import {
 } from '../../../5eRules';
 import CharacterActionHelper from '../../../CharacterActionHelper';
 import Rollable from '../../Rollable';
+import ReactMarkdown from 'react-markdown';
 
 interface Props {
 	sendMessage: (message: string, data?: ChatMessageData) => void;
@@ -35,13 +36,19 @@ export default class Actions extends React.Component<Props, {}> {
 				switch (effect.type) {
 					case AttackEffectType.Text:
 						const textEffect = effect as TextAttackEffect;
-						return <span key={idx}>{textEffect.text}</span>;
+						showAdvantage = showAdvantage || !!textEffect.text.match(/{{.*?}}/);
+						let t = textEffect.text.replace(/{{(.*?)}}/g, `**+\$1**`);
+						t = t.replace(/\[\[!?(.*?)\]\]/g, `**\$1**`);
+						return <ReactMarkdown key={idx}>{t}</ReactMarkdown>;
 					case AttackEffectType.ToHit:
 						const toHitEffect = effect as ToHitAttackEffect;
 						showAdvantage = true;
 						return (
 							<span key={idx}>
-								{toHitEffect.modifier} to hit, range {action.range} ft.
+								{toHitEffect.modifier >= 0
+									? `+${toHitEffect.modifier}`
+									: toHitEffect.modifier}{' '}
+								to hit, range {toHitEffect.range} ft.
 							</span>
 						);
 					case AttackEffectType.Damage:
@@ -58,13 +65,15 @@ export default class Actions extends React.Component<Props, {}> {
 			});
 			actions.push(
 				<div className={css.action} key={actionIdx}>
-					<Rollable
-						showAdvantage={showAdvantage}
-						onClick={(advantage: number) => this.doAction(action, advantage)}
-					>
-						<span className={css.italicHeading}>{action.name}.</span>
-					</Rollable>
-					<span>{effects}</span>
+					<div style={{ float: 'left' }}>
+						<Rollable
+							showAdvantage={showAdvantage}
+							onClick={(advantage: number) => this.doAction(action, advantage)}
+						>
+							<span className={css.italicHeading}>{action.name}.</span>
+						</Rollable>
+					</div>
+					<div>{effects}</div>
 				</div>
 			);
 		}

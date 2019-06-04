@@ -63,7 +63,7 @@ export default class CharacterActionHelper {
 
 	public static doSpell(
 		character: Character,
-		action: CharacterSpell,
+		spell: CharacterSpell,
 		advantage: number,
 		sendMessage: (msg: string, data: any) => void
 	): void {
@@ -71,7 +71,7 @@ export default class CharacterActionHelper {
 
 		const data: CharacterActionData = {
 			type: 'spell',
-			title: action.name,
+			title: spell.name,
 			characterName: character.name,
 			results: []
 		};
@@ -80,27 +80,27 @@ export default class CharacterActionHelper {
 		const r: CharacterActionTextResult = {
 			type: CharacterActionResultType.Text,
 			text: `*${
-				action.level ? `Level ${action.level} ${action.school}` : `${action.school} cantrip`
-			}*  
-**Casting Time**: ${action.time}  
-**Range**: ${action.range}  
-**Components**: ${action.verbal ? 'V' : ''}${action.somatic ? 'S' : ''}${
-				action.material ? `M (${action.material})` : ''
+				spell.level ? `Level ${spell.level} ${spell.school}` : `${spell.school} cantrip`
+			} ${spell.ritual ? '(ritual)' : ''}*  
+**Casting Time**: ${spell.time}  
+**Range**: ${spell.range}  
+**Components**: ${spell.verbal ? 'V' : ''}${spell.somatic ? 'S' : ''}${
+				spell.material ? `M (${spell.material})` : ''
 			}  
-**Duration**: ${action.duration}
+**Duration**: ${spell.duration}
 
 ---`
 		};
 
 		data.results.push(r);
 
-		for (const effect of action.effects) {
+		for (const effect of spell.effects) {
 			const result = CharacterActionHelper.applyEffect(effect, advantage, crit);
 			crit = result.crit;
 			data.results.push(result.result);
 		}
 
-		for (const effect of action.effectsHigherLevel || []) {
+		for (const effect of spell.effectsHigherLevel || []) {
 			const result = CharacterActionHelper.applyEffect(effect, advantage, crit);
 			crit = result.crit;
 			data.results.push(result.result);
@@ -237,10 +237,53 @@ export default class CharacterActionHelper {
 				let t = textEffect.text;
 				let match: RegExpMatchArray;
 				do {
+					match = t.match(/{{(.*?)}}/);
+					if (match) {
+						// to-hit roll
+						const modifier = parseInt(match[1]);
+						const dice = `d20${modifier >= 0 ? '+' : ''}${modifier}`;
+						const r = new DiceRoll(dice);
+						let replacement: string;
+						if (advantage) {
+							const r2 = new DiceRoll(dice);
+							if (
+								(r2.total < r.total && advantage > 0) ||
+								(r2.total > r.total && advantage < 0)
+							) {
+								const didCrit = r.rolls[0][0] === 20;
+								replacement = `**${didCrit ? `*${r.total}*` : r.total}**|${
+									r2.total
+								}`;
+								crit = crit || didCrit;
+							} else {
+								const didCrit = r2.rolls[0][0] === 20;
+								replacement = `${r.total}|**${
+									didCrit ? `*${r2.total}*` : r2.total
+								}**`;
+								crit = crit || didCrit;
+							}
+						} else {
+							const didCrit = r.rolls[0][0] === 20;
+							crit = crit || didCrit;
+							replacement = `**${didCrit ? `*${r.total}*` : r.total}**`;
+						}
+						t = t.replace(
+							match[0],
+							`${modifier >= 0 ? `+${modifier}` : modifier} (${replacement})`
+						);
+					}
 					match = t.match(/\[\[(.*?)\]\]/);
 					if (match) {
-						const r = new DiceRoll(match[1]);
-						t = t.replace(match[0], `${match[1]} (**${r.total}**)`);
+						let dice = match[1].replace(/ /g, '');
+						if (dice[0] === '!') {
+							dice = dice.replace('!', '');
+							if (crit) {
+								const diceCount = dice.match(/(\d+)d/);
+								dice = dice.replace(diceCount[0], `${parseInt(diceCount[1]) * 2}d`);
+							}
+						}
+						const r = new DiceRoll(dice);
+						t = t.replace(match[0], `${crit ? `*${dice}*` : dice} (**${r.total}**)`);
 					}
 				} while (match);
 				const result4: CharacterActionTextResult = {

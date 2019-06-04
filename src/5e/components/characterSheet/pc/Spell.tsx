@@ -26,7 +26,8 @@ export default class Spell extends React.Component<Props, {}> {
 				<div className={styles.italic}>
 					{spell.level
 						? `Level ${spell.level} ${spell.school}`
-						: `${spell.school} cantrip`}
+						: `${spell.school} cantrip`}{' '}
+					{spell.ritual ? '(ritual)' : ''}
 				</div>
 				<div>
 					<span className={styles.bold}>Casting Time:</span>
@@ -66,6 +67,10 @@ export default class Spell extends React.Component<Props, {}> {
 				<div>
 					<span className={styles.bold}>Classes:</span>
 					<span>{spell.classes.join(', ')}</span>
+				</div>
+				<div>
+					<span className={styles.bold}>Source:</span>
+					<span>{spell.source}</span>
 				</div>
 			</div>
 		);

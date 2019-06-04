@@ -51,6 +51,7 @@ export interface NonPlayerCharacter extends Character {
 	saves: NonPlayerCharacterSaves;
 	damageResistances: string;
 	damageImmunities: string;
+	damageVulnerabilities: string;
 	conditionImmunities: string;
 	traits: NonPlayerCharacterTrait[];
 	senses: CharacterSenses;
@@ -157,8 +158,6 @@ export interface CharacterEquipment {
 
 export interface CharacterAttack {
 	title: string;
-	range: number;
-	longRange?: number;
 	effects: CharacterAttackEffect[];
 }
 
@@ -169,6 +168,8 @@ export interface CharacterAttackEffect {
 export interface ToHitCharacterAttackEffect extends CharacterAttackEffect {
 	ability: string;
 	bonus: number;
+	range: number;
+	longRange?: number;
 }
 
 export interface DamageCharacterAttackEffect extends CharacterAttackEffect {

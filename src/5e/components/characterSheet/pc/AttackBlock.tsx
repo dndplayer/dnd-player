@@ -48,10 +48,10 @@ export default class AttackBlock extends React.Component<Props, {}> {
 				<div className={css.attackName}>
 					<span>{attack.name}</span>
 				</div>
-				<div className={css.attackRange}>{attack.range} ft.</div>
 				<div className={css.attackToHit}>
 					{toHitEffect && (
 						<div>
+							<div className={css.attackRange}>{toHitEffect.range} ft.</div>
 							<div className={css.attackToHitSymbol}>
 								{toHitEffect.modifier < 0 ? '-' : '+'}
 							</div>
