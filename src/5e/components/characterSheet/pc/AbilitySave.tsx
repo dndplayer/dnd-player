@@ -55,7 +55,7 @@ export default class AbilitySave extends React.Component<Props, {}> {
 
 		CharacterActionHelper.doBasicRoll(
 			this.props.character,
-			'Save',
+			'Saving Throw',
 			Rules.getSaveName(this.props.ability),
 			Rules.getSaveModifier(this.props.character, this.props.ability),
 			advantage,

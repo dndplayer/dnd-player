@@ -38,7 +38,7 @@ export default class Skill extends React.Component<Props, {}> {
 	handleClick(advantage: number): void {
 		CharacterActionHelper.doBasicRoll(
 			this.props.character,
-			'Skill',
+			'Skill Check',
 			Rules.getLongSkillName(this.props.skill.skill),
 			this.props.skill.modifier,
 			advantage,

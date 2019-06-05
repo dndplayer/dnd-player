@@ -64,7 +64,7 @@ export default class Skill extends React.Component<Props, {}> {
 
 		CharacterActionHelper.doBasicRoll(
 			this.props.character,
-			'Skill',
+			'Skill Check',
 			`${Rules.getLongSkillName(this.props.skill)} (${Rules.getLongAbilityName(
 				this.props.ability
 			)})`,

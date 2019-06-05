@@ -52,7 +52,7 @@ export default class AbilityScore extends React.Component<Props, {}> {
 
 		CharacterActionHelper.doBasicRoll(
 			this.props.character,
-			'Ability',
+			'Ability Check',
 			Rules.getLongAbilityName(this.props.ability),
 			Rules.getAbilityModifier(this.props.character, this.props.ability),
 			advantage,

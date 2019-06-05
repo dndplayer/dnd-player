@@ -1,5 +1,6 @@
 .roll-container {
 	font-family: 'Libre Baskerville', serif;
+	font-variant: small-caps;
 	width: 400px;
 	padding: 8px;
 	margin: 4px;
@@ -24,21 +25,26 @@
 .roll-attack {
 	color: #b65757;
 }
+.roll-save {
+	color: #b68257;
+}
 
 .roll-header {
 	width: 100%;
 	display: flex;
 	align-items: center;
+	color: #d29a38;
 }
 .roll-user {
 	flex: 1;
-	color: #ccc;
-	font-size: 12px;
+	color: #a6792d;
+	text-align: right;
+	font-size: 16px;
 }
 .roll-type {
 	flex: 1;
-	text-align: right;
-	font-variant: small-caps;
+	font-size: 20px;
+	font-weight: 600;
 }
 
 .roll-title {

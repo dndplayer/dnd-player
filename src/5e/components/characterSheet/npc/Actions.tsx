@@ -37,8 +37,8 @@ export default class Actions extends React.Component<Props, {}> {
 					case AttackEffectType.Text:
 						const textEffect = effect as TextAttackEffect;
 						showAdvantage = showAdvantage || !!textEffect.text.match(/{{.*?}}/);
-						let t = textEffect.text.replace(/{{(.*?)}}/g, `**+\$1**`);
-						t = t.replace(/\[\[!?(.*?)\]\]/g, `**\$1**`);
+						let t = textEffect.text.replace(/{{(.*?)}}/g, `\`+\$1\``);
+						t = t.replace(/\[\[!?(.*?)\]\]/g, `\`\$1\``);
 						return <ReactMarkdown key={idx}>{t}</ReactMarkdown>;
 					case AttackEffectType.ToHit:
 						const toHitEffect = effect as ToHitAttackEffect;

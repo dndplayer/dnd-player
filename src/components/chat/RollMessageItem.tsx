@@ -10,11 +10,14 @@ export default class RollMessageItem extends React.Component<Props> {
 		const data = message.data as RollData;
 		let className;
 		switch (data.rollType) {
-			case 'Skill':
+			case 'Skill Check':
 				className = 'roll-skill';
 				break;
-			case 'Ability':
+			case 'Ability Check':
 				className = 'roll-ability';
+				break;
+			case 'Saving Throw':
+				className = 'roll-save';
 				break;
 			case 'Initiative':
 				className = 'roll-initiative';
@@ -41,9 +44,10 @@ export default class RollMessageItem extends React.Component<Props> {
 		return (
 			<div className={`roll-container ${className}`}>
 				<div className="roll-header">
-					<span className="roll-user">{sender}</span>
 					<span className="roll-type">{data.rollType}</span>
+					<span className="roll-user">{sender}</span>
 				</div>
+				<hr />
 				<div className="roll-title">
 					<span className="roll-name">{data.rollName}</span>
 					{data.modifier !== null && data.modifier !== undefined && (

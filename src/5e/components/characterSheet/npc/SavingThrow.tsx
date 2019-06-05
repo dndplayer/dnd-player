@@ -38,7 +38,7 @@ export default class SavingThrow extends React.Component<Props, {}> {
 	handleClick(advantage: number): void {
 		CharacterActionHelper.doBasicRoll(
 			this.props.character,
-			'Save',
+			'Saving Throw',
 			Rules.getSaveName(this.props.save),
 			this.props.character.saves[this.props.save],
 			advantage,

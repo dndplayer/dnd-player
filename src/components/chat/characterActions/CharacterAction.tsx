@@ -26,6 +26,7 @@ export default class CharacterAction extends React.Component<Props> {
 				<div className={css.actionTitle}>
 					<span className={css.actionName}>{data.title}</span>
 				</div>
+				<hr />
 				{data.results.map((x, i) => (
 					<Result key={i} action={x} />
 				))}

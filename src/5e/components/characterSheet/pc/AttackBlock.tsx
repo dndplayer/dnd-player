@@ -93,7 +93,7 @@ export default class AttackBlock extends React.Component<Props, {}> {
 		for (const effect of attack.effects) {
 			const result = CharacterActionHelper.applyEffect(effect, advantage, crit);
 			crit = result.crit;
-			data.results.push(result.result);
+			data.results.push(...result.result);
 		}
 
 		this.props.sendMessage('', data);

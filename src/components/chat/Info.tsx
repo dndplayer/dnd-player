@@ -15,12 +15,10 @@ export default class Info extends React.Component<Props> {
 		return (
 			<div className={styles.info} key={message.id}>
 				<div className={styles.infoHeader}>
+					<div className={styles.infoTitle}>{data.title}</div>
 					<span className={styles.infoUser}>{data.characterName || message.sender}</span>
-					<span className={styles.infoType}>Info</span>
 				</div>
-				<div className={styles.infoTitle}>
-					<span>{data.title}</span>
-				</div>
+				<hr />
 				<div className={styles.infoDetails}>
 					<ReactMarkdown>{data.details}</ReactMarkdown>
 				</div>
