@@ -51,18 +51,16 @@ const ignoreKeyRepeats = (cb: (event: KeyboardEvent) => void): ((e: KeyboardEven
 };
 
 const handlers = {
-	OPEN_CHAT: ignoreKeyRepeats(event => store.store.dispatch(openChat())),
-	CLOSE_CHAT: ignoreKeyRepeats(event => store.store.dispatch(closeChat())),
-	TOGGLE_MEASURE_MODE: ignoreKeyRepeats(event => store.store.dispatch(mapsToggleMeasureMode())),
-	SHIFT_DOWN: ignoreKeyRepeats(event => store.store.dispatch(keyDownShiftAction())),
-	SHIFT_UP: ignoreKeyRepeats(event => store.store.dispatch(keyUpShiftAction())),
-	TOGGLE_FOG_EDIT_MODE: ignoreKeyRepeats(event => store.store.dispatch(toggleFogEditMode())),
-	TOGGLE_FOG_ADD_MODE: ignoreKeyRepeats(event => store.store.dispatch(toggleFogAddMode())),
-	TOGGLE_INITIATIVE_TRACKER: ignoreKeyRepeats(event =>
-		store.store.dispatch(toggleInitiativeTracker())
-	),
-	TOGGLE_SIDEBAR: ignoreKeyRepeats(event => store.store.dispatch(toggleSidebar())),
-	TOGGLE_USERLIST: ignoreKeyRepeats(event => store.store.dispatch(toggleUserList()))
+	OPEN_CHAT: event => store.store.dispatch(openChat()),
+	CLOSE_CHAT: event => store.store.dispatch(closeChat()),
+	TOGGLE_MEASURE_MODE: event => store.store.dispatch(mapsToggleMeasureMode()),
+	SHIFT_DOWN: event => store.store.dispatch(keyDownShiftAction()),
+	SHIFT_UP: event => store.store.dispatch(keyUpShiftAction()),
+	TOGGLE_FOG_EDIT_MODE: event => store.store.dispatch(toggleFogEditMode()),
+	TOGGLE_FOG_ADD_MODE: event => store.store.dispatch(toggleFogAddMode()),
+	TOGGLE_INITIATIVE_TRACKER: event => store.store.dispatch(toggleInitiativeTracker()),
+	TOGGLE_SIDEBAR: event => store.store.dispatch(toggleSidebar()),
+	TOGGLE_USERLIST: event => store.store.dispatch(toggleUserList())
 };
 export class App extends Component<{}, {}> {
 	constructor(props) {
