@@ -17,7 +17,7 @@ export const ViewportComponent = PixiComponent<ViewportComponentProps, Viewport>
 			worldWidth: 1000,
 			worldHeight: 1000,
 			divWheel: props.app
-				? props.app.renderer.plugins.interaction.interactionDOMElement
+				? (props.app.renderer.plugins.interaction as any).interactionDOMElement
 				: null,
 			interaction: props.app ? props.app.renderer.plugins.interaction : null
 		});

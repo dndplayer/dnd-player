@@ -6,8 +6,8 @@ import { OutlineFilter } from '@pixi/filter-outline';
 interface Props {
 	visible: boolean;
 	measuring: boolean;
-	start: PIXI.PointLike;
-	end: PIXI.PointLike;
+	start: PIXI.Point;
+	end: PIXI.Point;
 	thickness?: number;
 	color?: number;
 	distance?: string;

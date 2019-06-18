@@ -35,7 +35,7 @@ export class EditablePolygonContainer extends PIXI.Container {
 		this.addChild(g);
 
 		// const t = PIXI.Texture.fromImage(DeleteImage, undefined, undefined, 1.0);
-		const d = PIXI.Sprite.fromImage(DeleteImage, undefined, 1.0);
+		const d = PIXI.Sprite.from(DeleteImage);
 		d.name = 'delete';
 		d.width = 142 * 4;
 		d.height = 256 * 4;

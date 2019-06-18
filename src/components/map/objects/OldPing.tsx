@@ -36,15 +36,15 @@ export default PixiComponent<Props, PIXI.Container>('Ping', {
 		// c.addChild(g);
 
 		const texArr = [
-			PIXI.Texture.fromImage(PingFrame1),
-			PIXI.Texture.fromImage(PingFrame2),
-			PIXI.Texture.fromImage(PingFrame3),
-			PIXI.Texture.fromImage(PingFrame4),
-			PIXI.Texture.fromImage(PingFrame5),
-			PIXI.Texture.fromImage(PingFrame6)
+			PIXI.Texture.from(PingFrame1),
+			PIXI.Texture.from(PingFrame2),
+			PIXI.Texture.from(PingFrame3),
+			PIXI.Texture.from(PingFrame4),
+			PIXI.Texture.from(PingFrame5),
+			PIXI.Texture.from(PingFrame6)
 		];
 
-		const s = new PIXI.extras.AnimatedSprite(texArr);
+		const s = new PIXI.AnimatedSprite(texArr);
 		s.anchor.set(0.5, 0.5);
 		s.animationSpeed = 0.1;
 		s.tint = props.colour || 0xff0000;

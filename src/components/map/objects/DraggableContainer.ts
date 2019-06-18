@@ -15,7 +15,7 @@ export interface DraggableContainerProps extends MapObjectProps {
 
 export default class DraggableContainer extends MapObject {
 	// Drag handling
-	public dragGrabOffset?: PIXI.PointLike; // The offset a drag was started at to be applied to the sprite during the drag
+	public dragGrabOffset?: PIXI.Point; // The offset a drag was started at to be applied to the sprite during the drag
 	public dragging: boolean; // Is this token currently being dragged
 	public dragData?: any; // Keep track of dragging event data during drag
 	public dragLocked: boolean; // Lock the token so it can't be dragged
@@ -34,7 +34,7 @@ export default class DraggableContainer extends MapObject {
 	public isSelected: boolean = false;
 	public isSelectable: boolean = true;
 	public onSelected?: (mapObjectId: string) => void;
-	private dragStartPosition?: PIXI.PointLike;
+	private dragStartPosition?: PIXI.Point;
 	private static clickThreshold: number = 5; // Tune this to account for shaky hands etc
 	private _ruler: Ruler;
 
